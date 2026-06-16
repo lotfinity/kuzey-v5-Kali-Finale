@@ -3,6 +3,7 @@
 {% load thumbnail %}
 {% load humanize %}
 {% load i18n %}
+{% load listing_filters %}
 {% block nav_properties_active %}active{% endblock %}
 {% block title %}Villa Agency - Properties{% endblock %}
 {% block content %}
@@ -10,40 +11,593 @@
 
 <style>
 
-/* Container styling - this remains the same as before */
-.properties-items ul {
+.sort-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 24px;
+  padding: 12px 18px;
+  border-radius: 14px;
+  background: var(--surface-raised, #fff);
+  border: 1px solid var(--surface-border, #e5e7eb);
+  box-shadow: 0 4px 16px var(--shadow-soft, rgba(0,0,0,0.04));
+}
+.sort-label {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--text-soft, #6b7280);
+  margin-right: 6px;
+  white-space: nowrap;
+}
+.sort-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 100px;
+  border: 1.5px solid var(--surface-border, #e5e7eb);
+  background: var(--surface-muted, #f7f7f7);
+  color: var(--text-muted, #4a4a4a);
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all .2s;
+  cursor: pointer;
+  line-height: 1;
+}
+.sort-chip:hover {
+  border-color: var(--theme-primary, #a38344);
+  color: var(--theme-primary, #a38344);
+  background: rgba(163,131,68,.06);
+}
+.sort-chip.active {
+  border-color: var(--theme-primary, #a38344);
+  background: var(--theme-primary, #a38344);
+  color: #111;
+}
+.sort-chip i {
+  font-size: 12px;
+}
+.sort-map-link {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 100px;
+  border: 1.5px solid var(--surface-border, #e5e7eb);
+  background: var(--surface-muted, #f7f7f7);
+  color: var(--theme-primary, #a38344);
+  text-decoration: none;
+  transition: all .2s;
+  flex-shrink: 0;
+}
+.sort-map-link:hover {
+  background: var(--theme-primary, #a38344);
+  color: #111;
+  border-color: var(--theme-primary);
+}
+
+.properties .property-details-grid {
     list-style: none;
     padding: 0;
     margin: 0;
 }
 
 .property-details-grid {
-    /* Key: Set up the 2-column grid */
     display: grid;
-    grid-template-columns: 1fr 1fr; /* Creates two columns of equal width */
-    gap: 10px 20px;
-    margin-bottom: 15px;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin: 14px 0 10px;
 }
 
-/* --- New Styles to Push the Second Item to the Far Side --- */
-
 .property-details-grid li {
+    display: grid;
+    grid-template-columns: 22px minmax(0, 1fr);
+    gap: 8px;
+    align-items: center;
+    min-height: 50px;
     margin: 0;
-    padding: 0;
-    /* By default, list items are left-aligned (like Bedrooms and Gross m²) */
+    padding: 9px;
+    border: 1px solid var(--surface-border, #e5e7eb);
+    border-radius: 8px;
+    background: var(--surface-muted, #f7f7f7);
+    text-align: left;
+    color: var(--text-soft, #6b7280);
+    font-size: 12px;
+    line-height: 1.2;
+}
+
+.property-details-grid li:nth-child(even) {
     text-align: left;
 }
 
-/* Target the items that fall into the second column (the 2nd and 4th <li>) */
-.property-details-grid li:nth-child(even) {
-    /* Push the content of the second column items (Bathrooms, Floor) to the right */
-    text-align: right;
+.property-details-grid li i {
+    width: 22px;
+    height: 22px;
+    display: inline-grid;
+    place-items: center;
+    border-radius: 50%;
+    background: rgba(163, 131, 68, .14);
+    color: var(--theme-primary, #a38344);
+    font-size: 11px;
 }
 
-/* Style for the single row location item - this remains the same */
-.properties-items ul > li {
+.property-details-grid li span {
+    display: block;
+    margin-top: 2px;
+    color: var(--text-main, #1e1e1e);
+    font-size: 14px;
+    font-weight: 800;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.property-details-grid li div {
+    min-width: 0;
+}
+
+.properties .item {
+    display: flex;
+    flex-direction: column;
+    width: 100% !important;
+    height: 100%;
+    overflow: hidden;
+    padding: 0;
+    border: 1px solid var(--surface-border, #e5e7eb);
+    border-radius: 12px;
+    background: var(--surface-raised, #fff);
+    box-shadow: 0 16px 42px rgba(16, 18, 20, 0.08);
+    transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease;
+}
+
+.properties-box {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+    align-items: stretch;
+    justify-items: stretch;
+    height: auto !important;
     width: 100%;
-    margin-top: 0;
+    margin: 0;
+}
+
+.properties-box > .properties-items {
+    position: static !important;
+    left: auto !important;
+    top: auto !important;
+    transform: none !important;
+    display: flex;
+    width: 100% !important;
+    max-width: none;
+    min-width: 0;
+    padding-left: 0;
+    padding-right: 0;
+    margin-bottom: 0 !important;
+}
+
+.properties .item:hover {
+    transform: translateY(-4px);
+    border-color: rgba(163, 131, 68, .34);
+    box-shadow: 0 18px 48px rgba(16, 18, 20, 0.12);
+}
+
+.properties .item .img-wrap {
+    position: relative;
+    width: 100%;
+    height: 230px;
+    overflow: hidden;
+    border-radius: 12px 12px 0 0;
+    background: var(--surface-muted, #f7f7f7);
+}
+
+.properties .item .img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform .4s ease;
+}
+
+.properties .item:hover .img-wrap img {
+    transform: scale(1.08);
+}
+
+.listing-card-body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    padding: 18px;
+}
+
+.listing-card-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    max-width: 100%;
+    margin: 4px 0 8px;
+    color: var(--theme-primary, #a38344);
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+}
+
+.properties .item .price-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin: 8px 0 14px;
+    width: 100%;
+}
+
+.properties .item .price-row h6 {
+    display: inline;
+    float: none;
+    margin: 0;
+    color: var(--theme-primary, #a38344);
+    font-size: 31px;
+    font-weight: 900;
+    line-height: 1;
+    overflow-wrap: anywhere;
+}
+
+.properties .item .price-row .trend {
+    flex: 0 0 auto;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+.properties .item .price-row .trend.up {
+    color: #16a34a;
+}
+
+.properties .item .price-row .trend.down {
+    color: #dc2626;
+}
+
+.properties .item .main-button {
+    display: grid;
+    grid-template-columns: 1fr 44px;
+    gap: 10px;
+    margin-top: auto;
+}
+
+.properties .item .main-button a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    min-width: 0;
+    padding: 0 16px;
+    border-radius: 8px;
+    background: var(--theme-primary, #a38344);
+    color: #111 !important;
+    text-align: center;
+    font-size: 13px;
+    font-weight: 800;
+    line-height: 1.2;
+    transition: all .3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.properties .item .main-button a::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255,255,255,0.15);
+    border-radius: 50%;
+    transition: width .4s ease, height .4s ease, top .4s ease, left .4s ease;
+}
+
+.properties .item .main-button a:hover::after {
+    width: 300px;
+    height: 300px;
+    top: -120px;
+    left: -120px;
+}
+
+.properties .item .main-button a .btn-text {
+    position: relative;
+    z-index: 1;
+}
+
+.properties .item .main-button a.map-btn {
+    width: 44px;
+    min-width: 44px;
+    padding: 0;
+    border: 1px solid var(--surface-border, #e5e7eb);
+    background: var(--surface-muted, #f7f7f7);
+    color: var(--theme-primary, #a38344) !important;
+}
+
+.properties .item .main-button a.map-btn:hover {
+    background-color: var(--surface-border, #e5e7eb);
+    color: var(--theme-primary, #a38344) !important;
+}
+
+.properties .item .invest-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+    margin: 0 0 12px;
+    padding: 0;
+    background: transparent;
+    color: var(--text-muted, #4a4a4a);
+}
+
+.properties .item .listing-insight {
+    min-width: 0;
+    padding: 12px;
+    border: 1px solid rgba(163, 131, 68, .24);
+    border-radius: 10px;
+    background: linear-gradient(135deg, rgba(163,131,68,.14), rgba(163,131,68,.05));
+}
+
+.properties .item .listing-insight-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 7px;
+    color: var(--text-soft, #6b7280);
+    font-size: 11px;
+    font-weight: 800;
+    line-height: 1.15;
+    text-transform: uppercase;
+}
+
+.properties .item .listing-insight-value {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    flex-wrap: wrap;
+}
+
+.properties .item .invest-row strong {
+    color: #a38344;
+    font-weight: 700;
+}
+
+.properties .item .invest-row .est-rent-amount,
+.properties .item .invest-row .rentability-percent {
+    font-size: 18px;
+    font-weight: 900;
+    line-height: 1;
+}
+
+.properties .item .invest-row .metric-trend {
+    font-size: 13px;
+    font-weight: 900;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+.properties .item .invest-row .metric-trend.up {
+    color: #16a34a;
+}
+
+.properties .item .invest-row .metric-trend.down {
+    color: #dc2626;
+}
+
+.properties .item .invest-row i {
+    color: #a38344;
+    font-size: 14px;
+}
+
+.properties .item .location-line {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding-top: 10px;
+    border-top: 1px solid var(--surface-border, #e5e7eb);
+    color: var(--text-muted, #4a4a4a);
+    font-size: 13px;
+    line-height: 1.4;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.properties .item .location-line i {
+    flex: 0 0 auto;
+    color: #a38344;
+    margin-right: 4px;
+}
+
+.properties .item .location-line span {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* --- Flashy HOT / NEW tags --- */
+.tag-hot, .tag-new {
+    display: inline-block;
+    padding: 4px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    position: relative;
+    animation: tag-pulse 2s ease-in-out infinite;
+}
+
+.rentability-tags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin: 10px 0 0;
+}
+
+html[data-theme="dark"] .properties .item .listing-insight {
+    background: linear-gradient(135deg, rgba(216,186,112,.14), rgba(93,183,222,.08));
+    border-color: rgba(216,186,112,.24);
+}
+
+.properties .item h4 {
+    clear: both;
+    min-height: 52px;
+    margin-bottom: 12px;
+    font-size: 18px;
+    line-height: 1.3;
+}
+
+.properties .item h4 a {
+    color: var(--text-main, #1e1e1e);
+}
+
+.rentability-tag {
+    display: inline-flex;
+    align-items: center;
+    max-width: 100%;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: #f3f4f6;
+    color: #374151;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+.listing-tag-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+
+.listing-status-tags,
+.listing-rentability-badges {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.listing-rentability-badges {
+    margin-left: auto;
+    justify-content: flex-end;
+}
+
+.rentability-badge {
+    width: 36px;
+    height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    overflow: hidden;
+}
+
+.rentability-badge img {
+    width: 36px;
+    height: 36px;
+    object-fit: contain;
+    display: block;
+}
+
+.tag-hot {
+    background: linear-gradient(135deg, #ff416c, #ff4b2b);
+    color: #fff;
+    box-shadow: 0 0 12px rgba(255,65,108,0.5);
+}
+
+.tag-new {
+    background: linear-gradient(135deg, #00b09b, #96c93d);
+    color: #fff;
+    box-shadow: 0 0 12px rgba(0,176,155,0.5);
+}
+
+@keyframes tag-pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.06); }
+}
+
+.tag-hot::before, .tag-new::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 22px;
+    z-index: -1;
+    opacity: 0.6;
+    animation: tag-glow 2s ease-in-out infinite;
+}
+
+.tag-hot::before {
+    background: linear-gradient(135deg, #ff416c, #ff4b2b);
+}
+
+.tag-new::before {
+    background: linear-gradient(135deg, #00b09b, #96c93d);
+}
+
+@keyframes tag-glow {
+    0%, 100% { opacity: 0.4; transform: scale(1); }
+    50% { opacity: 0.8; transform: scale(1.08); }
+}
+
+@media (max-width: 768px) {
+    .properties-box {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 18px;
+    }
+    .properties .item .img-wrap {
+        height: 180px;
+    }
+    .properties .item .price-row h6 {
+        font-size: 29px;
+        line-height: 1.05;
+    }
+    .properties .item .price-row {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+    .properties .item .main-button a {
+        font-size: 12px;
+        min-height: 42px;
+    }
+    .properties .item h4 {
+        min-height: 0;
+    }
+    .properties .item .invest-row {
+        grid-template-columns: 1fr;
+        gap: 8px;
+        font-size: 14px;
+    }
+    .properties .item .invest-row .est-rent-amount,
+    .properties .item .invest-row .rentability-percent {
+        font-size: 24px;
+    }
+    .properties .item .invest-row .metric-trend {
+        font-size: 16px;
+    }
+    .sort-bar {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1199px) {
+    .properties-box {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
 }
 </style>
 
@@ -52,59 +606,139 @@
     <div class="container">
       <div class="row">
         <div class="col-lg-12">
-          <span class="breadcrumb"><a href="{% url 'new_index' %}">{% trans "Home" %}</a> / {% trans "Properties" %}</span>
-          <h3>{% trans "Properties" %}</h3>
+          <span class="breadcrumb"><a href="{% url 'new_index' %}">{% trans "Home" %}</a> / {% trans "Opportunities" %}</span>
+          <h3>{% trans "Opportunities" %}</h3>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="section properties" style="background-color: #907c7857;margin-top: 0px;">
+  <div class="section properties" style="margin-top: 0px;">
     <div class="container">
-      <ul class="properties-filter" style="padding-top: 20px;">
-        <li><a class="is_active" href="#!" data-filter="*">{% trans "Show All" %}</a></li>
-        <li><a href="#!" data-filter=".kiralik">{% trans "Kiralık" %}</a></li>
-        <li><a href="#!" data-filter=".satis">{% trans "Satış" %}</a></li>
-        <li><a href="{% url 'new_map' %}" >{% trans "Map" %}</a></li>
-      </ul>
+      <div class="sort-bar">
+        <span class="sort-label">{% trans "Sort by" %}</span>
+        <a href="?{% if sort_query_base %}{{ sort_query_base }}&{% endif %}sort=best" class="sort-chip {% if sort == 'best' %}active{% endif %}">
+          <i class="fa fa-chart-line" aria-hidden="true"></i>
+          {% trans "Best" %}
+        </a>
+        <a href="?{% if sort_query_base %}{{ sort_query_base }}&{% endif %}sort={% if sort == 'price_asc' %}price_desc{% else %}price_asc{% endif %}" class="sort-chip {% if sort == 'price_asc' or sort == 'price_desc' %}active{% endif %}">
+          <i class="fa fa-try" aria-hidden="true"></i>
+          {% if sort == 'price_asc' %}<i class="fa fa-arrow-up"></i>{% else %}<i class="fa fa-arrow-down"></i>{% endif %}
+          {% trans "Price" %}
+        </a>
+        <a href="?{% if sort_query_base %}{{ sort_query_base }}&{% endif %}sort={% if sort == 'size_asc' %}size_desc{% else %}size_asc{% endif %}" class="sort-chip {% if sort == 'size_asc' or sort == 'size_desc' %}active{% endif %}">
+          <i class="fa fa-expand" aria-hidden="true"></i>
+          {% if sort == 'size_asc' %}<i class="fa fa-arrow-up"></i>{% else %}<i class="fa fa-arrow-down"></i>{% endif %}
+          {% trans "Size" %}
+        </a>
+        <a href="?{% if sort_query_base %}{{ sort_query_base }}&{% endif %}sort={% if sort == 'date_asc' %}date_desc{% else %}date_asc{% endif %}" class="sort-chip {% if sort == 'date_asc' or sort == 'date_desc' %}active{% endif %}">
+          <i class="fa fa-calendar" aria-hidden="true"></i>
+          {% if sort == 'date_asc' %}<i class="fa fa-arrow-up"></i>{% else %}<i class="fa fa-arrow-down"></i>{% endif %}
+          {% trans "Date" %}
+        </a>
+        <a href="{% url 'new_map' %}" class="sort-map-link" aria-label="{% trans "Open map" %}">
+          <i class="fa fa-map"></i>
+        </a>
+      </div>
 
-      <div class="row properties-box">
+      <div class="properties-box" data-no-isotope="true">
         {% if listings %}
           {% for listing in listings %}
-            <div class="col-lg-4 col-md-6 align-self-center mb-30 properties-items {% if listing.deal_type %}{{ listing.deal_type|lower }}{% endif %}">
+            <div class="properties-items {% if listing.deal_type %}{{ listing.deal_type|lower }}{% endif %}">
               <div class="item">
                 <a href="{% url 'new_listing_detail' listing.id %}">
                   {% with imgs=listing.visible_images %}
                     {% if imgs %}
                       {% for im in imgs|slice:':1' %}
                         {% thumbnail im.image 'card' as imthumb %}
-                        <img src="{{ imthumb.url }}" width="{{ imthumb.width }}" height="{{ imthumb.height }}" alt="{{ listing.title }}">
+                        <div class="img-wrap">
+                          <img src="{{ imthumb.url }}" alt="{{ listing.title }}">
+                        </div>
                       {% endfor %}
                     {% else %}
-                      <img src="{% static 'newfront/assets/images/property-01.jpg' %}" alt="{{ listing.title }}">
+                      <div class="img-wrap">
+                        <img src="{% static 'newfront/assets/images/property-01.jpg' %}" alt="{{ listing.title }}">
+                      </div>
                     {% endif %}
                   {% endwith %}
                 </a>
-                <span class="category">{{ listing.property_type }}</span>
-                {% if listing.deal_type %}<span class="category">{{ listing.get_deal_type_display }}</span>{% endif %}
-                <h6>₺{{ listing.price|intcomma }}</h6>
-                <h4>
-                  <a href="{% url 'new_listing_detail' listing.id %}">{{ listing.title }}</a>
-                </h4>
-              <ul>
-                <div class="property-details-grid">
-                    <li><i class="fa fa-bed" aria-hidden="true"></i> {% trans "Bedrooms" %}: <span>{{ listing.bedrooms }}</span></li>
-                    <li><i class="fa fa-bath" aria-hidden="true"></i> {% trans "Bathrooms" %}: <span>{{ listing.bathrooms }}</span></li>
-                    <li><i class="fa fa-ruler-combined" aria-hidden="true"></i> {% trans "Gross m²" %}: <span>{{ listing.m2_gross|default:'-' }}</span></li>
-                    <li><i class="fa fa-building" aria-hidden="true"></i> {% trans "Floor" %}: <span>{{ listing.floor_number|default:'-' }}/{{ listing.floors_total|default:'-' }}</span></li>
+                <div class="listing-card-body">
+                  <div class="listing-tag-row">
+                    <div class="listing-status-tags">
+                      {% if listing.is_hot %}
+                        <span class="tag-hot">{% trans "HOT" %}</span>
+                      {% elif listing.is_new %}
+                        <span class="tag-new">{% trans "NEW" %}</span>
+                      {% endif %}
+                      {% if listing.get_deal_type_display %}
+                        <span class="rentability-tag">{{ listing.get_deal_type_display }}</span>
+                      {% endif %}
+                    </div>
+                    {% if listing.rentability_group_badges %}
+                      <div class="listing-rentability-badges" aria-label="{% trans "Rentability groups" %}">
+                        {% for group in listing.rentability_group_badges %}
+                          <span class="rentability-badge" title="{{ group.label }}">
+                            <img src="{% static group.badge %}" alt="{{ group.label }}">
+                          </span>
+                        {% endfor %}
+                      </div>
+                    {% endif %}
+                  </div>
+
+
+                  <div class="price-row">
+                    <h6 class="counter price-popup-trigger" role="button" title="{% trans "Click to convert this price" %}" data-price-try="{{ listing.price }}" data-count-duration="2.65" data-count-update-duration="1.1">₺{{ listing.price|intcomma }}</h6>
+                    {% if listing.price_trend == 'up' %}
+                      <span class="trend up">&#9650; {{ listing.trend_percent }}%</span>
+                    {% else %}
+                      <span class="trend down">&#9660; {{ listing.trend_percent }}%</span>
+                    {% endif %}
+                  </div>
+
+                  <h4>
+                    <a href="{% url 'new_listing_detail' listing.id %}">{{ listing.title }}</a>
+                  </h4>
+
+                  <div class="invest-row">
+                    <div class="listing-insight">
+                      <span class="listing-insight-label"><i class="fa fa-money-bill-wave"></i> {% trans "Est. Rent" %}</span>
+                      <div class="listing-insight-value">
+                        <strong class="counter price-popup-trigger est-rent-amount" role="button" title="{% trans "Click to convert this price" %}" data-price-try="{{ listing.estimated_rent }}" data-count-duration="3.25" data-count-update-duration="1.35">₺{{ listing.estimated_rent|intcomma }}</strong>
+                        {% if listing.price_trend == 'up' %}
+                          <span class="metric-trend up">&#9650; {{ listing.trend_percent }}%</span>
+                        {% else %}
+                          <span class="metric-trend down">&#9660; {{ listing.trend_percent }}%</span>
+                        {% endif %}
+                      </div>
+                    </div>
+                    <div class="listing-insight">
+                      <span class="listing-insight-label"><i class="fa fa-chart-line"></i> {% trans "Rentability" %}</span>
+                      <div class="listing-insight-value">
+                        <strong class="counter rentability-percent" data-count-percent="{{ listing.rentability }}" data-count-duration="1.85" data-count-update-duration="0.75">{{ listing.rentability }}%</strong>
+                        {% if listing.price_trend == 'up' %}
+                          <span class="metric-trend up">&#9650; {{ listing.trend_percent }}%</span>
+                        {% else %}
+                          <span class="metric-trend down">&#9660; {{ listing.trend_percent }}%</span>
+                        {% endif %}
+                      </div>
+                    </div>
+                  </div>
+
+                  <ul class="property-details-grid">
+                    <li><i class="fa fa-bed" aria-hidden="true"></i><div>{% trans "Bedrooms" %}<span>{{ listing.bedrooms|default:'-' }}</span></div></li>
+                    <li><i class="fa fa-bath" aria-hidden="true"></i><div>{% trans "Bathrooms" %}<span>{{ listing.bathrooms|default:'-' }}</span></div></li>
+                    <li><i class="fa fa-ruler-combined" aria-hidden="true"></i><div>{% trans "Gross m²" %}<span>{{ listing.m2_gross|default:'-' }}</span></div></li>
+                    <li><i class="fa fa-calendar" aria-hidden="true"></i><div>{% trans "Listed" %}<span>{{ listing.ad_date|default:listing.list_date|days_ago }}</span></div></li>
+                  </ul>
+
+                  <div class="location-line"><i class="fa fa-map-marker-alt"></i><span>{{ listing.address|default:listing.city }}</span></div>
+
+                  <div class="main-button">
+                    <a href="{% url 'new_listing_detail' listing.id %}"><span class="btn-text">{% trans "More Info" %}</span></a>
+                    <a href="{% url 'new_map' %}" class="map-btn" aria-label="{% trans "Open map" %}"><span class="btn-text"><i class="fa fa-map"></i></span></a>
+                  </div>
                 </div>
-                <li><i class="fa fa-map-marker-alt" aria-hidden="true"></i> {% trans "Location" %}: <span>{{ listing.city }}, {{ listing.state }}</span></li>
-            </ul>
-<div class="main-button">
-    <a href="{% url 'new_listing_detail' listing.id %}">{% trans "More Info" %}</a>
-    <a href="{% url 'new_map' %}"><i class="fa fa-map"></i> </a>
-</div>
-</div>
+              </div>
 
             </div>
           {% endfor %}
@@ -117,12 +751,12 @@
         <div class="col-lg-12">
           {% if listings.has_other_pages %}
             <ul class="pagination">
-              {% with cur=listings.number last=listings.paginator.num_pages %}
+              {% with cur=listings.number last=listings.paginator.num_pages q=querystring %}
                 {# Prev #}
                 {% if listings.has_previous %}
                   {% with prev=listings.previous_page_number %}
                     <li>
-                      <a href="{% if prev == 1 %}{% url 'new_properties' %}{% else %}{% url 'new_properties_page' prev %}{% endif %}">&laquo;</a>
+                      <a href="{% if prev == 1 %}{% url 'new_properties' %}{% else %}{% url 'new_properties_page' prev %}{% endif %}{% if q %}?{{ q }}{% endif %}">&laquo;</a>
                     </li>
                   {% endwith %}
                 {% else %}
@@ -130,7 +764,7 @@
                 {% endif %}
 
                 {# First page #}
-                <li><a class="{% if cur == 1 %}is_active{% endif %}" href="{% url 'new_properties' %}">1</a></li>
+                <li><a class="{% if cur == 1 %}is_active{% endif %}" href="{% url 'new_properties' %}{% if q %}?{{ q }}{% endif %}">1</a></li>
 
                 {# Left ellipsis if needed (show when cur > 4) #}
                 {% if cur|add:'-3' > 1 %}
@@ -142,7 +776,7 @@
                   {% if i > 1 and i < last %}
                     {% if i >= cur|add:'-2' and i <= cur|add:'2' %}
                       <li>
-                        <a class="{% if cur == i %}is_active{% endif %}" href="{% url 'new_properties_page' i %}">{{ i }}</a>
+                        <a class="{% if cur == i %}is_active{% endif %}" href="{% url 'new_properties_page' i %}?{{ q }}">{{ i }}</a>
                       </li>
                     {% endif %}
                   {% endif %}
@@ -156,7 +790,7 @@
                 {# Last page (if more than one) #}
                 {% if last > 1 %}
                   <li>
-                    <a class="{% if cur == last %}is_active{% endif %}" href="{% url 'new_properties_page' last %}">{{ last }}</a>
+                    <a class="{% if cur == last %}is_active{% endif %}" href="{% url 'new_properties_page' last %}?{{ q }}">{{ last }}</a>
                   </li>
                 {% endif %}
 
@@ -164,7 +798,7 @@
                 {% if listings.has_next %}
                   {% with next=listings.next_page_number %}
                     <li>
-                      <a href="{% if next == 1 %}{% url 'new_properties' %}{% else %}{% url 'new_properties_page' next %}{% endif %}">&raquo;</a>
+                      <a href="{% if next == 1 %}{% url 'new_properties' %}{% else %}{% url 'new_properties_page' next %}{% endif %}{% if q %}?{{ q }}{% endif %}">&raquo;</a>
                     </li>
                   {% endwith %}
                 {% else %}
@@ -202,7 +836,7 @@
                     <button class="nav-link" id="Map-tab" data-bs-toggle="tab" data-bs-target="#Map" type="button" role="tab" aria-controls="Map" aria-selected="false">{% trans "Map" %}</button>
                   </li>
                 </ul>
-              </div>              
+              </div>
               <div class="tab-content" id="myTabContent">
                 <div class="tab-pane fade show active" id="appartment" role="tabpanel" aria-labelledby="appartment-tab">
                   <div class="row">
@@ -226,10 +860,10 @@
                       <div class="icon-button">
                        <li>
     <a href="#" data-cal-link="hasan-gun-saqvh6" data-cal-config='{"layout":"month_view"}'>
-        <i class="fa fa-calendar" style="margin-right:5px;padding-right:5px;"></i> 
+        <i class="fa fa-calendar" style="margin-right:5px;padding-right:5px;"></i>
         {% trans "Schedule a visit" %}
     </a>
-</li>      
+</li>
                       </div>
                     </div>
                   </div>
@@ -281,10 +915,10 @@
                       <div class="icon-button">
                        <li>
     <a href="#" data-cal-link="hasan-gun-saqvh6" data-cal-config='{"layout":"month_view"}'>
-        <i class="fa fa-calendar" style="margin-right:5px;padding-right:5px;"></i> 
+        <i class="fa fa-calendar" style="margin-right:5px;padding-right:5px;"></i>
         {% trans "Schedule a visit" %}
     </a>
-</li>      
+</li>
                       </div>
                     </div>
                   </div>
@@ -366,7 +1000,7 @@
                   <label for="message">{% trans "Message" %}</label>
                   <textarea name="message" id="message" placeholder="Your Message"></textarea>
                 </fieldset>
-              </div>  
+              </div>
               <div class="col-lg-12">
                 <fieldset>
                   <button type="submit" id="form-submit" class="orange-button">{% trans "Send Message" %}</button>

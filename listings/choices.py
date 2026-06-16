@@ -17,6 +17,26 @@ type_choices = {
   'rent':'RENT',
 }
 
+rentability_group_choices = {
+  'students': 'Students',
+  'medical_visitors': 'Medical visitors/tourists',
+  'single_people': 'Single people',
+  'office_workers': 'Office workers',
+  'small_families': 'Small families',
+  'newlyweds': 'Newlyweds',
+  'airbnb': 'Airbnb',
+}
+
+rentability_group_badges = {
+  'students': 'rentabilitygrps/students-bronze-soft.svg',
+  'medical_visitors': 'rentabilitygrps/medical-visitors-bronze-soft.svg',
+  'single_people': 'rentabilitygrps/single-people-bronze-soft.svg',
+  'office_workers': 'rentabilitygrps/office-workers-bronze-soft.svg',
+  'small_families': 'rentabilitygrps/small-families-bronze-soft.svg',
+  'newlyweds': 'rentabilitygrps/newlyweds-bronze-soft.svg',
+  'airbnb': 'rentabilitygrps/airbnb-bronze-soft.svg',
+}
+
 price_choices = {
   '500000':'₦500,000',
   '600000':'₦600,000',

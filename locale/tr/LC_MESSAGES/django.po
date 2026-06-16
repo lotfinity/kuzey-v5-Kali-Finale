@@ -421,7 +421,7 @@ msgstr "Aramanızla eşleşen sonuç bulunamadı"
 #: templates/newfrontend/properties.html:12
 #: templates/newfrontend/properties.html:13 templates/partials/_footer.html:152
 #: templates/partials/_navbar.html:46
-msgid "Properties"
+msgid "Opportunities"
 msgstr "İlanlar"
 
 # Map page

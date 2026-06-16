@@ -1,0 +1,49 @@
+{% extends 'newfrontend/base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% trans "WhatsApp Inbox" %}{% endblock %}
+{% block whatsapp_widget %}{% endblock %}
+
+{% block content %}
+<style>
+  .wa-inbox-page {
+    min-height: calc(100vh - 86px);
+    background: #eef5f2;
+    padding: 22px;
+  }
+
+  .wa-inbox-shell {
+    width: min(1220px, 100%);
+    height: calc(100vh - 132px);
+    min-height: 620px;
+    margin: 0 auto;
+    border: 1px solid rgba(17,27,33,.1);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 18px 60px rgba(17,27,33,.12);
+    background: #fff;
+  }
+
+  @media (max-width: 720px) {
+    .wa-inbox-page {
+      padding: 0;
+    }
+
+    .wa-inbox-shell {
+      width: 100%;
+      height: calc(100vh - 64px);
+      min-height: calc(100vh - 64px);
+      border: 0;
+      border-radius: 0;
+      box-shadow: none;
+    }
+  }
+</style>
+
+<section class="wa-inbox-page" aria-label="{% trans 'WhatsApp hunt inbox' %}">
+  <div class="wa-inbox-shell">
+    {% include 'newfrontend/whatsappwidget.html' with whatsapp_standalone=True %}
+  </div>
+</section>
+{% endblock %}

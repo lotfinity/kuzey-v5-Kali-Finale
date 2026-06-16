@@ -18,6 +18,24 @@ import dj_database_url
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
+def load_env_file(path):
+    if not os.path.exists(path):
+        return
+    with open(path, encoding='utf-8') as env_file:
+        for raw_line in env_file:
+            line = raw_line.strip()
+            if not line or line.startswith('#') or '=' not in line:
+                continue
+            key, value = line.split('=', 1)
+            key = key.strip()
+            value = value.strip().strip('"').strip("'")
+            if key and key not in os.environ:
+                os.environ[key] = value
+
+
+load_env_file(os.path.join(BASE_DIR, '.env'))
+
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
@@ -42,6 +60,8 @@ INSTALLED_APPS = [
     # Baton (if installed) must precede 'django.contrib.admin' to style the admin
     # We'll insert it dynamically below if available
     'baton',
+    'daphne',
+    'channels',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -122,6 +142,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF =  'coralcity.urls'
@@ -139,12 +160,48 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'pages.context_processors.theme_settings',
+                'listings.context_processors.currency_settings',
             ],
         },
     },
 ]
 
 WSGI_APPLICATION =  'coralcity.wsgi.application'
+ASGI_APPLICATION = 'coralcity.asgi.application'
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer',
+    },
+}
+
+REDIS_URL = os.environ.get('REDIS_URL') or os.environ.get('CHANNEL_REDIS_URL')
+if REDIS_URL:
+    CHANNEL_LAYERS = {
+        'default': {
+            'BACKEND': 'channels_redis.core.RedisChannelLayer',
+            'CONFIG': {
+                'hosts': [REDIS_URL],
+            },
+        },
+    }
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'listings.whatsapp': {
+            'handlers': ['console'],
+            'level': os.environ.get('WHATSAPP_LOG_LEVEL', 'INFO'),
+            'propagate': False,
+        },
+    },
+}
 
 import os
 DISTILL_DIR = os.path.join(BASE_DIR, 'distill_output')
@@ -158,6 +215,25 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
+WAHA_URL = os.environ.get('WAHA_URL', '').rstrip('/')
+WAHA_API_KEY = os.environ.get('WAHA_API_KEY', '')
+AIRBNB_SCRAPER_API_KEY = os.environ.get('AIRBNB_SCRAPER_API_KEY', '')
+WAHA_SESSION_DEFAULT = os.environ.get('WAHA_SESSION_DEFAULT', os.environ.get('WAHA_DEFAULT_SESSION', 'default'))
+WAHA_DEFAULT_COUNTRY_CODE = os.environ.get('WAHA_DEFAULT_COUNTRY_CODE', '90')
+
+WHATSAPP_AI_ENABLED = os.environ.get('WHATSAPP_AI_ENABLED', '1').lower() not in ('0', 'false', 'no', 'off')
+WHATSAPP_AI_MODEL = os.environ.get('WHATSAPP_AI_MODEL', 'moonshotai/kimi-k2.6')
+WHATSAPP_AI_API_KEY = (
+    os.environ.get('WHATSAPP_AI_API_KEY')
+    or os.environ.get('NVIDIA_NIM_API_KEY')
+    or os.environ.get('NVIDIA_API_KEY')
+    or os.environ.get('LITELLM_API_KEY')
+    or ''
+)
+WHATSAPP_AI_API_BASE = os.environ.get('WHATSAPP_AI_API_BASE', os.environ.get('NVIDIA_NIM_API_BASE', 'https://aigw.whatsynaptic.com')).rstrip('/')
+WHATSAPP_AI_MAX_TOKENS = int(os.environ.get('WHATSAPP_AI_MAX_TOKENS', '180'))
+WHATSAPP_AI_TEMPERATURE = float(os.environ.get('WHATSAPP_AI_TEMPERATURE', '0.35'))
 
 
 
@@ -183,7 +259,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
 
-LANGUAGE_CODE = 'en'
+LANGUAGE_CODE = 'fr'
 
 TIME_ZONE = 'Europe/Istanbul' 
 

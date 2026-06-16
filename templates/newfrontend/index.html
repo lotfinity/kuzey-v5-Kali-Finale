@@ -1,320 +1,514 @@
 {% extends 'newfrontend/base.html' %}
 {% load static %}
-{% load humanize %}
 {% load i18n %}
-{% block nav_home_active %}active{% endblock %}
-{% block title %}{% trans "Kuzey  Emlak  - home" %}{% endblock %}
+{% load humanize %}
+{% block title %}{% trans "Kuzey Emlak" %}{% endblock %}
 {% block content %}
-  <div class="main-banner">
-    <div class="owl-carousel owl-banner">
-      <div class="item item-1">
-        <div class="header-text">
-          <span class="category">Istanbul, <em>Turkiye</em></span>
-          <h2 class="tangerine-regular"><span data-typing-effect data-typing-speed="50">{% trans "Hurry!" %}</span><br><span data-typing-effect data-typing-speed="50" data-typing-delay="1000">{% trans "Get the Best Villa for you" %}</span></h2>
-        </div>
-      </div>
-      <div class="item item-2">
-        <div class="header-text">
-          <span class="category">Antalya, <em>Turkiye</em></span>
-          <h2 class="tangerine-regular"><span data-typing-effect data-typing-speed="50">{% trans "Be Quick!" %}</span><br><span data-typing-effect data-typing-speed="50" data-typing-delay="1000">{% trans "Get the best villa in town" %}</span></h2>
-        </div>
-      </div>
-      <div class="item item-3">
-        <div class="header-text">
-          <span class="category">Ankara, <em>Turkiye</em></span>
-          <h2 class="tangerine-regular"><span data-typing-effect data-typing-speed="50">{% trans "Act Now!" %}</span><br><span data-typing-effect data-typing-speed="50" data-typing-delay="1000">{% trans "Get the highest level Map" %}</span></h2>
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <div class="featured section">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-4">
-          <div class="left-image">
-            <img src="{% static 'newfront/assets/images/featured.jpg' %}" alt="">
-            <a href="{% url 'new_property_details' %}"><img src="{% static 'newfront/assets/images/featured-icon.png' %}" alt="" style="max-width: 60px; padding: 0px;"></a>
-          </div>
-        </div>
-        <div class="col-lg-5">
-          <div class="section-heading">
-            <h6>| {% trans "Featured" %}</h6>
-            <h2>{% trans "Best Appartment & Sea view" %}</h2>
-          </div>
-          <div class="accordion" id="accordionExample">
-            <div class="accordion-item">
-              <h2 class="accordion-header" id="headingOne">
-              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                {% trans "What properties do you offer?" %}
-              </button>
-              </h2>
-              <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-              <div class="accordion-body">
-                {% trans "We offer a wide selection of premium properties including villas, apartments, and luxury residences across Istanbul, Antalya, and Ankara. Each property is carefully selected to meet the highest standards of quality and location." %}
-              </div>
-              </div>
-            </div>
-            <div class="accordion-item">
-              <h2 class="accordion-header" id="headingTwo">
-              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                {% trans "How do I schedule a property viewing?" %}
-              </button>
-              </h2>
-              <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-              <div class="accordion-body">
-                {% trans "Scheduling a viewing is simple. Click the 'Schedule a visit' button on any property listing, or contact our team directly via phone or email. Our agents are available 24/7 to assist you." %}
-              </div>
-              </div>
-            </div>
-            <div class="accordion-item">
-              <h2 class="accordion-header" id="headingThree">
-              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                {% trans "What financing options are available?" %}
-              </button>
-              </h2>
-              <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
-              <div class="accordion-body">
-                {% trans "We work with leading financial institutions to offer flexible payment plans and bank financing options. Our team can guide you through the entire process to make your property purchase seamless." %}
-              </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-3">
-          <div class="info-table">
-            <ul>
-              <li>
-                <img src="{% static 'newfront/assets/images/info-icon-01.png' %}" alt="" style="max-width: 52px;">
-                <h4>250 m2<br><span>{% trans "Total Flat Space" %}</span></h4>
-              </li>
-              <li>
-                <img src="{% static 'newfront/assets/images/info-icon-02.png' %}" alt="" style="max-width: 52px;">
-                <h4>{% trans "Contract" %}<br><span>{% trans "Contract Ready" %}</span></h4>
-              </li>
-              <li>
-                <img src="{% static 'newfront/assets/images/info-icon-03.png' %}" alt="" style="max-width: 52px;">
-                <h4>{% trans "Payment" %}<br><span>{% trans "Payment Process" %}</span></h4>
-              </li>
-              <li>
-                <img src="{% static 'newfront/assets/images/info-icon-04.png' %}" alt="" style="max-width: 52px;">
-                <h4>{% trans "Safety" %}<br><span>{% trans "24/7 Under Control" %}</span></h4>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+<style>
+  .wizard-overlay {
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+  }
+  .wizard-box {
+    width: 100%;
+    max-width: 520px;
+    background: var(--surface-raised, #fff);
+    border: 1px solid var(--surface-border, #e5e7eb);
+    border-radius: 24px;
+    padding: 48px 40px;
+    box-shadow: 0 24px 64px rgba(0,0,0,0.12);
+    text-align: center;
+  }
+  .wizard-box h2 {
+    font-size: 26px;
+    font-weight: 800;
+    margin-bottom: 4px;
+    color: var(--text-main, #1e1e1e);
+  }
+  .wizard-box p {
+    color: var(--text-soft, #6b7280);
+    margin-bottom: 32px;
+    font-size: 14px;
+  }
 
-  <div class="video section">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-4 offset-lg-4">
-          <div class="section-heading text-center">
-            <h6>| {% trans "Video View" %}</h6>
-            <h2>{% trans "Get Closer View & Different Feeling" %}</h2>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  .wizard-steps {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 36px;
+  }
+  .wizard-steps .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--surface-border, #e5e7eb);
+    transition: all .3s;
+  }
+  .wizard-steps .dot.active {
+    background: var(--theme-primary, #a38344);
+    width: 28px;
+    border-radius: 5px;
+  }
+  .wizard-steps .dot.done {
+    background: var(--theme-primary, #a38344);
+    opacity: .5;
+  }
 
-  <div class="video-content">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-10 offset-lg-1">
-          <div class="video-frame">
-            <img src="{% static 'newfront/assets/images/video-frame.jpg' %}" alt="">
-            <a href="https://youtube.com" target="_blank"><i class="fa fa-play"></i></a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  .wizard-step {
+    display: none;
+  }
+  .wizard-step.active {
+    display: block;
+  }
 
-  <div class="fun-facts">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-12">
-          <div class="wrapper">
-            <div class="row">
-              <div class="col-lg-4">
-                <div class="counter">
-                  <h2 class="timer count-title count-number" data-to="34" data-speed="1000"></h2>
-                   <p class="count-text ">{% trans "Buildings" %}<br>{% trans "Finished Now" %}</p>
-                </div>
-              </div>
-              <div class="col-lg-4">
-                <div class="counter">
-                  <h2 class="timer count-title count-number" data-to="12" data-speed="1000"></h2>
-                  <p class="count-text ">{% trans "Years" %}<br>{% trans "Experience" %}</p>
-                </div>
-              </div>
-              <div class="col-lg-4">
-                <div class="counter">
-                  <h2 class="timer count-title count-number" data-to="24" data-speed="1000"></h2>
-                  <p class="count-text ">{% trans "Awards" %}<br>{% trans "Won 2023" %}</p>
-                </div>
-              </div>
+  .wizard-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 10px;
+    margin-bottom: 28px;
+  }
+  .wizard-options.lang-options {
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  }
+
+  .wizard-option {
+    cursor: pointer;
+    padding: 14px 8px;
+    border: 2px solid var(--surface-border, #e5e7eb);
+    border-radius: 14px;
+    background: var(--surface-muted, #f7f7f7);
+    transition: all .2s;
+    text-align: center;
+    user-select: none;
+  }
+  .wizard-option:hover {
+    border-color: var(--theme-primary, #a38344);
+    background: rgba(163,131,68,.08);
+  }
+  .wizard-option.selected {
+    border-color: var(--theme-primary, #a38344);
+    background: rgba(163,131,68,.14);
+    box-shadow: 0 0 0 3px rgba(163,131,68,.18);
+  }
+  .wizard-option .flag-icon {
+    font-size: 28px;
+    display: block;
+    margin-bottom: 6px;
+  }
+  .wizard-option .opt-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-main, #1e1e1e);
+  }
+  .wizard-option .opt-sublabel {
+    font-size: 10px;
+    color: var(--text-soft, #6b7280);
+  }
+
+  .wizard-options.currency-options .wizard-option {
+    padding: 18px 8px;
+  }
+  .wizard-options.currency-options .wizard-option .curr-symbol {
+    font-size: 22px;
+    font-weight: 900;
+    display: block;
+    margin-bottom: 4px;
+    color: var(--theme-primary, #a38344);
+  }
+
+  .wizard-options.theme-options .wizard-option {
+    padding: 20px 8px;
+  }
+  .wizard-options.theme-options .wizard-option i {
+    font-size: 28px;
+    display: block;
+    margin-bottom: 6px;
+    color: var(--theme-primary, #a38344);
+  }
+
+  .wizard-nav {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 8px;
+  }
+  .wizard-nav button, .wizard-nav a {
+    min-width: 120px;
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-weight: 800;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+    transition: all .2s;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+  .wizard-nav .btn-prev {
+    background: var(--surface-muted, #f7f7f7);
+    color: var(--text-muted, #4a4a4a);
+    border: 1px solid var(--surface-border, #e5e7eb);
+  }
+  .wizard-nav .btn-next, .wizard-nav .btn-done {
+    background: var(--theme-primary, #a38344);
+    color: #111;
+  }
+  .wizard-nav .btn-prev:hover {
+    background: var(--surface-border, #e5e7eb);
+  }
+  .wizard-nav .btn-next:hover, .wizard-nav .btn-done:hover {
+    opacity: .9;
+  }
+
+  /* ---- Stats landing page ---- */
+  .landing-hero {
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+  }
+  .landing-inner {
+    width: 100%;
+    max-width: 960px;
+  }
+
+  .landing-title {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+  .landing-title h1 {
+    font-size: 36px;
+    font-weight: 900;
+    color: var(--text-main, #1e1e1e);
+    margin-bottom: 8px;
+  }
+  .landing-title p {
+    color: var(--text-soft, #6b7280);
+    font-size: 16px;
+  }
+
+  .cta-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 48px;
+    width: 100%;
+  }
+  .cta-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 32px;
+    border-radius: 24px;
+    border: 2px solid var(--surface-border, #e5e7eb);
+    background: var(--surface-raised, #fff);
+    box-shadow: 0 16px 48px rgba(0,0,0,0.06);
+    transition: all .3s ease;
+    text-decoration: none;
+    position: relative;
+    overflow: hidden;
+    min-height: 240px;
+  }
+  .cta-card:hover {
+    transform: translateY(-6px);
+    border-color: var(--theme-primary, #a38344);
+    box-shadow: 0 20px 56px rgba(163,131,68,0.16);
+  }
+  .cta-card .cta-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+    color: var(--theme-primary, #a38344);
+  }
+  .cta-card h3 {
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--text-main, #1e1e1e);
+    margin-bottom: 6px;
+  }
+  .cta-card .cta-sub {
+    font-size: 14px;
+    color: var(--text-soft, #6b7280);
+    margin-bottom: 12px;
+  }
+  .cta-card .cta-count {
+    font-size: 48px;
+    font-weight: 900;
+    color: var(--theme-primary, #a38344);
+    line-height: 1;
+  }
+  .cta-card .cta-count-label {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    color: var(--text-soft, #6b7280);
+    margin-top: 4px;
+  }
+  .cta-card.under {
+    background: linear-gradient(135deg, rgba(163,131,68,.06), rgba(163,131,68,.02));
+  }
+  .cta-card.over {
+    background: linear-gradient(135deg, rgba(163,131,68,.10), rgba(163,131,68,.04));
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    width: 100%;
+  }
+  .stat-card {
+    padding: 20px;
+    border-radius: 16px;
+    border: 1px solid var(--surface-border, #e5e7eb);
+    background: var(--surface-raised, #fff);
+    text-align: center;
+  }
+  .stat-card .stat-value {
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--theme-primary, #a38344);
+    line-height: 1.2;
+  }
+  .stat-card .stat-label {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    color: var(--text-soft, #6b7280);
+    margin-top: 4px;
+  }
+
+  .stat-pair {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .stat-pair .stat-card {
+    flex: 1;
+  }
+
+  @media (max-width: 768px) {
+    .cta-grid {
+      grid-template-columns: 1fr;
+    }
+    .stats-grid {
+      grid-template-columns: 1fr;
+    }
+    .stat-pair {
+      flex-direction: column;
+    }
+    .wizard-box {
+      padding: 32px 20px;
+    }
+    .wizard-options.lang-options {
+      grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+    }
+  }
+</style>
+
+{% if not wizard_done %}
+{# ─── WIZARD ─── #}
+<div class="wizard-overlay">
+  <div class="wizard-box">
+    <img src="{% static 'newfront/assets/images/logo.png' %}" alt="Kuzey Emlak" style="height:48px;margin-bottom:16px;" onerror="this.style.display='none'">
+    <h2>{% trans "Welcome to Kuzey Emlak" %}</h2>
+    <p>{% trans "Set your preferences to get started" %}</p>
+
+    <div class="wizard-steps" id="wizardSteps">
+      <span class="dot active" data-step="0"></span>
+      <span class="dot" data-step="1"></span>
+      <span class="dot" data-step="2"></span>
+    </div>
+
+    <form id="wizardForm" method="post" action="{% url 'home_wizard' %}">
+      {% csrf_token %}
+
+      {# Step 1: Language #}
+      <div class="wizard-step active" data-step="0">
+        <h4 style="font-weight:800;margin-bottom:18px;">{% trans "Choose your language" %}</h4>
+        <div class="wizard-options lang-options">
+          {% get_available_languages as LANGUAGES %}
+          {% get_current_language as CURRENT_LANG %}
+          {% for code, name in LANGUAGES %}
+            {% with flag_file='flags/'|add:code|add:'.svg' %}
+            <div class="wizard-option {% if code == CURRENT_LANG %}selected{% endif %}" data-value="{{ code }}" onclick="selectWizardOption(this,'language')">
+              <img src="{% static flag_file %}" alt="{{ code }}" style="width:32px;height:22px;border-radius:3px;object-fit:cover;display:block;margin:0 auto 6px;box-shadow:0 1px 4px rgba(0,0,0,.12);">
+              <span class="opt-label">{{ name }}</span>
             </div>
-          </div>
+            {% endwith %}
+          {% endfor %}
         </div>
+        <input type="hidden" name="language" id="wizLanguage" value="{{ CURRENT_LANG }}">
       </div>
-    </div>
-  </div>
 
-  <div class="section best-deal">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-4">
-          <div class="section-heading">
-            <h6>| {% trans "Best Deal" %}</h6>
-            <h2>{% trans "Find Your Best Deal Right Now!" %}</h2>
+      {# Step 2: Currency #}
+      <div class="wizard-step" data-step="1">
+        <h4 style="font-weight:800;margin-bottom:18px;">{% trans "Choose your currency" %}</h4>
+        <div class="wizard-options currency-options">
+          {% with curr=currency_default|default:'TRY' %}
+          <div class="wizard-option {% if curr == 'TRY' %}selected{% endif %}" data-value="TRY" onclick="selectWizardOption(this,'currency')">
+            <span class="curr-symbol">₺</span>
+            <span class="opt-label">TRY</span>
+            <span class="opt-sublabel">{% trans "Turkish Lira" %}</span>
           </div>
-        </div>
-        <div class="col-lg-12">
-          <div class="tabs-content">
-            <div class="row">
-              <div class="nav-wrapper ">
-                <ul class="nav nav-tabs" role="tablist">
-                  <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="appartment-tab" data-bs-toggle="tab" data-bs-target="#appartment" type="button" role="tab" aria-controls="appartment" aria-selected="true">{% trans "Apartment" %}</button>
-                  </li>
-                  <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="villa-tab" data-bs-toggle="tab" data-bs-target="#villa" type="button" role="tab" aria-controls="villa" aria-selected="false">{% trans "Villa House" %}</button>
-                  </li>
-                  <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="Map-tab" data-bs-toggle="tab" data-bs-target="#Map" type="button" role="tab" aria-controls="Map" aria-selected="false">{% trans "Map" %}</button>
-                  </li>
-                </ul>
-              </div>              
-              <div class="tab-content" id="myTabContent">
-                <div class="tab-pane fade show active" id="appartment" role="tabpanel" aria-labelledby="appartment-tab">
-                  <div class="row">
-                    <div class="col-lg-3">
-                      <div class="info-table">
-                        <ul>
-                          <li>Total Flat Space <span>540 m2</span></li>
-                          <li>Floor number <span>3</span></li>
-                          <li>Number of rooms <span>8</span></li>
-                          <li>Parking Available <span>Yes</span></li>
-                          <li>Payment Process <span>Bank</span></li>
-                        </ul>
-                      </div>
-                    </div>
-                    <div class="col-lg-6">
-                      <img src="{% static 'newfront/assets/images/deal-01.jpg' %}" alt="">
-                    </div>
-                    <div class="col-lg-3">
-                      <h4>{% trans "All Info About Apartment" %}</h4>
-                      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, do eiusmod tempor pack incididunt ut labore et dolore magna aliqua quised ipsum suspendisse. <br><br>Swag fanny pack lyft blog twee. JOMO ethical copper mug, succulents typewriter shaman DIY kitsch twee taiyaki fixie hella venmo after messenger poutine next level humblebrag swag franzen.</p>
-                      <div class="icon-button">
-                       <li>
-    <a href="#" data-cal-link="hasan-gun-saqvh6" data-cal-config='{"layout":"month_view"}'>
-        <i class="fa fa-calendar" style="margin-right:5px;padding-right:5px;"></i> 
-        {% trans "Schedule a visit" %}
-    </a>
-</li>      
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="tab-pane fade" id="villa" role="tabpanel" aria-labelledby="villa-tab">
-                  <div class="row">
-                    <div class="col-lg-3">
-                      <div class="info-table">
-                        <ul>
-                          <li>Total Flat Space <span>250 m2</span></li>
-                          <li>Floor number <span>26th</span></li>
-                          <li>Number of rooms <span>5</span></li>
-                          <li>Parking Available <span>Yes</span></li>
-                          <li>Payment Process <span>Bank</span></li>
-                        </ul>
-                      </div>
-                    </div>
-                    <div class="col-lg-6">
-                      <img src="{% static 'newfront/assets/images/deal-02.jpg' %}" alt="">
-                    </div>
-                    <div class="col-lg-3">
-                      <h4>Detail Info About New Villa</h4>
-                      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, do eiusmod tempor pack incididunt ut labore et dolore magna aliqua quised ipsum suspendisse. <br><br>Swag fanny pack lyft blog twee. JOMO ethical copper mug, succulents typewriter shaman DIY kitsch twee taiyaki fixie hella venmo after messenger poutine next level humblebrag swag franzen.</p>
-                      <div class="icon-button">
-                        <a href="https://cal.com/hasan-gun-saqvh6"><i class="fa fa-calendar"></i> {% trans "" %}</a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="tab-pane fade" id="Map" role="tabpanel" aria-labelledby="Map-tab">
-                  <div class="row">
-                    <div class="col-lg-3">
-                      <div class="info-table">
-                        <ul>
-                          <li>Total Flat Space <span>320 m2</span></li>
-                          <li>Floor number <span>34th</span></li>
-                          <li>Number of rooms <span>6</span></li>
-                          <li>Parking Available <span>Yes</span></li>
-                          <li>Payment Process <span>Bank</span></li>
-                        </ul>
-                      </div>
-                    </div>
-                    <div class="col-lg-6">
-                      <img src="{% static 'newfront/assets/images/deal-03.jpg' %}" alt="">
-                    </div>
-                    <div class="col-lg-3">
-                      <h4>Extra Info About Map</h4>
-                      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, do eiusmod tempor pack incididunt ut Kinfolk tonx seitan crucifix 3 wolf moon bicycle rights keffiyeh snackwave wolf same vice, chillwave vexillologistlabore et dolore magna aliqua quised ipsum suspendisse. <br><br>Swag fanny pack lyft blog twee. JOMO ethical copper mug, succulents typewriter shaman DIY kitsch twee taiyaki fixie hella venmo after messenger poutine next level humblebrag swag franzen.</p>
-                      <div class="icon-button">
-                       <li>
-    <a href="#" data-cal-link="hasan-gun-saqvh6" data-cal-config='{"layout":"month_view"}'>
-        <i class="fa fa-calendar" style="margin-right:5px;padding-right:5px;"></i> 
-        {% trans "Schedule a visit" %}
-    </a>
-</li>      
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+          <div class="wizard-option {% if curr == 'USD' %}selected{% endif %}" data-value="USD" onclick="selectWizardOption(this,'currency')">
+            <span class="curr-symbol">$</span>
+            <span class="opt-label">USD</span>
+            <span class="opt-sublabel">{% trans "US Dollar" %}</span>
           </div>
+          <div class="wizard-option {% if curr == 'EUR' %}selected{% endif %}" data-value="EUR" onclick="selectWizardOption(this,'currency')">
+            <span class="curr-symbol">€</span>
+            <span class="opt-label">EUR</span>
+            <span class="opt-sublabel">{% trans "Euro" %}</span>
+          </div>
+          <div class="wizard-option {% if curr == 'DZD' %}selected{% endif %}" data-value="DZD" onclick="selectWizardOption(this,'currency')">
+            <span class="curr-symbol">د.ج</span>
+            <span class="opt-label">DZD</span>
+            <span class="opt-sublabel">{% trans "Algerian Dinar" %}</span>
+          </div>
+          {% endwith %}
         </div>
+        <input type="hidden" name="currency" id="wizCurrency" value="{{ currency_default|default:'TRY' }}">
       </div>
-    </div>
-  </div>
 
-<div class="section properties">
-    {% if listings %}
-    <div class="container">
-        <div class="row">
-            {% for listing in listings %}
-            <div class="col-lg-4 col-md-6"> 
-                <div class="item">
-                    <a href="{% url 'new_listing_detail' listing.id %}"><img src="{{ listing.photo_main.url }}" alt="{{ listing.title }}"></a>
-                    <span class="category">{{ listing.property_type }}</span>
-                    <h6>₦{{ listing.price|intcomma }}</h6>
-                    <h4>
-                        <a href="{% url 'new_listing_detail' listing.id %}">{{ listing.title }}</a>
-                    </h4>
-                    <ul>
-                        <li>{% trans "Bedrooms" %}: <span>{{ listing.bedrooms }}</span></li>
-                        <li>{% trans "Bathrooms" %}: <span>{{ listing.bathrooms }}</span></li>
-                        <li>{% trans "City" %}: <span>{{ listing.city }}</span></li>
-                        <li>{% trans "State" %}: <span>{{ listing.state }}</span></li>
-                    </ul>
-                    <div class="main-button">
-                        <a href="{% url 'new_listing_detail' listing.id %}">{% trans "Schedule a visit" %}</a>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
-        </div> </div> {% else %}
-    <div class="container">
-        <div class="row">
-            <div class="col-12"><p>{% trans "No Listings Available" %}</p></div>
+      {# Step 3: Theme #}
+      <div class="wizard-step" data-step="2">
+        <h4 style="font-weight:800;margin-bottom:18px;">{% trans "Choose your theme" %}</h4>
+        <div class="wizard-options theme-options">
+          <div class="wizard-option selected" data-value="dark" onclick="selectWizardOption(this,'theme')">
+            <i class="fa fa-moon"></i>
+            <span class="opt-label">{% trans "Dark" %}</span>
+          </div>
+          <div class="wizard-option" data-value="light" onclick="selectWizardOption(this,'theme')">
+            <i class="fa fa-sun"></i>
+            <span class="opt-label">{% trans "Light" %}</span>
+          </div>
+          <div class="wizard-option" data-value="system" onclick="selectWizardOption(this,'theme')">
+            <i class="fa fa-desktop"></i>
+            <span class="opt-label">{% trans "System" %}</span>
+          </div>
         </div>
-    </div>
-    {% endif %}
+        <input type="hidden" name="theme" id="wizTheme" value="dark">
+      </div>
+
+      <div class="wizard-nav">
+        <button type="button" class="btn-prev" id="wizPrev" onclick="wizardPrev()" style="visibility:hidden">
+          <i class="fa fa-arrow-left"></i> {% trans "Back" %}
+        </button>
+        <button type="button" class="btn-next" id="wizNext" onclick="wizardNext()">
+          {% trans "Next" %} <i class="fa fa-arrow-right"></i>
+        </button>
+        <button type="submit" class="btn-done" id="wizDone" style="display:none">
+          <i class="fa fa-check"></i> {% trans "Continue" %}
+        </button>
+      </div>
+    </form>
+  </div>
 </div>
+
+<script>
+var wizardStep = 0;
+var wizardTotal = 3;
+
+function selectWizardOption(el, group) {
+  var parent = el.parentElement;
+  parent.querySelectorAll('.wizard-option').forEach(function(o) { o.classList.remove('selected'); });
+  el.classList.add('selected');
+  document.getElementById('wiz' + group.charAt(0).toUpperCase() + group.slice(1)).value = el.dataset.value;
+}
+
+function wizardNext() {
+  if (wizardStep < wizardTotal - 1) {
+    wizardStep++;
+    updateWizard();
+  }
+}
+
+function wizardPrev() {
+  if (wizardStep > 0) {
+    wizardStep--;
+    updateWizard();
+  }
+}
+
+function updateWizard() {
+  document.querySelectorAll('.wizard-step').forEach(function(s, i) {
+    s.classList.toggle('active', i === wizardStep);
+  });
+  document.querySelectorAll('#wizardSteps .dot').forEach(function(d, i) {
+    d.classList.toggle('active', i === wizardStep);
+    d.classList.toggle('done', i < wizardStep);
+  });
+  document.getElementById('wizPrev').style.visibility = wizardStep === 0 ? 'hidden' : 'visible';
+  document.getElementById('wizNext').style.display = wizardStep < wizardTotal - 1 ? '' : 'none';
+  document.getElementById('wizDone').style.display = wizardStep === wizardTotal - 1 ? '' : 'none';
+}
+</script>
+
+{% else %}
+{# ─── STATS LANDING PAGE ─── #}
+<div class="landing-hero">
+  <div class="landing-inner">
+    <div class="landing-title">
+      <h1>{% trans "Welcome back to Kuzey Emlak" %}</h1>
+      <p>{% trans "Explore our property opportunities" %}</p>
+    </div>
+
+    <div class="cta-grid">
+      <a href="{% url 'opportunities_under' %}" class="cta-card under">
+        <div class="cta-icon"><i class="fa fa-arrow-down"></i></div>
+        <h3>{% trans "Under 1.25M" %} ₺</h3>
+        <div class="cta-sub">{% trans "Affordable property opportunities" %}</div>
+        <div class="cta-count">{{ under_125_count|intcomma }}</div>
+        <div class="cta-count-label">{% trans "Listings available" %}</div>
+      </a>
+      <a href="{% url 'opportunities_over' %}" class="cta-card over">
+        <div class="cta-icon"><i class="fa fa-arrow-up"></i></div>
+        <h3>{% trans "Over 1.25M" %} ₺</h3>
+        <div class="cta-sub">{% trans "Premium property opportunities" %}</div>
+        <div class="cta-count">{{ over_125_count|intcomma }}</div>
+        <div class="cta-count-label">{% trans "Listings available" %}</div>
+      </a>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-value">{{ total_listings|intcomma }}</div>
+        <div class="stat-label">{% trans "Total Listings" %}</div>
+      </div>
+      <div class="stat-pair">
+        <div class="stat-card">
+          <div class="stat-value">{{ stats.smallest_m2|default:'-' }} m²</div>
+          <div class="stat-label">{% trans "Smallest Area" %}</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">{{ stats.biggest_m2|default:'-' }} m²</div>
+          <div class="stat-label">{% trans "Largest Area" %}</div>
+        </div>
+      </div>
+      <div class="stat-pair">
+        <div class="stat-card">
+          <div class="stat-value">₺{{ stats.cheapest|intcomma }}</div>
+          <div class="stat-label">{% trans "Cheapest" %}</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">₺{{ stats.most_expensive|intcomma }}</div>
+          <div class="stat-label">{% trans "Most Expensive" %}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
 
 {% endblock %}

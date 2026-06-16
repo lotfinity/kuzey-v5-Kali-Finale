@@ -1,0 +1,67 @@
+{
+  "listing_id": "1431964566858153854",
+  "title": "Girne Gercek Residence",
+  "tagline": "Entire rental unit in Kyrenia",
+  "property_type": "Entire rental unit",
+  "listing_url": "https://www.airbnb.com/rooms/1431964566858153854",
+  "photos": [
+    "https://a0.muscache.com/im/pictures/hosting/Hosting-1431964566858153854/original/0e327249-58ee-40c4-b27d-fb643503f17a.jpeg",
+    "https://a0.muscache.com/im/pictures/hosting/Hosting-1431964566858153854/original/1151e10b-0036-4071-a2ec-bb5c3c92b64e.jpeg",
+    "https://a0.muscache.com/im/pictures/hosting/Hosting-1431964566858153854/original/e786cf21-45f0-4477-a3d3-4cdc319ae957.jpeg",
+    "https://a0.muscache.com/im/pictures/hosting/Hosting-1431964566858153854/original/92571523-6354-407d-bc76-dfeacb7b31f5.jpeg",
+    "https://a0.muscache.com/im/pictures/hosting/Hosting-U3RheVN1cHBseUxpc3Rpbmc6MTQzMTk2NDU2Njg1ODE1Mzg1NA==/original/fc11f1c5-a5b1-4f00-aa0b-915c8b63df90.jpeg"
+  ],
+  "highlights": [
+    "4 guests",
+    "2 bedrooms",
+    "2 beds",
+    "1 bath"
+  ],
+  "location": "Kyrenia",
+  "latitude": 35.335548169259305,
+  "longitude": 33.315336902072104,
+  "guest_capacity": 4,
+  "amenity_ids": [],
+  "host_name": "Gerçek Resi̇dance Gi̇rne",
+  "host_id": "691399955",
+  "is_superhost": true,
+  "is_verified": true,
+  "host_rating": 4.89,
+  "host_review_count": 681,
+  "years_hosting": 1,
+  "overall_rating": 4.9,
+  "review_count": 466,
+  "is_guest_favorite": true,
+  "rating_categories": [
+    {
+      "category": "Cleanliness",
+      "score": "4.9"
+    },
+    {
+      "category": "Accuracy",
+      "score": "4.9"
+    },
+    {
+      "category": "Check-in",
+      "score": "4.9"
+    },
+    {
+      "category": "Communication",
+      "score": "4.9"
+    },
+    {
+      "category": "Location",
+      "score": "4.9"
+    },
+    {
+      "category": "Value",
+      "score": "4.9"
+    }
+  ],
+  "pricing": null,
+  "cancellation_terms": [
+    "Flexible · Free cancellation until 24 hours before check-in"
+  ],
+  "is_available": true,
+  "unavailability_reason": null
+}

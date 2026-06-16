@@ -1,85 +1,5 @@
 {% load static %}
 {% load i18n %}
-<div class="contact section">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-4 offset-lg-4">
-          <div class="section-heading text-center">
-                     <h6 >{% trans "Contact Us" %}</h6>
-            <h2>{% trans "Get In Touch With Our Agents" %}</h2>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="contact-content">
-    <div class="container">
-      <div class="row">
-        <div class="col-lg-7">
-          <div id="map">
-            <a href="https://maps.app.goo.gl/jx2HWaHUL8YCYTXX8" target="_blank" rel="noopener">
-              <img src="{% static 'map-location.png' %}"
-                   alt="Open location in Google Maps"
-                   style="width:100%; height:500px; border-radius:8px; display:block; object-fit: cover; border:0;"
-                   loading="lazy">
-            </a>
-          </div>
-          <div class="row">
-            <div class="col-lg-6">
-<div class="item phone">
-      <a href="https://wa.me/905423637436" target="_blank" style="text-decoration: none; color: inherit;">
-        <img src="{% static 'newfront/assets/images/phone-icon.png' %}" alt="" style="max-width: 52px;">
-        <h6>+905423637436<br><span>Phone Number</span></h6>
-      </a>
-    </div>            </div>
-            <div class="col-lg-6">
-              <div class="item email">
-<a href="mailto:hasangun@kuzey-yapi-emlak.com" style="text-decoration: none; color: inherit;">
-        <img src="{% static 'newfront/assets/images/email-icon.png' %}" alt="" style="max-width: 52px;">
-        <h6>hasangun@kuzey-yapi-emlak.com<br><span>Business Email</span></h6>
-      </a>              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-5">
-          <form id="contact-form" action="" method="post">
-            <div class="row">
-              <div class="col-lg-12">
-                <fieldset>
-                  <label for="name">{% trans "Full Name" %}</label>
-                  <input type="name" name="name" id="name" placeholder="Your Name..." autocomplete="on" required>
-                </fieldset>
-              </div>
-              <div class="col-lg-12">
-                <fieldset>
-                  <label for="email">{% trans "Email Address" %}</label>
-                  <input type="text" name="email" id="email" pattern="[^ @]*@[^ @]*" placeholder="Your E-mail..." required="">
-                </fieldset>
-              </div>
-              <div class="col-lg-12">
-                <fieldset>
-                  <label for="subject">{% trans "Subject" %}</label>
-                  <input type="subject" name="subject" id="subject" placeholder="Subject..." autocomplete="on" >
-                </fieldset>
-              </div>
-              <div class="col-lg-12">
-                <fieldset>
-                  <label for="message">{% trans "Message" %}</label>
-                  <textarea name="message" id="message" placeholder="Your Message"></textarea>
-                </fieldset>
-              </div>
-              <div class="col-lg-12">
-                <fieldset>
-                  <button type="submit" id="form-submit" class="orange-button">{% trans "Send Message" %}</button>
-                </fieldset>
-              </div>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
 
 <!-- Footer Styles: Hover animasyonları için gerekli CSS -->
 <style>
@@ -152,7 +72,7 @@
           </li>
           <li>
             <a href="{% url 'new_properties' %}" class="footer-link" style="color:#e5e5e5;">
-              <i class="fa fa-home" aria-hidden="true" style="margin-right:8px;"></i>{% trans "Properties" %}
+              <i class="fa fa-home" aria-hidden="true" style="margin-right:8px;"></i>{% trans "Opportunities" %}
             </a>
           </li>
           <li>
@@ -180,12 +100,12 @@
       <div class="col-lg-4 col-md-5" style="margin-bottom:24px;">
         <h5 style="color:#fff; margin-bottom:12px;">{% trans "Contact" %}</h5>
         <ul style="list-style:none; margin:0; padding:0; line-height:2;">
-          <li><i class="fa fa-map" aria-hidden="true" style="margin-right:8px; color:#999;"></i> Kavaklı, 34520 Beylikdüzü/İstanbul</li>
+          <li><i class="fa fa-map" aria-hidden="true" style="margin-right:8px; color:#999;"></i> Beylikdüzü/İstanbul</li>
 
           <!-- Mail Linki -->
           <li>
             <i class="fa fa-envelope" aria-hidden="true" style="margin-right:8px; color:#999;"></i>
-            <a href="mailto:hasangun@kuzey-yapi-emlak.com" class="footer-link" style="color:#e5e5e5;">hasangun@kuzey-yapi-emlak.com</a>
+            <a href="mailto:whatsynaptic@gmail.com" class="footer-link" style="color:#e5e5e5;">whatsynaptic@gmail.com</a>
           </li>
 
           <li>

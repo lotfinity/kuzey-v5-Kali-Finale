@@ -1,0 +1,24 @@
+{
+  "status": 200,
+  "url": "https://airbnb-scraper-api.omkar.cloud/airbnb/listings/search?destination_query=Istanbul%2C+Turkey&arrival_date=2026-07-01&departure_date=2026-07-31&adult_guests=2&page_number=1",
+  "request_params": {
+    "destination_query": "Istanbul, Turkey",
+    "arrival_date": "2026-07-01",
+    "departure_date": "2026-07-31",
+    "adult_guests": 2,
+    "page_number": 1
+  },
+  "response_headers": {
+    "X-Powered-By": "Express",
+    "Content-Type": "application/json; charset=utf-8",
+    "date": "Sat, 13 Jun 2026 16:13:47 GMT",
+    "server": "My_App",
+    "ETag": "W/\"e87b-dvcLzzyjBzugGbR9VJ/h8MDff/k\"",
+    "Vary": "Accept-Encoding",
+    "Content-Encoding": "gzip",
+    "Via": "1.1 google",
+    "Alt-Svc": "h3=\":443\"; ma=2592000",
+    "Transfer-Encoding": "chunked"
+  },
+  "output_file": "api_samples/airbnb_search_istanbul_july_2026_2_adults.json"
+}

@@ -1,205 +1,1333 @@
 {% extends 'newfrontend/base.html' %}
 {% load static %}
 {% load i18n %}
-{% block title %}{% trans "Listings Map" %}{% endblock %}
+{% block title %}{% trans "Carte des biens" %}{% endblock %}
+{% block nav_map_active %}active{% endblock %}
 {% block content %}
-{# Prefer local Leaflet assets; fall back to CDN #}
 <link rel="stylesheet" href="{% static 'newfront/vendor/leaflet/leaflet.css' %}" onerror="this.dataset.failed=1">
 <link rel="stylesheet" href="{% static 'newfront/vendor/leaflet.markercluster/MarkerCluster.css' %}" onerror="this.dataset.failed=1">
 <link rel="stylesheet" href="{% static 'newfront/vendor/leaflet.markercluster/MarkerCluster.Default.css' %}" onerror="this.dataset.failed=1">
-
-{# CDN backup (kept after local so it can fill gaps if local missing) #}
-<link
-  rel="stylesheet"
-  href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-  integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-  crossorigin=""
->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
 <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css">
 <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css">
+<link rel="stylesheet" href="https://unpkg.com/shepherd.js@11.2.0/dist/css/shepherd.css">
 
 <style>
-  #map { width: 100%; height: 70vh; border-radius: 8px; box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
-  .map-toolbar { margin: 15px 0; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-  .legend { font-size: 12px; color: #555; margin-left: auto; }
+  :root {
+    --map-bronze: #a38344;
+    --map-bronze-dark: #6f5729;
+    --map-ink: #191715;
+    --map-muted: #716b61;
+    --map-paper: #fbfaf7;
+    --map-panel: rgba(255,255,255,.94);
+    --map-line: rgba(25,23,21,.1);
+    --map-shadow: 0 20px 60px rgba(25,23,21,.16);
+    --map-soft-shadow: 0 10px 28px rgba(25,23,21,.12);
+  }
 
-  /* Tooltip preview */
-  .coral-tooltip { background: #0b1120; color: #fff; border-radius: 8px; border: none; box-shadow: 0 10px 24px rgba(0,0,0,0.2); padding: 0; }
+  .map-premium {
+    background:
+      linear-gradient(180deg, rgba(163,131,68,.08), rgba(255,255,255,0) 300px),
+      var(--map-paper);
+    padding: 28px 0 40px;
+  }
+
+  .map-workspace {
+    width: min(1540px, calc(100vw - 32px));
+    margin: 0 auto;
+    min-height: 680px;
+    height: clamp(680px, calc(100vh - 230px), 820px);
+    max-height: 820px;
+    display: grid;
+    grid-template-columns: 360px minmax(0, 1fr);
+    border: 1px solid rgba(163,131,68,.22);
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: var(--map-shadow);
+    position: relative;
+  }
+
+  .map-workspace:fullscreen {
+    width: 100vw;
+    height: 100vh;
+    max-height: none;
+    min-height: 100vh;
+    border: 0;
+    border-radius: 0;
+  }
+
+  .map-sidebar {
+    position: relative;
+    z-index: 7;
+    background: rgba(255,255,255,.96);
+    border-right: 1px solid var(--map-line);
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  .map-sidebar-head {
+    padding: 22px 20px 16px;
+    border-bottom: 1px solid var(--map-line);
+  }
+
+  .map-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--map-bronze-dark);
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    margin-bottom: 10px;
+  }
+
+  .map-eyebrow i {
+    width: 28px;
+    height: 28px;
+    display: inline-grid;
+    place-items: center;
+    border-radius: 50%;
+    color: #fff;
+    background: var(--map-bronze);
+    box-shadow: 0 8px 20px rgba(163,131,68,.28);
+  }
+
+  .map-title {
+    margin: 0;
+    color: var(--map-ink);
+    font-size: 26px;
+    line-height: 1.08;
+    letter-spacing: 0;
+    font-weight: 800;
+  }
+
+  .map-subtitle {
+    margin: 10px 0 0;
+    color: var(--map-muted);
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .map-filters {
+    position: absolute;
+    z-index: 6;
+    left: 16px;
+    top: 82px;
+    pointer-events: auto;
+    padding: 7px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    border: 1px solid rgba(255,255,255,.62);
+    border-radius: 999px;
+    background: var(--map-panel);
+    box-shadow: var(--map-soft-shadow);
+    backdrop-filter: blur(16px);
+  }
+
+  .map-chip,
+  .map-icon-btn,
+  .map-layer-btn {
+    border: 1px solid rgba(25,23,21,.12);
+    background: #fff;
+    color: var(--map-ink);
+    border-radius: 999px;
+    min-height: 38px;
+    padding: 0 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1;
+    cursor: pointer;
+    transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease, background .18s ease, color .18s ease;
+  }
+
+  .map-chip:hover,
+  .map-icon-btn:hover,
+  .map-layer-btn:hover {
+    transform: translateY(-1px);
+    border-color: rgba(163,131,68,.48);
+    box-shadow: 0 10px 24px rgba(25,23,21,.1);
+  }
+
+  .map-chip.is-active,
+  .map-layer-btn.is-active {
+    background: var(--map-ink);
+    color: #fff;
+    border-color: var(--map-ink);
+  }
+
+  .map-list {
+    flex: 1;
+    overflow: auto;
+    padding: 14px;
+    scroll-behavior: smooth;
+  }
+
+  .map-list::-webkit-scrollbar { width: 8px; }
+  .map-list::-webkit-scrollbar-thumb { background: rgba(163,131,68,.45); border-radius: 999px; }
+
+  .map-card {
+    width: 100%;
+    text-align: left;
+    display: grid;
+    grid-template-columns: 92px minmax(0, 1fr);
+    gap: 12px;
+    padding: 10px;
+    border: 1px solid rgba(25,23,21,.08);
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 8px 22px rgba(25,23,21,.06);
+    cursor: pointer;
+    transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+    animation: mapCardIn .34s ease both;
+  }
+
+  .map-card + .map-card { margin-top: 10px; }
+  .map-card:hover,
+  .map-card.is-active {
+    transform: translateY(-2px);
+    border-color: rgba(163,131,68,.5);
+    box-shadow: 0 16px 34px rgba(25,23,21,.12);
+  }
+
+  .map-card.is-airbnb {
+    border-color: rgba(255,56,92,.18);
+  }
+
+  .map-card.is-airbnb:hover,
+  .map-card.is-airbnb.is-active {
+    border-color: rgba(255,56,92,.52);
+  }
+
+  .airbnb-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    width: max-content;
+    margin-bottom: 6px;
+    color: #ff385c;
+    font-size: 11px;
+    font-weight: 900;
+    line-height: 1;
+  }
+
+  .airbnb-brand-mark {
+    width: 18px;
+    height: 18px;
+    display: inline-grid;
+    place-items: center;
+    border-radius: 50%;
+    background: #ff385c;
+    color: #fff;
+    font-size: 10px;
+  }
+
+  .map-card-img {
+    width: 92px;
+    aspect-ratio: 1 / 1;
+    border-radius: 8px;
+    object-fit: cover;
+    background: #ede9df;
+  }
+
+  .map-card-title {
+    color: var(--map-ink);
+    font-size: 13px;
+    line-height: 1.28;
+    font-weight: 800;
+    margin: 0;
+  }
+
+  .map-card-price {
+    margin-top: 7px;
+    color: var(--map-bronze-dark);
+    font-size: 14px;
+    font-weight: 900;
+  }
+
+  .map-card.is-airbnb .map-card-price,
+  .map-workspace.is-airbnb .popup-price {
+    color: #c0173b;
+  }
+
+  .map-card-meta {
+    margin-top: 7px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    color: var(--map-muted);
+    font-size: 11px;
+    line-height: 1.2;
+  }
+
+  .map-card-meta span {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    max-width: 100%;
+  }
+
+  .map-canvas-wrap {
+    position: relative;
+    min-width: 0;
+    background: #d8d3c8;
+  }
+
+  .map-view-stack,
+  .map-pane,
+  #map {
+    width: 100%;
+    height: 100%;
+  }
+
+  .map-view-stack {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+  }
+
+  .map-pane {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(10px) scale(.985);
+    transition: opacity 360ms ease, transform 360ms ease;
+    z-index: 1;
+  }
+
+  .map-pane.is-active {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0) scale(1);
+    z-index: 2;
+  }
+
+  #map {
+    min-height: 680px;
+    background: #d8d3c8;
+  }
+
+  .map-command-bar {
+    position: absolute;
+    z-index: 6;
+    top: 16px;
+    left: 16px;
+    right: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    pointer-events: none;
+  }
+
+  .map-command-group {
+    pointer-events: auto;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px;
+    border: 1px solid rgba(255,255,255,.62);
+    border-radius: 999px;
+    background: var(--map-panel);
+    box-shadow: var(--map-soft-shadow);
+    backdrop-filter: blur(16px);
+  }
+
+  .map-icon-btn {
+    width: 42px;
+    height: 42px;
+    padding: 0;
+    border-radius: 50%;
+    color: var(--map-ink);
+    position: relative;
+  }
+
+  .map-icon-btn[aria-pressed="true"] {
+    background: var(--map-bronze);
+    color: #fff;
+    border-color: var(--map-bronze);
+  }
+
+  #airbnb-toggle[aria-pressed="true"] {
+    background: #ff385c;
+    border-color: #ff385c;
+    color: #fff;
+  }
+
+  .map-icon-btn.is-pulsing {
+    animation: fullscreenPulse 1.8s ease-in-out infinite;
+  }
+
+  .map-icon-btn.is-pulsing::before {
+    content: "";
+    position: absolute;
+    inset: -6px;
+    border-radius: 50%;
+    border: 2px solid rgba(163,131,68,.55);
+    animation: fullscreenPulseRing 1.8s ease-out infinite;
+    pointer-events: none;
+  }
+
+  .map-icon-btn::after {
+    content: attr(data-tip);
+    position: absolute;
+    top: calc(100% + 9px);
+    left: 50%;
+    transform: translateX(-50%) translateY(-4px);
+    padding: 7px 9px;
+    background: var(--map-ink);
+    color: #fff;
+    border-radius: 8px;
+    font-size: 11px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .16s ease, transform .16s ease;
+  }
+
+  .map-icon-btn:hover::after {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  .map-layer-switcher {
+    pointer-events: auto;
+    display: flex;
+    gap: 6px;
+    padding: 7px;
+    border-radius: 999px;
+    background: var(--map-panel);
+    border: 1px solid rgba(255,255,255,.62);
+    box-shadow: var(--map-soft-shadow);
+    backdrop-filter: blur(16px);
+  }
+
+  [data-listings-control] {
+    transition: opacity .22s ease, transform .22s ease, visibility .22s ease;
+  }
+
+  [data-listings-control].is-hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(-6px);
+  }
+
+  .map-layer-btn {
+    min-height: 42px;
+    padding: 0 15px;
+  }
+
+  .map-zoom-panel {
+    position: absolute;
+    z-index: 6;
+    right: 16px;
+    top: 88px;
+    display: grid;
+    gap: 8px;
+  }
+
+  .map-status {
+    position: absolute;
+    z-index: 6;
+    left: 18px;
+    bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: 999px;
+    background: var(--map-panel);
+    border: 1px solid rgba(255,255,255,.62);
+    box-shadow: var(--map-soft-shadow);
+    color: var(--map-ink);
+    font-size: 12px;
+    font-weight: 800;
+    backdrop-filter: blur(16px);
+  }
+
+  .map-status-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #1aa56b;
+    box-shadow: 0 0 0 6px rgba(26,165,107,.14);
+  }
+
+  .map-mobile-toggle {
+    display: none;
+  }
+
+  .leaflet-control-container .leaflet-top,
+  .leaflet-control-container .leaflet-bottom {
+    z-index: 5;
+  }
+
+  .leaflet-control-zoom,
+  .leaflet-control-attribution {
+    display: none;
+  }
+
+  .kuzey-pin {
+    position: relative;
+    width: 44px;
+    height: 44px;
+    border-radius: 50% 50% 50% 10px;
+    transform: rotate(-45deg);
+    background: linear-gradient(145deg, #111, #2d2820);
+    border: 3px solid #fff;
+    box-shadow: 0 16px 28px rgba(25,23,21,.3);
+    display: grid;
+    place-items: center;
+    transition: transform .18s ease, box-shadow .18s ease;
+  }
+
+  .kuzey-pin::before {
+    content: "";
+    position: absolute;
+    inset: 7px;
+    border-radius: 50%;
+    background: var(--map-bronze);
+    box-shadow: inset 0 0 0 2px rgba(255,255,255,.32);
+  }
+
+  .kuzey-pin i {
+    position: relative;
+    z-index: 1;
+    color: #fff;
+    font-size: 14px;
+    transform: rotate(45deg);
+  }
+
+  .kuzey-marker:hover .kuzey-pin,
+  .kuzey-marker.is-active .kuzey-pin {
+    transform: rotate(-45deg) translateY(-4px) scale(1.05);
+    box-shadow: 0 22px 38px rgba(25,23,21,.36);
+  }
+
+  .map-workspace.is-airbnb .kuzey-pin {
+    background: linear-gradient(145deg, #ff385c, #8b1531);
+  }
+
+  .map-workspace.is-airbnb .kuzey-pin::before {
+    background: #fff;
+  }
+
+  .map-workspace.is-airbnb .kuzey-pin i {
+    color: #ff385c;
+  }
+
+  .kuzey-cluster {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 900;
+    background:
+      radial-gradient(circle at 32% 28%, rgba(255,255,255,.24), rgba(255,255,255,0) 34%),
+      linear-gradient(145deg, var(--map-bronze), var(--map-ink));
+    border: 3px solid #fff;
+    box-shadow: 0 18px 34px rgba(25,23,21,.3);
+  }
+
+  .map-workspace.is-airbnb .kuzey-cluster {
+    background:
+      radial-gradient(circle at 32% 28%, rgba(255,255,255,.28), rgba(255,255,255,0) 34%),
+      linear-gradient(145deg, #ff385c, #1d1b1c);
+  }
+
+  .coral-tooltip {
+    background: var(--map-ink);
+    color: #fff;
+    border-radius: 8px;
+    border: 0;
+    box-shadow: 0 18px 36px rgba(25,23,21,.22);
+    padding: 0;
+  }
+
   .coral-tip-content { display: flex; align-items: center; gap: 10px; padding: 8px 10px; }
-  .coral-tip-thumb { width: 56px; height: 42px; border-radius: 6px; object-fit: cover; }
-  .coral-tip-title { font-weight: 600; line-height: 1.2; font-size: 13px; }
-  .coral-tip-price { opacity: 0.9; font-size: 12px; }
+  .coral-tip-thumb { width: 58px; height: 44px; border-radius: 8px; object-fit: cover; }
+  .coral-tip-title { font-weight: 800; line-height: 1.2; font-size: 12px; max-width: 180px; }
+  .coral-tip-price { color: #e8d6aa; font-weight: 900; font-size: 12px; margin-top: 4px; }
 
-  /* Popup carousel (match classic map for consistency) */
-  .popup-card { width: 300px; max-width: 78vw; }
-  .popup-carousel { position: relative; width: 100%; overflow: hidden; border-radius: 8px; background: #111827; }
-  .carousel-track { display: flex; width: 100%; transition: transform 350ms ease; }
-  .carousel-slide { min-width: 100%; height: 180px; position: relative; }
+  .leaflet-popup-content-wrapper {
+    border-radius: 8px;
+    box-shadow: 0 24px 58px rgba(25,23,21,.28);
+    padding: 0;
+    overflow: hidden;
+  }
+
+  .leaflet-popup-content {
+    margin: 0;
+  }
+
+  .leaflet-popup-tip {
+    background: #fff;
+  }
+
+  .popup-card { width: 330px; max-width: 82vw; }
+  .popup-carousel { position: relative; width: 100%; overflow: hidden; background: var(--map-ink); }
+  .carousel-track { display: flex; width: 100%; transition: transform 380ms cubic-bezier(.2,.8,.2,1); }
+  .carousel-slide { min-width: 100%; height: 210px; position: relative; }
   .carousel-slide img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-  .carousel-nav { position: absolute; inset: 0; display: flex; align-items: center; justify-content: space-between; pointer-events: none; padding: 0 6px; }
-  .carousel-btn { pointer-events: all; width: 32px; height: 32px; border-radius: 50%; display: grid; place-items: center; border: 0; background: rgba(255,255,255,0.85); color: #111; box-shadow: 0 2px 10px rgba(0,0,0,0.15); transition: background 160ms ease, transform 160ms ease; }
-  .carousel-btn:hover { background: #fff; transform: translateY(-1px); }
-  .carousel-dots { position: absolute; bottom: 8px; left: 0; right:0; display: flex; justify-content: center; gap: 6px; }
-  .carousel-dot { width: 7px; height: 7px; border-radius: 50%; background: rgba(255,255,255,0.6); transition: transform 160ms ease, background 160ms ease; }
-  .carousel-dot.active { transform: scale(1.15); background: #fff; }
+  .carousel-nav { position: absolute; inset: 0; display: flex; align-items: center; justify-content: space-between; pointer-events: none; padding: 0 8px; }
+  .carousel-btn { pointer-events: all; width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; border: 0; background: rgba(255,255,255,.9); color: var(--map-ink); box-shadow: 0 2px 14px rgba(0,0,0,.18); transition: transform .16s ease, background .16s ease; cursor: pointer; }
+  .carousel-btn:hover { background: #fff; transform: scale(1.05); }
+  .carousel-dots { position: absolute; bottom: 10px; left: 0; right:0; display: flex; justify-content: center; gap: 6px; }
+  .carousel-dot { width: 7px; height: 7px; border-radius: 50%; background: rgba(255,255,255,.58); transition: transform .16s ease, background .16s ease; cursor: pointer; }
+  .carousel-dot.active { transform: scale(1.25); background: #fff; }
+  .more-slide { position: relative; display: grid; place-items: center; background: var(--map-ink); color: #fff; }
+  .more-slide a { position: absolute; inset: 0; display: grid; place-items: center; color: #fff; text-decoration: none; background: rgba(0,0,0,.45); font-weight: 900; }
 
-  .popup-title { font-weight: 700; font-size: 15px; margin: 0 0 4px; }
-  .popup-price { color: #0f766e; font-weight: 700; }
-  .popup-meta { color: #475569; font-size: 12px; }
-  .orange-button { background: #f97316; color: #fff; border: 0; padding: 10px 16px; border-radius: 6px; }
-  /* Fourth slide – view more tile */
-  .more-slide { position: relative; display: grid; place-items: center; background: #0b1120; color: #fff; }
-  .more-slide a { position: absolute; inset: 0; display: grid; place-items: center; color: #fff; text-decoration: none; background: rgba(0,0,0,0.45); font-weight: 700; letter-spacing: .3px; }
-  .more-slide a:hover { background: rgba(0,0,0,0.55); }
+  .popup-body { padding: 14px; }
+  .popup-title { color: var(--map-ink); font-weight: 900; font-size: 15px; line-height: 1.25; margin: 0 0 8px; }
+  .popup-price { color: var(--map-bronze-dark); font-weight: 900; font-size: 16px; }
+  .popup-rent-comparison { margin-top: 10px; display: grid; gap: 6px; padding: 10px; border-radius: 8px; background: rgba(163,131,68,.1); border: 1px solid rgba(163,131,68,.18); }
+  .popup-rent-row { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; color: var(--map-muted); font-size: 11px; font-weight: 800; }
+  .popup-rent-row strong { color: var(--map-ink); font-size: 13px; font-weight: 900; text-align: right; }
+  .popup-meta { color: var(--map-muted); font-size: 12px; line-height: 1.4; }
+  .popup-actions { display: flex; gap: 8px; margin-top: 12px; }
+  .popup-link { flex: 1; min-height: 40px; display: inline-flex; align-items: center; justify-content: center; gap: 7px; border-radius: 999px; text-decoration: none; font-size: 12px; font-weight: 900; }
+  .popup-link.primary { background: var(--map-ink); color: #fff; }
+  .popup-link.secondary { background: rgba(163,131,68,.12); color: var(--map-bronze-dark); }
+
+  #map-empty {
+    position: absolute;
+    z-index: 8;
+    inset: 50%;
+    width: min(360px, calc(100% - 32px));
+    height: max-content;
+    transform: translate(-50%, -50%);
+    display: none;
+    padding: 18px;
+    border-radius: 8px;
+    background: #fff;
+    color: var(--map-ink);
+    box-shadow: var(--map-shadow);
+    border: 1px solid rgba(163,131,68,.22);
+  }
+
+  .shepherd-element.kuzey-tour {
+    max-width: min(360px, calc(100vw - 28px));
+    border-radius: 8px;
+    box-shadow: var(--map-shadow);
+  }
+
+  .shepherd-element.kuzey-tour .shepherd-title {
+    color: var(--map-ink);
+    font-size: 16px;
+    font-weight: 900;
+  }
+
+  .shepherd-element.kuzey-tour .shepherd-text {
+    color: var(--map-muted);
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .shepherd-element.kuzey-tour .shepherd-button {
+    border-radius: 999px;
+    background: var(--map-ink);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 900;
+    padding: 9px 13px;
+  }
+
+  .shepherd-element.kuzey-tour .shepherd-button-secondary {
+    background: rgba(25,23,21,.08);
+    color: var(--map-ink);
+  }
+
+  .shepherd-modal-overlay-container.shepherd-modal-is-visible {
+    opacity: .28;
+  }
+
+  .shepherd-modal-overlay-container path {
+    fill: rgba(0,0,0,.74);
+  }
+
+  @keyframes mapCardIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fullscreenPulse {
+    0%, 100% { transform: scale(1); box-shadow: 0 0 0 rgba(163,131,68,0); }
+    50% { transform: scale(1.06); box-shadow: 0 12px 26px rgba(163,131,68,.24); }
+  }
+
+  @keyframes fullscreenPulseRing {
+    0% { opacity: .7; transform: scale(.86); }
+    100% { opacity: 0; transform: scale(1.45); }
+  }
+
+  @media (max-width: 991px) {
+    .map-premium { padding-top: 14px; }
+    .map-workspace {
+      width: min(100vw - 24px, 760px);
+      height: calc(100vh - 112px);
+      min-height: 720px;
+      grid-template-columns: 1fr;
+      overflow: hidden;
+    }
+
+    .map-sidebar {
+      display: none;
+    }
+
+    .map-filters {
+      left: 12px;
+      right: 12px;
+      top: 92px;
+      width: max-content;
+      max-width: calc(100% - 24px);
+      overflow-x: auto;
+      flex-wrap: nowrap;
+    }
+    .map-chip { white-space: nowrap; }
+
+    .map-mobile-toggle {
+      display: none;
+    }
+
+    .map-command-bar {
+      top: 12px;
+      left: 12px;
+      right: 12px;
+      align-items: flex-start;
+    }
+
+    .map-command-group {
+      gap: 6px;
+      padding: 6px;
+    }
+
+    .map-layer-switcher {
+      position: absolute;
+      top: 48px;
+      right: 0;
+    }
+
+    .map-layer-btn {
+      min-height: 34px;
+      padding: 0 12px;
+      font-size: 12px;
+    }
+
+    .map-icon-btn {
+      width: 34px;
+      height: 34px;
+    }
+
+    .map-chip {
+      min-height: 34px;
+      padding: 0 12px;
+      font-size: 12px;
+      gap: 6px;
+    }
+
+    .map-zoom-panel {
+      right: 12px;
+      top: 140px;
+    }
+
+    .map-status {
+      left: 12px;
+      bottom: 14px;
+      max-width: calc(100% - 92px);
+    }
+
+    #map {
+      min-height: 720px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: .01ms !important;
+      transition-duration: .01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
 </style>
-<div class="page-heading header-text">
-<div class="container">
-  <div class="row">
-    <div class="col-md-12">
-              <span class="breadcrumb"><a href="{% url 'new_index' %}">{% trans "Home" %}</a> / {% trans "Map" %}</span>
-              <h3>{% trans "Map of Listings" %}</h3>
-            </div>
-          </div>
+
+<section class="map-premium" aria-label="{% trans 'Carte des biens' %}">
+  <div class="map-workspace" id="map-workspace">
+    <aside class="map-sidebar" aria-label="{% trans 'Biens sur la carte' %}">
+      <button type="button" class="map-icon-btn map-mobile-toggle" id="toggle-list" data-tip="{% trans 'Biens' %}" aria-label="{% trans 'Afficher ou masquer les biens' %}" aria-expanded="false">
+        <i class="fa fa-list"></i>
+      </button>
+      <div class="map-sidebar-head">
+        <div class="map-eyebrow"><i class="fa fa-map-location-dot"></i>{% trans "Atlas immobilier en direct" %}</div>
+        <h1 class="map-title">{% trans "Explorer les biens Kuzey par emplacement" %}</h1>
+        <p class="map-subtitle">{% trans "Comparez les quartiers, ouvrez les annonces et parcourez Istanbul avec une interface plus calme et rapide." %}</p>
+      </div>
+
+      <div class="map-list" id="map-list" aria-live="polite"></div>
+    </aside>
+
+    <div class="map-canvas-wrap">
+      <div class="map-view-stack" id="map-view-stack">
+        <div class="map-pane is-active" id="listings-map-pane" data-map-view="listings">
+          <div id="map"></div>
         </div>
       </div>
 
-  <div class="section properties">
-    <div class="container">
-      <ul class="properties-filter">
-        <li><a class="is_active" href="#!" data-filter="*">{% trans "Show All" %}</a></li>
-        <li><a href="#!" data-filter=".adv">{% trans "Apartment" %}</a></li>
-        <li><a href="#!" data-filter=".str">{% trans "Villa House" %}</a></li>
-        <li><a href="{% url 'new_map' %}" >{% trans "Map" %}</a></li>
-      </ul>
-
-
-      <div id="map"></div>
-      <div id="map-empty" style="display:none; margin-top:12px; padding:12px; border-radius:8px; background:#fff7ed; color:#9a3412; border:1px solid #fed7aa;">
-        <strong>No properties with map coordinates yet.</strong>
-        <div style="margin-top:6px; font-size:14px;">
-          Try running the geocoding command or adding coordinates to listings.
+      <div class="map-command-bar" aria-label="{% trans 'Commandes de la carte' %}">
+        <div class="map-command-group">
+          <button type="button" class="map-icon-btn" id="fit-btn" data-tip="{% trans 'Centrer les biens' %}" aria-label="{% trans 'Centrer les biens' %}">
+            <i class="fa fa-crosshairs"></i>
+          </button>
+          <button type="button" class="map-icon-btn" id="airbnb-toggle" data-tip="{% trans 'Loyers Airbnb' %}" aria-label="{% trans 'Afficher la comparaison des loyers Airbnb' %}" aria-pressed="false">
+            <i class="fa fa-bed"></i>
+          </button>
+          <button type="button" class="map-icon-btn is-pulsing" id="fullscreen-btn" data-tip="{% trans 'Plein écran' %}" aria-label="{% trans 'Basculer la carte en plein écran' %}" aria-pressed="false">
+            <i class="fa fa-expand"></i>
+          </button>
         </div>
+
+        <div class="map-layer-switcher" data-listings-control role="group" aria-label="{% trans 'Style de carte' %}">
+          <button type="button" class="map-layer-btn" data-layer="light">{% trans "Clair" %}</button>
+          <button type="button" class="map-layer-btn is-active" data-layer="dark">{% trans "Nuit" %}</button>
+        </div>
+      </div>
+
+      <div class="map-filters" data-listings-control role="group" aria-label="{% trans 'Filtres des biens' %}">
+        <button type="button" class="map-chip is-active" data-filter="all"><i class="fa fa-layer-group"></i>{% trans "Tous" %}</button>
+        <button type="button" class="map-chip" data-filter="1+0"><i class="fa fa-door-open"></i>1 + 0</button>
+        <button type="button" class="map-chip" data-filter="1+1"><i class="fa fa-door-open"></i>1 + 1</button>
+      </div>
+
+      <div class="map-zoom-panel" data-listings-control aria-label="{% trans 'Commandes de zoom' %}">
+        <button type="button" class="map-icon-btn" id="zoom-in" data-tip="{% trans 'Zoom avant' %}" aria-label="{% trans 'Zoom avant' %}">
+          <i class="fa fa-plus"></i>
+        </button>
+        <button type="button" class="map-icon-btn" id="zoom-out" data-tip="{% trans 'Zoom arrière' %}" aria-label="{% trans 'Zoom arrière' %}">
+          <i class="fa fa-minus"></i>
+        </button>
+      </div>
+
+      <div class="map-status" id="map-status"><span class="map-status-dot"></span><span>{% trans "Chargement des biens cartographiés" %}</span></div>
+
+      <div id="map-empty">
+        <strong>{% trans "Aucun bien avec coordonnées pour le moment." %}</strong>
+        <div style="margin-top:6px; font-size:14px;">{% trans "Ajoutez des coordonnées aux annonces pour les afficher sur la carte." %}</div>
       </div>
     </div>
   </div>
-</div>
+</section>
 
-{# Try local JS first; fall back to CDN if L is undefined #}
 <script src="{% static 'newfront/vendor/leaflet/leaflet.js' %}" onerror="window.__leafletLocalFailed=true"></script>
-<script>if(!window.L){document.write('<script src=\"https://unpkg.com/leaflet@1.9.4/dist/leaflet.js\" integrity=\"sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=\" crossorigin>\x3C/script>');}</script>
+<script>if(!window.L){document.write('<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin>\x3C/script>');}</script>
 <script src="{% static 'newfront/vendor/leaflet.markercluster/leaflet.markercluster.js' %}" onerror="window.__mcLocalFailed=true"></script>
-<script>if(!(window.L && L.MarkerClusterGroup)){document.write('<script src=\"https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js\">\x3C/script>');}</script>
+<script>if(!(window.L && L.MarkerClusterGroup)){document.write('<script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js">\x3C/script>');}</script>
+<script src="https://unpkg.com/shepherd.js@11.2.0/dist/js/shepherd.min.js" defer></script>
 
 <script>
   (function () {
-    var map = L.map('map');
+    var workspace = document.getElementById('map-workspace');
+    var listEl = document.getElementById('map-list');
+    var toggleListBtn = document.getElementById('toggle-list');
+    var statusEl = document.getElementById('map-status');
+    var emptyEl = document.getElementById('map-empty');
+    var listingsPane = document.getElementById('listings-map-pane');
+    var airbnbBtn = document.getElementById('airbnb-toggle');
+    var listingsControls = Array.from(document.querySelectorAll('[data-listings-control]'));
+    var activeFilter = 'all';
+    var activeMapView = 'listings';
+    var listingFeatures = [];
+    var airbnbFeatures = [];
+    var allFeatures = [];
+    var markerById = {};
+    var cardById = {};
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 19,
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-    }).addTo(map);
+    var map = L.map('map', {
+      zoomControl: false,
+      preferCanvas: true,
+      scrollWheelZoom: true
+    });
 
-    var markers = L.markerClusterGroup();
+    var tileLayers = {
+      light: L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+        maxZoom: 20,
+        attribution: '&copy; OpenStreetMap &copy; CARTO'
+      }),
+      dark: L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+        maxZoom: 20,
+        attribution: '&copy; OpenStreetMap &copy; CARTO'
+      })
+    };
+    tileLayers.dark.addTo(map);
+
+    var markers = L.markerClusterGroup({
+      showCoverageOnHover: false,
+      spiderfyOnMaxZoom: true,
+      maxClusterRadius: 46,
+      iconCreateFunction: function(cluster) {
+        return L.divIcon({
+          html: '<div class="kuzey-cluster">' + cluster.getChildCount() + '</div>',
+          className: '',
+          iconSize: [52, 52],
+          iconAnchor: [26, 26]
+        });
+      }
+    });
     var bounds = L.latLngBounds();
 
-    function fmtCurrency(n) {
-      try { return new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY', maximumFractionDigits: 0 }).format(n); }
+    function setStatus(text) {
+      if (statusEl) statusEl.querySelector('span:last-child').textContent = text;
+    }
+
+    function fmtCurrency(n, currency) {
+      var code = currency || 'TRY';
+      if (code === 'TRY' && window.KuzeyCurrency) return window.KuzeyCurrency.format(n);
+      try { return new Intl.NumberFormat(code === 'TRY' ? 'tr-TR' : 'en-US', { style: 'currency', currency: code, maximumFractionDigits: code === 'TRY' ? 0 : 0 }).format(n); }
       catch (e) { return n; }
+    }
+
+    function priceText(p) {
+      if (p.price == null || p.price === '') return '';
+      var label = fmtCurrency(p.price, p.currency || 'TRY');
+      if (p.source === 'airbnb') {
+        return label + ' / {% trans "séjour de juillet" %}';
+      }
+      return label;
+    }
+
+    function rentText(p) {
+      var rent = p.estimated_monthly_rent || p.estimated_monthly_rent_try;
+      if (rent == null || rent === '') return '';
+      return fmtCurrency(rent, 'TRY') + ' / {% trans "mois estimé" %}';
+    }
+
+    function rentComparisonHTML(p) {
+      if (p.source === 'airbnb') return '';
+      var rent = rentText(p);
+      if (!rent) return '';
+      var median = p.airbnb_comp_median ? fmtCurrency(p.airbnb_comp_median, 'TRY') : '';
+      var comps = p.airbnb_comp_count || 0;
+      return '' +
+        '<div class="popup-rent-comparison">' +
+          '<div class="popup-rent-row"><span>{% trans "Loyer mensuel estimé" %}</span><strong>' + escapeHtml(rent) + '</strong></div>' +
+          (median ? '<div class="popup-rent-row"><span>{% trans "Médiane Airbnb proche" %}</span><strong>' + escapeHtml(median) + '</strong></div>' : '') +
+          (comps ? '<div class="popup-rent-row"><span>{% trans "Comparables Airbnb" %}</span><strong>' + escapeHtml(comps) + '</strong></div>' : '') +
+        '</div>';
+    }
+
+    function airbnbBrand() {
+      return '<div class="airbnb-brand"><span class="airbnb-brand-mark"><i class="fa fa-bed"></i></span>Airbnb</div>';
+    }
+
+    function escapeHtml(value) {
+      return String(value == null ? '' : value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    function roomSizeOf(p) {
+      if (p.source === 'airbnb') {
+        var bedrooms = parseInt(p.bedrooms || 0, 10);
+        if (!bedrooms) return '1+0';
+        return bedrooms + '+1';
+      }
+      var raw = String(p.rooms_text || '').toLowerCase().replace(/\s+/g, '');
+      var match = raw.match(/\d+\+\d+/);
+      return match ? match[0] : '';
     }
 
     var LANG_PREFIX = '/{{ LANGUAGE_CODE }}/';
 
-    function buildPopupHTML(p) {
-      var photos = Array.isArray(p.photos) && p.photos.length ? p.photos : (p.photo_url ? [p.photo_url] : []);
-      var id = p.id || Math.random().toString(36).slice(2);
-      var openUrl = LANG_PREFIX + 'new/listing/' + (p.id || '') + '/';
-      var take = Math.min(3, photos.length || 0);
-      var imgSlides = photos.slice(0,take).map(function(src){ return '<div class="carousel-slide"><img src="' + src + '" alt="photo"></div>'; }).join('');
-      var moreSlide = '<div class="carousel-slide more-slide">' +
-                        '<a href="' + openUrl + '" target="_self" aria-label="View more photos">View more photos</a>' +
-                      '</div>';
-      var slides = imgSlides + moreSlide;
-      var slidesCount = 1 + take; // N images + 1 more tile
-      var dots = Array.from({length: slidesCount}).map(function(_,i){ return '<div class="carousel-dot' + (i===0?' active':'') + '"></div>'; }).join('');
-      var addr = [p.address, p.city, p.state].filter(Boolean).join(', ');
-      var html = ''+
-        '<div class="popup-card" data-listing-id="' + id + '">' +
-          '<div class="popup-carousel js-carousel">' +
-            '<div class="carousel-track">' + slides + '</div>' +
-            (
-              '<div class="carousel-nav">' +
-                '<button class="carousel-btn js-prev" aria-label="Previous">&#10094;</button>' +
-                '<button class="carousel-btn js-next" aria-label="Next">&#10095;</button>' +
-              '</div>' +
-              '<div class="carousel-dots">' + dots + '</div>'
-            ) +
-          '</div>' +
-          '<div class="popup-meta" style="padding:8px 4px 0; line-height:1.25">' +
-            '<div class="popup-title">' + (p.title || 'Listing') + '</div>' +
-            (p.price ? '<div class="popup-price">' + fmtCurrency(p.price) + '</div>' : '') +
-            (addr ? '<div class="popup-meta">' + addr + '</div>' : '') +
-            ((p.bedrooms||p.bathrooms) ? '<div class="popup-meta">' + (p.bedrooms||'-') + ' bd · ' + (p.bathrooms||'-') + ' ba</div>' : '') +
-            (p.id ? '<div style="margin-top:6px"><a class="btn btn-primary btn-sm" href="' + openUrl + '">View details</a></div>' : '') +
-          '</div>' +
-        '</div>';
-      return html;
+    function detailUrl(p) {
+      if (p.source === 'airbnb') return p.booking_url || p.listing_url || p.url || '#';
+      return LANG_PREFIX + 'new/listing/' + (p.id || '') + '/';
     }
 
-    function featureToMarker(f) {
-      var coords = f.geometry.coordinates; // [lng, lat]
-      var latlng = L.latLng(coords[1], coords[0]);
-      bounds.extend(latlng);
-      var p = f.properties || {};
-      var marker = L.marker(latlng);
-      marker.bindPopup(buildPopupHTML(p));
+    function buildPopupHTML(p) {
+      var photos = Array.isArray(p.photos) && p.photos.length ? p.photos : (p.photo_url ? [p.photo_url] : []);
+      var openUrl = detailUrl(p);
+      var isAirbnb = p.source === 'airbnb';
+      var openTarget = isAirbnb ? ' target="_blank" rel="noopener noreferrer"' : '';
+      var take = Math.min(3, photos.length || 0);
+      var imgSlides = photos.slice(0,take).map(function(src){ return '<div class="carousel-slide"><img src="' + escapeHtml(src) + '" alt=""></div>'; }).join('');
+      var moreSlide = '<div class="carousel-slide more-slide"><a href="' + openUrl + '"' + openTarget + '>' + (isAirbnb ? 'Airbnb' : '{% trans "Voir les détails" %}') + '</a></div>';
+      var slides = imgSlides + moreSlide;
+      var slidesCount = 1 + take;
+      var dots = Array.from({length: slidesCount}).map(function(_,i){ return '<button type="button" class="carousel-dot' + (i===0?' active':'') + '" aria-label="Diapositive ' + (i+1) + '"></button>'; }).join('');
+      var addr = [p.address, p.city, p.state].filter(Boolean).join(', ');
+      var rooms = p.rooms_text || p.bedrooms || '';
+      var price = priceText(p);
+      var rating = isAirbnb && p.overall_rating ? '<div class="popup-meta" style="margin-top:7px"><i class="fa fa-star"></i> ' + escapeHtml(p.overall_rating) + (p.review_count ? ' · ' + escapeHtml(p.review_count) + ' {% trans "avis" %}' : '') + '</div>' : '';
+      return ''+
+        '<div class="popup-card" data-listing-id="' + escapeHtml(p.id || '') + '">' +
+          '<div class="popup-carousel js-carousel">' +
+            '<div class="carousel-track">' + slides + '</div>' +
+            '<div class="carousel-nav">' +
+              '<button class="carousel-btn js-prev" type="button" aria-label="Précédent"><i class="fa fa-angle-left"></i></button>' +
+              '<button class="carousel-btn js-next" type="button" aria-label="Suivant"><i class="fa fa-angle-right"></i></button>' +
+            '</div>' +
+            '<div class="carousel-dots">' + dots + '</div>' +
+          '</div>' +
+          '<div class="popup-body">' +
+            (isAirbnb ? airbnbBrand() : '') +
+            '<h2 class="popup-title">' + escapeHtml(p.title || 'Listing') + '</h2>' +
+            (price ? '<div class="popup-price">' + escapeHtml(price) + '</div>' : '') +
+            rentComparisonHTML(p) +
+            (addr ? '<div class="popup-meta" style="margin-top:7px">' + escapeHtml(addr) + '</div>' : '') +
+            rating +
+            '<div class="popup-meta" style="margin-top:7px">' +
+              (rooms ? '<i class="fa fa-door-open"></i> ' + escapeHtml(rooms) + ' &nbsp; ' : '') +
+              (p.bathrooms ? '<i class="fa fa-bath"></i> ' + escapeHtml(p.bathrooms) + ' &nbsp; ' : '') +
+              (p.m2_net ? '<i class="fa fa-ruler-combined"></i> ' + escapeHtml(p.m2_net) + ' m²' : '') +
+            '</div>' +
+            '<div class="popup-actions">' +
+              '<a class="popup-link primary" href="' + openUrl + '"' + openTarget + '><i class="fa fa-arrow-up-right-from-square"></i>' + (isAirbnb ? 'Airbnb' : '{% trans "Ouvrir" %}') + '</a>' +
+              '<a class="popup-link secondary" href="https://www.google.com/maps/dir/?api=1&destination=' + encodeURIComponent(p.lat + ',' + p.lng) + '" target="_blank" rel="noopener"><i class="fa fa-route"></i>{% trans "Itinéraire" %}</a>' +
+            '</div>' +
+          '</div>' +
+        '</div>';
+    }
 
+    function buildMarker(p, latlng) {
+      var isAirbnb = p.source === 'airbnb';
+      var icon = L.divIcon({
+        html: '<div class="kuzey-pin"><i class="fa ' + (isAirbnb ? 'fa-bed' : 'fa-home') + '"></i></div>',
+        className: 'kuzey-marker',
+        iconSize: [44, 44],
+        iconAnchor: [22, 42],
+        popupAnchor: [0, -38],
+        tooltipAnchor: [0, -40]
+      });
+      var marker = L.marker(latlng, { icon: icon, riseOnHover: true });
+      marker.bindPopup(buildPopupHTML(p));
       var tipImg = (p.photos && p.photos.length ? p.photos[0] : (p.photo_url || ''));
       var tip = '<div class="coral-tip-content">' +
-        (tipImg ? ('<img class="coral-tip-thumb" src="' + tipImg + '" alt="preview">') : '') +
-        '<div>' +
-          '<div class="coral-tip-title">' + (p.title || 'Listing') + '</div>' +
-          (p.price ? ('<div class="coral-tip-price">' + fmtCurrency(p.price) + '</div>') : '') +
-        '</div>' +
-      '</div>';
-      marker.bindTooltip(tip, { direction: 'top', sticky: true, offset: [0, -10], opacity: 0.96, className: 'coral-tooltip' });
+        (tipImg ? ('<img class="coral-tip-thumb" src="' + escapeHtml(tipImg) + '" alt="">') : '') +
+        '<div><div class="coral-tip-title">' + escapeHtml(p.title || 'Listing') + '</div>' +
+        (p.price ? ('<div class="coral-tip-price">' + escapeHtml(priceText(p)) + '</div>') : '') +
+        '</div></div>';
+      marker.bindTooltip(tip, { direction: 'top', sticky: true, offset: [0, -10], opacity: .97, className: 'coral-tooltip' });
+      marker.on('click', function(){ setActiveCard(p.id); });
       return marker;
     }
 
-    fetch('{% url 'listings:map_data' %}')
-      .then(function (r) { return r.json(); })
-      .then(function (geojson) {
-        var emptyEl = document.getElementById('map-empty');
-        if (!geojson || !Array.isArray(geojson.features) || geojson.features.length === 0) {
-          if (emptyEl) emptyEl.style.display = 'block';
-          map.setView([0,0], 2);
-          return;
-        }
-        geojson.features.forEach(function (f) { markers.addLayer(featureToMarker(f)); });
-        map.addLayer(markers);
-        if (!bounds.isValid()) {
-          if (emptyEl) emptyEl.style.display = 'block';
-          map.setView([0,0], 2);
-        } else {
-          if (emptyEl) emptyEl.style.display = 'none';
-          map.fitBounds(bounds.pad(0.08));
-        }
-      })
-      .catch(function (e) { console.warn('Map data error', e); });
+    function normalizedFeature(f) {
+      var coords = f.geometry.coordinates;
+      var p = f.properties || {};
+      p.lng = coords[0];
+      p.lat = coords[1];
+      p.roomSize = roomSizeOf(p);
+      return { feature: f, properties: p, latlng: L.latLng(coords[1], coords[0]) };
+    }
 
-    var fitBtn = document.getElementById('fit-btn');
-    if (fitBtn) {
-      fitBtn.addEventListener('click', function () {
-        if (bounds.isValid()) map.fitBounds(bounds.pad(0.08));
+    function renderList(items) {
+      listEl.innerHTML = '';
+      cardById = {};
+      items.forEach(function(item, idx) {
+        var p = item.properties;
+        var isAirbnb = p.source === 'airbnb';
+        var price = priceText(p);
+        var rent = rentText(p);
+        var photo = (p.photos && p.photos.length ? p.photos[0] : (p.photo_url || ''));
+        var card = document.createElement('button');
+        card.type = 'button';
+        card.className = 'map-card' + (isAirbnb ? ' is-airbnb' : '');
+        card.dataset.id = p.id;
+        card.style.animationDelay = Math.min(idx * 18, 180) + 'ms';
+        card.innerHTML =
+          (photo ? '<img class="map-card-img" src="' + escapeHtml(photo) + '" alt="">' : '<div class="map-card-img"></div>') +
+          '<div>' +
+            (isAirbnb ? airbnbBrand() : '') +
+            '<h2 class="map-card-title">' + escapeHtml(p.title || 'Listing') + '</h2>' +
+            (price ? '<div class="map-card-price">' + escapeHtml(price) + '</div>' : '') +
+            (!isAirbnb && rent ? '<div class="map-card-price" style="font-size:12px; margin-top:4px;"><i class="fa fa-chart-line"></i> ' + escapeHtml(rent) + '</div>' : '') +
+            '<div class="map-card-meta">' +
+              '<span><i class="fa fa-location-dot"></i>' + escapeHtml(p.city || p.state || 'Istanbul') + '</span>' +
+              (p.rooms_text || p.bedrooms ? '<span><i class="fa fa-door-open"></i>' + escapeHtml(p.rooms_text || p.bedrooms) + '</span>' : '') +
+              (p.m2_net ? '<span><i class="fa fa-ruler-combined"></i>' + escapeHtml(p.m2_net) + ' m²</span>' : '') +
+              (isAirbnb && p.overall_rating ? '<span><i class="fa fa-star"></i>' + escapeHtml(p.overall_rating) + '</span>' : '') +
+            '</div>' +
+          '</div>';
+        card.addEventListener('click', function() {
+          focusListing(p.id, true);
+          workspace.classList.remove('list-open');
+          if (toggleListBtn) toggleListBtn.setAttribute('aria-expanded', 'false');
+        });
+        cardById[p.id] = card;
+        listEl.appendChild(card);
       });
     }
 
-    // Initialize carousel when popup opens
+    function setActiveCard(id) {
+      Object.keys(cardById).forEach(function(key) { cardById[key].classList.toggle('is-active', String(key) === String(id)); });
+      if (cardById[id]) cardById[id].scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    }
+
+    function focusListing(id, openPopup) {
+      var marker = markerById[id];
+      if (!marker) return;
+      var latlng = marker.getLatLng();
+      map.flyTo(latlng, Math.max(map.getZoom(), 15), { duration: .7, easeLinearity: .2 });
+      markers.zoomToShowLayer(marker, function() {
+        if (openPopup) marker.openPopup();
+      });
+      setActiveCard(id);
+    }
+
+    function currentItems() {
+      return allFeatures.filter(function(item) {
+        return activeFilter === 'all' || item.properties.roomSize === activeFilter;
+      });
+    }
+
+    function renderMap() {
+      var items = currentItems();
+      markers.clearLayers();
+      bounds = L.latLngBounds();
+      markerById = {};
+      items.forEach(function(item) {
+        bounds.extend(item.latlng);
+        var marker = buildMarker(item.properties, item.latlng);
+        markerById[item.properties.id] = marker;
+        markers.addLayer(marker);
+      });
+      if (!map.hasLayer(markers)) map.addLayer(markers);
+      renderList(items);
+      if (items.length && bounds.isValid()) {
+        emptyEl.style.display = 'none';
+        if (window.innerWidth > 991) {
+          map.setView(bounds.getCenter(), 12, { animate: true, duration: .7 });
+        } else {
+          map.fitBounds(bounds.pad(.12), { animate: true, duration: .7 });
+        }
+        setStatus(items.length + (activeMapView === 'airbnb' ? ' Airbnb {% trans "locations visibles" %}' : ' {% trans "biens visibles" %}'));
+      } else {
+        emptyEl.style.display = 'block';
+        setStatus(activeMapView === 'airbnb' ? '{% trans "Aucune location Airbnb cartographiée" %}' : '{% trans "Aucun bien cartographié dans cette vue" %}');
+      }
+    }
+
+    function loadDataset(url, targetName) {
+      return fetch(url)
+        .then(function (r) { return r.json(); })
+        .then(function (geojson) {
+          var features = geojson && Array.isArray(geojson.features) ? geojson.features.map(normalizedFeature) : [];
+          if (targetName === 'airbnb') airbnbFeatures = features;
+          else listingFeatures = features;
+          return features;
+        });
+    }
+
+    Promise.all([
+      loadDataset('{% url 'listings:map_data' %}', 'listings'),
+      loadDataset('{% url 'listings:airbnb_map_data' %}', 'airbnb')
+    ]).then(function() {
+      allFeatures = listingFeatures;
+      if (!allFeatures.length) {
+        map.setView([41.0082, 28.9784], 10);
+        emptyEl.style.display = 'block';
+        setStatus('{% trans "Aucun bien cartographié pour le moment" %}');
+        return;
+      }
+      renderMap();
+    }).catch(function (e) {
+      console.warn('Map data error', e);
+      map.setView([41.0082, 28.9784], 10);
+      emptyEl.style.display = 'block';
+      setStatus('{% trans "Données de carte indisponibles" %}');
+    });
+
+    document.querySelectorAll('.map-chip').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        document.querySelectorAll('.map-chip').forEach(function(b){ b.classList.remove('is-active'); });
+        btn.classList.add('is-active');
+        activeFilter = btn.dataset.filter || 'all';
+        renderMap();
+      });
+    });
+
+    document.querySelectorAll('.map-layer-btn').forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var layerName = btn.dataset.layer;
+        Object.keys(tileLayers).forEach(function(key) { if (map.hasLayer(tileLayers[key])) map.removeLayer(tileLayers[key]); });
+        tileLayers[layerName].addTo(map);
+        document.querySelectorAll('.map-layer-btn').forEach(function(b){ b.classList.toggle('is-active', b === btn); });
+      });
+    });
+
+    document.getElementById('fit-btn').addEventListener('click', function() {
+      if (bounds.isValid()) {
+        if (window.innerWidth > 991) map.setView(bounds.getCenter(), 12, { animate: true, duration: .7 });
+        else map.fitBounds(bounds.pad(.12), { animate: true, duration: .7 });
+      }
+    });
+    document.getElementById('zoom-in').addEventListener('click', function(){ map.zoomIn(); });
+    document.getElementById('zoom-out').addEventListener('click', function(){ map.zoomOut(); });
+
+    function setMapView(view) {
+      activeMapView = view === 'airbnb' ? 'airbnb' : 'listings';
+      var showAirbnb = activeMapView === 'airbnb';
+      workspace.classList.toggle('is-airbnb', showAirbnb);
+      listingsPane.classList.add('is-active');
+      listingsPane.setAttribute('aria-hidden', 'false');
+      listingsControls.forEach(function(control) {
+        control.classList.remove('is-hidden');
+        control.setAttribute('aria-hidden', 'false');
+      });
+      airbnbBtn.setAttribute('aria-pressed', showAirbnb ? 'true' : 'false');
+      airbnbBtn.setAttribute('data-tip', showAirbnb ? '{% trans "Carte des biens" %}' : '{% trans "Loyers Airbnb" %}');
+      airbnbBtn.setAttribute('aria-label', showAirbnb ? '{% trans "Afficher la carte des biens" %}' : '{% trans "Afficher la comparaison des loyers Airbnb" %}');
+      airbnbBtn.innerHTML = showAirbnb ? '<i class="fa fa-map-location-dot"></i>' : '<i class="fa fa-bed"></i>';
+      allFeatures = showAirbnb ? airbnbFeatures : listingFeatures;
+      activeFilter = 'all';
+      document.querySelectorAll('.map-chip').forEach(function(btn) {
+        btn.classList.toggle('is-active', btn.dataset.filter === 'all');
+      });
+      renderMap();
+      setTimeout(function(){ map.invalidateSize(); if (bounds.isValid()) map.fitBounds(bounds.pad(.12)); }, 180);
+    }
+
+    airbnbBtn.addEventListener('click', function() {
+      setMapView(activeMapView === 'airbnb' ? 'listings' : 'airbnb');
+    });
+
+    var fullscreenBtn = document.getElementById('fullscreen-btn');
+    var canvasWrap = document.querySelector('.map-canvas-wrap');
+    var triedGestureFullscreen = false;
+
+    function requestWorkspaceFullscreen() {
+      if (document.fullscreenElement || !document.fullscreenEnabled || !workspace.requestFullscreen) {
+        return;
+      }
+      var request = workspace.requestFullscreen();
+      if (request && typeof request.catch === 'function') {
+        request.catch(function() {});
+      }
+    }
+
+    fullscreenBtn.addEventListener('click', function() {
+      if (!document.fullscreenElement) {
+        requestWorkspaceFullscreen();
+      } else {
+        document.exitFullscreen && document.exitFullscreen();
+      }
+    });
+    if (canvasWrap) {
+      canvasWrap.addEventListener('pointerdown', function(ev) {
+        if (triedGestureFullscreen || document.fullscreenElement) return;
+        if (ev.target && ev.target.closest && ev.target.closest('#fullscreen-btn')) return;
+        triedGestureFullscreen = true;
+        requestWorkspaceFullscreen();
+      }, { capture: true });
+    }
+    document.addEventListener('fullscreenchange', function() {
+      var isFull = document.fullscreenElement === workspace;
+      fullscreenBtn.classList.toggle('is-pulsing', !isFull);
+      fullscreenBtn.setAttribute('aria-pressed', isFull ? 'true' : 'false');
+      fullscreenBtn.innerHTML = isFull ? '<i class="fa fa-compress"></i>' : '<i class="fa fa-expand"></i>';
+      setTimeout(function(){ map.invalidateSize(); if (bounds.isValid()) map.fitBounds(bounds.pad(.12)); }, 160);
+    });
+
+    if (toggleListBtn) {
+      toggleListBtn.addEventListener('click', function() {
+        var open = !workspace.classList.contains('list-open');
+        workspace.classList.toggle('list-open', open);
+        this.setAttribute('aria-expanded', open ? 'true' : 'false');
+        setTimeout(function(){ map.invalidateSize(); }, 260);
+      });
+    }
+
+    document.addEventListener('kuzey:currencychange', function() {
+      if (allFeatures.length) renderMap();
+    });
+
+    function startMapTour() {
+      var tourSeen = false;
+      try {
+        tourSeen = localStorage.getItem('kuzeyMapTourSeen') === '1';
+      } catch (e) {
+        tourSeen = false;
+      }
+      if (!window.Shepherd || !Shepherd.Tour || activeMapView !== 'listings' || tourSeen) {
+        return;
+      }
+      var tour = new Shepherd.Tour({
+        useModalOverlay: true,
+        defaultStepOptions: {
+          classes: 'kuzey-tour',
+          cancelIcon: { enabled: true },
+          scrollTo: false
+        }
+      });
+      var next = { text: '{% trans "Suivant" %}', action: tour.next };
+      var back = { text: '{% trans "Retour" %}', classes: 'shepherd-button-secondary', action: tour.back };
+
+      tour.addStep({
+        id: 'fullscreen',
+        title: '{% trans "Passer en plein écran" %}',
+        text: '{% trans "Touchez le bouton animé, ou touchez la carte une fois, pour ouvrir cet espace en plein écran." %}',
+        attachTo: { element: '#fullscreen-btn', on: 'bottom' },
+        buttons: [
+          { text: '{% trans "Ignorer" %}', classes: 'shepherd-button-secondary', action: tour.cancel },
+          next
+        ]
+      });
+      tour.addStep({
+        id: 'filters',
+        title: '{% trans "Filtrer par taille" %}',
+        text: '{% trans "Utilisez Tous, 1 + 0 et 1 + 1 pour limiter les biens visibles selon la disposition." %}',
+        attachTo: { element: '.map-filters', on: 'bottom' },
+        buttons: [back, next]
+      });
+      tour.addStep({
+        id: 'themes',
+        title: '{% trans "Changer le style" %}',
+        text: '{% trans "Passez du mode clair au mode nuit selon ce qui est le plus lisible." %}',
+        attachTo: { element: '.map-layer-switcher', on: 'bottom' },
+        buttons: [back, next]
+      });
+      tour.addStep({
+        id: 'airbnb',
+        title: '{% trans "Comparer les loyers" %}',
+        text: '{% trans "Ce bouton remplace les biens Kuzey par les locations Airbnb disponibles, sur la même carte, puis revient aux biens avec un second appui." %}',
+        attachTo: { element: '#airbnb-toggle', on: 'bottom' },
+        buttons: [
+          back,
+          { text: '{% trans "Terminé" %}', action: tour.complete }
+        ]
+      });
+
+      function rememberTourSeen() {
+        try { localStorage.setItem('kuzeyMapTourSeen', '1'); } catch (e) {}
+      }
+      tour.on('complete', rememberTourSeen);
+      tour.on('cancel', rememberTourSeen);
+      tour.start();
+    }
+
+    window.addEventListener('load', function() {
+      setTimeout(startMapTour, 1200);
+    });
+
     map.on('popupopen', function(e){
       var root = e && e.popup && e.popup._contentNode ? e.popup._contentNode : null;
       if (!root) return;
       var car = root.querySelector('.js-carousel');
-      if (!car) return;
-      setupCarousel(car);
+      if (car) setupCarousel(car);
     });
 
     function setupCarousel(container){
@@ -208,8 +1336,7 @@
       var slides = Array.from(track.children);
       var prevBtn = container.querySelector('.js-prev');
       var nextBtn = container.querySelector('.js-next');
-      var dotsWrap = container.querySelector('.carousel-dots');
-      var dots = dotsWrap ? Array.from(dotsWrap.children) : [];
+      var dots = Array.from(container.querySelectorAll('.carousel-dot'));
       var index = 0;
 
       function update(){
@@ -217,34 +1344,17 @@
         dots.forEach(function(d,i){ d.classList.toggle('active', i===index); });
       }
       function go(delta){ index = (index + delta + slides.length) % slides.length; update(); }
-
       if (prevBtn) prevBtn.addEventListener('click', function(){ go(-1); });
       if (nextBtn) nextBtn.addEventListener('click', function(){ go(1); });
-      if (dotsWrap) dots.forEach(function(d,i){ d.addEventListener('click', function(){ index=i; update(); }); });
-
-      // Touch swipe
+      dots.forEach(function(d,i){ d.addEventListener('click', function(){ index=i; update(); }); });
       var startX = 0; var dx = 0; var touching = false;
-      container.addEventListener('touchstart', function(ev){
-        touching = true; startX = (ev.touches && ev.touches[0] ? ev.touches[0].clientX : 0); dx = 0;
-      }, {passive: true});
-      container.addEventListener('touchmove', function(ev){
-        if (!touching) return; var x = ev.touches && ev.touches[0] ? ev.touches[0].clientX : 0; dx = x - startX;
-      }, {passive: true});
-      container.addEventListener('touchend', function(){
-        if (!touching) return; touching = false; if (Math.abs(dx) > 30) { go(dx > 0 ? -1 : 1); }
-      });
-
-      // Keyboard navigation
+      container.addEventListener('touchstart', function(ev){ touching = true; startX = ev.touches && ev.touches[0] ? ev.touches[0].clientX : 0; dx = 0; }, {passive: true});
+      container.addEventListener('touchmove', function(ev){ if (!touching) return; var x = ev.touches && ev.touches[0] ? ev.touches[0].clientX : 0; dx = x - startX; }, {passive: true});
+      container.addEventListener('touchend', function(){ if (!touching) return; touching = false; if (Math.abs(dx) > 30) go(dx > 0 ? -1 : 1); });
       container.setAttribute('tabindex', '0');
-      container.addEventListener('keydown', function(ev){
-        if (ev.key === 'ArrowLeft') { go(-1); }
-        else if (ev.key === 'ArrowRight') { go(1); }
-      });
-
+      container.addEventListener('keydown', function(ev){ if (ev.key === 'ArrowLeft') go(-1); else if (ev.key === 'ArrowRight') go(1); });
       update();
     }
   })();
-  </script>
-
-
+</script>
 {% endblock %}

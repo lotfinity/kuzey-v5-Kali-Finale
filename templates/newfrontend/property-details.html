@@ -2,29 +2,50 @@
 {% load static %}
 {% load thumbnail %}
 {% load humanize %}
+{% load listing_filters %}
 {% load i18n %}
 
 {% block nav_details_active %}active{% endblock %}
 {% block title %}{{ listing.title }} - {% trans "Property Details" %}{% endblock %}
+{% block whatsapp_widget %}
+  {% include 'newfrontend/whatsappwidget.html' %}
+{% endblock %}
 
 {% block content %}
   <!-- 1. Styles -->
   <style>
     .swiper {
       width: 100%;
-      height: 500px;
-      border-radius: 50px;
-      margin-bottom: 30px;
+      aspect-ratio: 16 / 10;
+      max-height: 600px;
+      border-radius: 20px;
+      margin-bottom: 24px;
+      overflow: hidden;
     }
 
-    .swiper-wrapper { display: flex; transition: transform 400ms ease; }
-    .swiper-slide { min-width: 100%;
+    .swiper-wrapper {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    .swiper-slide {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 500ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
       text-align: center;
       font-size: 18px;
-      background: #fff;
+      background: #f0f0f0;
       display: flex;
       justify-content: center;
       align-items: center;
+      overflow: hidden;
+    }
+
+    .swiper-slide-active {
+      opacity: 1;
+      z-index: 1;
     }
 
     .swiper-slide img {
@@ -32,52 +53,538 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
+      transition: transform .6s ease;
     }
 
-    /* Autoplay Progress Circle Styles */
-    .autoplay-progress {
+    .swiper-slide-active img {
+      transform: scale(1.02);
+    }
+
+    .swiper-pagination-bullet-active {
+      background-color: #a38344;
+    }
+
+    .swiper-pagination-bullet {
+      width: 10px;
+      height: 10px;
+      margin: 0 5px;
+      border-radius: 50%;
+      background: rgba(163, 131, 68, 0.4);
+      cursor: pointer;
+      display: inline-block;
+      transition: background .3s, transform .3s;
+    }
+
+    .swiper-pagination-bullet:hover {
+      transform: scale(1.3);
+    }
+
+    .swiper-button-next, .swiper-button-prev {
       position: absolute;
-      right: 16px;
-      bottom: 16px;
-      z-index: 10;
-      width: 48px;
-      height: 48px;
+      z-index: 5;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.9);
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      user-select: none;
+      box-shadow: 0 2px 12px rgba(0,0,0,.12);
+      font-size: 22px;
+      font-weight: 700;
+      color: #a38344;
+      transition: background .3s, transform .3s;
+      opacity: 0;
+    }
+
+    .swiper:hover .swiper-button-next,
+    .swiper:hover .swiper-button-prev {
+      opacity: 1;
+    }
+
+    .swiper-button-next:hover { background: #a38344; color: #fff; transform: translateY(-50%) scale(1.1); }
+    .swiper-button-prev:hover { background: #a38344; color: #fff; transform: translateY(-50%) scale(1.1); }
+
+    .swiper-button-next { right: 14px; }
+    .swiper-button-prev { left: 14px; }
+
+    @media (max-width: 768px) {
+      .swiper { aspect-ratio: 4 / 3; border-radius: 14px; }
+      .swiper-button-next, .swiper-button-prev { width: 34px; height: 34px; font-size: 18px; opacity: 1; }
+    }
+
+    .invest-row {
+      display: inline-flex;
+      gap: 24px;
+      padding: 10px 18px;
+      background: linear-gradient(135deg, #fefce8, #fef3c7);
+      border-radius: 12px;
+      font-size: 14px;
+      color: #4a4a4a;
+      flex-wrap: wrap;
+    }
+
+    .invest-row span {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .invest-row strong {
+      color: #a38344;
+      font-weight: 700;
+    }
+
+    .invest-row i {
+      color: #a38344;
+    }
+
+    .tag-hot, .tag-new {
+      display: inline-block;
+      padding: 5px 18px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      animation: tag-pulse 2s ease-in-out infinite;
+    }
+
+    .tag-hot {
+      background: linear-gradient(135deg, #ff416c, #ff4b2b);
+      color: #fff;
+      box-shadow: 0 0 14px rgba(255,65,108,0.5);
+    }
+
+    .tag-new {
+      background: linear-gradient(135deg, #00b09b, #96c93d);
+      color: #fff;
+      box-shadow: 0 0 14px rgba(0,176,155,0.5);
+    }
+
+    @keyframes tag-pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.06); }
+    }
+
+    .rentability-tags {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+
+    .rentability-tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: #f3f4f6;
+      color: #374151;
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 1.2;
+    }
+
+    .listing-tag-row {
       display: flex;
       align-items: center;
-      justify-content: center;
-      font-weight: bold;
-      color: var(--swiper-theme-color);
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
     }
 
-    .autoplay-progress svg {
-      --progress: 0;
-      position: absolute;
-      left: 0;
-      top: 0px;
-      z-index: 10;
+    .listing-status-tags,
+    .listing-rentability-badges {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .listing-rentability-badges {
+      margin-left: auto;
+      justify-content: flex-end;
+    }
+
+    .rentability-badge {
+      width: 36px;
+      height: 36px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: #fff;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+      overflow: hidden;
+    }
+
+    .rentability-badge img {
       width: 100%;
       height: 100%;
-      stroke-width: 4px;
-      stroke: var(--swiper-theme-color);
-      fill: none;
-      stroke-dashoffset: calc(125.6px * (1 - var(--progress)));
-      stroke-dasharray: 125.6;
-      transform: rotate(-90deg);
-      color: #a38344
+      object-fit: contain;
+      display: block;
     }
 
-    /* Simple pagination dots */
-    .swiper-pagination-bullet-active {
-        background-color: var(--swiper-theme-color);
+    .single-property {
+      background: var(--surface-bg, #ffffff);
     }
-    .swiper-button-next, .swiper-button-prev {
-      position: absolute; z-index: 5; top: 50%; transform: translateY(-50%);
-      width: 38px; height: 38px; border-radius: 50%; background: rgba(255,255,255,.85);
-      display: grid; place-items: center; cursor: pointer; user-select: none;
-      box-shadow: 0 2px 10px rgba(0,0,0,.15);
+
+    .listing-main-column {
+      min-width: 0;
     }
-    .swiper-button-next { right: 12px; color: #a38344 }
-    .swiper-button-prev { left: 12px; color: #a38344 }
+
+    .listing-narrative {
+      padding: 28px;
+      border: 1px solid var(--surface-border, #e5e7eb);
+      border-radius: 12px;
+      background: var(--surface-raised, #fff);
+      box-shadow: 0 16px 42px rgba(16, 18, 20, 0.08);
+    }
+
+    .listing-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+      color: var(--theme-primary, #a38344);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+
+    .listing-narrative h4 {
+      margin-bottom: 14px;
+      color: var(--text-main, #1e1e1e);
+      font-size: 26px;
+      line-height: 1.25;
+    }
+
+    .listing-narrative p {
+      margin-bottom: 0;
+      color: var(--text-muted, #4a4a4a);
+      font-size: 15px;
+      line-height: 1.8;
+    }
+
+    .listing-insight-strip {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin: 22px 0 18px;
+    }
+
+    .listing-insight {
+      padding: 14px 16px;
+      border: 1px solid rgba(163, 131, 68, .24);
+      border-radius: 10px;
+      background: linear-gradient(135deg, rgba(163,131,68,.14), rgba(163,131,68,.05));
+    }
+
+    .listing-insight span {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--text-soft, #6b7280);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .listing-insight strong {
+      color: var(--theme-primary, #a38344);
+      font-size: 18px;
+      font-weight: 800;
+    }
+
+    .listing-insight-value {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .listing-insight .est-rent-amount,
+    .listing-insight .rentability-percent {
+      font-size: 28px;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .listing-insight .metric-trend {
+      display: inline-flex;
+      margin-bottom: 0;
+      font-size: 16px;
+      font-weight: 900;
+      line-height: 1;
+      white-space: nowrap;
+    }
+
+    .listing-insight .metric-trend.up {
+      color: #22c55e;
+    }
+
+    .listing-insight .metric-trend.down {
+      color: #ef4444;
+    }
+
+    .listing-panel {
+      margin-top: 24px;
+      padding: 24px;
+      border: 1px solid var(--surface-border, #e5e7eb);
+      border-radius: 12px;
+      background: var(--surface-raised, #fff);
+      box-shadow: 0 16px 42px rgba(16, 18, 20, 0.07);
+    }
+
+    .listing-panel-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .listing-panel-title h5 {
+      margin: 0;
+      color: var(--text-main, #1e1e1e);
+      font-size: 18px;
+      line-height: 1.25;
+    }
+
+    .listing-panel-title span {
+      color: var(--text-soft, #6b7280);
+      font-size: 13px;
+    }
+
+    .listing-fact-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .listing-fact {
+      display: grid;
+      grid-template-columns: 32px minmax(0, 1fr);
+      gap: 10px;
+      align-items: center;
+      min-height: 74px;
+      padding: 12px;
+      border: 1px solid var(--surface-border, #e5e7eb);
+      border-radius: 10px;
+      background: var(--surface-muted, #f7f7f7);
+    }
+
+    .listing-fact i {
+      width: 32px;
+      height: 32px;
+      display: inline-grid;
+      place-items: center;
+      border-radius: 50%;
+      background: rgba(163, 131, 68, .14);
+      color: var(--theme-primary, #a38344);
+      font-size: 14px;
+    }
+
+    .listing-fact span {
+      display: block;
+      color: var(--text-soft, #6b7280);
+      font-size: 12px;
+      line-height: 1.2;
+    }
+
+    .listing-fact strong {
+      display: block;
+      margin-top: 3px;
+      color: var(--text-main, #1e1e1e);
+      font-size: 14px;
+      line-height: 1.25;
+      word-break: break-word;
+    }
+
+    .listing-summary-card {
+      position: sticky;
+      top: 116px;
+      padding: 24px;
+      border: 1px solid var(--surface-border, #e5e7eb);
+      border-radius: 12px;
+      background: var(--surface-raised, #fff);
+      box-shadow: 0 18px 48px rgba(16, 18, 20, 0.12);
+    }
+
+    .listing-summary-label {
+      color: var(--text-soft, #6b7280);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .listing-summary-price {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 8px 0 18px;
+      color: var(--theme-primary, #a38344);
+      font-size: clamp(28px, 4vw, 38px);
+      font-weight: 900;
+      line-height: 1;
+      overflow-wrap: anywhere;
+    }
+
+    .listing-summary-trend {
+      flex: 0 0 auto;
+      font-size: 18px;
+      white-space: nowrap;
+    }
+
+    .listing-summary-trend.up { color: #22c55e; }
+    .listing-summary-trend.down { color: #ef4444; }
+
+    .listing-summary-actions {
+      display: grid;
+      grid-template-columns: 1fr 44px;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .listing-summary-actions a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      padding: 0 16px;
+      border-radius: 8px;
+      background: var(--theme-primary, #a38344);
+      color: #111 !important;
+      font-weight: 800;
+    }
+
+    .listing-summary-actions a.icon-only {
+      padding: 0;
+      background: var(--surface-muted, #f7f7f7);
+      color: var(--theme-primary, #a38344) !important;
+      border: 1px solid var(--surface-border, #e5e7eb);
+    }
+
+    .listing-summary-stats {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .listing-stat {
+      padding: 12px;
+      border-radius: 10px;
+      background: var(--surface-muted, #f7f7f7);
+      border: 1px solid var(--surface-border, #e5e7eb);
+    }
+
+    .listing-stat span {
+      display: block;
+      color: var(--text-soft, #6b7280);
+      font-size: 12px;
+    }
+
+    .listing-stat strong {
+      display: block;
+      margin-top: 3px;
+      color: var(--text-main, #1e1e1e);
+      font-size: 16px;
+    }
+
+    .listing-summary-location {
+      padding-top: 16px;
+      border-top: 1px solid var(--surface-border, #e5e7eb);
+      color: var(--text-muted, #4a4a4a);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .listing-summary-location i {
+      color: var(--theme-primary, #a38344);
+      margin-right: 6px;
+    }
+
+    html[data-theme="dark"] .swiper-slide {
+      background: #20252c;
+    }
+
+    html[data-theme="dark"] .swiper-button-next,
+    html[data-theme="dark"] .swiper-button-prev {
+      background: rgba(23, 26, 32, .92);
+      color: #d8ba70;
+      box-shadow: 0 8px 28px rgba(0,0,0,.45);
+    }
+
+    html[data-theme="dark"] .swiper-button-next:hover,
+    html[data-theme="dark"] .swiper-button-prev:hover {
+      background: #d8ba70;
+      color: #101214;
+    }
+
+    html[data-theme="dark"] .tag-hot {
+      background: #b91c1c;
+      box-shadow: none;
+    }
+
+    html[data-theme="dark"] .tag-new {
+      background: #0f766e;
+      box-shadow: none;
+    }
+
+    html[data-theme="dark"] .rentability-tag,
+    html[data-theme="dark"] .rentability-badge {
+      background: #232833;
+      color: #e8ddc8;
+      border: 1px solid #384150;
+      box-shadow: none;
+    }
+
+    @media (max-width: 991px) {
+      .listing-summary-card {
+        position: static;
+        margin-top: 24px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .listing-narrative,
+      .listing-panel,
+      .listing-summary-card {
+        padding: 18px;
+        border-radius: 10px;
+      }
+
+      .listing-insight-strip,
+      .listing-fact-grid,
+      .listing-summary-stats {
+        grid-template-columns: 1fr;
+      }
+
+      .listing-panel-title {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 6px;
+      }
+
+      .listing-fact {
+        min-height: 64px;
+      }
+
+      .listing-insight .est-rent-amount,
+      .listing-insight .rentability-percent {
+        font-size: 32px;
+      }
+      .listing-insight .metric-trend {
+        font-size: 18px;
+      }
+    }
   </style>
 
   <div class="page-heading header-text">
@@ -93,10 +600,10 @@
 
   <div class="single-property section">
     <div class="container">
-      <div class="row">
-        <div class="col-lg-8">
+      <div class="row g-4 align-items-start">
+        <div class="col-lg-8 listing-main-column">
 
-          <!-- 2. Swiper Structure -->
+          <!-- 2. Swiper -->
           <div class="swiper mySwiper">
             <div class="swiper-wrapper">
               {% with imgs=listing.visible_images %}
@@ -104,132 +611,171 @@
                   {% for im in imgs %}
                     <div class="swiper-slide">
                       {% thumbnail im.image 'detail' as imdetail %}
-                      <img src="{{ imdetail.url }}" width="{{ imdetail.width }}" height="{{ imdetail.height }}" alt="{{ listing.title }}">
+                      <img src="{{ imdetail.url }}" alt="{{ listing.title }}">
                     </div>
                   {% endfor %}
                 {% else %}
-                  <!-- Fallback image -->
                   <div class="swiper-slide">
                     <img src="{% static 'newfront/assets/images/property-01.jpg' %}" alt="{{ listing.title }}">
                   </div>
                 {% endif %}
               {% endwith %}
             </div>
-
-            <!-- Navigation Arrows -->
-            <div class="swiper-button-next"></div>
-            <div class="swiper-button-prev"></div>
-
-            <!-- Pagination Dots (Added Here) -->
+            <div class="swiper-button-next">›</div>
+            <div class="swiper-button-prev">‹</div>
             <div class="swiper-pagination"></div>
-
-            <!-- Autoplay Progress Circle -->
-            <div class="autoplay-progress" style="margin-right:6px; color: #a38344">
-              <svg viewBox="0 0 48 48">
-                <circle cx="24" cy="24" r="20"></circle>
-              </svg>
-              <span></span>
-            </div>
           </div>
-          <!-- End Swiper -->
 
-          <div class="main-content">
-            <span class="category">{{ listing.get_deal_type_display }} {{ listing.property_type }}</span>
+          <section class="listing-narrative">
+            <div class="listing-tag-row">
+              <div class="listing-status-tags">
+                {% if listing.is_hot %}
+                  <span class="tag-hot">{% trans "HOT" %}</span>
+                {% elif listing.is_new %}
+                  <span class="tag-new">{% trans "NEW" %}</span>
+                {% endif %}
+                {% if listing.get_deal_type_display %}
+                  <span class="rentability-tag">{{ listing.get_deal_type_display }}</span>
+                {% endif %}
+              </div>
+              {% if listing.rentability_group_badges %}
+                <div class="listing-rentability-badges" aria-label="{% trans "Rentability groups" %}">
+                  {% for group in listing.rentability_group_badges %}
+                    <span class="rentability-badge" title="{{ group.label }}">
+                      <img src="{% static group.badge %}" alt="{{ group.label }}">
+                    </span>
+                  {% endfor %}
+                </div>
+              {% endif %}
+            </div>
+
+            <span class="listing-eyebrow"><i class="fa fa-map-marker-alt" aria-hidden="true"></i>{{ listing.city }}, {{ listing.state }}</span>
             <h4>{{ listing.address }}</h4>
+
+            <div class="listing-insight-strip">
+              <div class="listing-insight">
+                <span>{% trans "Estimated rent" %}</span>
+                <div class="listing-insight-value">
+                  <strong class="price-popup-trigger est-rent-amount" role="button" title="{% trans "Click to convert this price" %}" data-price-try="{{ listing.estimated_rent }}" data-count-duration="3.25" data-count-update-duration="1.35">₺{{ listing.estimated_rent|intcomma }}</strong>
+                  {% if listing.price_trend == 'up' %}
+                    <span class="metric-trend up">&#9650; {{ listing.trend_percent }}%</span>
+                  {% else %}
+                    <span class="metric-trend down">&#9660; {{ listing.trend_percent }}%</span>
+                  {% endif %}
+                </div>
+              </div>
+              <div class="listing-insight">
+                <span>{% trans "Rentability" %}</span>
+                <div class="listing-insight-value">
+                  <strong class="counter rentability-percent" data-count-percent="{{ listing.rentability }}" data-count-duration="1.85" data-count-update-duration="0.75">{{ listing.rentability }}%</strong>
+                  {% if listing.price_trend == 'up' %}
+                    <span class="metric-trend up">&#9650; {{ listing.trend_percent }}%</span>
+                  {% else %}
+                    <span class="metric-trend down">&#9660; {{ listing.trend_percent }}%</span>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+
+            {% if listing.rentability_group_labels %}
+              <div class="rentability-tags" aria-label="{% trans "Rentability groups" %}">
+                {% for label in listing.rentability_group_labels %}
+                  <span class="rentability-tag">{{ label }}</span>
+                {% endfor %}
+              </div>
+            {% endif %}
+
             <p>{{ listing.description }}</p>
-          </div>
+          </section>
 
-          <!-- Property details accordion styled by templatemo-villa-agency.css -->
-          <div class="accordion" id="propertyAccordion">
-            <div class="accordion-item">
-              <h2 class="accordion-header" id="headingDetails">
-                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseDetails" aria-expanded="true" aria-controls="collapseDetails">
-                  {% trans "Property Details" %}
-                </button>
-              </h2>
-              <div id="collapseDetails" class="accordion-collapse collapse show" aria-labelledby="headingDetails" data-bs-parent="#propertyAccordion">
-                <div class="accordion-body">
-                  <div class="row g-3">
-                    <div class="col-6"><i class="fa fa-tags" aria-hidden="true" style="margin-right:6px; color: #a38344"></i><strong>{% trans "Deal Type:" %}</strong> {{ listing.get_deal_type_display }}</div>
-                    <div class="col-6"><i class="fa fa-home" aria-hidden="true" style="margin-right:6px; color: #a38344"></i><strong>{% trans "Type:" %}</strong> {{ listing.property_type|default:'-' }}</div>
-                    <div class="col-6"><i class="fa fa-th-large" aria-hidden="true" style="margin-right:6px; color: #a38344"></i><strong>{% trans "Rooms:" %}</strong> {{ listing.rooms_text|default:'-' }}</div>
-                    <div class="col-6"><i class="fa fa-bed" aria-hidden="true" style="margin-right:6px; color: #a38344"></i><strong>{% trans "Bedrooms:" %}</strong> {{ listing.bedrooms|default:'-' }}</div>
-                    <div class="col-6"><i class="fa fa-bath" aria-hidden="true" style="margin-right:6px; color: #a38344"></i><strong>{% trans "Bathrooms:" %}</strong> {{ listing.bathrooms|default:'-' }}</div>
-                    <div class="col-6"><i class="fa fa-ruler-combined" aria-hidden="true" style="margin-right:6px; color: #a38344"></i><strong>{% trans "Net m²:" %}</strong> {{ listing.m2_net|default:'-' }}</div>
-                    <div class="col-6"><i class="fa fa-ruler-combined" aria-hidden="true" style="margin-right:6px; color: #a38344"></i><strong>{% trans "Gross m²:" %}</strong> {{ listing.m2_gross|default:'-' }}</div>
-                    <div class="col-6"><i class="fa fa-ruler" aria-hidden="true" style="margin-right:6px; color: #a38344"></i><strong>{% trans "Area (sqft):" %}</strong> {{ listing.sqft|default:'-' }}</div>
-                    <div class="col-6"><i class="fa fa-hourglass-half" aria-hidden="true" style="margin-right:6px; color: #a38344"></i><strong>{% trans "Building Age:" %}</strong> {{ listing.building_age|default:'-' }}</div>
-                    <div class="col-6"><i class="fa fa-building" aria-hidden="true" style="margin-right:6px; color: #a38344"></i><strong>{% trans "Floor:" %}</strong> {{ listing.floor_number|default:'-' }} / {{ listing.floors_total|default:'-' }}</div>
-                    <div class="col-6"><i class="fa fa-fire" aria-hidden="true" style="margin-right:6px; color: #a38344"></i><strong>{% trans "Heating:" %}</strong> {{ listing.heating|default:'-' }}</div>
-                    <div class="col-6"><i class="fa fa-utensils" aria-hidden="true" style="margin-right:6px; color: #a38344"></i><strong>{% trans "Kitchen:" %}</strong> {{ listing.kitchen_type|default:'-' }}</div>
-                    <div class="col-6"><i class="fa fa-door-open" aria-hidden="true" style="margin-right:6px; color: #a38344"></i><strong>{% trans "Balcony:" %}</strong> {{ listing.balcony|default:'-' }}</div>
-                    <div class="col-6"><i class="fa fa-parking" aria-hidden="true" style="margin-right:6px; color: #a38344"></i><strong>{% trans "Parking:" %}</strong> {{ listing.parking_area|default:'-' }}</div>
-                    <div class="col-6"><i class="fa fa-info-circle" aria-hidden="true" style="margin-right:6px; color: #a38344"></i><strong>{% trans "Usage Status:" %}</strong> {{ listing.usage_status|default:'-' }}</div>
-                    <div class="col-6"><i class="fa fa-city" aria-hidden="true" style="margin-right:6px; color: #a38344"></i><strong>{% trans "Complex:" %}</strong> {% if listing.in_complex %}{% trans "Yes" %}{% else %}{% trans "No" %}{% endif %}{% if listing.complex_name %} — {{ listing.complex_name }}{% endif %}</div>
-                    <div class="col-6"><i class="fa fa-caret-square-up" aria-hidden="true" style="margin-right:6px; color: #a38344"></i><strong>{% trans "Elevator:" %}</strong> {% if listing.elevator %}{% trans "Yes" %}{% elif listing.elevator is not None %}{% trans "No" %}{% else %}-{% endif %}</div>
-                    <div class="col-6"><i class="fa fa-couch" aria-hidden="true" style="margin-right:6px; color: #a38344"></i><strong>{% trans "Furnished:" %}</strong> {% if listing.furnished %}{% trans "Yes" %}{% elif listing.furnished is not None %}{% trans "No" %}{% else %}-{% endif %}</div>
-                  </div>
-                </div>
-              </div>
+          <section class="listing-panel">
+            <div class="listing-panel-title">
+              <h5>{% trans "Home Snapshot" %}</h5>
+              <span>{% trans "Core property facts" %}</span>
             </div>
+            <div class="listing-fact-grid">
+              <div class="listing-fact"><i class="fa fa-home" aria-hidden="true"></i><div><span>{% trans "Type" %}</span><strong>{{ listing.property_type|default:'-' }}</strong></div></div>
+              <div class="listing-fact"><i class="fa fa-th-large" aria-hidden="true"></i><div><span>{% trans "Rooms" %}</span><strong>{{ listing.rooms_text|default:'-' }}</strong></div></div>
+              <div class="listing-fact"><i class="fa fa-bed" aria-hidden="true"></i><div><span>{% trans "Bedrooms" %}</span><strong>{{ listing.bedrooms|default:'-' }}</strong></div></div>
+              <div class="listing-fact"><i class="fa fa-bath" aria-hidden="true"></i><div><span>{% trans "Bathrooms" %}</span><strong>{{ listing.bathrooms|default:'-' }}</strong></div></div>
+              <div class="listing-fact"><i class="fa fa-ruler-combined" aria-hidden="true"></i><div><span>{% trans "Net m²" %}</span><strong>{{ listing.m2_net|default:'-' }}</strong></div></div>
+              <div class="listing-fact"><i class="fa fa-ruler" aria-hidden="true"></i><div><span>{% trans "Gross m²" %}</span><strong>{{ listing.m2_gross|default:'-' }}</strong></div></div>
+              <div class="listing-fact"><i class="fa fa-building" aria-hidden="true"></i><div><span>{% trans "Floor" %}</span><strong>{{ listing.floor_number|default:'-' }} / {{ listing.floors_total|default:'-' }}</strong></div></div>
+              <div class="listing-fact"><i class="fa fa-hourglass-half" aria-hidden="true"></i><div><span>{% trans "Building age" %}</span><strong>{{ listing.building_age|default:'-' }}</strong></div></div>
+              <div class="listing-fact"><i class="fa fa-fire" aria-hidden="true"></i><div><span>{% trans "Heating" %}</span><strong>{{ listing.heating|default:'-' }}</strong></div></div>
+              <div class="listing-fact"><i class="fa fa-utensils" aria-hidden="true"></i><div><span>{% trans "Kitchen" %}</span><strong>{{ listing.kitchen_type|default:'-' }}</strong></div></div>
+              <div class="listing-fact"><i class="fa fa-door-open" aria-hidden="true"></i><div><span>{% trans "Balcony" %}</span><strong>{{ listing.balcony|default:'-' }}</strong></div></div>
+              <div class="listing-fact"><i class="fa fa-parking" aria-hidden="true"></i><div><span>{% trans "Parking" %}</span><strong>{{ listing.parking_area|default:'-' }}</strong></div></div>
+            </div>
+          </section>
 
-            <div class="accordion-item">
-              <h2 class="accordion-header" id="headingFees">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFees" aria-expanded="false" aria-controls="collapseFees">
-                  {% trans "Fees & Listing Info" %}
-                </button>
-              </h2>
-              <div id="collapseFees" class="accordion-collapse collapse" aria-labelledby="headingFees" data-bs-parent="#propertyAccordion">
-                <div class="accordion-body">
-                  <div class="row g-3">
-                    <div class="col-6"><strong>{% trans "Maintenance Fee (Aidat):" %}</strong> {{ listing.maintenance_fee|default:'-' }}</div>
-                    <div class="col-6"><strong>{% trans "Deposit:" %}</strong> {{ listing.deposit|default:'-' }}</div>
-                    <div class="col-6"><strong>{% trans "Deed Status:" %}</strong> {{ listing.deed_status|default:'-' }}</div>
-                    <div class="col-6"><strong>{% trans "From Whom:" %}</strong> {{ listing.from_whom|default:'-' }}</div>
-                    <div class="col-6"><strong>{% trans "Listing ID:" %}</strong> {{ listing.external_id|default:listing.id }}</div>
-                    <div class="col-6"><strong>{% trans "Ad Date:" %}</strong> {{ listing.ad_date|default:listing.list_date|date:'Y-m-d' }}</div>
-                  </div>
-                </div>
-              </div>
+          <section class="listing-panel">
+            <div class="listing-panel-title">
+              <h5>{% trans "Building & Listing Info" %}</h5>
+              <span>{% trans "Costs, ownership, and availability" %}</span>
             </div>
-          </div>
+            <div class="listing-fact-grid">
+              <div class="listing-fact"><i class="fa fa-info-circle" aria-hidden="true"></i><div><span>{% trans "Usage status" %}</span><strong>{{ listing.usage_status|default:'-' }}</strong></div></div>
+              <div class="listing-fact"><i class="fa fa-city" aria-hidden="true"></i><div><span>{% trans "Complex" %}</span><strong>{% if listing.in_complex %}{% trans "Yes" %}{% else %}{% trans "No" %}{% endif %}{% if listing.complex_name %} - {{ listing.complex_name }}{% endif %}</strong></div></div>
+              <div class="listing-fact"><i class="fa fa-caret-square-up" aria-hidden="true"></i><div><span>{% trans "Elevator" %}</span><strong>{% if listing.elevator %}{% trans "Yes" %}{% elif listing.elevator is not None %}{% trans "No" %}{% else %}-{% endif %}</strong></div></div>
+              <div class="listing-fact"><i class="fa fa-couch" aria-hidden="true"></i><div><span>{% trans "Furnished" %}</span><strong>{% if listing.furnished %}{% trans "Yes" %}{% elif listing.furnished is not None %}{% trans "No" %}{% else %}-{% endif %}</strong></div></div>
+              <div class="listing-fact"><i class="fa fa-receipt" aria-hidden="true"></i><div><span>{% trans "Maintenance fee" %}</span><strong>{{ listing.maintenance_fee|default:'-' }}</strong></div></div>
+              <div class="listing-fact"><i class="fa fa-shield-alt" aria-hidden="true"></i><div><span>{% trans "Deposit" %}</span><strong>{{ listing.deposit|default:'-' }}</strong></div></div>
+              <div class="listing-fact"><i class="fa fa-file-signature" aria-hidden="true"></i><div><span>{% trans "Deed status" %}</span><strong>{{ listing.deed_status|default:'-' }}</strong></div></div>
+              <div class="listing-fact"><i class="fa fa-user-tie" aria-hidden="true"></i><div><span>{% trans "From whom" %}</span><strong>{{ listing.from_whom|default:'-' }}</strong></div></div>
+              <div class="listing-fact"><i class="fa fa-hashtag" aria-hidden="true"></i><div><span>{% trans "Listing ID" %}</span><strong>{{ listing.external_id|default:listing.id }}</strong></div></div>
+              <div class="listing-fact"><i class="fa fa-calendar" aria-hidden="true"></i><div><span>{% trans "Ad date" %}</span><strong>{{ listing.ad_date|default:listing.list_date|days_ago }}</strong></div></div>
+              <div class="listing-fact"><i class="fa fa-user-friends" aria-hidden="true"></i><div><span>{% trans "Rentability groups" %}</span><strong>{% if listing.rentability_group_labels %}{{ listing.rentability_group_labels|join:", " }}{% else %}-{% endif %}</strong></div></div>
+              <div class="listing-fact"><i class="fa fa-ruler" aria-hidden="true"></i><div><span>{% trans "Area (sqft)" %}</span><strong>{{ listing.sqft|default:'-' }}</strong></div></div>
+            </div>
+          </section>
         </div>
 
         <div class="col-lg-4">
-          <div class="info-table">
-            <ul>
-              <li>
-                <img src="{% static 'newfront/assets/images/info-icon-01.png' %}" alt="" style="max-width: 52px;">
-                <h4>{% trans "Price" %}<br><span>₺{{ listing.price|intcomma }}</span></h4>
-              </li>
-              <li>
-                <img src="{% static 'newfront/assets/images/info-icon-02.png' %}" alt="" style="max-width: 52px;">
-                <h4>{% trans "Bedrooms" %}<br><span>{{ listing.bedrooms }}</span></h4>
-              </li>
-              <li>
-                <img src="{% static 'newfront/assets/images/info-icon-03.png' %}" alt="" style="max-width: 52px;">
-                <h4>{% trans "Bathrooms" %}<br><span>{{ listing.bathrooms }}</span></h4>
-              </li>
-              <li>
-                <img src="{% static 'newfront/assets/images/info-icon-04.png' %}" alt="" style="max-width: 52px;">
-                <h4>{% trans "Location" %}<br><span>{{ listing.city }}, {{ listing.state }}</span></h4>
-              </li>
-              <li>
-                <img src="{% static 'newfront/assets/images/info-icon-01.png' %}" alt="" style="max-width: 52px;">
-                <h4>{% trans "Size (Gross m²)" %}<br><span>{{ listing.m2_gross|default:'-' }}</span></h4>
-              </li>
-              <li>
-                <img src="{% static 'newfront/assets/images/info-icon-01.png' %}" alt="" style="max-width: 52px;">
-                <h4>{% trans "Elevator" %}<br><span>{% if listing.elevator %}{% trans "Yes" %}{% elif listing.elevator is not None %}{% trans "No" %}{% else %}-{% endif %}</span></h4>
-              </li>
-            </ul>
-          </div>
+          <aside class="listing-summary-card">
+            <div class="listing-summary-label">{% trans "Asking price(click to convert)" %}</div>
+            <div class="listing-summary-price">
+              <span class="price-popup-trigger" role="button" title="{% trans "Click to convert this price" %}" data-price-try="{{ listing.price }}" data-count-duration="2.65" data-count-update-duration="1.1">₺{{ listing.price|intcomma }}</span>
+              {% if listing.price_trend == 'up' %}
+                <span class="listing-summary-trend up">&#9650; {{ listing.trend_percent }}%</span>
+              {% else %}
+                <span class="listing-summary-trend down">&#9660; {{ listing.trend_percent }}%</span>
+              {% endif %}
+            </div>
+
+            <div class="listing-summary-actions">
+              <a href="#" data-cal-link="hasan-gun-saqvh6" data-cal-config='{"layout":"month_view"}'><i class="fa fa-calendar" aria-hidden="true" style="margin-right:8px;"></i>{% trans "Schedule a visit" %}</a>
+              <a class="icon-only" href="{% url 'new_map' %}" aria-label="{% trans "Open map" %}"><i class="fa fa-map" aria-hidden="true"></i></a>
+            </div>
+
+            <div class="listing-summary-stats">
+              <div class="listing-stat"><span>{% trans "Bedrooms" %}</span><strong>{{ listing.bedrooms|default:'-' }}</strong></div>
+              <div class="listing-stat"><span>{% trans "Bathrooms" %}</span><strong>{{ listing.bathrooms|default:'-' }}</strong></div>
+              <div class="listing-stat"><span>{% trans "Gross m²" %}</span><strong>{{ listing.m2_gross|default:'-' }}</strong></div>
+              <div class="listing-stat"><span>{% trans "Listed" %}</span><strong>{{ listing.ad_date|default:listing.list_date|days_ago }}</strong></div>
+            </div>
+
+            {% if listing.rentability_group_badges %}
+              <div class="listing-rentability-badges" aria-label="{% trans "Rentability groups" %}" style="margin:0 0 16px;">
+                {% for group in listing.rentability_group_badges %}
+                  <span class="rentability-badge" title="{{ group.label }}">
+                    <img src="{% static group.badge %}" alt="{{ group.label }}">
+                  </span>
+                {% endfor %}
+              </div>
+            {% endif %}
+
+            <div class="listing-summary-location">
+              <div><i class="fa fa-map-marker-alt" aria-hidden="true"></i>{{ listing.address }}</div>
+              <div>{{ listing.city }}, {{ listing.state }}</div>
+            </div>
+          </aside>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- 3. Lightweight Carousel (no external deps) -->
+  <!-- 3. Lightweight Carousel -->
   <script>
     (function(){
       var root = document.querySelector('.mySwiper');
@@ -238,56 +784,59 @@
       var slides = wrapper ? Array.from(wrapper.children) : [];
       if (!wrapper || !slides.length) return;
 
+      if (slides.length < 2) {
+        var navs = root.querySelectorAll('.swiper-button-next, .swiper-button-prev');
+        navs.forEach(function(n){ n.style.display = 'none'; });
+        return;
+      }
+
       var btnNext = root.querySelector('.swiper-button-next');
       var btnPrev = root.querySelector('.swiper-button-prev');
       var dotsWrap = root.querySelector('.swiper-pagination');
-      if (btnNext && !btnNext.textContent.trim()) btnNext.textContent = '›';
-      if (btnPrev && !btnPrev.textContent.trim()) btnPrev.textContent = '‹';
 
       var index = 0;
+      var autoplayTimer = null;
+
       function update(){
-        wrapper.style.transform = 'translateX(' + (-index * 100) + '%)';
+        slides.forEach(function(slide, i){
+          slide.classList.toggle('swiper-slide-active', i === index);
+        });
         if (!dotsWrap) return;
         var dots = dotsWrap.querySelectorAll('.swiper-pagination-bullet');
         dots.forEach(function(d,i){ d.classList.toggle('swiper-pagination-bullet-active', i===index); });
       }
 
-      // Build dots
-      if (dotsWrap){
-        dotsWrap.innerHTML = slides.map(function(_,i){ return '<span class="swiper-pagination-bullet'+(i===0?' swiper-pagination-bullet-active':'')+'"></span>'; }).join('');
-        dotsWrap.querySelectorAll('.swiper-pagination-bullet').forEach(function(d,i){ d.addEventListener('click', function(){ index=i; update(); }); });
+      function go(delta){
+        index = (index + delta + slides.length) % slides.length;
+        update();
+        resetAutoplay();
       }
 
-      function go(delta){ index = (index + delta + slides.length) % slides.length; update(); }
+      function resetAutoplay(){
+        if (autoplayTimer) clearInterval(autoplayTimer);
+        autoplayTimer = setInterval(function(){ go(1); }, 4500);
+      }
+
+      if (dotsWrap){
+        dotsWrap.innerHTML = slides.map(function(_,i){ return '<span class="swiper-pagination-bullet'+(i===0?' swiper-pagination-bullet-active':'')+'"></span>'; }).join('');
+        dotsWrap.querySelectorAll('.swiper-pagination-bullet').forEach(function(d,i){ d.addEventListener('click', function(){ index=i; update(); resetAutoplay(); }); });
+      }
+
       if (btnNext) btnNext.addEventListener('click', function(){ go(1); });
       if (btnPrev) btnPrev.addEventListener('click', function(){ go(-1); });
 
-      // Autoplay with progress
-      var progressCircle = document.querySelector('.autoplay-progress svg');
-      var progressContent = document.querySelector('.autoplay-progress span');
-      var delay = 4000; var started = Date.now();
-      function tick(){
-        var t = (Date.now() - started) % delay;
-        var left = delay - t;
-        var progress = t / delay;
-        if (progressCircle) progressCircle.style.setProperty('--progress', 1 - progress);
-        if (progressContent) progressContent.textContent = Math.ceil(left / 1000) + 's';
-        if (t < 50) { go(1); }
-        requestAnimationFrame(tick);
-      }
-      // Kick off autoplay after first cycle boundary
-      setTimeout(function(){ started = Date.now(); requestAnimationFrame(tick); }, delay);
       update();
+      resetAutoplay();
     })();
   </script>
   <style>
     /* Map embed styles */
-    .property-map-embed { 
-      width: 100%; 
-      height: 600px; 
-      margin-top: 24px; 
-      border-radius: 18px; 
-      overflow: hidden; 
+    .property-map-embed {
+      width: 100%;
+      height: 600px;
+      margin-top: 24px;
+      border-radius: 18px;
+      overflow: hidden;
       position: relative;
       z-index: 0;
       isolation: isolate;
@@ -313,5 +862,5 @@
       {% endif %}
     </div>
   </div>
-  
+
 {% endblock %}

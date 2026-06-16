@@ -65,6 +65,14 @@ urlpatterns = [
     path('api/bot/locations', __import__('api.chatbot_api', fromlist=['']).chatbot_locations, name='chatbot_locations'),
     path('api/bot/docs', __import__('api.chatbot_api', fromlist=['']).chatbot_api_docs, name='chatbot_api_docs'),
     path('api/bot/openapi.json', __import__('api.chatbot_api', fromlist=['']).chatbot_openapi_spec, name='chatbot_openapi_spec'),
+    path('api/whatsapp/listing/<int:listing_id>/conversation', __import__('listings.whatsapp', fromlist=['']).listing_conversation, name='whatsapp_listing_conversation'),
+    path('api/whatsapp/listing/<int:listing_id>/send', __import__('listings.whatsapp', fromlist=['']).send_listing_message, name='whatsapp_listing_send'),
+    path('api/whatsapp/conversations', __import__('listings.whatsapp', fromlist=['']).conversations_index, name='whatsapp_conversations_index'),
+    path('api/whatsapp/conversation/<int:conversation_id>/messages', __import__('listings.whatsapp', fromlist=['']).conversation_messages, name='whatsapp_conversation_messages'),
+    path('api/whatsapp/conversation/<int:conversation_id>/send', __import__('listings.whatsapp', fromlist=['']).send_conversation_message, name='whatsapp_conversation_send'),
+    path('api/whatsapp/listing/<int:listing_id>/suggest', __import__('listings.ai', fromlist=['']).suggest_listing_reply, name='whatsapp_listing_suggest'),
+    path('api/whatsapp/webhook', __import__('listings.whatsapp', fromlist=['']).waha_webhook, name='whatsapp_waha_webhook'),
+    path('api/investor/medical-rentals/summary', listing_views.investor_medical_rentals_summary, name='investor_medical_rentals_summary'),
 ]
 
 if _has_graphql:
@@ -83,19 +91,27 @@ prefixed_urlpatterns = i18n_patterns(
     # New frontend demo routes'', include('pages.urls')),
     # N
     path('listings/', include('listings.urls')),
-    path('', TemplateView.as_view(template_name='newfrontend/index.html'), name='new_index'),
+    # Root opens directly on the map experience.
+    path('', listing_views.new_map_view, name='home_wizard'),
+    path('', listing_views.new_map_view, name='new_index'),
     path('properties/', listing_views.new_properties, name='new_properties'),
     path('properties/page/<int:page>/', listing_views.new_properties, name='new_properties_page'),
-    path('financing/', pages_views.financing, name='new_financing'),
+    path('opportunities/', listing_views.new_properties, name='opportunities'),
+    path('opportunities/under-1.25m/', listing_views.new_properties, {'max_price': '1250000'}, name='opportunities_under'),
+    path('opportunities/over-1.25m/', listing_views.new_properties, {'min_price': '1250000'}, name='opportunities_over'),
+    # financing/ removed — page still accessible if uncommented later
     # Map page (missing in runtime urls; templates reference 'new_map')
     path('map/', listing_views.new_map_view, name='new_map'),
+    path('investor/medical-rentals/', listing_views.investor_medical_rentals, name='investor_medical_rentals'),
+    path('maplibre/', listing_views.new_maplibre_view, name='new_maplibre'),
     path('property-details/', listing_views.new_property_details_preview, name='new_property_details'),
     path('listing/<int:listing_id>/', listing_views.new_listing_detail, name='new_listing_detail'),
     path('listing/<int:listing_id>/map/', listing_views.listing_map_embed, name='listing_map_embed'),
     path('listing/<int:listing_id>/map-data/', listing_views.listing_map_data, name='listing_map_data'),
-    path('contact/', TemplateView.as_view(template_name='newfrontend/contact.html'), name='new_contact'),
+    # contact/ removed — page still accessible if uncommented later
     path('map-copy/', listing_views.new_map_view_copy, name='new_map_copy'),
     path('map-simplified/', xframe_options_exempt(TemplateView.as_view(template_name='newfrontend/mapstandalone/simplified/index.html')), name='new_map_simplified'),
+    path('whatsapp-inbox/', listing_views.whatsapp_inbox, name='whatsapp_inbox'),
     # Project showcase page for client presentation
     path('project-showcase/', TemplateView.as_view(template_name='newfrontend/project-showcase.html'), name='project_showcase'),
     path('proje-vitrini/', TemplateView.as_view(template_name='newfrontend/project-showcase-tr.html'), name='project_showcase_tr'),

@@ -103,7 +103,7 @@ class Command(BaseCommand):
                         zipcode=(row.get("zipcode") or "").strip(),
                         description=(row.get("description") or "").strip(),
                         price=to_int(row.get("price"), "price") or 0,
-                        bedrooms=to_int(row.get("bedrooms"), "bedrooms") or 0,
+                        bedrooms=str(row.get("bedrooms") or "").strip() or "",
                         property_type=(row.get("property_type") or "").strip(),
                         bathrooms=to_int(row.get("bathrooms"), "bathrooms") or 0,
                         garage=to_int(row.get("garage"), "garage") or 0,

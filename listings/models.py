@@ -1,6 +1,7 @@
 from django.db import models
 from datetime import datetime
 from django.utils.timezone import timezone
+from django.utils import timezone as django_timezone
 from geopy.geocoders import Nominatim
 from geopy.exc import GeocoderTimedOut, GeocoderServiceError
 import time
@@ -9,7 +10,48 @@ from realtors.models import Realtor
 from django.utils.translation import gettext_lazy as _
 import os
 
+from .choices import rentability_group_badges, rentability_group_choices
+
 # Create your models here.
+
+
+class CurrencySettings(models.Model):
+    try_to_usd = models.DecimalField(
+        max_digits=12,
+        decimal_places=6,
+        default=0.021661,
+        verbose_name=_('1 TL in USD'),
+    )
+    try_to_eur = models.DecimalField(
+        max_digits=12,
+        decimal_places=6,
+        default=0.018768,
+        verbose_name=_('1 TL in EUR'),
+    )
+    try_to_dzd = models.DecimalField(
+        max_digits=12,
+        decimal_places=6,
+        default=5,
+        verbose_name=_('1 TL in DZD'),
+        help_text=_('Default business rate: 100 TL = 500 DZD.'),
+    )
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = _('Currency settings')
+        verbose_name_plural = _('Currency settings')
+
+    def __str__(self):
+        return _('Currency settings')
+
+    def save(self, *args, **kwargs):
+        self.pk = 1
+        super().save(*args, **kwargs)
+
+    @classmethod
+    def load(cls):
+        obj, _ = cls.objects.get_or_create(pk=1)
+        return obj
 
 class Listing(models.Model):
     realtor = models.ForeignKey(Realtor, on_delete=models.DO_NOTHING, blank=True)
@@ -22,7 +64,7 @@ class Listing(models.Model):
     longitude = models.FloatField(null=True, blank=True)
     description = models.TextField(blank=True)
     price = models.IntegerField()
-    bedrooms = models.IntegerField()
+    bedrooms = models.CharField(max_length=20, blank=True, default='')
     # Deal type: strictly 'Kiralık' or 'Satış'
     DEAL_TYPE_CHOICES = (
         ('kiralik', _('Kiralık')),
@@ -44,6 +86,7 @@ class Listing(models.Model):
     lot_size = models.DecimalField(max_digits=6, decimal_places=1, default=0.0)
     # New reference fields from source
     external_id = models.CharField(max_length=64, blank=True, db_index=True)
+    phone = models.CharField(max_length=32, blank=True, db_index=True)
     ad_date = models.DateField(null=True, blank=True)
     # Source page URL from which this listing was scraped
     original_url = models.URLField(max_length=500, blank=True)
@@ -67,8 +110,23 @@ class Listing(models.Model):
     deposit = models.IntegerField(null=True, blank=True)
     deed_status = models.CharField(max_length=100, blank=True)
     from_whom = models.CharField(max_length=100, blank=True)
+    rentability_groups = models.CharField(
+        max_length=255,
+        blank=True,
+        default='',
+        db_index=True,
+        verbose_name=_('Rentability groups'),
+        help_text=_('Tenant/renter groups this apartment is a strong match for.'),
+    )
     is_published = models.BooleanField(default=True)
     list_date = models.DateTimeField(default=datetime.now, blank=True)
+    estimated_monthly_rent_try = models.IntegerField(null=True, blank=True, db_index=True)
+    rent_estimate_source = models.CharField(max_length=80, blank=True)
+    rent_estimate_updated_at = models.DateTimeField(null=True, blank=True)
+    airbnb_comp_count = models.PositiveIntegerField(default=0)
+    airbnb_comp_median_try = models.IntegerField(null=True, blank=True)
+    source_batch_label = models.CharField(max_length=120, blank=True, db_index=True)
+    source_search_context = models.JSONField(default=dict, blank=True)
 
     def geocode_address(self):
         """Geocode the address using Nominatim. Skips if coordinates already set."""
@@ -114,6 +172,235 @@ class Listing(models.Model):
 
     def __str__(self):
         return self.title
+
+    @property
+    def price_trend(self):
+        return 'up' if self.pk % 2 == 0 else 'down'
+
+    @property
+    def trend_percent(self):
+        return 1 + ((self.pk or 0) % 11)
+
+    @property
+    def is_hot(self):
+        return self.pk % 3 == 0
+
+    @property
+    def is_new(self):
+        return self.pk % 3 == 1
+
+    @property
+    def estimated_rent(self):
+        if self.estimated_monthly_rent_try:
+            return self.estimated_monthly_rent_try
+        return (self.price // 65) + ((self.pk or 0) % 7) * 100
+
+    @property
+    def rentability(self):
+        return 85 + ((self.pk or 0) % 15)
+
+    @property
+    def rentability_group_values(self):
+        return [value for value in self.rentability_groups.split(',') if value]
+
+    @property
+    def rentability_group_labels(self):
+        return [
+            rentability_group_choices.get(value, value.replace('_', ' ').title())
+            for value in self.rentability_group_values
+        ]
+
+    @property
+    def rentability_group_badges(self):
+        return [
+            {
+                'value': value,
+                'label': rentability_group_choices.get(value, value.replace('_', ' ').title()),
+                'badge': rentability_group_badges.get(value),
+            }
+            for value in self.rentability_group_values[:5]
+            if rentability_group_badges.get(value)
+        ]
+
+
+class AirbnbListing(models.Model):
+    listing_id = models.CharField(max_length=40, unique=True, db_index=True)
+    title = models.CharField(max_length=255, blank=True)
+    tagline = models.CharField(max_length=255, blank=True)
+    property_type = models.CharField(max_length=120, blank=True)
+    listing_url = models.URLField(max_length=500, blank=True)
+    booking_url = models.URLField(max_length=700, blank=True)
+
+    city = models.CharField(max_length=160, blank=True)
+    full_address = models.CharField(max_length=300, blank=True)
+    location = models.CharField(max_length=300, blank=True)
+    latitude = models.FloatField(null=True, blank=True)
+    longitude = models.FloatField(null=True, blank=True)
+
+    bedroom_count = models.PositiveSmallIntegerField(null=True, blank=True)
+    bathroom_count = models.DecimalField(max_digits=4, decimal_places=1, null=True, blank=True)
+    bed_count = models.PositiveSmallIntegerField(null=True, blank=True)
+    guest_capacity = models.PositiveSmallIntegerField(null=True, blank=True)
+
+    photos = models.JSONField(default=list, blank=True)
+    highlights = models.JSONField(default=list, blank=True)
+    amenity_ids = models.JSONField(default=list, blank=True)
+
+    host_id = models.CharField(max_length=40, blank=True)
+    host_name = models.CharField(max_length=160, blank=True)
+    host_avatar = models.URLField(max_length=700, blank=True)
+    is_superhost = models.BooleanField(default=False)
+    is_verified = models.BooleanField(null=True, blank=True)
+    host_rating = models.DecimalField(max_digits=4, decimal_places=2, null=True, blank=True)
+    host_review_count = models.PositiveIntegerField(null=True, blank=True)
+    years_hosting = models.PositiveSmallIntegerField(null=True, blank=True)
+
+    overall_rating = models.DecimalField(max_digits=4, decimal_places=2, null=True, blank=True)
+    review_count = models.PositiveIntegerField(null=True, blank=True)
+    rating_categories = models.JSONField(default=list, blank=True)
+    is_guest_favorite = models.BooleanField(null=True, blank=True)
+
+    nightly_rate = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True)
+    currency = models.CharField(max_length=8, blank=True)
+    total_cost = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True)
+    pricing = models.JSONField(default=dict, blank=True)
+
+    cancellation_policy = models.CharField(max_length=160, blank=True)
+    cancellation_terms = models.JSONField(default=list, blank=True)
+    is_rare_find = models.BooleanField(default=False)
+    is_available = models.BooleanField(null=True, blank=True)
+    unavailability_reason = models.CharField(max_length=255, blank=True)
+    rank = models.PositiveIntegerField(null=True, blank=True, db_index=True)
+
+    source_destination_query = models.CharField(max_length=255, blank=True, db_index=True)
+    search_adult_guests = models.PositiveSmallIntegerField(null=True, blank=True)
+    search_page_number = models.PositiveIntegerField(null=True, blank=True)
+    raw_search_payload = models.JSONField(default=dict, blank=True)
+    raw_details_payload = models.JSONField(default=dict, blank=True)
+    scraped_at = models.DateTimeField(default=django_timezone.now, db_index=True)
+    details_scraped_at = models.DateTimeField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ('rank', '-overall_rating', 'title')
+        verbose_name = _('Airbnb listing')
+        verbose_name_plural = _('Airbnb listings')
+
+    def __str__(self):
+        return self.title or self.listing_id
+
+
+class ListingPhoneEntry(models.Model):
+    STATUS_OK = 'ok'
+    STATUS_MISSING = 'missing'
+    STATUS_ERROR = 'error'
+    STATUS_SKIPPED = 'skipped'
+    STATUS_CHOICES = (
+        (STATUS_OK, _('OK')),
+        (STATUS_MISSING, _('Missing')),
+        (STATUS_ERROR, _('Error')),
+        (STATUS_SKIPPED, _('Skipped')),
+    )
+
+    listing = models.ForeignKey(
+        Listing,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='phone_entries',
+    )
+    external_id = models.CharField(max_length=64, db_index=True)
+    phone_normalized = models.CharField(max_length=32, blank=True, db_index=True)
+    phone_raw = models.CharField(max_length=64, blank=True)
+    status = models.CharField(max_length=16, choices=STATUS_CHOICES, default=STATUS_MISSING, db_index=True)
+    source = models.CharField(max_length=80, default='android_visible_index', db_index=True)
+    source_result_path = models.CharField(max_length=500, blank=True)
+    debug_folder = models.CharField(max_length=500, blank=True)
+    error = models.TextField(blank=True)
+    scraped_at = models.DateTimeField(default=django_timezone.now, db_index=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        unique_together = ('external_id', 'source')
+        ordering = ('-scraped_at', '-updated_at')
+
+    def __str__(self):
+        return '%s %s' % (self.external_id, self.phone_normalized or self.status)
+
+
+class WhatsAppConversation(models.Model):
+    listing = models.ForeignKey(
+        Listing,
+        on_delete=models.CASCADE,
+        related_name='whatsapp_conversations',
+    )
+    chat_id = models.CharField(max_length=120, db_index=True)
+    phone_number = models.CharField(max_length=32, db_index=True)
+    display_name = models.CharField(max_length=160, blank=True)
+    session = models.CharField(max_length=80, blank=True, db_index=True)
+    last_synced_at = models.DateTimeField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        unique_together = ('listing', 'chat_id', 'session')
+        ordering = ('-updated_at',)
+
+    def __str__(self):
+        return '%s - %s' % (self.listing, self.chat_id)
+
+
+class WhatsAppIdentityAlias(models.Model):
+    conversation = models.ForeignKey(
+        WhatsAppConversation,
+        on_delete=models.CASCADE,
+        related_name='identity_aliases',
+    )
+    session = models.CharField(max_length=80, blank=True, db_index=True)
+    alias = models.CharField(max_length=160, db_index=True)
+    canonical_id = models.CharField(max_length=160, blank=True, db_index=True)
+    phone_number = models.CharField(max_length=32, blank=True, db_index=True)
+    source = models.CharField(max_length=40, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        unique_together = ('session', 'alias')
+        ordering = ('alias',)
+
+    def __str__(self):
+        return '%s -> %s' % (self.alias, self.conversation_id)
+
+
+class WhatsAppMessage(models.Model):
+    DIRECTION_IN = 'in'
+    DIRECTION_OUT = 'out'
+    DIRECTION_CHOICES = (
+        (DIRECTION_IN, _('Incoming')),
+        (DIRECTION_OUT, _('Outgoing')),
+    )
+
+    conversation = models.ForeignKey(
+        WhatsAppConversation,
+        on_delete=models.CASCADE,
+        related_name='messages',
+    )
+    waha_message_id = models.CharField(max_length=255, blank=True, db_index=True)
+    direction = models.CharField(max_length=8, choices=DIRECTION_CHOICES, db_index=True)
+    sender = models.CharField(max_length=120, blank=True)
+    body = models.TextField(blank=True)
+    message_type = models.CharField(max_length=40, blank=True)
+    sent_at = models.DateTimeField(null=True, blank=True, db_index=True)
+    raw_payload = models.TextField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ('sent_at', 'id')
+
+    def __str__(self):
+        return '%s %s' % (self.direction, self.waha_message_id or self.pk)
 
 
 def listing_image_upload_to(instance, filename):

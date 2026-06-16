@@ -1,0 +1,79 @@
+{
+  "agents": {
+    "savant": {
+      "extends": "defaults",
+      "workspace": "/home/lofa/DEV/kuzey-v5-Kali-Finale",
+      "description": "Kuzey Emlak savant agent - deep domain expert for this real estate platform",
+      "knowledge": {
+        "seed": [".openclaw/SEED.md", ".openclaw/AGENTS.md", ".openclaw/TOOLS.md"],
+        "priority": "project"
+      },
+      "model": {
+        "primary": "nvidia/nemotron-3-super-120b-a12b"
+      },
+      "elevatedDefault": "on",
+      "maxConcurrent": 4,
+      "subagents": {
+        "maxConcurrent": 8
+      },
+      "sandbox": {
+        "mode": "off"
+      }
+    }
+  },
+  "tools": {
+    "project": {
+      "django-shell": {
+        "description": "Django shell_plus (use `python manage.py shell_plus` for advanced shell with auto-imports)",
+        "setup": "pip install django-extensions && add 'django_extensions' to INSTALLED_APPS",
+        "usage": "venv/bin/python manage.py shell_plus --print-sql"
+      },
+      "django-manage": {
+        "description": "Run any Django management command",
+        "pattern": "venv/bin/python manage.py <command> [args]",
+        "commands": {
+          "import": "import_listings, import_listings_from_links, import_listings_with_playwright",
+          "airbnb": "fetch_airbnb_listings, fetch_airbnb_markets, calibrate_listing_rents, score_investment_targets",
+          "android": "sync_android_missing_listings, sync_android_listing_phones, sync_android_listing_images",
+          "geo": "geocode_listings, geocode_missing_listings, generate_listing_maps"
+        }
+      },
+      "whatsapp": {
+        "description": "WhatsApp integration via atomic-waha-v3 plugin for contacting listing owners",
+        "plugin": "atomic-waha-v3",
+        "config": {
+          "baseUrl": "https://waha-gows.whatsynaptic.com",
+          "session": "user-905014614767"
+        },
+        "api_endpoints": {
+          "send_message": "POST /api/whatsapp/listing/<id>/send",
+          "conversation": "GET /api/whatsapp/conversation/<id>/messages",
+          "suggest_reply": "POST /api/whatsapp/listing/<id>/suggest"
+        }
+      }
+    }
+  },
+  "channels": {
+    "telegram": {
+      "enabled": true,
+      "botToken": "8905913534:AAFr_2AHS5aYzKxgkXFGEV88UTKeO2Scaq0",
+      "dmPolicy": "allowlist",
+      "allowFrom": [7735811297],
+      "groupAllowFrom": ["7735811297"],
+      "agent": "savant",
+      "projectOnly": true
+    }
+  },
+  "hooks": {
+    "internal": {
+      "entries": {
+        "boot-md": {
+          "enabled": true,
+          "config": {
+            "sources": [".openclaw/SEED.md"]
+          }
+        }
+      }
+    }
+  }
+}

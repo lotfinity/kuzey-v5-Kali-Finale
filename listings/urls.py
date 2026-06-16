@@ -9,5 +9,6 @@ urlpatterns = [
     path('search/',views.search , name='search'),
     path('map/', views.map_view, name='map'),
     path('map-data/', views.map_data, name='map_data'),
+    path('airbnb-map-data/', views.airbnb_map_data, name='airbnb_map_data'),
 
 ]

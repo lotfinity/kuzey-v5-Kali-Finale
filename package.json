@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "@toast-ui/editor": "^3.2.2",
+    "countup.js": "^2.10.0",
     "tui-color-picker": "^2.2.8",
     "tui-image-editor": "^3.15.3"
   }

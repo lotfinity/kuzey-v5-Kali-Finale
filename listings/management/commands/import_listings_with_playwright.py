@@ -442,7 +442,7 @@ class Command(BaseCommand):
 
                 property_type_raw = details.get("Emlak Tipi", "")
                 deal_type, property_type = parse_deal_and_type(property_type_raw)
-                bedrooms = parse_bedrooms_from_oda_sayisi(details.get("Oda Sayısı", "") or details.get("Oda Sayisi", ""))
+                bedrooms = (details.get("Oda Sayısı", "") or details.get("Oda Sayisi", "")).strip()
                 bathrooms = clean_int_from_text(details.get("Banyo Sayısı", "") or details.get("Banyo Sayisi", ""))
                 m2_brut_text = details.get("m² (Brüt)", "") or details.get("m2 (Brut)", "")
                 try:

@@ -1,5 +1,6 @@
 {% load static %}
 {% load i18n %}
+{% load l10n %}
 {% load lang_links %}
 {% load theme_filters %}
 <!DOCTYPE html>
@@ -13,6 +14,17 @@
     <link href="https://fonts.googleapis.com/css2?family=Tangerine:wght@400;700&display=swap" rel="stylesheet">
 
     <title>{% block title %}Estate Agency - Demo{% endblock %}</title>
+    <script>
+      (function(){
+        var storedTheme = null;
+        try { storedTheme = localStorage.getItem('kuzey_theme'); } catch(e){}
+        var mode = storedTheme === 'light' || storedTheme === 'dark' || storedTheme === 'system' ? storedTheme : 'dark';
+        var prefersDark = false;
+        try { prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches; } catch(e){}
+        document.documentElement.setAttribute('data-theme-mode', mode);
+        document.documentElement.setAttribute('data-theme', mode === 'system' ? (prefersDark ? 'dark' : 'light') : mode);
+      })();
+    </script>
 
     <!-- Vendor Bootstrap (shipped with newfront) -->
     <link href="{% static 'newfront/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
@@ -25,8 +37,8 @@
     <link rel="stylesheet" href="https://unpkg.com/swiper@7/swiper-bundle.min.css" />
     <link rel="stylesheet" href="{% static 'newfront/assets/css/typing-effect.css' %}">
 
-    
-    
+
+
     {% block extra_css %}{% endblock %}
     {% if theme and theme.font_import_url %}
       <link href="{{ theme.font_import_url|font_href }}" rel="stylesheet">
@@ -59,26 +71,318 @@
     </style>
     {% endif %}
     <style>
+      :root {
+        color-scheme: light;
+        --surface-bg: var(--theme-bg, #ffffff);
+        --surface-raised: #ffffff;
+        --surface-muted: #f7f7f7;
+        --surface-border: #e5e7eb;
+        --text-main: var(--theme-text, #1e1e1e);
+        --text-muted: #4a4a4a;
+        --text-soft: #6b7280;
+        --shadow-soft: rgba(0, 0, 0, 0.08);
+        --shadow-menu: rgba(0, 0, 0, 0.12);
+      }
+      html[data-theme="dark"] {
+        color-scheme: dark;
+        --surface-bg: #0f1115;
+        --surface-raised: #171a20;
+        --surface-muted: #222731;
+        --surface-border: #343c49;
+        --text-main: #f6efe2;
+        --text-muted: #d2c8b7;
+        --text-soft: #a99f90;
+        --shadow-soft: rgba(0, 0, 0, 0.42);
+        --shadow-menu: rgba(0, 0, 0, 0.55);
+        --theme-bg: #0f1115;
+        --theme-text: #f6efe2;
+        --theme-primary: #d8ba70;
+        --theme-accent: #5db7de;
+      }
+      html[data-theme="dark"] body,
+      html[data-theme="dark"] main {
+        background-color: var(--surface-bg) !important;
+        color: var(--text-main) !important;
+      }
+      html[data-theme="dark"] p,
+      html[data-theme="dark"] .info li,
+      html[data-theme="dark"] .properties .item p,
+      html[data-theme="dark"] .single-property p,
+      html[data-theme="dark"] .contact-page p {
+        color: var(--text-muted);
+      }
+      html[data-theme="dark"] h1,
+      html[data-theme="dark"] h2,
+      html[data-theme="dark"] h3,
+      html[data-theme="dark"] h4,
+      html[data-theme="dark"] h5,
+      html[data-theme="dark"] h6,
+      html[data-theme="dark"] .section-heading h6,
+      html[data-theme="dark"] .main-nav .nav li a {
+        color: var(--text-main);
+      }
+      html[data-theme="dark"] .top-language-bar,
+      html[data-theme="dark"] .sub-header,
+      html[data-theme="dark"] .header-area,
+      html[data-theme="dark"] .background-header {
+        background: var(--surface-raised) !important;
+        border-color: var(--surface-border);
+      }
+      html[data-theme="dark"] .header-area.header-sticky {
+        box-shadow: 0 8px 28px var(--shadow-soft);
+      }
+      html[data-theme="dark"] .lang-current,
+      html[data-theme="dark"] .currency-current,
+      html[data-theme="dark"] .theme-current {
+        background: #242a35;
+        border-color: #465061;
+        color: var(--text-main);
+        box-shadow: 0 2px 10px var(--shadow-soft), inset 0 1px 0 rgba(255,255,255,.04);
+      }
+      html[data-theme="dark"] .lang-current:hover,
+      html[data-theme="dark"] .currency-current:hover,
+      html[data-theme="dark"] .theme-current:hover {
+        background: #2d3542;
+        border-color: #d8ba70;
+      }
+      html[data-theme="dark"] .lang-menu,
+      html[data-theme="dark"] .currency-menu,
+      html[data-theme="dark"] .theme-menu {
+        background: #1b2029;
+        border-color: #465061;
+        box-shadow: 0 18px 34px var(--shadow-menu);
+      }
+      html[data-theme="dark"] .lang-item button,
+      html[data-theme="dark"] .currency-item button,
+      html[data-theme="dark"] .theme-item button,
+      html[data-theme="dark"] .lang-item-link {
+        color: var(--text-main) !important;
+      }
+      html[data-theme="dark"] .theme-item button i {
+        color: #d8ba70;
+      }
+      html[data-theme="dark"] .lang-item button:hover,
+      html[data-theme="dark"] .currency-item button:hover,
+      html[data-theme="dark"] .currency-item button.is-active,
+      html[data-theme="dark"] .theme-item button:hover,
+      html[data-theme="dark"] .theme-item button.is-active {
+        background: #2b3340;
+        color: #fff !important;
+      }
+      html[data-theme="dark"] .currency-item button.is-active,
+      html[data-theme="dark"] .theme-item button.is-active {
+        box-shadow: inset 3px 0 0 #d8ba70;
+      }
+      html[data-theme="dark"] .currency-icon {
+        background: #d8ba70;
+        color: #111;
+      }
+      html[data-theme="dark"] .header-area .main-nav .nav li a:hover,
+      html[data-theme="dark"] .header-area .main-nav .nav li a.active,
+      html[data-theme="dark"] .background-header .main-nav .nav li a.active {
+        color: #d8ba70 !important;
+      }
+      html[data-theme="dark"] .header-area .main-nav .nav li:last-child a {
+        background-color: #d8ba70 !important;
+        color: #111 !important;
+      }
+      html[data-theme="dark"] .header-area .main-nav .nav li:last-child a i {
+        background-color: #171a20 !important;
+        color: #d8ba70 !important;
+      }
+      html[data-theme="dark"] .header-area .main-nav .menu-trigger span,
+      html[data-theme="dark"] .header-area .main-nav .menu-trigger span:before,
+      html[data-theme="dark"] .header-area .main-nav .menu-trigger span:after {
+        background-color: #f6efe2;
+      }
+      @media (max-width: 767px) {
+        html[data-theme="dark"] .background-header .main-nav,
+        html[data-theme="dark"] .header-area .main-nav {
+          background: #171a20;
+          border-radius: 0 0 18px 18px;
+          box-shadow: 0 18px 34px rgba(0,0,0,.45);
+        }
+        html[data-theme="dark"] .background-header .main-nav .nav,
+        html[data-theme="dark"] .header-area .main-nav .nav {
+          background: #171a20 !important;
+          border: 1px solid #343c49;
+          border-top: 0;
+        }
+        html[data-theme="dark"] .background-header .main-nav .nav li,
+        html[data-theme="dark"] .header-area .main-nav .nav li {
+          background: #171a20 !important;
+          border-top: 1px solid #343c49;
+          border-radius: 0;
+        }
+        html[data-theme="dark"] .background-header .main-nav .nav li a,
+        html[data-theme="dark"] .header-area .main-nav .nav li a {
+          background: #171a20 !important;
+          color: #f6efe2 !important;
+          border-radius: 0;
+        }
+        html[data-theme="dark"] .background-header .main-nav .nav li a:hover,
+        html[data-theme="dark"] .header-area .main-nav .nav li a:hover,
+        html[data-theme="dark"] .background-header .main-nav .nav li a.active,
+        html[data-theme="dark"] .header-area .main-nav .nav li a.active {
+          background: #252c38 !important;
+          color: #d8ba70 !important;
+        }
+        html[data-theme="dark"] .header-area .nav li:last-child a {
+          background: #252c38 !important;
+          color: #d8ba70 !important;
+        }
+      }
+      .main-nav .nav .dropdown-menu {
+        border-radius: 12px;
+        border: 1px solid var(--surface-border, #e5e7eb);
+        background: var(--surface-raised, #fff);
+        box-shadow: 0 12px 40px var(--shadow-soft, rgba(0,0,0,0.12));
+        padding: 8px;
+        min-width: 200px;
+      }
+      .main-nav .nav .dropdown-menu .dropdown-item {
+        border-radius: 8px;
+        padding: 10px 14px;
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--text-main, #1e1e1e);
+        transition: all .15s;
+      }
+      .main-nav .nav .dropdown-menu .dropdown-item:hover,
+      .main-nav .nav .dropdown-menu .dropdown-item:focus {
+        background: rgba(163,131,68,.10);
+        color: var(--theme-primary, #a38344);
+      }
+      .main-nav .nav .dropdown-menu .dropdown-divider {
+        border-color: var(--surface-border, #e5e7eb);
+        margin: 6px 0;
+      }
+      html[data-theme="dark"] .main-nav .nav .dropdown-menu .dropdown-item {
+        color: var(--text-main);
+      }
+      html[data-theme="dark"] .main-nav .nav .dropdown-menu .dropdown-item:hover {
+        background: rgba(216,186,112,.12);
+        color: #d8ba70;
+      }
+      html[data-theme="dark"] .properties .item,
+      html[data-theme="dark"] .featured .left-image,
+      html[data-theme="dark"] .featured .section-heading,
+      html[data-theme="dark"] .info-table,
+      html[data-theme="dark"] .single-property .main-content,
+      html[data-theme="dark"] .accordion,
+      html[data-theme="dark"] .contact-page .right-content,
+      html[data-theme="dark"] .price-popup {
+        background: var(--surface-raised) !important;
+        border-color: var(--surface-border);
+        color: var(--text-main);
+      }
+      html[data-theme="dark"] .properties {
+        background-color: var(--surface-bg) !important;
+      }
+      html[data-theme="dark"] .properties-filter {
+        color: var(--text-main);
+      }
+      html[data-theme="dark"] .properties-filter label {
+        color: var(--text-muted) !important;
+      }
+      html[data-theme="dark"] .properties .item h4 a,
+      html[data-theme="dark"] .properties .item li,
+      html[data-theme="dark"] .properties .item .property-details-grid li,
+      html[data-theme="dark"] .properties .item .location-line {
+        color: var(--text-muted) !important;
+      }
+      html[data-theme="dark"] .properties .item .invest-row {
+        background: linear-gradient(135deg, rgba(216,186,112,.14), rgba(93,183,222,.08));
+        color: var(--text-muted);
+      }
+      html[data-theme="dark"] .properties .item .rentability-tag {
+        background: var(--surface-muted);
+        color: var(--text-main);
+        border: 1px solid var(--surface-border);
+      }
+      html[data-theme="dark"] .properties .item .rentability-badge {
+        background: var(--surface-muted);
+        border: 1px solid var(--surface-border);
+        box-shadow: none;
+      }
+      html[data-theme="dark"] .properties .item,
+      html[data-theme="dark"] .info-table,
+      html[data-theme="dark"] .contact-page .right-content,
+      html[data-theme="dark"] .price-popup {
+        box-shadow: 0 12px 32px var(--shadow-soft);
+      }
+      html[data-theme="dark"] .accordion-button,
+      html[data-theme="dark"] .accordion-body,
+      html[data-theme="dark"] input,
+      html[data-theme="dark"] textarea,
+      html[data-theme="dark"] select {
+        background-color: var(--surface-muted) !important;
+        border-color: var(--surface-border) !important;
+        color: var(--text-main) !important;
+      }
+      html[data-theme="dark"] .accordion-button::after {
+        filter: invert(1);
+      }
+      html[data-theme="dark"] .price-popup-option {
+        border-color: var(--surface-border);
+        color: var(--text-main);
+      }
+      html[data-theme="dark"] .price-popup-option:hover {
+        background: var(--surface-muted);
+      }
+      html[data-theme="dark"] .price-popup-overlay {
+        background: rgba(0, 0, 0, 0.72);
+      }
       /* Language switcher styles (global) */
       .top-language-bar { position: relative; z-index: 1000; background: #fff; }
-      .top-language-inner { display: flex; justify-content: center; padding: 8px 0; }
+      .top-language-inner { display: flex; justify-content: center; align-items: center; gap: 8px; padding: 8px 0; }
       .lang-switcher { position: relative; }
-      .lang-current { display: inline-flex; align-items: center; gap: 8px; padding: 6px 10px; border: 1px solid #e5e7eb; border-radius: 999px; background: #fff; color: #111827; box-shadow: 0 2px 8px rgba(0,0,0,0.06); cursor: pointer; line-height: 1; }
+      .lang-current,
+      .currency-current { display: inline-flex; align-items: center; gap: 8px; padding: 6px 10px; border: 1px solid #e5e7eb; border-radius: 999px; background: #fff; color: #111827; box-shadow: 0 2px 8px rgba(0,0,0,0.06); cursor: pointer; line-height: 1; min-height: 34px; }
       .lang-current .flag { width: 18px; height: 18px; border-radius: 2px; object-fit: cover; }
-      .lang-current .code { font-weight: 600; font-size: 12px; letter-spacing: .3px; }
-      .lang-current .chev { font-size: 12px; opacity: .7; }
-      .lang-current:focus { outline: none; box-shadow: 0 0 0 3px rgba(59,130,246,.25); }
-      .lang-menu { position: absolute; right: 0; top: calc(100% + 8px); min-width: 200px; background: #fff; border: 1px solid #e5e7eb; border-radius: 10px; box-shadow: 0 10px 28px rgba(0,0,0,0.12); padding: 6px; display: none; z-index: 100000; }
+      .lang-current .code,
+      .currency-current .code { font-weight: 700; font-size: 12px; letter-spacing: .3px; }
+      .lang-current .chev,
+      .currency-current .chev { font-size: 12px; opacity: .7; }
+      .lang-current:focus,
+      .currency-current:focus { outline: none; box-shadow: 0 0 0 3px rgba(163,131,68,.22); }
+      .currency-flag,
+      .currency-option-flag { width: 18px; height: 18px; border-radius: 50%; object-fit: cover; flex: 0 0 auto; box-shadow: 0 0 0 1px rgba(0,0,0,.08); }
+      .currency-symbol { min-width: 18px; font-weight: 800; font-size: 13px; text-align: center; }
+      .currency-switcher { position: relative; }
+      .theme-switcher { position: relative; }
+      .theme-current { display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 38px; height: 34px; border: 1px solid #e5e7eb; border-radius: 999px; background: #fff; color: #111827; box-shadow: 0 2px 8px rgba(0,0,0,0.06); cursor: pointer; line-height: 1; }
+      .theme-current i { font-size: 13px; }
+      .theme-current:focus { outline: none; box-shadow: 0 0 0 3px rgba(163,131,68,.22); }
+      .lang-menu,
+      .currency-menu,
+      .theme-menu { position: absolute; right: 0; top: calc(100% + 8px); min-width: 200px; background: #fff; border: 1px solid #e5e7eb; border-radius: 10px; box-shadow: 0 10px 28px rgba(0,0,0,0.12); padding: 6px; display: none; z-index: 100000; }
       .lang-switcher.open .lang-menu { display: block; z-index: 100000; }
-      .lang-item { margin: 0; }
-      .lang-item + .lang-item { margin-top: 2px; }
-      .lang-item button { width: 100%; display: flex; align-items: center; gap: 10px; padding: 8px 10px; background: transparent; border: 0; border-radius: 8px; cursor: pointer; font-size: 13px; color: #111827; text-align: left; }
+      .currency-switcher.open .currency-menu { display: block; z-index: 100000; }
+      .theme-switcher.open .theme-menu { display: block; z-index: 100000; }
+      .lang-item,
+      .currency-item,
+      .theme-item { margin: 0; }
+      .lang-item + .lang-item,
+      .currency-item + .currency-item,
+      .theme-item + .theme-item { margin-top: 2px; }
+      .lang-item button,
+      .currency-item button,
+      .theme-item button { width: 100%; display: flex; align-items: center; gap: 10px; padding: 8px 10px; background: transparent; border: 0; border-radius: 8px; cursor: pointer; font-size: 13px; color: #111827; text-align: left; }
+      .currency-item button { justify-content: flex-start; font-weight: 800; }
+      .theme-item button i { width: 16px; text-align: center; color: #a38344; }
       .lang-item a .flag { width: 18px; height: 18px; border-radius: 2px; object-fit: cover; }
-      .lang-item button:hover { background: #f3f4f6; }
+      .lang-item button:hover,
+      .currency-item button:hover,
+      .currency-item button.is-active,
+      .theme-item button:hover,
+      .theme-item button.is-active { background: #f3f4f6; }
       @media (max-width: 768px) {
-        .lang-menu { right: auto; left: 50%; transform: translateX(-50%); min-width: 220px; }
+        .lang-menu,
+        .currency-menu,
+        .theme-menu { right: auto; left: 50%; transform: translateX(-50%); min-width: 180px; }
       }
-      
+
       /* Tangerine Font for Banner Headings */
       .tangerine-regular {
         font-family: "Tangerine", cursive;
@@ -93,7 +397,7 @@
       <video id="loaderVideo" class="loader-video" muted playsinline preload="auto"></video>
     </div>
 
-    <!-- Global Language Switcher (top-centered, outside nav) 
+    <!-- Global Language Switcher (top-centered, outside nav)
     {% get_current_language as LANGUAGE_CODE %}
     {% get_available_languages as LANGUAGES %}
     <div class="top-language-bar">
@@ -156,18 +460,41 @@
               {% endfor %}
             </div>
           </div>
+          <div class="currency-switcher" data-currency-switcher>
+            <button type="button" class="currency-current" aria-haspopup="true" aria-expanded="false" aria-label="{% trans 'Select currency' %}">
+              <img class="currency-flag" data-currency-current-flag src="{% static 'flags/tr.svg' %}" alt="" aria-hidden="true">
+              <span class="currency-symbol" data-currency-current>₺</span>
+              <span class="chev" aria-hidden="true">▾</span>
+            </button>
+            <div class="currency-menu" role="menu" aria-label="{% trans 'Available currencies' %}">
+              <div class="currency-item"><button type="button" data-currency-option="TRY" class="is-active"><img class="currency-option-flag" src="{% static 'flags/tr.svg' %}" alt="" aria-hidden="true"><span>₺</span><span>TRY</span></button></div>
+              <div class="currency-item"><button type="button" data-currency-option="USD"><img class="currency-option-flag" src="{% static 'flags/US.png' %}" alt="" aria-hidden="true"><span>$</span><span>USD</span></button></div>
+              <div class="currency-item"><button type="button" data-currency-option="EUR"><img class="currency-option-flag" src="{% static 'flags/fr.svg' %}" alt="" aria-hidden="true"><span>€</span><span>EUR</span></button></div>
+              <div class="currency-item"><button type="button" data-currency-option="DZD"><img class="currency-option-flag" src="{% static 'flags/dz.svg' %}" alt="" aria-hidden="true"><span>DZD</span></button></div>
+            </div>
+          </div>
+          <div class="theme-switcher" data-theme-switcher>
+            <button type="button" class="theme-current" aria-haspopup="true" aria-expanded="false" aria-label="{% trans 'Select theme' %}">
+              <i class="fa fa-adjust" aria-hidden="true" data-theme-icon></i>
+            </button>
+            <div class="theme-menu" role="menu" aria-label="{% trans 'Available themes' %}">
+              <div class="theme-item"><button type="button" data-theme-option="system"><i class="fa fa-desktop" aria-hidden="true"></i>{% trans "System" %}</button></div>
+              <div class="theme-item"><button type="button" data-theme-option="light"><i class="fa fa-sun" aria-hidden="true"></i>{% trans "Light" %}</button></div>
+              <div class="theme-item"><button type="button" data-theme-option="dark"><i class="fa fa-moon" aria-hidden="true"></i>{% trans "Dark" %}</button></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-      
+
     <!-- Top sub-header -->
     <div class="sub-header">
       <div class="container">
         <div class="row">
           <div class="col-lg-8 col-md-8">
             <ul class="info">
-              <li><i class="fa fa-envelope"></i> hasangun@kuzey-yapi-emlak.com</li>
-              <li><i class="fa fa-map-marker"></i> Kavaklı, 34520 Beylikdüzü/İstanbul</li>
+              <li><i class="fa fa-envelope"></i> whatsynaptic@gmail.com</li>
+              <li><i class="fa fa-map-marker"></i> Beylikdüzü/İstanbul</li>
             </ul>
           </div>
           <div class="col-lg-4 col-md-4">
@@ -188,27 +515,22 @@
         <div class="row">
           <div class="col-12">
             <nav class="main-nav">
-                          <a href="{% url 'new_index' %}" class="logo" style="display:flex; align-items:center; justify-content:center; width:220px; height:50px; text-decoration:none;margin-top:15px;">
+                           <a href="{% url 'new_index' %}" class="logo" style="display:flex; align-items:center; justify-content:center; width:220px; height:50px; text-decoration:none;margin-top:15px;">
                 <img src="{% static 'logo.png' %}" alt="Logo" style="max-height:50px; width:auto; display:block;" />
               </a>
               <ul class="nav">
-                <li><a href="{% url 'new_index' %}" class="{% block nav_home_active %}{% endblock %}"><i class="fa fa-globe" aria-hidden="true" style="margin-right:8px;"></i>{% trans "Home" %}</a></li>
-                <li><a href="{% url 'new_properties' %}" class="{% block nav_properties_active %}{% endblock %}"><i class="fa fa-home" aria-hidden="true" style="margin-right:8px;"></i>{% trans "Properties" %}</a></li>
+                <li><a href="{% url 'opportunities' %}" class="{% block nav_properties_active %}{% endblock %}"><i class="fa fa-home" aria-hidden="true" style="margin-right:8px;"></i>{% trans "All" %}</a></li>
+                <li><a href="{% url 'opportunities_under' %}"><i class="fa fa-arrow-down" aria-hidden="true" style="margin-right:6px;color:var(--theme-primary);"></i>{% trans "Under 1.25M" %} ₺</a></li>
+                <li><a href="{% url 'opportunities_over' %}"><i class="fa fa-arrow-up" aria-hidden="true" style="margin-right:6px;color:var(--theme-primary);"></i>{% trans "Over 1.25M" %} ₺</a></li>
                 <li><a href="{% url 'new_map' %}" class="{% block nav_map_active %}{% endblock %}"><i class="fa fa-map" aria-hidden="true" style="margin-right:8px;"></i>{% trans "Map" %}</a></li>
-                    <!-- Property Details 
-
-                <li><a href="{% url 'new_properties' %}" class="{% block nav_details_active %}{% endblock %}">{% trans "Property Details" %}</a></li>    -->
-
-                <li><a href="{% url 'new_contact' %}" class="{% block nav_contact_active %}{% endblock %}"> <i class="fa fa-phone" aria-hidden="true" style="margin-right:8px;"></i>{% trans "Contact Us" %}</a></li>
-                <li><a href="{% url 'new_financing' %}" class="{% block nav_financing_active %}{% endblock %}"><i class="fa fa-bank" aria-hidden="true" style="margin-right:8px;"></i>{% trans "Financing" %}</a></li>
-
                 <!-- Keep CTA as last-child styling -->
-<li>
-    <a href="#" data-cal-link="hasan-gun-saqvh6" data-cal-config='{"layout":"month_view"}'>
-        <i class="fa fa-calendar" style="margin-right:5px;padding-right:5px;"></i> 
-        {% trans "Schedule a visit" %}
-    </a>
-</li>              </ul>
+                <li>
+                  <a href="#" data-cal-link="hasan-gun-saqvh6" data-cal-config='{"layout":"month_view"}'>
+                    <i class="fa fa-calendar" style="margin-right:5px;padding-right:5px;"></i>
+                    {% trans "Schedule a visit" %}
+                  </a>
+                </li>
+              </ul>
               <a class="menu-trigger"><span>Menu</span></a>
             </nav>
           </div>
@@ -222,16 +544,20 @@
       </main>
     </div>
 
-  
+
    {% include 'partials/_footer.html' %}
     <!-- Scripts -->
     <script src="{% static 'newfront/vendor/jquery/jquery.min.js' %}"></script>
     <script src="{% static 'newfront/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
     <script src="{% static 'newfront/assets/js/isotope.min.js' %}"></script>
     <script src="{% static 'newfront/assets/js/owl-carousel.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="{% static 'newfront/assets/js/gsap-animations.js' %}"></script>
     <script src="{% static 'newfront/assets/js/counter.js' %}"></script>
     <script src="{% static 'newfront/assets/js/custom.js' %}"></script>
     <script src="{% static 'newfront/assets/js/typing-effect.js' %}"></script>
+    <script src="{% static 'vendor/node_modules/countup.js/dist/countUp.umd.js' %}"></script>
 
     <script>
       // Language switcher interactions (global)
@@ -257,10 +583,480 @@
       });
     </script>
 
+    <script>
+      window.KuzeyTheme = (function(){
+        var storageKey = 'kuzey_theme';
+        var media = null;
+        try { media = window.matchMedia('(prefers-color-scheme: dark)'); } catch(e){}
+
+        function stored(){
+          try { return localStorage.getItem(storageKey) || 'dark'; }
+          catch(e){ return 'dark'; }
+        }
+
+        function normalize(mode){
+          return mode === 'light' || mode === 'dark' || mode === 'system' ? mode : 'system';
+        }
+
+        function resolved(mode){
+          var chosen = normalize(mode || stored());
+          return chosen === 'system' && media && media.matches ? 'dark' : chosen === 'system' ? 'light' : chosen;
+        }
+
+        function apply(mode){
+          var chosen = normalize(mode || stored());
+          var current = resolved(chosen);
+          document.documentElement.setAttribute('data-theme-mode', chosen);
+          document.documentElement.setAttribute('data-theme', current);
+          document.querySelectorAll('[data-theme-option]').forEach(function(btn){
+            btn.classList.toggle('is-active', btn.getAttribute('data-theme-option') === chosen);
+          });
+          document.querySelectorAll('[data-theme-icon]').forEach(function(icon){
+            icon.className = current === 'dark' ? 'fa fa-moon' : 'fa fa-sun';
+          });
+        }
+
+        function set(mode){
+          var chosen = normalize(mode);
+          try { localStorage.setItem(storageKey, chosen); } catch(e){}
+          apply(chosen);
+        }
+
+        document.addEventListener('DOMContentLoaded', function(){
+          var switcher = document.querySelector('[data-theme-switcher]');
+          if (switcher) {
+            var button = switcher.querySelector('.theme-current');
+            function close(){ switcher.classList.remove('open'); if (button) button.setAttribute('aria-expanded', 'false'); }
+            if (button) {
+              button.addEventListener('click', function(){
+                var open = switcher.classList.toggle('open');
+                button.setAttribute('aria-expanded', open ? 'true' : 'false');
+              });
+            }
+            switcher.querySelectorAll('[data-theme-option]').forEach(function(option){
+              option.addEventListener('click', function(){
+                set(option.getAttribute('data-theme-option'));
+                close();
+              });
+            });
+            document.addEventListener('click', function(event){
+              if (!switcher.contains(event.target)) close();
+            });
+          }
+          apply();
+        });
+
+        if (media) {
+          var onChange = function(){ if (stored() === 'system') apply('system'); };
+          if (media.addEventListener) media.addEventListener('change', onChange);
+          else if (media.addListener) media.addListener(onChange);
+        }
+
+        return { apply: apply, set: set, current: stored, resolved: resolved };
+      })();
+    </script>
+
+    <script>
+      window.KuzeyCurrency = (function(){
+        var rates = {
+          TRY: {{ currency_rates.TRY|default:1|unlocalize }},
+          EUR: {{ currency_rates.EUR|default:0.018768|unlocalize }},
+          USD: {{ currency_rates.USD|default:0.021661|unlocalize }},
+          DZD: {{ currency_rates.DZD|default:5|unlocalize }}
+        };
+        var labels = {
+          TRY: { locale: 'tr-TR', symbol: '₺', suffix: false, digits: 0, flag: '{% static "flags/tr.svg" %}', short: '₺' },
+          EUR: { locale: 'fr-FR', symbol: '€', suffix: true, digits: 0, flag: '{% static "flags/fr.svg" %}', short: '€' },
+          USD: { locale: 'en-US', symbol: '$', suffix: false, digits: 0, flag: '{% static "flags/US.png" %}', short: '$' },
+          DZD: { locale: 'fr-DZ', symbol: 'DZD', suffix: true, digits: 0, flag: '{% static "flags/dz.svg" %}', short: 'DZD' }
+        };
+        var priceObserver = null;
+        var percentObserver = null;
+
+        function current(){
+          try { return localStorage.getItem('kuzey_currency') || '{{ currency_default|default:"TRY" }}'; }
+          catch(e){ return '{{ currency_default|default:"TRY" }}'; }
+        }
+
+        function amountFor(tryAmount, currency){
+          var code = currency || current();
+          return Number(tryAmount || 0) * Number(rates[code] || 1);
+        }
+
+        function formatAmount(amount, currency){
+          var code = currency || current();
+          var meta = labels[code] || labels.TRY;
+          var value = new Intl.NumberFormat(meta.locale, {
+            maximumFractionDigits: meta.digits,
+            minimumFractionDigits: 0
+          }).format(Math.round(amount));
+          return meta.suffix ? value + ' ' + meta.symbol : meta.symbol + value;
+        }
+
+        function format(tryAmount, currency){
+          return formatAmount(amountFor(tryAmount, currency), currency);
+        }
+
+        function numberFromPrice(text){
+          var cleaned = String(text || '').replace(/[^\d.,-]/g, '');
+          var normalized = cleaned.replace(/[.,](?=\d{3}(\D|$))/g, '').replace(',', '.');
+          var parsed = Number(normalized);
+          return Number.isFinite(parsed) ? parsed : 0;
+        }
+
+        function numberAttr(el, name, fallback){
+          var value = Number(el && el.getAttribute(name));
+          return Number.isFinite(value) && value > 0 ? value : fallback;
+        }
+
+        function canAnimate(){
+          if (!window.countUp || !window.countUp.CountUp) return false;
+          try {
+            return !(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+          } catch(e) {
+            return true;
+          }
+        }
+
+        function animatePrice(el, tryAmount, currency){
+          var code = currency || current();
+          var amount = amountFor(tryAmount, code);
+          el._pricePending = false;
+
+          if (!canAnimate()) {
+            el.textContent = formatAmount(amount, code);
+            return;
+          }
+
+          if (el._priceCountUp && el._priceCountUp.onDestroy) {
+            el._priceCountUp.onDestroy();
+          }
+
+          var startValue = el._priceAnimated ? numberFromPrice(el.textContent) : 0;
+          var counter = new window.countUp.CountUp(el, amount, {
+            startVal: startValue,
+            duration: el._priceAnimated ? numberAttr(el, 'data-count-update-duration', 1.15) : numberAttr(el, 'data-count-duration', 2.15),
+            decimalPlaces: 0,
+            useGrouping: false,
+            formattingFn: function(value){
+              return formatAmount(value, code);
+            }
+          });
+
+          if (counter.error) {
+            el.textContent = formatAmount(amount, code);
+            return;
+          }
+
+          el._priceCountUp = counter;
+          el._priceAnimated = true;
+          counter.start();
+        }
+
+        function ensurePriceObserver(){
+          if (priceObserver || !('IntersectionObserver' in window)) return priceObserver;
+
+          priceObserver = new IntersectionObserver(function(entries){
+            entries.forEach(function(entry){
+              var el = entry.target;
+              el._priceVisible = entry.isIntersecting;
+              if (entry.isIntersecting && el._pricePending) {
+                animatePrice(el, el._priceTryAmount, el._priceCurrency);
+              }
+            });
+          }, { rootMargin: '0px 0px -12% 0px', threshold: 0.25 });
+
+          return priceObserver;
+        }
+
+        function preparePrice(el, tryAmount, currency){
+          el._priceTryAmount = tryAmount;
+          el._priceCurrency = currency || current();
+          el._pricePending = true;
+
+          if (!canAnimate()) {
+            el.textContent = format(tryAmount, el._priceCurrency);
+            el._pricePending = false;
+            return;
+          }
+
+          var observer = ensurePriceObserver();
+          if (!observer) {
+            el.textContent = format(tryAmount, el._priceCurrency);
+            el._pricePending = false;
+            return;
+          }
+
+          if (!el._priceObserved) {
+            observer.observe(el);
+            el._priceObserved = true;
+          }
+
+          if (el._priceVisible) {
+            animatePrice(el, tryAmount, el._priceCurrency);
+          }
+        }
+
+        function animatePercent(el){
+          var amount = Number(el.getAttribute('data-count-percent') || 0);
+          if (!Number.isFinite(amount)) amount = 0;
+          el._percentPending = false;
+
+          if (!canAnimate()) {
+            el.textContent = Math.round(amount) + '%';
+            return;
+          }
+
+          if (el._percentCountUp && el._percentCountUp.onDestroy) {
+            el._percentCountUp.onDestroy();
+          }
+
+          var startValue = el._percentAnimated ? numberFromPrice(el.textContent) : 0;
+          var counter = new window.countUp.CountUp(el, amount, {
+            startVal: startValue,
+            duration: el._percentAnimated ? numberAttr(el, 'data-count-update-duration', 0.85) : numberAttr(el, 'data-count-duration', 1.65),
+            decimalPlaces: 0,
+            useGrouping: false,
+            formattingFn: function(value){
+              return Math.round(value) + '%';
+            }
+          });
+
+          if (counter.error) {
+            el.textContent = Math.round(amount) + '%';
+            return;
+          }
+
+          el._percentCountUp = counter;
+          el._percentAnimated = true;
+          counter.start();
+        }
+
+        function ensurePercentObserver(){
+          if (percentObserver || !('IntersectionObserver' in window)) return percentObserver;
+
+          percentObserver = new IntersectionObserver(function(entries){
+            entries.forEach(function(entry){
+              var el = entry.target;
+              el._percentVisible = entry.isIntersecting;
+              if (entry.isIntersecting && el._percentPending) {
+                animatePercent(el);
+              }
+            });
+          }, { rootMargin: '0px 0px -12% 0px', threshold: 0.25 });
+
+          return percentObserver;
+        }
+
+        function preparePercent(el){
+          el._percentPending = true;
+
+          if (!canAnimate()) {
+            animatePercent(el);
+            return;
+          }
+
+          var observer = ensurePercentObserver();
+          if (!observer) {
+            animatePercent(el);
+            return;
+          }
+
+          if (!el._percentObserved) {
+            observer.observe(el);
+            el._percentObserved = true;
+          }
+
+          if (el._percentVisible) {
+            animatePercent(el);
+          }
+        }
+
+        function apply(){
+          var code = current();
+          document.querySelectorAll('[data-price-try]').forEach(function(el){
+            var elementCurrency = el.getAttribute('data-price-currency');
+            preparePrice(el, el.getAttribute('data-price-try'), elementCurrency || code);
+          });
+          document.querySelectorAll('[data-count-percent]').forEach(function(el){
+            preparePercent(el);
+          });
+          document.querySelectorAll('[data-currency-current]').forEach(function(el){
+            el.textContent = (labels[code] || labels.TRY).short;
+          });
+          document.querySelectorAll('[data-currency-current-flag]').forEach(function(el){
+            el.src = (labels[code] || labels.TRY).flag;
+          });
+          document.querySelectorAll('[data-currency-option]').forEach(function(btn){
+            btn.classList.toggle('is-active', btn.getAttribute('data-currency-option') === code);
+          });
+        }
+
+        document.addEventListener('DOMContentLoaded', function(){
+          var switcher = document.querySelector('[data-currency-switcher]');
+          if (switcher) {
+            var button = switcher.querySelector('.currency-current');
+            function close(){ switcher.classList.remove('open'); if (button) button.setAttribute('aria-expanded', 'false'); }
+            if (button) {
+              button.addEventListener('click', function(){
+                var open = switcher.classList.toggle('open');
+                button.setAttribute('aria-expanded', open ? 'true' : 'false');
+              });
+            }
+            switcher.querySelectorAll('[data-currency-option]').forEach(function(option){
+              option.addEventListener('click', function(){
+                var code = option.getAttribute('data-currency-option');
+                try { localStorage.setItem('kuzey_currency', code); } catch(e){}
+                close();
+                apply();
+                document.dispatchEvent(new CustomEvent('kuzey:currencychange', { detail: { currency: code } }));
+              });
+            });
+            document.addEventListener('click', function(event){
+              if (!switcher.contains(event.target)) close();
+            });
+          }
+          apply();
+        });
+
+        return { rates: rates, current: current, format: format, animatePrice: animatePrice, preparePrice: preparePrice, preparePercent: preparePercent, apply: apply };
+      })();
+    </script>
+
+    <script>
+      // Price card popup currency switcher (local to each card)
+      (function(){
+        var overlay = null;
+        var closeBtn = null;
+        var priceAmount = null;
+        var currencyOptions = [];
+        var currentPriceElement = null;
+        var currentTryAmount = null;
+
+        function closePopup(){
+          if (overlay) overlay.classList.remove('active');
+          currentPriceElement = null;
+          currentTryAmount = null;
+        }
+
+        function openPopup(priceElement){
+          if (!overlay || !priceElement) return;
+          currentPriceElement = priceElement;
+          currentTryAmount = priceElement.getAttribute('data-price-try');
+
+          if (!currentTryAmount) return;
+
+          var currentCurrency = (function(){
+            try { return localStorage.getItem('kuzey_currency') || 'TRY'; }
+            catch(e){ return 'TRY'; }
+          })();
+
+          if (window.KuzeyCurrency) {
+            var elementCurrency = currentPriceElement.getAttribute('data-price-currency');
+            var activeCurrency = elementCurrency || currentCurrency;
+            priceAmount.textContent = window.KuzeyCurrency.format(currentTryAmount, activeCurrency);
+            currentCurrency = activeCurrency;
+          } else {
+            priceAmount.textContent = '₺' + currentTryAmount;
+          }
+
+          currencyOptions.forEach(function(btn){
+            btn.classList.remove('active');
+            if (btn.getAttribute('data-currency') === currentCurrency) {
+              btn.classList.add('active');
+            }
+          });
+
+          overlay.classList.add('active');
+        }
+
+        function bindPopupElements(){
+          overlay = document.getElementById('pricePopupOverlay');
+          closeBtn = document.getElementById('pricePopupClose');
+          priceAmount = document.getElementById('pricePopupAmount');
+          currencyOptions = overlay ? overlay.querySelectorAll('.price-popup-option') : [];
+
+          if (closeBtn) {
+            closeBtn.addEventListener('click', closePopup);
+          }
+
+          if (overlay) {
+            overlay.addEventListener('click', function(e){
+              if (e.target === overlay) closePopup();
+            });
+          }
+
+          if (currencyOptions && currencyOptions.length) {
+            currencyOptions.forEach(function(btn){
+              btn.addEventListener('click', function(){
+                var currency = btn.getAttribute('data-currency');
+                if (!currency || !currentPriceElement || !currentTryAmount) return;
+
+                currentPriceElement.setAttribute('data-price-currency', currency);
+                if (window.KuzeyCurrency) {
+                  var formattedPrice = window.KuzeyCurrency.format(currentTryAmount, currency);
+                  window.KuzeyCurrency.animatePrice(currentPriceElement, currentTryAmount, currency);
+                  priceAmount.textContent = formattedPrice;
+                }
+
+                currencyOptions.forEach(function(b){
+                  b.classList.remove('active');
+                  if (b.getAttribute('data-currency') === currency) {
+                    b.classList.add('active');
+                  }
+                });
+
+                setTimeout(closePopup, 300);
+              });
+            });
+          }
+        }
+
+        document.addEventListener('DOMContentLoaded', function(){
+          bindPopupElements();
+
+          function addPriceClickHandlers(){
+            document.querySelectorAll('.price-popup-trigger[data-price-try]').forEach(function(el){
+              if (!el._pricePopupAttached) {
+                el._pricePopupAttached = true;
+                el.addEventListener('click', function(e){
+                  e.stopPropagation();
+                  openPopup(el);
+                });
+              }
+            });
+          }
+
+          addPriceClickHandlers();
+
+          document.addEventListener('kuzey:currencychange', function(){
+            addPriceClickHandlers();
+          });
+        });
+      })();
+    </script>
+
     <style>
-      .page-loader { position: fixed; inset: 0; background: #000; display: flex; align-items: center; justify-content: center; z-index: 2147483000; opacity: 0; visibility: hidden; transition: opacity .25s ease, visibility .25s ease; }
-      .page-loader.active { opacity: 1; visibility: visible; }
+      .page-loader { position: fixed; inset: 0; background: #000; display: flex; align-items: center; justify-content: center; z-index: 2147483000; opacity: 0; visibility: hidden; pointer-events: none; transition: opacity .25s ease, visibility .25s ease; }
+      .page-loader.active { opacity: 1; visibility: visible; pointer-events: auto; }
       .loader-video { width: 100%; height: 100%; object-fit: cover; }
+
+      /* Price Card Currency Popup */
+      .price-popup-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.5); display: none; align-items: center; justify-content: center; z-index: 9999; opacity: 0; transition: opacity 0.2s ease; }
+      .price-popup-overlay.active { display: flex; opacity: 1; }
+      .price-popup { background: white; border-radius: 12px; padding: 16px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3); max-width: 280px; width: 90%; animation: slideUp 0.3s ease forwards; }
+      @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+      .price-popup-header { font-size: 12px; color: #999; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 700; }
+      .price-popup-amount { font-size: 26px; font-weight: 800; margin-bottom: 14px; color: var(--theme-primary, #a38344); }
+      .price-popup-currencies { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+      .price-popup-option { min-height: 48px; padding: 8px 10px; border: 2px solid #e5e7eb; border-radius: 8px; background: transparent; cursor: pointer; font-size: 14px; font-weight: 800; color: #111827; transition: all 0.2s ease; display: inline-flex; align-items: center; justify-content: center; gap: 7px; }
+      .price-popup-option img { width: 20px; height: 20px; border-radius: 50%; object-fit: cover; box-shadow: 0 0 0 1px rgba(0,0,0,.08); }
+      .price-popup-option:hover { border-color: var(--theme-primary, #a38344); background: #f9f9f9; }
+      .price-popup-option.active { border-color: var(--theme-primary, #a38344); background: color-mix(in srgb, var(--theme-primary, #a38344) 10%, white); color: var(--theme-primary, #a38344); font-weight: 600; }
+      .price-popup-close { position: absolute; top: 12px; right: 12px; background: none; border: none; font-size: 20px; cursor: pointer; color: #999; padding: 0; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; }
+      .price-popup-close:hover { color: #333; }
+      .counter { cursor: pointer; transition: opacity 0.2s ease; }
+      .counter:hover { opacity: 0.7; }
     </style>
 
     <script>
@@ -291,19 +1087,31 @@
           // Hide when video ends (bind per-show)
           var onEnd = function(){ hideLoader(); };
           video.addEventListener('ended', onEnd, { once: true });
+          window.clearTimeout(loader._fallbackTimer);
+          loader._fallbackTimer = window.setTimeout(hideLoader, 3200);
           // Attempt autoplay; muted set to satisfy policies
           try { video.currentTime = 0; video.play().catch(function(){ /* ignore */ }); } catch(e){}
         }
 
         function hideLoader(){
+          if (!loader) return;
+          window.clearTimeout(loader._fallbackTimer);
           loader.classList.remove('active');
           loader.setAttribute('aria-hidden', 'true');
           try { video.pause(); } catch(e){}
         }
 
-        // Initial load: show for full video duration
+        // Initial load should render the page immediately; keep loader for transitions only.
         document.addEventListener('DOMContentLoaded', function(){
-          showLoader();
+          hideLoader();
+        });
+
+        window.addEventListener('load', function(){
+          hideLoader();
+        });
+
+        window.addEventListener('pageshow', function(){
+          hideLoader();
         });
 
         // Barba.js page transitions
@@ -341,7 +1149,23 @@
   Cal("ui", {"theme":"dark", "styles":{"branding":{"brandColor":"#000000"}}, "hideEventTypeDetails":false, "layout":"month_view"});
 </script>
 
-    {% include 'newfrontend/whatsappwidget.html' %}
+    {% block whatsapp_widget %}{% endblock %}
+
+    <!-- Price Card Currency Popup -->
+    <div class="price-popup-overlay" id="pricePopupOverlay">
+      <div class="price-popup">
+        <button type="button" class="price-popup-close" id="pricePopupClose">&times;</button>
+        <div class="price-popup-header">Select Currency</div>
+        <div class="price-popup-amount" id="pricePopupAmount">₺1.200.000</div>
+        <div class="price-popup-currencies">
+          <button type="button" class="price-popup-option" data-currency="TRY"><img src="{% static 'flags/tr.svg' %}" alt="" aria-hidden="true"><span>₺</span></button>
+          <button type="button" class="price-popup-option" data-currency="USD"><img src="{% static 'flags/US.png' %}" alt="" aria-hidden="true"><span>$</span></button>
+          <button type="button" class="price-popup-option" data-currency="EUR"><img src="{% static 'flags/fr.svg' %}" alt="" aria-hidden="true"><span>€</span></button>
+          <button type="button" class="price-popup-option" data-currency="DZD"><img src="{% static 'flags/dz.svg' %}" alt="" aria-hidden="true"><span>DZD</span></button>
+        </div>
+      </div>
+    </div>
+
     {% block extra_js %}{% endblock %}
   </body>
  </html>

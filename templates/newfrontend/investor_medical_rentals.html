@@ -1,0 +1,1605 @@
+{% extends 'newfrontend/base.html' %}
+{% load i18n %}
+{% block title %}{% trans "Investor Decision Engine" %}{% endblock %}
+{% block content %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+<style>
+  :root {
+    --inv-ink: #151515;
+    --inv-muted: #66615a;
+    --inv-line: rgba(21,21,21,.12);
+    --inv-panel: #fff;
+    --inv-panel-soft: #fbfaf7;
+    --inv-bg: #f6f3ed;
+    --inv-gold: #a38344;
+    --inv-green: #176b4d;
+    --inv-red: #a32c36;
+    --inv-blue: #245f93;
+    --inv-code-bg: #151515;
+    --inv-code-ink: #fff;
+    --inv-shadow: 0 10px 28px rgba(21,21,21,.08);
+  }
+
+  html[data-theme="dark"] {
+    --inv-ink: #f4efe7;
+    --inv-muted: #b8aea0;
+    --inv-line: rgba(244,239,231,.14);
+    --inv-panel: #171615;
+    --inv-panel-soft: #211f1d;
+    --inv-bg: #0d0d0c;
+    --inv-gold: #d2ad62;
+    --inv-green: #62c99b;
+    --inv-red: #ee7780;
+    --inv-blue: #78b7ee;
+    --inv-code-bg: #070706;
+    --inv-code-ink: #f4efe7;
+    --inv-shadow: 0 12px 32px rgba(0,0,0,.34);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    html[data-theme-mode="system"] {
+      --inv-ink: #f4efe7;
+      --inv-muted: #b8aea0;
+      --inv-line: rgba(244,239,231,.14);
+      --inv-panel: #171615;
+      --inv-panel-soft: #211f1d;
+      --inv-bg: #0d0d0c;
+      --inv-gold: #d2ad62;
+      --inv-green: #62c99b;
+      --inv-red: #ee7780;
+      --inv-blue: #78b7ee;
+      --inv-code-bg: #070706;
+      --inv-code-ink: #f4efe7;
+      --inv-shadow: 0 12px 32px rgba(0,0,0,.34);
+    }
+  }
+
+  .investor-shell {
+    min-height: calc(100vh - 96px);
+    background: var(--inv-bg);
+    color: var(--inv-ink);
+    padding: 18px;
+  }
+
+  .investor-grid {
+    display: grid;
+    grid-template-columns: 330px minmax(0, 1fr);
+    gap: 14px;
+    max-width: 1680px;
+    margin: 0 auto;
+  }
+
+  .inv-panel {
+    background: var(--inv-panel);
+    border: 1px solid var(--inv-line);
+    border-radius: 8px;
+    box-shadow: var(--inv-shadow);
+  }
+
+  .inv-controls {
+    position: sticky;
+    top: 14px;
+    align-self: start;
+    padding: 14px;
+    max-height: calc(100vh - 28px);
+    overflow: auto;
+  }
+
+  .inv-title {
+    margin: 0 0 4px;
+    font-size: 22px;
+    line-height: 1.12;
+    font-weight: 900;
+    letter-spacing: 0;
+  }
+
+  .inv-subtitle {
+    margin: 0 0 14px;
+    color: var(--inv-muted);
+    font-size: 12px;
+    line-height: 1.45;
+  }
+
+  .inv-control-group {
+    display: grid;
+    gap: 9px;
+    padding-top: 12px;
+    border-top: 1px solid var(--inv-line);
+  }
+
+  .inv-control {
+    display: grid;
+    gap: 5px;
+  }
+
+  .inv-control span {
+    color: var(--inv-muted);
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+
+  .inv-control input {
+    width: 100%;
+    min-height: 38px;
+    border: 1px solid var(--inv-line);
+    border-radius: 8px;
+    padding: 0 10px;
+    font-weight: 800;
+    color: var(--inv-ink);
+    background: var(--inv-panel-soft);
+  }
+
+  .assumption-toolbar {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 7px;
+    margin-bottom: 12px;
+  }
+
+  .preset-btn,
+  .reset-btn {
+    min-height: 34px;
+    border: 1px solid var(--inv-line);
+    border-radius: 8px;
+    background: var(--inv-panel-soft);
+    color: var(--inv-ink);
+    font-size: 11px;
+    font-weight: 900;
+    cursor: pointer;
+  }
+
+  .assumption-group {
+    border-top: 1px solid var(--inv-line);
+    padding-top: 12px;
+  }
+
+  .assumption-group + .assumption-group {
+    margin-top: 14px;
+  }
+
+  .assumption-group-head {
+    margin-bottom: 9px;
+  }
+
+  .assumption-group-head h2 {
+    margin: 0 0 4px;
+    font-size: 14px;
+    font-weight: 900;
+    letter-spacing: 0;
+  }
+
+  .assumption-group-head p {
+    margin: 0;
+    color: var(--inv-muted);
+    font-size: 12px;
+    line-height: 1.4;
+  }
+
+  .assumption-cards {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .assumption-card {
+    border: 1px solid var(--inv-line);
+    border-radius: 8px;
+    background: var(--inv-panel-soft);
+    padding: 10px;
+  }
+
+  .assumption-card.is-warning {
+    border-color: rgba(163,131,68,.72);
+  }
+
+  .assumption-card.is-safe {
+    border-color: rgba(23,107,77,.46);
+  }
+
+  .assumption-card.is-high {
+    border-color: rgba(36,95,147,.52);
+  }
+
+  .assumption-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+
+  .assumption-title {
+    display: block;
+    color: var(--inv-ink);
+    font-size: 13px;
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .assumption-value {
+    flex: 0 0 auto;
+    color: var(--inv-gold);
+    font-size: 13px;
+    font-weight: 900;
+    white-space: nowrap;
+  }
+
+  .assumption-text {
+    display: grid;
+    gap: 6px;
+    color: var(--inv-muted);
+    font-size: 12px;
+    line-height: 1.4;
+  }
+
+  .assumption-text strong {
+    color: var(--inv-ink);
+    font-weight: 900;
+  }
+
+  .assumption-control-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 96px;
+    gap: 8px;
+    align-items: center;
+    margin-top: 10px;
+  }
+
+  .assumption-range {
+    width: 100%;
+    min-height: 34px;
+    accent-color: var(--inv-gold);
+    cursor: pointer;
+  }
+
+  .assumption-number {
+    width: 100%;
+    min-height: 38px;
+    border: 1px solid var(--inv-line);
+    border-radius: 8px;
+    padding: 0 8px;
+    background: var(--inv-panel);
+    color: var(--inv-ink);
+    font-weight: 900;
+  }
+
+  .range-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    margin-top: 4px;
+    color: var(--inv-muted);
+    font-size: 10px;
+    font-weight: 800;
+  }
+
+  .quick-presets {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 9px;
+  }
+
+  .quick-preset {
+    min-height: 28px;
+    border: 1px solid var(--inv-line);
+    border-radius: 999px;
+    padding: 0 9px;
+    background: var(--inv-panel);
+    color: var(--inv-ink);
+    font-size: 11px;
+    font-weight: 900;
+    cursor: pointer;
+  }
+
+  .impact-note,
+  .legal-estimate {
+    margin-top: 8px;
+    color: var(--inv-muted);
+    font-size: 11px;
+    line-height: 1.4;
+  }
+
+  .impact-note strong,
+  .legal-estimate strong {
+    color: var(--inv-ink);
+  }
+
+  .assumption-actions {
+    display: grid;
+    gap: 8px;
+    padding-top: 12px;
+    background: var(--inv-panel);
+  }
+
+  .inv-action {
+    min-height: 40px;
+    border: 0;
+    border-radius: 8px;
+    background: var(--inv-ink);
+    color: #fff;
+    font-weight: 900;
+    cursor: pointer;
+  }
+
+  .inv-main {
+    display: grid;
+    gap: 14px;
+    min-width: 0;
+  }
+
+  .inv-kpis {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .inv-kpi {
+    padding: 14px;
+  }
+
+  .inv-kpi span,
+  .inv-section-title span {
+    color: var(--inv-muted);
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+
+  .inv-kpi strong {
+    display: block;
+    margin-top: 5px;
+    font-size: 22px;
+    line-height: 1;
+    font-weight: 900;
+  }
+
+  .metric-copy {
+    display: block;
+    margin-top: 8px;
+    color: var(--inv-muted);
+    font-size: 12px;
+    line-height: 1.4;
+    text-transform: none;
+    font-weight: 600;
+  }
+
+  .metric-guide {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .guide-card {
+    border: 1px solid var(--inv-line);
+    border-radius: 8px;
+    padding: 10px;
+    background: var(--inv-panel-soft);
+  }
+
+  .guide-card strong {
+    display: block;
+    margin-bottom: 4px;
+    font-size: 13px;
+    font-weight: 900;
+  }
+
+  .guide-card span {
+    color: var(--inv-muted);
+    font-size: 12px;
+    line-height: 1.4;
+  }
+
+  .inv-workspace {
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(360px, .75fr);
+    gap: 14px;
+  }
+
+  .inv-section {
+    padding: 14px;
+    min-width: 0;
+  }
+
+  .inv-section-title {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .inv-section-title h2 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 900;
+    letter-spacing: 0;
+  }
+
+  .portfolio-strip {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+
+  .portfolio-card {
+    border: 1px solid var(--inv-line);
+    border-radius: 8px;
+    padding: 10px;
+    background: var(--inv-panel-soft);
+  }
+
+  .portfolio-card b {
+    display: block;
+    font-size: 13px;
+    margin-bottom: 6px;
+  }
+
+  .portfolio-card span {
+    display: block;
+    color: var(--inv-muted);
+    font-size: 12px;
+    line-height: 1.45;
+  }
+
+  .rank-wrap {
+    overflow: auto;
+    border: 1px solid var(--inv-line);
+    border-radius: 8px;
+  }
+
+  .rank-table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 920px;
+    font-size: 12px;
+  }
+
+  .rank-table th,
+  .rank-table td {
+    padding: 9px 10px;
+    border-bottom: 1px solid var(--inv-line);
+    text-align: left;
+    vertical-align: middle;
+  }
+
+  .rank-table th {
+    background: var(--inv-panel-soft);
+    color: var(--inv-muted);
+    font-size: 11px;
+    font-weight: 900;
+    text-transform: uppercase;
+    position: sticky;
+    top: 0;
+  }
+
+  .rank-table tr {
+    cursor: pointer;
+  }
+
+  .rank-table tr.is-selected td {
+    background: rgba(163,131,68,.12);
+  }
+
+  .rank-table tr:hover td {
+    background: rgba(163,131,68,.08);
+  }
+
+  .mobile-targets {
+    display: none;
+  }
+
+  .target-swiper {
+    width: 100%;
+    padding: 2px 2px 34px;
+  }
+
+  .target-slide {
+    min-height: 100%;
+  }
+
+  .target-slide-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+
+  .target-slide-head h3 {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 900;
+  }
+
+  .target-list {
+    display: grid;
+    gap: 8px;
+  }
+
+  .target-mini {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 8px;
+    width: 100%;
+    border: 1px solid var(--inv-line);
+    border-radius: 8px;
+    padding: 9px;
+    background: var(--inv-panel-soft);
+    color: var(--inv-ink);
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .target-mini.is-selected {
+    border-color: rgba(163,131,68,.72);
+    box-shadow: inset 0 0 0 1px rgba(163,131,68,.34);
+  }
+
+  .target-mini-title {
+    display: block;
+    font-size: 12px;
+    line-height: 1.3;
+    font-weight: 900;
+  }
+
+  .target-mini-meta,
+  .target-mini-numbers {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 6px;
+    color: var(--inv-muted);
+    font-size: 11px;
+    line-height: 1.3;
+  }
+
+  .target-mini-score {
+    min-width: 48px;
+    text-align: right;
+  }
+
+  .target-mini-score strong {
+    display: block;
+    font-size: 15px;
+    line-height: 1;
+  }
+
+  .target-mini-score span {
+    color: var(--inv-muted);
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+
+  .target-nav-row {
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin: 10px 0 8px;
+  }
+
+  .target-nav-btn {
+    width: 38px;
+    height: 38px;
+    border: 1px solid var(--inv-line);
+    border-radius: 50%;
+    background: var(--inv-panel-soft);
+    color: var(--inv-ink);
+    font-size: 20px;
+    font-weight: 900;
+    cursor: pointer;
+  }
+
+  .target-page-label {
+    color: var(--inv-muted);
+    font-size: 12px;
+    font-weight: 800;
+  }
+
+  .target-swiper .swiper-pagination-bullet {
+    background: var(--inv-muted);
+    opacity: .35;
+  }
+
+  .target-swiper .swiper-pagination-bullet-active {
+    background: var(--inv-gold);
+    opacity: 1;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    min-height: 24px;
+    padding: 0 8px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 900;
+    background: rgba(36,95,147,.12);
+    color: var(--inv-blue);
+    white-space: nowrap;
+  }
+
+  .badge.good { background: rgba(23,107,77,.12); color: var(--inv-green); }
+  .badge.warn { background: rgba(163,131,68,.14); color: var(--inv-gold); }
+  .badge.bad { background: rgba(163,44,54,.12); color: var(--inv-red); }
+
+  #investor-map {
+    height: 380px;
+    border-radius: 8px;
+    background: #d8d3c8;
+    border: 1px solid var(--inv-line);
+  }
+
+  .detail-grid {
+    display: grid;
+    gap: 10px;
+  }
+
+  .detail-head {
+    display: grid;
+    gap: 6px;
+  }
+
+  .detail-head h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 900;
+    line-height: 1.25;
+  }
+
+  .metric-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .metric {
+    border: 1px solid var(--inv-line);
+    border-radius: 8px;
+    padding: 8px;
+    background: var(--inv-panel-soft);
+  }
+
+  .metric span {
+    color: var(--inv-muted);
+    font-size: 11px;
+    font-weight: 800;
+  }
+
+  .metric strong {
+    display: block;
+    margin-top: 4px;
+    font-size: 15px;
+    font-weight: 900;
+  }
+
+  .metric small {
+    display: block;
+    margin-top: 5px;
+    color: var(--inv-muted);
+    font-size: 11px;
+    line-height: 1.35;
+  }
+
+  .plain-list {
+    margin: 0;
+    padding-left: 18px;
+    color: var(--inv-muted);
+    font-size: 12px;
+    line-height: 1.55;
+  }
+
+  .source-card {
+    border: 1px solid var(--inv-line);
+    border-radius: 8px;
+    padding: 10px;
+    margin-top: 8px;
+    background: var(--inv-panel-soft);
+  }
+
+  .source-card h3 {
+    margin: 0 0 6px;
+    font-size: 13px;
+    font-weight: 900;
+  }
+
+  .source-card p {
+    margin: 0 0 8px;
+    color: var(--inv-muted);
+    font-size: 12px;
+    line-height: 1.45;
+  }
+
+  .source-card code {
+    display: block;
+    overflow-x: auto;
+    padding: 7px;
+    border-radius: 8px;
+    background: var(--inv-code-bg);
+    color: var(--inv-code-ink);
+    font-size: 11px;
+    margin-top: 5px;
+  }
+
+  @media (max-width: 1180px) {
+    .investor-grid,
+    .inv-workspace {
+      grid-template-columns: 1fr;
+    }
+    .inv-controls {
+      position: static;
+      max-height: none;
+    }
+  }
+
+  @media (min-width: 1420px) {
+    .investor-grid {
+      grid-template-columns: 520px minmax(0, 1fr);
+    }
+    .assumption-cards {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 760px) {
+    .investor-shell { padding: 10px; }
+    .investor-grid,
+    .inv-main,
+    .inv-workspace {
+      gap: 10px;
+    }
+    .inv-controls,
+    .inv-section,
+    .inv-kpi {
+      padding: 12px;
+    }
+    .inv-title {
+      font-size: 19px;
+    }
+    .inv-kpis,
+    .portfolio-strip,
+    .metric-grid,
+    .metric-guide {
+      grid-template-columns: 1fr;
+    }
+    #investor-map {
+      height: min(58vh, 360px);
+    }
+    .rank-wrap {
+      display: none;
+    }
+    .mobile-targets {
+      display: block;
+    }
+    .target-nav-row {
+      display: flex;
+    }
+    .assumption-actions {
+      position: sticky;
+      bottom: 82px;
+      z-index: 20;
+      padding: 10px 0 0;
+      border-top: 1px solid var(--inv-line);
+    }
+  }
+
+  @media (max-width: 420px) {
+    .investor-shell { padding: 8px; }
+    .inv-control-group {
+      gap: 8px;
+    }
+    .inv-control input {
+      min-height: 36px;
+    }
+    .inv-section-title {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+    .target-mini {
+      grid-template-columns: 1fr;
+    }
+    .target-mini-score {
+      text-align: left;
+    }
+  }
+</style>
+
+<section class="investor-shell">
+  <div class="investor-grid">
+    <aside class="inv-panel inv-controls">
+      <h1 class="inv-title">{% trans "Medical-rental investor engine" %}</h1>
+      <p class="inv-subtitle">{% trans "Budget-led ranking for Istanbul furnished stays, with Airbnb comps, downside rent, and operator-assisted upside." %}</p>
+      <form id="investor-controls" class="inv-control-group">
+        <div class="assumption-toolbar" aria-label="{% trans 'Assumption presets' %}">
+          <button type="button" class="preset-btn" data-preset="safe">{% trans "Safe mode" %}</button>
+          <button type="button" class="preset-btn" data-preset="operator">{% trans "Operator upside" %}</button>
+          <button type="button" class="preset-btn" data-preset="normal">{% trans "Normal" %}</button>
+          <button type="button" class="reset-btn" id="reset-assumptions">{% trans "Reset" %}</button>
+        </div>
+        <div id="assumption-groups"></div>
+        <div class="assumption-actions">
+          <button class="inv-action" type="submit">{% trans "Rescore" %}</button>
+        </div>
+      </form>
+    </aside>
+
+    <main class="inv-main">
+      <section class="metric-guide">
+        <div class="guide-card"><strong>{% trans "Money in" %}</strong><span>{% trans "Price plus setup. This tells you what the deal really costs before it starts earning." %}</span></div>
+        <div class="guide-card"><strong>{% trans "Cash left" %}</strong><span>{% trans "Monthly money after normal running costs. This is the number to care about first." %}</span></div>
+        <div class="guide-card"><strong>{% trans "Evidence" %}</strong><span>{% trans "Nearby Airbnb comps. More relevant comps means the estimate is less fragile." %}</span></div>
+        <div class="guide-card"><strong>{% trans "Decision" %}</strong><span>{% trans "A plain label for what to do next: inspect, negotiate, source more, or reject." %}</span></div>
+      </section>
+
+      <div class="inv-kpis">
+        <div class="inv-panel inv-kpi"><span>{% trans "Best operator ROI" %}</span><strong id="kpi-roi">-</strong><small class="metric-copy">{% trans "Best yearly return if your network helps fill the unit." %}</small></div>
+        <div class="inv-panel inv-kpi"><span>{% trans "Best net monthly" %}</span><strong id="kpi-net">-</strong><small class="metric-copy">{% trans "Best cash left each month after expected costs." %}</small></div>
+        <div class="inv-panel inv-kpi"><span>{% trans "Strong shortlist" %}</span><strong id="kpi-shortlist">-</strong><small class="metric-copy">{% trans "Deals worth checking first." %}</small></div>
+        <div class="inv-panel inv-kpi"><span>{% trans "Thin comp risk" %}</span><strong id="kpi-thin">-</strong><small class="metric-copy">{% trans "Deals where the Airbnb evidence is still too thin." %}</small></div>
+      </div>
+
+      <div class="inv-workspace">
+        <section class="inv-panel inv-section">
+          <div class="inv-section-title"><h2>{% trans "Portfolio combinations" %}</h2><span id="market-count">-</span></div>
+          <div class="portfolio-strip" id="portfolio-strip"></div>
+          <div class="mobile-targets">
+            <div class="target-nav-row">
+              <button type="button" class="target-nav-btn target-prev" aria-label="{% trans 'Previous targets' %}">‹</button>
+              <span class="target-page-label" id="target-page-label">-</span>
+              <button type="button" class="target-nav-btn target-next" aria-label="{% trans 'Next targets' %}">›</button>
+            </div>
+            <div class="swiper target-swiper">
+              <div class="swiper-wrapper" id="target-swiper-wrapper"></div>
+              <div class="swiper-pagination target-pagination"></div>
+            </div>
+          </div>
+          <div class="rank-wrap">
+            <table class="rank-table">
+              <thead>
+                <tr>
+                  <th>{% trans "Target" %}</th>
+                  <th>{% trans "Price" %}</th>
+                  <th>{% trans "Room" %}</th>
+                  <th>{% trans "Score" %}</th>
+                  <th>{% trans "Operator ROI" %}</th>
+                  <th>{% trans "Base net" %}</th>
+                  <th>{% trans "Plan-B" %}</th>
+                  <th>{% trans "Comps" %}</th>
+                  <th>{% trans "Decision" %}</th>
+                </tr>
+              </thead>
+              <tbody id="rank-body"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <aside class="inv-main">
+          <section class="inv-panel inv-section">
+            <div class="inv-section-title"><h2>{% trans "Map" %}</h2><span>{% trans "Candidates + comps" %}</span></div>
+            <div id="investor-map"></div>
+          </section>
+
+          <section class="inv-panel inv-section">
+            <div class="inv-section-title"><h2>{% trans "Deal detail" %}</h2><span id="detail-id">-</span></div>
+            <div id="deal-detail" class="detail-grid"></div>
+          </section>
+
+          <section class="inv-panel inv-section">
+            <div class="inv-section-title"><h2>{% trans "Source more deals" %}</h2><span>{% trans "Decision sprint" %}</span></div>
+            <div id="source-gaps"></div>
+          </section>
+        </aside>
+      </div>
+    </main>
+  </div>
+</section>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+<script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
+<script>
+  (function () {
+    var form = document.getElementById('investor-controls');
+    var assumptionGroupsEl = document.getElementById('assumption-groups');
+    var rowsEl = document.getElementById('rank-body');
+    var targetWrapperEl = document.getElementById('target-swiper-wrapper');
+    var targetPageLabelEl = document.getElementById('target-page-label');
+    var portfolioEl = document.getElementById('portfolio-strip');
+    var sourceEl = document.getElementById('source-gaps');
+    var detailEl = document.getElementById('deal-detail');
+    var selectedId = null;
+    var summary = null;
+    var targetSwiper = null;
+    var targetSlidesCount = 0;
+    var tableLabels = {
+      target: "{% trans "Target" %}",
+      price: "{% trans "Price" %}",
+      room: "{% trans "Room" %}",
+      score: "{% trans "Score" %}",
+      operatorRoi: "{% trans "Operator ROI" %}",
+      baseNet: "{% trans "Base net" %}",
+      planB: "{% trans "Plan-B" %}",
+      comps: "{% trans "Comps" %}",
+      decision: "{% trans "Decision" %}"
+    };
+    var metricHelp = {
+      conservativeNet: "{% trans "Bad-month estimate." %}",
+      baseNet: "{% trans "Normal comp-based estimate." %}",
+      operatorNet: "{% trans "Estimate with your direct bookings and network." %}",
+      payback: "{% trans "How long profit takes to earn back the money deployed." %}",
+      airbnbMedian: "{% trans "Middle nearby Airbnb monthly price." %}",
+      airbnbP75: "{% trans "Strong nearby Airbnb price, not the maximum." %}",
+      planB: "{% trans "Long-term monthly rent fallback." %}",
+      totalDeployed: "{% trans "Buy price plus setup money." %}"
+    };
+    var decisionOrder = [
+      'Best buy now',
+      'Best conservative fallback',
+      'Needs negotiation',
+      'Watchlist',
+      'Reject despite high Airbnb upside'
+    ];
+    // Assumption cards are config-driven so labels, validation, presets, and API query names stay in one place.
+    var assumptionFields = [
+      {
+        key: 'budget',
+        group: 'budget',
+        label: '{% trans "Capital" %}',
+        unit: 'TRY',
+        type: 'money',
+        min: 1000000,
+        max: 10000000,
+        step: 50000,
+        defaultValue: 3500000,
+        description: '{% trans "Total money available to buy and prepare units." %}',
+        why: '{% trans "This controls how many units can realistically fit inside the plan." %}',
+        effect: '{% trans "More capital allows more or better units, but the engine still protects the cash reserve." %}',
+        presets: [
+          { label: '{% trans "Small" %}', value: 2500000 },
+          { label: '{% trans "Current" %}', value: 3500000 },
+          { label: '{% trans "Large" %}', value: 5000000 }
+        ]
+      },
+      {
+        key: 'reserve_percent',
+        group: 'budget',
+        label: '{% trans "Reserve" %}',
+        unit: '%',
+        min: 5,
+        max: 30,
+        step: 1,
+        defaultValue: 15,
+        description: '{% trans "Percentage of capital kept untouched as safety cash." %}',
+        why: '{% trans "This protects you from delays, repairs, vacancies, legal costs, and bad months." %}',
+        effect: '{% trans "Higher reserve means safer cash position but less money available for buying and setup." %}',
+        presets: [
+          { label: '{% trans "Lean" %}', value: 10 },
+          { label: '{% trans "Normal" %}', value: 15 },
+          { label: '{% trans "Safe" %}', value: 20 }
+        ]
+      },
+      {
+        key: 'furnishing_per_unit',
+        group: 'budget',
+        label: '{% trans "Furnishing / unit" %}',
+        unit: 'TRY',
+        type: 'money',
+        min: 75000,
+        max: 300000,
+        step: 5000,
+        defaultValue: 175000,
+        description: '{% trans "Estimated setup cost to make one unit rentable: furniture, appliances, linens, decor, small repairs, and guest-ready equipment." %}',
+        why: '{% trans "Medical and furnished-stay guests expect a complete unit, not an empty apartment." %}',
+        effect: '{% trans "Higher setup cost lowers ROI, but can support stronger revenue and guest satisfaction." %}',
+        presets: [
+          { label: '{% trans "Basic" %}', value: 125000 },
+          { label: '{% trans "Normal" %}', value: 175000 },
+          { label: '{% trans "Premium" %}', value: 240000 }
+        ]
+      },
+      {
+        key: 'legal_buffer_per_unit',
+        group: 'budget',
+        label: '{% trans "Legal buffer / unit" %}',
+        unit: 'TRY',
+        type: 'money',
+        min: 25000,
+        max: 250000,
+        step: 5000,
+        defaultValue: 50000,
+        description: '{% trans "Extra amount reserved per unit for title deed, notary, translation, valuation, permit, tax, agency, DASK, utility setup, and admin surprises." %}',
+        why: '{% trans "Buying property in Turkey can involve material procedure costs. The title deed transfer tax is commonly around 4% of declared value, often negotiated or split, but frequently pushed to the buyer in practice." %}',
+        effect: '{% trans "Higher buffer makes the model safer and more realistic, but lowers investable capital and ROI. This is an estimate, not legal advice." %}',
+        presets: [
+          { label: '{% trans "Low" %}', value: 50000 },
+          { label: '{% trans "Safer" %}', value: 100000 },
+          { label: '{% trans "High" %}', value: 175000 }
+        ]
+      },
+      {
+        key: 'base_occupancy_percent',
+        group: 'demand',
+        label: '{% trans "Base occupancy" %}',
+        unit: '%',
+        min: 40,
+        max: 90,
+        step: 1,
+        defaultValue: 72,
+        description: '{% trans "Expected normal occupancy before applying extra operator or network advantage." %}',
+        why: '{% trans "Occupancy is the main driver of rental revenue." %}',
+        effect: '{% trans "Higher occupancy increases expected cash and ROI, but overly optimistic values can make weak deals look good." %}',
+        presets: [
+          { label: '{% trans "Conservative" %}', value: 60 },
+          { label: '{% trans "Normal" %}', value: 72 },
+          { label: '{% trans "Aggressive" %}', value: 80 }
+        ]
+      },
+      {
+        key: 'conservative_occupancy_percent',
+        group: 'demand',
+        label: '{% trans "Conservative occupancy" %}',
+        unit: '%',
+        min: 30,
+        max: 80,
+        step: 1,
+        defaultValue: 58,
+        description: '{% trans "Safer downside occupancy used to test whether the deal survives weaker demand." %}',
+        why: '{% trans "This prevents the decision engine from relying only on optimistic assumptions." %}',
+        effect: '{% trans "Lower conservative occupancy makes the downside test stricter." %}',
+        presets: [
+          { label: '{% trans "Hard test" %}', value: 45 },
+          { label: '{% trans "Normal" %}', value: 58 },
+          { label: '{% trans "Soft test" %}', value: 65 }
+        ]
+      },
+      {
+        key: 'max_comp_radius_km',
+        group: 'demand',
+        label: '{% trans "Comp radius" %}',
+        unit: 'km',
+        min: 1,
+        max: 15,
+        step: 0.5,
+        defaultValue: 5,
+        description: '{% trans "Distance used to search for comparable listings and rental evidence." %}',
+        why: '{% trans "Nearby comps are usually more relevant. Too wide a radius can mix different neighborhoods and distort pricing." %}',
+        effect: '{% trans "Smaller radius gives cleaner evidence but fewer comps. Larger radius gives more data but weaker precision." %}',
+        presets: [
+          { label: '{% trans "Tight" %}', value: 3 },
+          { label: '{% trans "Normal" %}', value: 5 },
+          { label: '{% trans "Wide" %}', value: 10 }
+        ]
+      },
+      {
+        key: 'operator_occupancy_uplift_percent',
+        group: 'operator',
+        label: '{% trans "Operator occupancy uplift" %}',
+        unit: '%',
+        min: 0,
+        max: 25,
+        step: 1,
+        defaultValue: 12,
+        description: '{% trans "Extra occupancy expected from active management, better response times, better positioning, hospital/client network, and local operator advantage." %}',
+        why: '{% trans "A strong operator can fill gaps that passive owners cannot." %}',
+        effect: '{% trans "Higher uplift increases operator-case revenue, but should be capped to avoid unrealistic projections." %}',
+        presets: [
+          { label: '{% trans "None" %}', value: 0 },
+          { label: '{% trans "Normal" %}', value: 12 },
+          { label: '{% trans "Strong" %}', value: 18 }
+        ]
+      },
+      {
+        key: 'operator_revenue_uplift_percent',
+        group: 'operator',
+        label: '{% trans "Operator revenue uplift" %}',
+        unit: '%',
+        min: 0,
+        max: 25,
+        step: 1,
+        defaultValue: 8,
+        description: '{% trans "Extra revenue expected from better pricing, better guest targeting, extra services, better photos, and stronger sales handling." %}',
+        why: '{% trans "The operator may not only fill more nights, but also improve average revenue per booking." %}',
+        effect: '{% trans "Higher uplift improves best-case ROI and net monthly cash, but should remain realistic." %}',
+        presets: [
+          { label: '{% trans "None" %}', value: 0 },
+          { label: '{% trans "Normal" %}', value: 8 },
+          { label: '{% trans "Strong" %}', value: 12 }
+        ]
+      },
+      {
+        key: 'private_network_confidence_percent',
+        group: 'operator',
+        label: '{% trans "Network confidence" %}',
+        unit: '%',
+        min: 0,
+        max: 100,
+        step: 5,
+        defaultValue: 70,
+        description: '{% trans "Confidence that the real-world network can actually deliver the expected uplift." %}',
+        why: '{% trans "This prevents the model from treating promises as guaranteed income." %}',
+        effect: '{% trans "Higher confidence gives more weight to the operator-assisted scenario." %}',
+        presets: [
+          { label: '{% trans "Low" %}', value: 40 },
+          { label: '{% trans "Normal" %}', value: 70 },
+          { label: '{% trans "High" %}', value: 85 }
+        ]
+      },
+      {
+        key: 'plan_b_rent_factor_percent',
+        group: 'downside',
+        label: '{% trans "Plan-B rent factor" %}',
+        unit: '%',
+        min: 35,
+        max: 85,
+        step: 1,
+        defaultValue: 55,
+        description: '{% trans "Fallback long-term or low-effort rent as a percentage of expected furnished rental revenue." %}',
+        why: '{% trans "This shows whether the unit still has a survivable downside option if short-term or medical rental demand fails." %}',
+        effect: '{% trans "Higher Plan-B factor improves downside safety. Lower values expose fragile deals." %}',
+        presets: [
+          { label: '{% trans "Weak" %}', value: 45 },
+          { label: '{% trans "Normal" %}', value: 55 },
+          { label: '{% trans "Strong" %}', value: 70 }
+        ]
+      }
+    ];
+    var assumptionGroups = [
+      { key: 'budget', title: '{% trans "Budget & setup" %}', intro: '{% trans "What you can buy, what you keep safe, and what each unit costs before it earns." %}' },
+      { key: 'demand', title: '{% trans "Demand assumptions" %}', intro: '{% trans "How much demand the unit needs, and how strict the comparable evidence should be." %}' },
+      { key: 'operator', title: '{% trans "Operator advantage" %}', intro: '{% trans "The extra edge from direct guests, medical circles, referrals, and better selling." %}' },
+      { key: 'downside', title: '{% trans "Downside protection" %}', intro: '{% trans "What happens if the short-stay plan underperforms." %}' }
+    ];
+    var assumptionPresets = {
+      normal: {},
+      safe: {
+        reserve_percent: 20,
+        furnishing_per_unit: 200000,
+        legal_buffer_per_unit: 100000,
+        base_occupancy_percent: 65,
+        conservative_occupancy_percent: 50,
+        operator_occupancy_uplift_percent: 8,
+        operator_revenue_uplift_percent: 5,
+        private_network_confidence_percent: 55,
+        plan_b_rent_factor_percent: 50,
+        max_comp_radius_km: 3
+      },
+      operator: {
+        reserve_percent: 12,
+        base_occupancy_percent: 75,
+        conservative_occupancy_percent: 60,
+        operator_occupancy_uplift_percent: 15,
+        operator_revenue_uplift_percent: 10,
+        private_network_confidence_percent: 75,
+        plan_b_rent_factor_percent: 55,
+        max_comp_radius_km: 5
+      }
+    };
+    var map = L.map('investor-map', { zoomControl: false });
+    var markerLayer = L.layerGroup().addTo(map);
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', { maxZoom: 20 }).addTo(map);
+    map.setView([41.0082, 28.9784], 10);
+
+    function fmt(n) {
+      return new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY', maximumFractionDigits: 0 }).format(Number(n || 0));
+    }
+
+    function pct(n) {
+      return (Number(n || 0)).toFixed(1) + '%';
+    }
+
+    function esc(value) {
+      return String(value == null ? '' : value).replace(/[&<>"']/g, function (ch) {
+        return ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'})[ch];
+      });
+    }
+
+    function fieldByKey(key) {
+      return assumptionFields.find(function (field) { return field.key === key; });
+    }
+
+    function clampValue(field, value) {
+      var n = Number(value);
+      if (!Number.isFinite(n)) n = field.defaultValue;
+      n = Math.max(field.min, Math.min(field.max, n));
+      if (field.step && field.step % 1 !== 0) return Math.round(n / field.step) * field.step;
+      return Math.round(n / field.step) * field.step;
+    }
+
+    function formatAssumptionValue(field, value) {
+      var n = Number(value || 0);
+      if (field.type === 'money') return fmt(n);
+      if (field.unit === '%') return n + '%';
+      if (field.unit) return n + ' ' + field.unit;
+      return String(n);
+    }
+
+    function assumptionValue(key) {
+      var input = form.querySelector('[name="' + key + '"]');
+      var field = fieldByKey(key);
+      return input ? Number(input.value) : (field ? field.defaultValue : 0);
+    }
+
+    function estimatedUnitPrice() {
+      if (summary && summary.ranked && summary.ranked.length) {
+        var selected = summary.ranked.find(function (item) { return String(item.id) === String(selectedId); }) || summary.ranked[0];
+        if (selected && selected.price) return Number(selected.price);
+      }
+      var budget = assumptionValue('budget');
+      var reserve = assumptionValue('reserve_percent');
+      var furnishing = assumptionValue('furnishing_per_unit');
+      var legal = assumptionValue('legal_buffer_per_unit');
+      return Math.max(500000, budget * (1 - reserve / 100) - furnishing - legal);
+    }
+
+    function legalState(value) {
+      var ratio = Number(value || 0) / Math.max(1, estimatedUnitPrice());
+      if (ratio < 0.015) return { cls: 'is-warning', label: '{% trans "Low legal buffer" %}' };
+      if (ratio >= 0.02 && ratio <= 0.06) return { cls: 'is-safe', label: '{% trans "Safer legal buffer" %}' };
+      if (ratio > 0.07) return { cls: 'is-high', label: '{% trans "High legal buffer" %}' };
+      return { cls: '', label: '{% trans "Watch legal buffer" %}' };
+    }
+
+    function impactText(field, value) {
+      if (field.key === 'budget') return '{% trans "Higher capital can fit more units, but the shortlist still depends on ROI and cash safety." %}';
+      if (field.key === 'reserve_percent') return value >= 20 ? '{% trans "Safer, but fewer deals will fit the budget." %}' : '{% trans "More buying power, but less protection if costs or vacancies hit." %}';
+      if (field.key === 'furnishing_per_unit') return value >= 220000 ? '{% trans "Lower ROI, but better guest readiness and pricing potential." %}' : '{% trans "Higher ROI on paper, but check that the unit can still feel guest-ready." %}';
+      if (field.key === 'legal_buffer_per_unit') return legalState(value).label + '. ' + '{% trans "Closing/procedure costs may be materially higher depending on title deed tax, agency fees, and who pays them." %}';
+      if (field.key === 'base_occupancy_percent') return value >= 78 ? '{% trans "Strong cash result, but verify demand carefully." %}' : '{% trans "More cautious revenue expectation." %}';
+      if (field.key === 'conservative_occupancy_percent') return value <= 50 ? '{% trans "Stricter downside test; weak deals will fall away." %}' : '{% trans "Softer downside test; do not let it hide vacancy risk." %}';
+      if (field.key === 'max_comp_radius_km') return value <= 3 ? '{% trans "Cleaner local evidence, possibly fewer comps." %}' : '{% trans "More comps, but neighborhood precision gets weaker." %}';
+      if (field.key === 'operator_occupancy_uplift_percent') return value >= 15 ? '{% trans "Assumes strong hands-on operation and direct demand." %}' : '{% trans "Moderate operator edge." %}';
+      if (field.key === 'operator_revenue_uplift_percent') return value >= 12 ? '{% trans "Assumes better pricing/photos/service can materially raise revenue." %}' : '{% trans "Keeps upside modest." %}';
+      if (field.key === 'private_network_confidence_percent') return value >= 75 ? '{% trans "More weight on your real-world network." %}' : '{% trans "Less weight on network-driven upside." %}';
+      if (field.key === 'plan_b_rent_factor_percent') return value >= 65 ? '{% trans "Downside looks stronger, but validate with real monthly rent comps." %}' : '{% trans "More conservative fallback; fragile deals become visible." %}';
+      return field.effect;
+    }
+
+    function renderAssumptionCards() {
+      assumptionGroupsEl.innerHTML = assumptionGroups.map(function (group) {
+        var cards = assumptionFields.filter(function (field) { return field.group === group.key; }).map(function (field) {
+          var value = field.defaultValue;
+          return '<article class="assumption-card" data-field-card="' + esc(field.key) + '">' +
+            '<div class="assumption-top">' +
+              '<label class="assumption-title" for="assumption-' + esc(field.key) + '">' + esc(field.label) + '</label>' +
+              '<span class="assumption-value" data-field-value="' + esc(field.key) + '">' + esc(formatAssumptionValue(field, value)) + '</span>' +
+            '</div>' +
+            '<div class="assumption-text">' +
+              '<span>' + esc(field.description) + '</span>' +
+              '<span><strong>{% trans "Why it matters:" %}</strong> ' + esc(field.why) + '</span>' +
+              '<span><strong>{% trans "Effect:" %}</strong> ' + esc(field.effect) + '</span>' +
+            '</div>' +
+            '<div class="assumption-control-row">' +
+              '<div>' +
+                '<input class="assumption-range" id="assumption-' + esc(field.key) + '" type="range" min="' + esc(field.min) + '" max="' + esc(field.max) + '" step="' + esc(field.step) + '" value="' + esc(value) + '" data-field="' + esc(field.key) + '">' +
+                '<div class="range-row"><span>' + esc(formatAssumptionValue(field, field.min)) + '</span><span>' + esc(formatAssumptionValue(field, field.max)) + '</span></div>' +
+              '</div>' +
+              '<input class="assumption-number" type="number" name="' + esc(field.key) + '" min="' + esc(field.min) + '" max="' + esc(field.max) + '" step="' + esc(field.step) + '" value="' + esc(value) + '" data-field="' + esc(field.key) + '">' +
+            '</div>' +
+            (field.presets && field.presets.length ? '<div class="quick-presets">' + field.presets.map(function (preset) {
+              return '<button type="button" class="quick-preset" data-field="' + esc(field.key) + '" data-value="' + esc(preset.value) + '">' + esc(preset.label) + '</button>';
+            }).join('') + '</div>' : '') +
+            '<div class="impact-note" data-impact="' + esc(field.key) + '"></div>' +
+            (field.key === 'legal_buffer_per_unit' ? '<div class="legal-estimate" data-legal-estimate></div>' : '') +
+          '</article>';
+        }).join('');
+        return '<section class="assumption-group">' +
+          '<div class="assumption-group-head"><h2>' + esc(group.title) + '</h2><p>' + esc(group.intro) + '</p></div>' +
+          '<div class="assumption-cards">' + cards + '</div>' +
+        '</section>';
+      }).join('');
+
+      assumptionFields.forEach(function (field) { updateField(field.key, field.defaultValue, false); });
+
+      Array.from(form.querySelectorAll('.assumption-range, .assumption-number')).forEach(function (input) {
+        input.addEventListener('input', function () { updateField(input.dataset.field, input.value, true); });
+        input.addEventListener('change', function () { updateField(input.dataset.field, input.value, true); });
+      });
+      Array.from(form.querySelectorAll('.quick-preset')).forEach(function (button) {
+        button.addEventListener('click', function () { updateField(button.dataset.field, button.dataset.value, true); });
+      });
+    }
+
+    function updateField(key, value, refreshRelated) {
+      var field = fieldByKey(key);
+      if (!field) return;
+      var next = clampValue(field, value);
+      var range = form.querySelector('.assumption-range[data-field="' + key + '"]');
+      var number = form.querySelector('.assumption-number[data-field="' + key + '"]');
+      var valueEl = form.querySelector('[data-field-value="' + key + '"]');
+      var impactEl = form.querySelector('[data-impact="' + key + '"]');
+      var card = form.querySelector('[data-field-card="' + key + '"]');
+      if (range) range.value = next;
+      if (number) number.value = next;
+      if (valueEl) valueEl.textContent = formatAssumptionValue(field, next);
+      if (impactEl) impactEl.innerHTML = '<strong>{% trans "Impact:" %}</strong> ' + esc(impactText(field, next));
+      if (card) {
+        card.classList.remove('is-warning', 'is-safe', 'is-high');
+        if (key === 'legal_buffer_per_unit') {
+          var state = legalState(next);
+          if (state.cls) card.classList.add(state.cls);
+        }
+      }
+      if (key === 'legal_buffer_per_unit' || key === 'budget' || key === 'reserve_percent') updateLegalEstimate();
+      if (refreshRelated && key !== 'legal_buffer_per_unit' && ['budget', 'reserve_percent'].indexOf(key) !== -1) {
+        updateField('legal_buffer_per_unit', assumptionValue('legal_buffer_per_unit'), false);
+      }
+    }
+
+    function updateLegalEstimate() {
+      var legalEl = form.querySelector('[data-legal-estimate]');
+      if (!legalEl) return;
+      var unitPrice = estimatedUnitPrice();
+      var legal = assumptionValue('legal_buffer_per_unit');
+      var ratio = legal / Math.max(1, unitPrice);
+      var state = legalState(legal);
+      legalEl.innerHTML = '<strong>' + esc(state.label) + '.</strong> ' +
+        '{% trans "For a unit around" %} ' + fmt(unitPrice) + ', ' +
+        '{% trans "buyer-side closing/legal/procedure costs may be materially higher than this buffer depending on who pays title deed tax and agency costs. This is not legal advice." %} ' +
+        '(' + (ratio * 100).toFixed(1) + '%)';
+    }
+
+    function applyPreset(name) {
+      var preset = assumptionPresets[name] || {};
+      assumptionFields.forEach(function (field) {
+        updateField(field.key, preset[field.key] == null ? field.defaultValue : preset[field.key], false);
+      });
+      updateLegalEstimate();
+    }
+
+    function badgeClass(label) {
+      if (label === 'Best buy now' || label === 'Best conservative fallback') return 'good';
+      if (label === 'Reject despite high Airbnb upside') return 'bad';
+      if (label === 'Needs negotiation') return 'warn';
+      return '';
+    }
+
+    function params() {
+      return new URLSearchParams(new FormData(form)).toString();
+    }
+
+    function renderKpis(data) {
+      document.getElementById('kpi-roi').textContent = pct(data.kpis.best_operator_roi);
+      document.getElementById('kpi-net').textContent = fmt(data.kpis.best_net_monthly);
+      document.getElementById('kpi-shortlist').textContent = data.kpis.strong_shortlist_count;
+      document.getElementById('kpi-thin').textContent = data.kpis.thin_comp_count;
+      document.getElementById('market-count').textContent = data.market.sale_listing_count + ' sales / ' + data.market.airbnb_comp_count + ' Airbnb comps';
+    }
+
+    function renderPortfolios(items) {
+      portfolioEl.innerHTML = (items || []).slice(0, 3).map(function (item) {
+        return '<div class="portfolio-card">' +
+          '<b>' + esc(item.label) + ' · ' + pct(item.roi_percent) + '</b>' +
+          '<span>' + fmt(item.operator_net_monthly) + ' / month net</span>' +
+          '<span>' + fmt(item.deployed) + ' deployed</span>' +
+          '<span>#' + esc(item.listing_ids.join(', #')) + '</span>' +
+        '</div>';
+      }).join('') || '<div class="portfolio-card"><b>No affordable mix yet</b><span>Source cheaper or stronger candidates.</span></div>';
+    }
+
+    function renderRows(items) {
+      rowsEl.innerHTML = items.map(function (item) {
+        return '<tr data-id="' + esc(item.id) + '" class="' + (String(item.id) === String(selectedId) ? 'is-selected' : '') + '">' +
+          '<td data-label="' + esc(tableLabels.target) + '"><strong>#' + esc(item.id) + '</strong> ' + esc(item.title) + '</td>' +
+          '<td data-label="' + esc(tableLabels.price) + '">' + fmt(item.price) + '</td>' +
+          '<td data-label="' + esc(tableLabels.room) + '">' + esc(item.room_size || '-') + '</td>' +
+          '<td data-label="' + esc(tableLabels.score) + '">' + esc(item.risk_adjusted_score) + '</td>' +
+          '<td data-label="' + esc(tableLabels.operatorRoi) + '">' + pct(item.scenarios.operator.roi_percent) + '</td>' +
+          '<td data-label="' + esc(tableLabels.baseNet) + '">' + fmt(item.scenarios.base.net_monthly) + '</td>' +
+          '<td data-label="' + esc(tableLabels.planB) + '">' + fmt(item.plan_b_monthly) + '</td>' +
+          '<td data-label="' + esc(tableLabels.comps) + '">' + esc(item.comp_count) + ' / ' + esc(item.comp_confidence) + '</td>' +
+          '<td data-label="' + esc(tableLabels.decision) + '"><span class="badge ' + badgeClass(item.shortlist) + '">' + esc(item.shortlist) + '</span></td>' +
+        '</tr>';
+      }).join('');
+      Array.from(rowsEl.querySelectorAll('tr')).forEach(function (row) {
+        row.addEventListener('click', function () {
+          selectedId = row.dataset.id;
+          renderAll(summary);
+        });
+      });
+    }
+
+    function chunk(items, size) {
+      var chunks = [];
+      for (var i = 0; i < items.length; i += size) chunks.push(items.slice(i, i + size));
+      return chunks;
+    }
+
+    function renderMobileTargets(items) {
+      if (!targetWrapperEl) return;
+      if (targetSwiper && targetSwiper.destroy) {
+        targetSwiper.destroy(true, true);
+        targetSwiper = null;
+      }
+      var groups = {};
+      items.forEach(function (item) {
+        var key = item.shortlist || 'Watchlist';
+        if (!groups[key]) groups[key] = [];
+        groups[key].push(item);
+      });
+      var slides = [];
+      decisionOrder.concat(Object.keys(groups).filter(function (key) { return decisionOrder.indexOf(key) === -1; })).forEach(function (key) {
+        if (!groups[key] || !groups[key].length) return;
+        chunk(groups[key], 10).forEach(function (part, partIdx) {
+          slides.push({ title: key, page: partIdx + 1, total: Math.ceil(groups[key].length / 10), items: part });
+        });
+      });
+      targetSlidesCount = slides.length;
+      targetWrapperEl.innerHTML = slides.map(function (slide) {
+        return '<div class="swiper-slide target-slide">' +
+          '<div class="target-slide-head">' +
+            '<h3>' + esc(slide.title) + '</h3>' +
+            '<span class="badge ' + badgeClass(slide.title) + '">' + esc(slide.items.length) + ' {% trans "targets" %}</span>' +
+          '</div>' +
+          '<div class="target-list">' +
+            slide.items.map(function (item) {
+              return '<button type="button" class="target-mini' + (String(item.id) === String(selectedId) ? ' is-selected' : '') + '" data-id="' + esc(item.id) + '">' +
+                '<span>' +
+                  '<span class="target-mini-title">#' + esc(item.id) + ' ' + esc(item.title) + '</span>' +
+                  '<span class="target-mini-meta">' +
+                    '<span>' + esc(item.room_size || '-') + '</span>' +
+                    '<span>' + fmt(item.price) + '</span>' +
+                    '<span>' + esc(item.comp_count) + ' {% trans "comps" %}</span>' +
+                  '</span>' +
+                  '<span class="target-mini-numbers">' +
+                    '<span>{% trans "Net" %}: ' + fmt(item.scenarios.operator.net_monthly) + '</span>' +
+                    '<span>{% trans "ROI" %}: ' + pct(item.scenarios.operator.roi_percent) + '</span>' +
+                    '<span>{% trans "Plan-B" %}: ' + fmt(item.plan_b_monthly) + '</span>' +
+                  '</span>' +
+                '</span>' +
+                '<span class="target-mini-score"><strong>' + esc(item.risk_adjusted_score) + '</strong><span>{% trans "score" %}</span></span>' +
+              '</button>';
+            }).join('') +
+          '</div>' +
+        '</div>';
+      }).join('') || '<div class="swiper-slide target-slide"><div class="target-list"><div class="target-mini">{% trans "No targets yet." %}</div></div></div>';
+
+      Array.from(targetWrapperEl.querySelectorAll('.target-mini[data-id]')).forEach(function (button) {
+        button.addEventListener('click', function () {
+          selectedId = button.dataset.id;
+          renderAll(summary);
+        });
+      });
+
+      function updateLabel(swiper) {
+        if (!targetPageLabelEl) return;
+        var current = swiper ? swiper.realIndex + 1 : 1;
+        targetPageLabelEl.textContent = current + ' / ' + Math.max(targetSlidesCount, 1);
+      }
+
+      if (window.Swiper && targetSlidesCount > 1) {
+        targetSwiper = new Swiper('.target-swiper', {
+          slidesPerView: 1,
+          spaceBetween: 12,
+          autoHeight: true,
+          navigation: {
+            nextEl: '.target-next',
+            prevEl: '.target-prev'
+          },
+          pagination: {
+            el: '.target-pagination',
+            clickable: true
+          },
+          on: {
+            init: function () { updateLabel(this); },
+            slideChange: function () { updateLabel(this); }
+          }
+        });
+      } else {
+        updateLabel(null);
+      }
+    }
+
+    function renderMap(items) {
+      markerLayer.clearLayers();
+      var bounds = L.latLngBounds();
+      items.slice(0, 30).forEach(function (item) {
+        if (!item.lat || !item.lng) return;
+        var marker = L.circleMarker([item.lat, item.lng], {
+          radius: String(item.id) === String(selectedId) ? 9 : 6,
+          color: '#151515',
+          fillColor: badgeClass(item.shortlist) === 'good' ? '#176b4d' : '#a38344',
+          fillOpacity: .85,
+          weight: 2
+        }).bindPopup('#' + item.id + ' ' + esc(item.title) + '<br>' + pct(item.scenarios.operator.roi_percent));
+        marker.on('click', function () { selectedId = item.id; renderAll(summary); });
+        markerLayer.addLayer(marker);
+        bounds.extend([item.lat, item.lng]);
+      });
+      var selected = items.find(function (item) { return String(item.id) === String(selectedId); }) || items[0];
+      if (selected) {
+        selected.nearest_comps.forEach(function (comp) {
+          var compMarker = L.circleMarker([comp.lat, comp.lng], {
+            radius: 4,
+            color: '#245f93',
+            fillColor: '#245f93',
+            fillOpacity: .45,
+            weight: 1
+          }).bindPopup('Airbnb comp<br>' + fmt(comp.monthly));
+          markerLayer.addLayer(compMarker);
+          bounds.extend([comp.lat, comp.lng]);
+        });
+      }
+      if (bounds.isValid()) map.fitBounds(bounds.pad(.18));
+    }
+
+    function detailMetric(label, value, help) {
+      return '<div class="metric"><span>' + esc(label) + '</span><strong>' + esc(value) + '</strong><small>' + esc(help || '') + '</small></div>';
+    }
+
+    function renderDetail(items) {
+      var item = items.find(function (row) { return String(row.id) === String(selectedId); }) || items[0];
+      if (!item) {
+        detailEl.innerHTML = '<div class="detail-head"><h3>No candidates</h3></div>';
+        return;
+      }
+      selectedId = item.id;
+      document.getElementById('detail-id').textContent = '#' + item.id;
+      detailEl.innerHTML =
+        '<div class="detail-head"><h3>' + esc(item.title) + '</h3><span class="badge ' + badgeClass(item.shortlist) + '">' + esc(item.shortlist) + '</span></div>' +
+        '<div class="metric-grid">' +
+          detailMetric('{% trans "Conservative net" %}', fmt(item.scenarios.conservative.net_monthly), metricHelp.conservativeNet) +
+          detailMetric('{% trans "Base net" %}', fmt(item.scenarios.base.net_monthly), metricHelp.baseNet) +
+          detailMetric('{% trans "Operator net" %}', fmt(item.scenarios.operator.net_monthly), metricHelp.operatorNet) +
+          detailMetric('{% trans "Payback" %}', (item.scenarios.operator.payback_years || '-') + ' {% trans "years" %}', metricHelp.payback) +
+          detailMetric('{% trans "Airbnb median" %}', fmt(item.comp_median), metricHelp.airbnbMedian) +
+          detailMetric('{% trans "Airbnb p75" %}', fmt(item.comp_p75), metricHelp.airbnbP75) +
+          detailMetric('{% trans "Plan-B rent" %}', fmt(item.plan_b_monthly), metricHelp.planB) +
+          detailMetric('{% trans "Total deployed" %}', fmt(item.total_deployed), metricHelp.totalDeployed) +
+        '</div>' +
+        '<div><strong>{% trans "Why it scored this way" %}</strong><ul class="plain-list">' + item.reasons.map(function (r) { return '<li>' + esc(r) + '</li>'; }).join('') + '</ul></div>' +
+        '<div><strong>{% trans "Due diligence" %}</strong><ul class="plain-list">' + item.due_diligence.map(function (r) { return '<li>' + esc(r) + '</li>'; }).join('') + '</ul></div>' +
+        (item.source_url ? '<a class="inv-action" style="display:inline-flex;align-items:center;justify-content:center;text-decoration:none;padding:0 12px;" href="' + esc(item.source_url) + '" target="_blank" rel="noopener">{% trans "Open source" %}</a>' : '');
+    }
+
+    function renderSourcing(items) {
+      sourceEl.innerHTML = (items || []).map(function (item) {
+        return '<div class="source-card">' +
+          '<h3>' + esc(item.title) + '</h3>' +
+          '<p>' + esc(item.brief) + '</p>' +
+          (item.commands || []).map(function (cmd) { return '<code>' + esc(cmd) + '</code>'; }).join('') +
+        '</div>';
+      }).join('');
+    }
+
+    function renderAll(data) {
+      renderKpis(data);
+      renderPortfolios(data.portfolios);
+      renderRows(data.ranked || []);
+      renderMobileTargets(data.ranked || []);
+      renderMap(data.ranked || []);
+      renderDetail(data.ranked || []);
+      renderSourcing(data.sourcing || []);
+      updateLegalEstimate();
+    }
+
+    function load() {
+      fetch('/api/investor/medical-rentals/summary?' + params(), { headers: { 'Accept': 'application/json' } })
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+          summary = data;
+          if (!selectedId && data.ranked && data.ranked.length) selectedId = data.ranked[0].id;
+          renderAll(data);
+          setTimeout(function () { map.invalidateSize(); }, 80);
+        })
+        .catch(function () {
+          rowsEl.innerHTML = '<tr><td colspan="9">Investor summary unavailable.</td></tr>';
+        });
+    }
+
+    form.addEventListener('submit', function (ev) {
+      ev.preventDefault();
+      selectedId = null;
+      load();
+    });
+    Array.from(form.querySelectorAll('[data-preset]')).forEach(function (button) {
+      button.addEventListener('click', function () { applyPreset(button.dataset.preset); });
+    });
+    document.getElementById('reset-assumptions').addEventListener('click', function () { applyPreset('normal'); });
+    renderAssumptionCards();
+    load();
+  })();
+</script>
+{% endblock %}

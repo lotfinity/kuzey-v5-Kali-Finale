@@ -55,7 +55,7 @@
 
 	const elem = document.querySelector('.properties-box');
 	const filtersElem = document.querySelector('.properties-filter');
-	if (elem) {
+	if (elem && elem.getAttribute('data-no-isotope') !== 'true') {
 		const rdn_events_list = new Isotope(elem, {
 			itemSelector: '.properties-items',
 			layoutMode: 'masonry'

@@ -1,9 +1,10 @@
-#: templates/newfrontend/index.html:238
+#
+#: templates/newfrontend/properties.html:891
 msgid ""
 msgstr ""
 "Project-Id-Version: KoralCity\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-11 03:39+0000\n"
+"POT-Creation-Date: 2026-06-14 16:40+0300\n"
 "PO-Revision-Date: 2025-11-09 21:55+0000\n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
@@ -11,554 +12,491 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: templates/accounts/dashborad.html:5
-msgid "Dashboard"
-msgstr "Tableau de bord"
-
-#: templates/accounts/dashborad.html:15
-msgid "User Dashboard"
-msgstr "Tableau de bord utilisateur"
-
-#: templates/accounts/dashborad.html:16
-msgid "Manage your KoralCity Properties account"
-msgstr "Gérez votre compte KoralCity Properties"
-
-#: templates/accounts/dashborad.html:26
-msgid "Welcome"
-msgstr "Bienvenue"
-
-#: templates/accounts/dashborad.html:28
-msgid "Here are the property listings that you have inquired about"
-msgstr "Voici les annonces immobilières pour lesquelles vous avez envoyé une demande"
-
-#: templates/accounts/dashborad.html:33
-#: templates/newfrontend/property-details.html:12
-msgid "Property"
-msgstr "Propriété"
-
-#: templates/accounts/dashborad.html:43
-msgid "View Listing"
-msgstr "Voir l'annonce"
-
-#: templates/accounts/dashborad.html:52
-msgid "You Don't Have Any Inquiries"
-msgstr "Vous n'avez aucune demande"
-
-#: templates/accounts/login.html:13 templates/partials/_footer.html:25
-#: templates/partials/_navbar.html:53
-msgid "Agents"
-msgstr "Agents"
-
-#: templates/accounts/login.html:17
-msgid "You wish to be a realtor agent? here is all you have to do."
-msgstr "Vous souhaitez devenir agent immobilier ? Voici tout ce que vous avez à faire."
-
-#: templates/accounts/login.html:20 templates/accounts/register.html:23
-#: templates/listings/listing.html:18 templates/listings/listings.html:20
-#: templates/newfrontend/base.html:135 templates/newfrontend/contact.html:11
-#: templates/newfrontend/financing.html:29 templates/newfrontend/map.html:54
-#: templates/newfrontend/properties.html:12
-#: templates/newfrontend/property-details.html:12 templates/pages/about.html:25
-#: templates/pages/agesverification.html:20 templates/partials/_navbar.html:42
-msgid "Home"
-msgstr "Accueil"
-
-#: templates/accounts/login.html:22 templates/pages/about.html:27
-#: templates/pages/agesverification.html:22 templates/partials/_footer.html:30
-#: templates/partials/_navbar.html:43
-msgid "About"
-msgstr "À propos"
-
-# Accounts pages
-#: templates/accounts/login.html:36
-msgid "How it works?"
-msgstr "Comment ça marche ?"
-
-#: templates/accounts/login.html:37
-msgid ""
-"You wish be a realtor agent with Koralcity? <br> All you have to do.<br>is "
-"complete some few steps and arrange all relevant information <br>while "
-"pending for your response before the end of the day."
-msgstr "Vous souhaitez être agent immobilier avec Koralcity ? <br> Voici tout ce que vous avez à faire.<br>Complétez quelques étapes et rassemblez toutes les informations pertinentes <br>en attendant notre réponse avant la fin de la journée."
-
-#: templates/accounts/login.html:48
-msgid "Find Your Location"
-msgstr "Trouvez votre emplacement"
-
-#: templates/accounts/login.html:51
-msgid ""
-"Here you search for the location you want to cover in your listings and then "
-"move to the next step."
-msgstr "Ici, vous recherchez la zone que vous souhaitez couvrir dans vos annonces, puis passez à l'étape suivante."
-
-#: templates/accounts/login.html:62
-msgid "Find Apartment"
-msgstr "Trouver un appartement"
-
-#: templates/accounts/login.html:65
-msgid ""
-"After you've picked a location, now you search for available properties in "
-"that location for your listings."
-msgstr "Après avoir choisi un emplacement, recherchez les biens disponibles dans cette zone pour vos annonces."
-
-#: templates/accounts/login.html:76
-msgid "Make Contact"
-msgstr "Prendre contact"
-
-#: templates/accounts/login.html:79
-msgid ""
-"Once you've completed step one and two now you can contact us and you'll get "
-"back to you with a confirmation."
-msgstr "Une fois les étapes une et deux terminées, vous pouvez nous contacter et nous vous répondrons avec une confirmation."
-
-#: templates/accounts/login.html:87
-msgid "Services"
-msgstr "Services"
-
-#: templates/accounts/login.html:88
-msgid ""
-"At Koralcity Limited, we handle the operations, consulting, maintenance,<br> "
-"and administration of properties rentals to prospective clients."
-msgstr "Chez Koralcity Limited, nous gérons les opérations, le conseil, la maintenance<br> et l'administration des locations de biens pour les clients potentiels."
-
-#: templates/accounts/login.html:97 templates/partials/_footer.html:42
-msgid "Renting"
-msgstr "Location"
-
-#: templates/accounts/login.html:100 templates/partials/_footer.html:43
-msgid "Selling"
-msgstr "Vente"
-
-#: templates/accounts/login.html:103
-msgid "Building"
-msgstr "Construction"
-
-#: templates/accounts/login.html:178 templates/accounts/login.html:195
-msgid "Login"
-msgstr "Connexion"
-
-#: templates/accounts/login.html:186 templates/accounts/register.html:57
-msgid "Username"
-msgstr "Nom d'utilisateur"
-
-#: templates/accounts/login.html:191 templates/accounts/register.html:65
-msgid "Password"
-msgstr "Mot de passe"
-
-#: templates/accounts/register.html:5 templates/accounts/register.html:25
-#: templates/accounts/register.html:41 templates/accounts/register.html:72
-msgid "Register"
-msgstr "Inscription"
-
-#: templates/accounts/register.html:16
-msgid "Become an Agent"
-msgstr "Devenir agent"
-
-#: templates/accounts/register.html:20
-msgid "Register now and receive a mail from us within 2 working days."
+#: listings/admin.py:55 listings/admin.py:140
+#: listings/migrations/0012_listing_rentability_groups.py:21
+#: listings/models.py:118 templates/newfrontend/properties.html:678
+#: templates/newfrontend/property-details.html:639
+#: templates/newfrontend/property-details.html:678
+#: templates/newfrontend/property-details.html:725
+#: templates/newfrontend/property-details.html:756
+msgid "Rentability groups"
 msgstr ""
-"Inscrivez-vous maintenant et recevez un e-mail de notre part sous 2 jours "
-"ouvrés."
 
-#: templates/accounts/register.html:49
-msgid "First Name"
-msgstr "Prénom"
+#: listings/admin.py:56
+msgid "Select every renter profile this apartment fits."
+msgstr ""
 
-#: templates/accounts/register.html:53
-msgid "Last Name"
-msgstr "Nom"
+#: listings/admin.py:73
+msgid "Rentability group"
+msgstr ""
 
-#: templates/accounts/register.html:61 templates/pages/agesverification.html:51
-msgid "Email"
-msgstr "E-mail"
+#: listings/admin.py:109
+#, fuzzy
+#| msgid "Overview"
+msgid "Preview"
+msgstr "Aperçu"
 
-#: templates/accounts/register.html:69
-msgid "Confirm Password"
-msgstr "Confirmer le mot de passe"
+#: listings/admin.py:134 listings/models.py:79
+msgid "Deal type"
+msgstr ""
 
-# Core/navigation
-#: templates/base.html:7
-msgid "KoralCity Properties"
-msgstr "Propriétés KoralCity"
+#: listings/admin.py:151
+#, python-format
+msgid "%d images deleted from selected listings"
+msgstr ""
 
-# Blog
-#: templates/blog/base.html:45
-msgid "Blog App"
-msgstr "Application Blog"
+#: listings/admin.py:152
+msgid "Delete all images for selected listings"
+msgstr ""
 
-#: templates/blog/blog_detail.html:15 templates/blog/blog_list.html:13
-#: templates/blog/category_list.html:14 templates/blog/search_list.html:13
-msgid "Production:"
-msgstr "Production :"
+#: listings/admin.py:159 listings/admin.py:566
+msgid "Source"
+msgstr ""
 
-#: templates/blog/blog_detail.html:30 templates/blog/blog_list.html:27
-#: templates/blog/category_list.html:28
-msgid "by"
-msgstr "par"
+#: listings/admin.py:162
+msgid "Original URL"
+msgstr ""
 
-#: templates/blog/blog_detail.html:30 templates/blog/blog_detail.html:55
-#: templates/blog/blog_list.html:27 templates/blog/category_list.html:28
-msgid "Comments"
-msgstr "Commentaires"
+#: listings/admin.py:173
+msgid "Manual exchange rates"
+msgstr ""
 
-#: templates/blog/blog_detail.html:40
-msgid "To comment, first"
-msgstr "Pour commenter, veuillez d'abord"
+#: listings/admin.py:175
+msgid ""
+"Rates are stored as the value of 1 Turkish Lira in the target currency. DZD "
+"defaults to 1 TL = 5 DZD."
+msgstr ""
 
-#: templates/blog/blog_detail.html:40
-msgid "log in"
-msgstr "vous connecter"
-
-#: templates/blog/blog_detail.html:40
-msgid "to your account"
-msgstr "à votre compte"
-
-#: templates/blog/blog_detail.html:48 templates/newfrontend/contact.html:74
-#: templates/newfrontend/financing.html:214
-#: templates/newfrontend/index.html:368 templates/newfrontend/map.html:265
-#: templates/newfrontend/properties.html:137
+#: listings/admin.py:240 templates/newfrontend/financing.html:214
+#: templates/newfrontend/properties.html:1000
 msgid "Message"
 msgstr "Message"
 
-#: templates/blog/blog_detail.html:49
-msgid "Add Comment"
-msgstr "Ajouter un commentaire"
+#: listings/admin.py:300
+msgid "Editor"
+msgstr ""
 
-#: templates/blog/blog_detail.html:66
-msgid "There is no comment"
-msgstr "Il n'y a aucun commentaire"
+#: listings/admin.py:385
+#, python-format
+msgid "Marked %d images as visible"
+msgstr ""
 
-#: templates/blog/blog_list.html:32 templates/blog/category_list.html:33
-#: templates/blog/search_list.html:32
-msgid "Continue Reading"
-msgstr "Continuer la lecture"
+#: listings/admin.py:386
+msgid "Mark selected images as visible"
+msgstr ""
 
-#: templates/blog/blog_list.html:66 templates/blog/category_list.html:64
-#: templates/blog/search_list.html:69
-msgid "Enter keywords & hit enter...."
-msgstr "Entrez des mots-clés et appuyez sur Entrée..."
+#: listings/admin.py:390
+#, python-format
+msgid "Marked %d images as hidden"
+msgstr ""
 
-#: templates/blog/blog_list.html:72 templates/blog/category_list.html:70
-#: templates/blog/search_list.html:75
-msgid "About Me"
-msgstr "À propos de moi"
+#: listings/admin.py:391
+msgid "Mark selected images as hidden"
+msgstr ""
 
-#: templates/blog/blog_list.html:85 templates/blog/category_list.html:83
-msgid "Recent Post"
-msgstr "Article récent"
+#: listings/admin.py:437
+#, python-format
+msgid "Processed %d images, %d failed."
+msgstr ""
 
-#: templates/blog/blog_list.html:101 templates/blog/category_list.html:99
-#: templates/blog/search_list.html:104
-msgid "Categories"
-msgstr "Catégories"
+#: listings/admin.py:439
+msgid "Bulk edit (watermark/crop/frame)"
+msgstr ""
 
-#: templates/blog/blog_list.html:113 templates/blog/category_list.html:121
-#: templates/blog/search_list.html:126
-msgid "Tags"
-msgstr "Tags"
+#: listings/admin.py:463
+#, python-format
+msgid "Applied corner cover on %d images, %d failed."
+msgstr ""
 
-#: templates/blog/blog_list.html:126 templates/blog/category_list.html:160
-#: templates/blog/search_list.html:165
-msgid "Subscribe to our newsletter"
-msgstr "Abonnez-vous à notre newsletter"
+#: listings/admin.py:464
+msgid "Cover old logo (triangle BL)"
+msgstr ""
 
-#: templates/blog/blog_list.html:130 templates/blog/category_list.html:164
-#: templates/blog/search_list.html:169
-msgid "Enter your email"
-msgstr "Entrez votre e-mail"
+#: listings/admin.py:479 listings/admin.py:495
+#, python-format
+msgid "Logo not found at %s"
+msgstr ""
 
-#: templates/blog/blog_list.html:131 templates/blog/category_list.html:165
-#: templates/blog/search_list.html:170
-msgid "Subscribe"
-msgstr "S'abonner"
+#: listings/admin.py:483
+#, python-format
+msgid "Applied logo (one-click) to %d images, %d failed."
+msgstr ""
 
-#: templates/blog/category_list.html:109
-msgid "Live stream"
-msgstr "Diffusion en direct"
+#: listings/admin.py:485
+msgid "Apply logo watermark (one-click)"
+msgstr ""
 
-#: templates/blog/category_list.html:132 templates/blog/search_list.html:137
-msgid "Gallery"
-msgstr "Galerie"
+#: listings/admin.py:532
+#, python-format
+msgid "Applied logo to %d images, %d failed."
+msgstr ""
 
-#: templates/blog/search_list.html:37
-msgid "No results found!"
-msgstr "Aucun résultat trouvé !"
+#: listings/admin.py:534 templates/admin/apply_logo_watermark.html:5
+msgid "Apply logo watermark"
+msgstr ""
 
-#: templates/blog/search_list.html:38
-msgid "There were no results matching your search"
-msgstr "Aucun résultat ne correspond à votre recherche"
+#: listings/admin.py:550
+msgid "Provide either a single URL or upload a CSV file."
+msgstr ""
 
-#: templates/listings/listing.html:13 templates/listings/listings.html:15
-#: templates/listings/listings.html:22 templates/newfrontend/base.html:136
-#: templates/newfrontend/properties.html:12
-#: templates/newfrontend/properties.html:13 templates/partials/_navbar.html:45
-msgid "Properties"
-msgstr "Propriétés"
+#: listings/admin.py:569
+msgid "Options"
+msgstr ""
 
-# Listings pages
-#: templates/listings/listing.html:20
-msgid "Listing"
-msgstr "Annonce"
+#: listings/admin.py:572
+msgid "Execution"
+msgstr ""
 
-#: templates/listings/listing.html:37
-msgid "Back To Listings"
-msgstr "Retour aux annonces"
+#: listings/admin.py:579
+msgid "CSV path used"
+msgstr ""
 
-#: templates/listings/listing.html:92
-msgid "Asking Price:"
-msgstr "Prix demandé :"
+#: listings/admin.py:597
+msgid "Import job started."
+msgstr ""
 
-#: templates/listings/listing.html:96
-msgid "Bedrooms:"
-msgstr "Chambres :"
+#: listings/admin.py:599
+#, python-format
+msgid "Failed to start job: %s"
+msgstr ""
 
-#: templates/listings/listing.html:100
-msgid "Bathrooms:"
-msgstr "Salles de bain :"
+#: listings/migrations/0012_listing_rentability_groups.py:19
+#: listings/models.py:119
+msgid "Tenant/renter groups this apartment is a strong match for."
+msgstr ""
 
-#: templates/listings/listing.html:104
-msgid "Type:"
-msgstr "Type :"
+#: listings/models.py:23
+msgid "1 TL in USD"
+msgstr ""
 
-#: templates/listings/listing.html:113
-msgid "Square Feet:"
-msgstr "Surface (pieds²) :"
+#: listings/models.py:29
+msgid "1 TL in EUR"
+msgstr ""
 
-#: templates/listings/listing.html:117
-msgid "Lot Size:"
-msgstr "Taille du lot :"
+#: listings/models.py:35
+msgid "1 TL in DZD"
+msgstr ""
 
-#: templates/listings/listing.html:122
-msgid "Listing Date:"
-msgstr "Date de mise en vente :"
+#: listings/models.py:36
+msgid "Default business rate: 100 TL = 500 DZD."
+msgstr ""
 
-#: templates/listings/listing.html:126
-msgid "Realtor:"
-msgstr "Agent :"
+#: listings/models.py:41 listings/models.py:42 listings/models.py:45
+msgid "Currency settings"
+msgstr ""
 
-#: templates/listings/listing.html:147
-msgid "Property Realtor"
+#: listings/models.py:70
+msgid "Kiralık"
+msgstr ""
+
+#: listings/models.py:71
+msgid "Satış"
+msgstr ""
+
+#: listings/models.py:287
+#, fuzzy
+#| msgid "View Listing"
+msgid "Airbnb listing"
+msgstr "Voir l'annonce"
+
+#: listings/models.py:288
+msgid "Airbnb listings"
+msgstr ""
+
+#: listings/models.py:300
+msgid "OK"
+msgstr ""
+
+#: listings/models.py:301
+msgid "Missing"
+msgstr ""
+
+#: listings/models.py:302
+#, fuzzy
+#| msgid "Error:"
+msgid "Error"
+msgstr "Erreur :"
+
+#: listings/models.py:303
+msgid "Skipped"
+msgstr ""
+
+#: listings/models.py:381
+msgid "Incoming"
+msgstr ""
+
+#: listings/models.py:382
+msgid "Outgoing"
+msgstr ""
+
+#: listings/models.py:512
+msgid "Realtor"
 msgstr "Agent immobilier"
 
-#: templates/listings/listing.html:148
-msgid "Realtor name:"
-msgstr "Nom de l'agent :"
+#: listings/models.py:514
+msgid "Single URL"
+msgstr ""
 
-#: templates/listings/listing.html:149
-msgid "Number:"
-msgstr "Numéro :"
+#: listings/models.py:515
+msgid "CSV file"
+msgstr ""
 
-#: templates/listings/listing.html:150 templates/listings/listing.html:186
-msgid "Email:"
-msgstr "E-mail :"
+#: listings/models.py:516
+msgid "Cookie file"
+msgstr ""
 
-#: templates/listings/listing.html:153 templates/listings/listing.html:164
-msgid "Make An Inquiry"
-msgstr "Faire une demande"
+#: listings/models.py:519
+msgid "Delay (seconds)"
+msgstr ""
 
-#: templates/listings/listing.html:178
-msgid "Property:"
-msgstr "Propriété :"
+#: listings/models.py:520
+msgid "Debug"
+msgstr ""
 
-#: templates/listings/listing.html:182
-msgid "Name:"
-msgstr "Nom :"
+#: listings/models.py:521
+msgid "Skip geocoding"
+msgstr ""
 
-#: templates/listings/listing.html:190
-msgid "Phone:"
-msgstr "Téléphone :"
+#: listings/models.py:522
+msgid "Headed (show browser)"
+msgstr ""
 
-#: templates/listings/listing.html:194
-msgid "Message:"
-msgstr "Message :"
+#: listings/models.py:523
+msgid "No images"
+msgstr ""
 
-#: templates/listings/listing.html:198
-msgid "Send"
-msgstr "Envoyer"
+#: listings/models.py:524
+msgid "Max images"
+msgstr ""
 
-#: templates/listings/listings.html:18
-msgid "More Than 500+ Apartment For Sale & Rent"
-msgstr "Plus de 500+ appartements à vendre et à louer"
-
-#: templates/listings/listings.html:61 templates/pages/index.html:86
-msgid "Type"
-msgstr "Type"
-
-#: templates/listings/listings.html:63 templates/pages/index.html:88
-msgid "Bathroom"
-msgstr "Salle de bain"
-
-#: templates/listings/listings.html:67 templates/listings/search.html:97
-#: templates/pages/index.html:92
-msgid "Garage"
-msgstr "Garage"
-
-#: templates/listings/listings.html:69 templates/pages/index.html:94
-msgid "Bedroom"
-msgstr "Chambre"
-
-#: templates/listings/listings.html:71 templates/listings/search.html:106
-#: templates/newfrontend/financing.html:142
-#: templates/newfrontend/properties.html:48 templates/pages/index.html:96
-msgid "More Info"
-msgstr "Plus d'infos"
-
-#: templates/listings/listings.html:79 templates/listings/search.html:114
-#: templates/newfrontend/index.html:304
-#: templates/newfrontend/properties.html:56 templates/pages/index.html:104
-msgid "No Listings Available"
-msgstr "Aucune annonce disponible"
-
-#: templates/listings/search.html:11
-msgid "Search for your Appartments<br>and make your inquiries"
-msgstr "Recherchez vos appartements<br>et envoyez vos demandes"
-
-# Search
-#: templates/listings/search.html:19
-msgid "Keywords"
-msgstr "Mots-clés"
-
-#: templates/listings/search.html:20
-msgid "Keyword (Pool, Garage, etc)"
-msgstr "Mot-clé (Piscine, Garage, etc.)"
-
-#: templates/listings/search.html:24 templates/listings/search.html:25
-#: templates/newfrontend/financing.html:138
-#: templates/newfrontend/index.html:292
-#: templates/newfrontend/properties.html:44
-msgid "City"
-msgstr "Ville"
-
-#: templates/listings/search.html:29 templates/newfrontend/financing.html:139
-#: templates/newfrontend/index.html:293
-#: templates/newfrontend/properties.html:45
-msgid "State"
+#: listings/models.py:527
+#, fuzzy
+#| msgid "State"
+msgid "Status"
 msgstr "État"
 
-#: templates/listings/search.html:31
-msgid "State (All)"
-msgstr "État (Tous)"
+#: listings/models.py:528
+#, fuzzy
+#| msgid "Login"
+msgid "Log"
+msgstr "Connexion"
 
-#: templates/listings/search.html:43 templates/listings/search.html:101
-#: templates/newfrontend/financing.html:136
-#: templates/newfrontend/index.html:290
-#: templates/newfrontend/properties.html:42
-#: templates/newfrontend/property-details.html:41
-msgid "Bedrooms"
-msgstr "Chambres"
+#: listings/models.py:529
+msgid "Created by"
+msgstr ""
 
-#: templates/listings/search.html:45
-msgid "Bedrooms (Any)"
-msgstr "Chambres (Toutes)"
+#: listings/models.py:530
+msgid "Created at"
+msgstr ""
 
-#: templates/listings/search.html:55
-msgid "Max Price (All)"
-msgstr "Prix max (Tous)"
+#: listings/models.py:531
+msgid "Started at"
+msgstr ""
 
-#: templates/listings/search.html:64
-msgid "Submit form"
-msgstr "Envoyer le formulaire"
+#: listings/models.py:532
+#, fuzzy
+#| msgid "Finished Now"
+msgid "Finished at"
+msgstr "Terminé maintenant"
 
-#: templates/listings/search.html:95
-msgid "Sqft"
-msgstr "Pieds²"
+#: listings/models.py:535
+msgid "CSV path (cached)"
+msgstr ""
 
-#: templates/listings/search.html:103 templates/newfrontend/financing.html:137
-#: templates/newfrontend/index.html:291
-#: templates/newfrontend/properties.html:43
-#: templates/newfrontend/property-details.html:45
-msgid "Bathrooms"
-msgstr "Salles de bain"
+# Listings pages
+#: listings/models.py:539
+#, fuzzy
+#| msgid "Listings Map"
+msgid "Listing import job"
+msgstr "Carte des annonces"
 
-#: templates/newfrontend/base.html:79 templates/partials/_navbar.html:67
+#: listings/models.py:540
+msgid "Listing import jobs"
+msgstr ""
+
+#: templates/admin/apply_logo_watermark.html:6
+#, python-format
+msgid "You are about to apply the logo to %(images|length)s images."
+msgstr ""
+
+#: templates/admin/apply_logo_watermark.html:7
+msgid "Logo file"
+msgstr ""
+
+#: templates/admin/apply_logo_watermark.html:14
+#: templates/admin/bulk_edit_images.html:13
+msgid "Please correct the errors below and try again."
+msgstr ""
+
+#: templates/admin/apply_logo_watermark.html:28
+msgid "Logo placement"
+msgstr ""
+
+#: templates/admin/apply_logo_watermark.html:40
+msgid "Apply logo"
+msgstr ""
+
+#: templates/admin/bulk_edit_images.html:5
+msgid "Bulk edit images"
+msgstr ""
+
+#: templates/admin/bulk_edit_images.html:6
+#, python-format
+msgid "You are about to apply edits to %(images|length)s images."
+msgstr ""
+
+#: templates/admin/bulk_edit_images.html:28
+msgid "Crop"
+msgstr ""
+
+#: templates/admin/bulk_edit_images.html:33
+msgid "Frame"
+msgstr ""
+
+#: templates/admin/bulk_edit_images.html:40
+msgid "Watermark"
+msgstr ""
+
+#: templates/admin/bulk_edit_images.html:53
+msgid "Apply edits"
+msgstr ""
+
+#: templates/admin/listings/image_editor.html:17
+msgid "Image Editor"
+msgstr ""
+
+#: templates/admin/listings/image_editor.html:19
+#: templates/admin/listings/image_editor_fie.html:18
+#: templates/newfrontend/index.html:406
+msgid "Back"
+msgstr ""
+
+#: templates/admin/listings/image_editor.html:20
+#: templates/admin/listings/image_editor_fie.html:19
+msgid "Save"
+msgstr ""
+
+#: templates/admin/listings/image_editor.html:21
+msgid "Add Watermark"
+msgstr ""
+
+#: templates/admin/listings/image_editor_fie.html:16
+msgid "Image Editor (Filerobot)"
+msgstr ""
+
+#: templates/newfrontend/base.html:409 templates/newfrontend/base.html:445
 msgid "Select language"
 msgstr "Sélectionner la langue"
 
-#: templates/newfrontend/base.html:85 templates/partials/_navbar.html:73
+#: templates/newfrontend/base.html:415 templates/newfrontend/base.html:451
 msgid "Available languages"
 msgstr "Langues disponibles"
 
-#: templates/newfrontend/base.html:137 templates/newfrontend/contact.html:23
-#: templates/newfrontend/financing.html:41 templates/newfrontend/index.html:188
-#: templates/newfrontend/map.html:54 templates/newfrontend/map.html:67
-#: templates/newfrontend/properties.html:25
+#: templates/newfrontend/base.html:465
+#, fuzzy
+#| msgid "Select language"
+msgid "Select currency"
+msgstr "Sélectionner la langue"
+
+#: templates/newfrontend/base.html:470
+#, fuzzy
+#| msgid "Available languages"
+msgid "Available currencies"
+msgstr "Langues disponibles"
+
+#: templates/newfrontend/base.html:478
+msgid "Select theme"
+msgstr ""
+
+#: templates/newfrontend/base.html:481
+#, fuzzy
+#| msgid "Available languages"
+msgid "Available themes"
+msgstr "Langues disponibles"
+
+#: templates/newfrontend/base.html:482 templates/newfrontend/index.html:398
+msgid "System"
+msgstr ""
+
+#: templates/newfrontend/base.html:483 templates/newfrontend/index.html:394
+msgid "Light"
+msgstr ""
+
+#: templates/newfrontend/base.html:484 templates/newfrontend/index.html:390
+msgid "Dark"
+msgstr ""
+
+#: templates/newfrontend/base.html:523
+msgid "All"
+msgstr ""
+
+#: templates/newfrontend/base.html:524 templates/newfrontend/index.html:470
+msgid "Under 1.25M"
+msgstr ""
+
+#: templates/newfrontend/base.html:525 templates/newfrontend/index.html:477
+msgid "Over 1.25M"
+msgstr ""
+
+#: templates/newfrontend/base.html:526 templates/newfrontend/contact.html:23
+#: templates/newfrontend/financing.html:41
+#: templates/newfrontend/investor_medical_rentals.html:882
+#: templates/newfrontend/map_copy.html:55
+#: templates/newfrontend/map_copy.html:183
+#: templates/newfrontend/mapstandalone/simplified/index.html:5
+#: templates/newfrontend/mapstandalone/simplified/index.html:12
+#: templates/newfrontend/mapstandalone/simplified/index.html:13
+#: templates/newfrontend/page-404.html:36
+#: templates/newfrontend/properties.html:836 templates/partials/_footer.html:80
 msgid "Map"
 msgstr "Carte"
 
-#: templates/newfrontend/base.html:140
-#: templates/newfrontend/property-details.html:6
-msgid "Property Details"
-msgstr "Détails du bien"
-
-#: templates/newfrontend/base.html:142 templates/newfrontend/contact.html:11
-#: templates/newfrontend/contact.html:12 templates/newfrontend/contact.html:32
-#: templates/newfrontend/index.html:315 templates/newfrontend/map.html:223
-#: templates/newfrontend/properties.html:95
-msgid "Contact Us"
-msgstr "Contactez-nous"
-
-#: templates/newfrontend/base.html:143
-msgid "Financing"
-msgstr "Financement"
-
-#: templates/newfrontend/base.html:146 templates/newfrontend/index.html:213
-#: templates/newfrontend/index.html:263 templates/newfrontend/index.html:296
+#: templates/newfrontend/base.html:531
+#: templates/newfrontend/properties.html:864
+#: templates/newfrontend/properties.html:919
+#: templates/newfrontend/property-details.html:744
+#: templates/partials/_footer.html:120
 msgid "Schedule a visit"
 msgstr "Planifier une visite"
 
+#: templates/newfrontend/contact.html:11
+#: templates/newfrontend/financing.html:29
+#: templates/newfrontend/map_copy.html:55
+#: templates/newfrontend/mapstandalone/simplified/index.html:12
+#: templates/newfrontend/page-404.html:12
+#: templates/newfrontend/properties.html:609
+#: templates/newfrontend/property-details.html:591
+#: templates/partials/_footer.html:70
+msgid "Home"
+msgstr "Accueil"
+
+#: templates/newfrontend/contact.html:11 templates/newfrontend/contact.html:12
+#: templates/newfrontend/properties.html:940
+msgid "Contact Us"
+msgstr "Contactez-nous"
+
 #: templates/newfrontend/contact.html:20
-#: templates/newfrontend/financing.html:38 templates/newfrontend/map.html:64
-#: templates/newfrontend/properties.html:22
+#: templates/newfrontend/financing.html:38
+#: templates/newfrontend/map_copy.html:180
+#: templates/newfrontend/page-404.html:33
 msgid "Show All"
 msgstr "Tout afficher"
 
 #: templates/newfrontend/contact.html:21
-#: templates/newfrontend/financing.html:39 templates/newfrontend/index.html:182
-#: templates/newfrontend/map.html:65 templates/newfrontend/properties.html:23
-#: templates/partials/_footer.html:37
+#: templates/newfrontend/financing.html:39
+#: templates/newfrontend/map_copy.html:181
+#: templates/newfrontend/page-404.html:34
+#: templates/newfrontend/properties.html:830
 msgid "Apartment"
 msgstr "Appartement"
 
 #: templates/newfrontend/contact.html:22
-#: templates/newfrontend/financing.html:40 templates/newfrontend/index.html:185
-#: templates/newfrontend/map.html:66 templates/newfrontend/properties.html:24
+#: templates/newfrontend/financing.html:40
+#: templates/newfrontend/map_copy.html:182
+#: templates/newfrontend/page-404.html:35
+#: templates/newfrontend/properties.html:833
 msgid "Villa House"
 msgstr "Villa"
-
-#: templates/newfrontend/contact.html:33 templates/newfrontend/index.html:316
-#: templates/newfrontend/map.html:224 templates/newfrontend/properties.html:96
-msgid "Get In Touch With Our Agents"
-msgstr "Contactez nos agents"
-
-# AGIS Verification
-#: templates/newfrontend/contact.html:56
-#: templates/newfrontend/financing.html:196
-#: templates/newfrontend/index.html:350 templates/newfrontend/map.html:247
-#: templates/newfrontend/properties.html:119
-#: templates/pages/agesverification.html:47
-msgid "Full Name"
-msgstr "Nom complet"
-
-#: templates/newfrontend/contact.html:62
-#: templates/newfrontend/financing.html:202
-#: templates/newfrontend/index.html:356 templates/newfrontend/map.html:253
-#: templates/newfrontend/properties.html:125
-msgid "Email Address"
-msgstr "Adresse e-mail"
-
-#: templates/newfrontend/contact.html:68
-#: templates/newfrontend/financing.html:208
-#: templates/newfrontend/index.html:362 templates/newfrontend/map.html:259
-#: templates/newfrontend/properties.html:131
-msgid "Subject"
-msgstr "Objet"
-
-#: templates/newfrontend/contact.html:80
-#: templates/newfrontend/financing.html:220
-#: templates/newfrontend/index.html:374 templates/newfrontend/map.html:271
-#: templates/newfrontend/properties.html:143
-msgid "Send Message"
-msgstr "Envoyer le message"
 
 #: templates/newfrontend/financing.html:29
 msgid "Banking in Turkey"
@@ -582,7 +520,12 @@ msgid ""
 "and foreign buyers. Terms, documentation, and maximum loan amounts vary by "
 "bank, buyer profile, and property valuation. Below is a practical summary to "
 "help you prepare."
-msgstr "La Turquie propose des prêts hypothécaires bancaires et des paiements échelonnés via les promoteurs pour les résidents comme pour les acheteurs étrangers. Les conditions, la documentation et les montants maximaux varient selon la banque, le profil de l'acheteur et l'évaluation du bien. Voici un résumé pratique pour vous aider à vous préparer."
+msgstr ""
+"La Turquie propose des prêts hypothécaires bancaires et des paiements "
+"échelonnés via les promoteurs pour les résidents comme pour les acheteurs "
+"étrangers. Les conditions, la documentation et les montants maximaux varient "
+"selon la banque, le profil de l'acheteur et l'évaluation du bien. Voici un "
+"résumé pratique pour vous aider à vous préparer."
 
 #: templates/newfrontend/financing.html:55
 msgid "Who can apply"
@@ -596,7 +539,9 @@ msgstr "Citoyens et résidents turcs : large choix de banques et de conditions."
 msgid ""
 "Foreign buyers: mortgages are available at selected banks, subject to "
 "valuation and local policy."
-msgstr "Acheteurs étrangers : des prêts hypothécaires sont disponibles dans certaines banques, sous réserve d'évaluation et de la politique locale."
+msgstr ""
+"Acheteurs étrangers : des prêts hypothécaires sont disponibles dans "
+"certaines banques, sous réserve d'évaluation et de la politique locale."
 
 #: templates/newfrontend/financing.html:61
 msgid "Typical loan terms"
@@ -604,7 +549,8 @@ msgstr "Conditions d'emprunt typiques"
 
 #: templates/newfrontend/financing.html:63
 msgid "Currency: mostly TRY-denominated mortgages; FX loans are limited."
-msgstr "Devise : principalement des prêts en TRY ; les prêts en devises sont limités."
+msgstr ""
+"Devise : principalement des prêts en TRY ; les prêts en devises sont limités."
 
 #: templates/newfrontend/financing.html:64
 msgid "Tenor: commonly 5–10 years depending on bank and profile."
@@ -614,11 +560,14 @@ msgstr "Durée : généralement 5 à 10 ans selon la banque et le profil."
 msgid ""
 "Loan-to-Value (LTV): determined by the bank’s appraisal; foreigners often "
 "qualify for lower LTVs than residents."
-msgstr "Ratio prêt/valeur (LTV) : déterminé par l'expertise de la banque ; les étrangers obtiennent souvent un LTV plus faible que les résidents."
+msgstr ""
+"Ratio prêt/valeur (LTV) : déterminé par l'expertise de la banque ; les "
+"étrangers obtiennent souvent un LTV plus faible que les résidents."
 
 #: templates/newfrontend/financing.html:66
 msgid "Interest: variable by bank and market; request an up-to-date quote."
-msgstr "Intérêt : variable selon la banque et le marché ; demandez un devis à jour."
+msgstr ""
+"Intérêt : variable selon la banque et le marché ; demandez un devis à jour."
 
 #: templates/newfrontend/financing.html:69
 msgid "Required documents (common)"
@@ -634,11 +583,15 @@ msgstr "Numéro fiscal turc (Vergi Numarası)"
 
 #: templates/newfrontend/financing.html:73
 msgid "Proof of income (salary slips, tax returns, bank statements)"
-msgstr "Justificatif de revenus (bulletins de salaire, déclarations d'impôts, relevés bancaires)"
+msgstr ""
+"Justificatif de revenus (bulletins de salaire, déclarations d'impôts, "
+"relevés bancaires)"
 
 #: templates/newfrontend/financing.html:74
 msgid "Address proof (utility bill or residency document)"
-msgstr "Justificatif de domicile (facture de services publics ou document de résidence)"
+msgstr ""
+"Justificatif de domicile (facture de services publics ou document de "
+"résidence)"
 
 #: templates/newfrontend/financing.html:75
 msgid "Property appraisal report (SPK valuation) arranged via bank"
@@ -651,26 +604,36 @@ msgstr "Processus en un coup d'œil"
 #: templates/newfrontend/financing.html:80
 msgid ""
 "Pre-qualification: discuss budget, LTV, and estimated rates with the bank."
-msgstr "Préqualification : discutez du budget, du LTV et des taux estimés avec la banque."
+msgstr ""
+"Préqualification : discutez du budget, du LTV et des taux estimés avec la "
+"banque."
 
 #: templates/newfrontend/financing.html:81
 msgid ""
 "Open a Turkish bank account and obtain a tax number if you don’t have one."
-msgstr "Ouvrez un compte bancaire turc et obtenez un numéro fiscal si vous n'en avez pas."
+msgstr ""
+"Ouvrez un compte bancaire turc et obtenez un numéro fiscal si vous n'en avez "
+"pas."
 
 #: templates/newfrontend/financing.html:82
 msgid "Submit documents; bank orders independent valuation of the property."
-msgstr "Soumettez les documents ; la banque mandate une expertise indépendante du bien."
+msgstr ""
+"Soumettez les documents ; la banque mandate une expertise indépendante du "
+"bien."
 
 #: templates/newfrontend/financing.html:83
 msgid "Final approval: the loan amount is set based on the valuation report."
-msgstr "Approbation finale : le montant du prêt est fixé sur la base du rapport d'évaluation."
+msgstr ""
+"Approbation finale : le montant du prêt est fixé sur la base du rapport "
+"d'évaluation."
 
 #: templates/newfrontend/financing.html:84
 msgid ""
 "Signing and disbursement: earthquake insurance (DASK) is typically required "
 "before deed transfer."
-msgstr "Signature et décaissement : l'assurance tremblement de terre (DASK) est généralement requise avant le transfert du titre."
+msgstr ""
+"Signature et décaissement : l'assurance tremblement de terre (DASK) est "
+"généralement requise avant le transfert du titre."
 
 #: templates/newfrontend/financing.html:87
 msgid "Fees and mandatory items"
@@ -686,11 +649,13 @@ msgstr "Frais d'ouverture/traitement du prêt (variable selon la banque)"
 
 #: templates/newfrontend/financing.html:91
 msgid "DASK earthquake insurance (mandatory) and property insurance"
-msgstr "Assurance tremblement de terre DASK (obligatoire) et assurance habitation"
+msgstr ""
+"Assurance tremblement de terre DASK (obligatoire) et assurance habitation"
 
 #: templates/newfrontend/financing.html:92
 msgid "Title deed taxes and notary fees (paid at transfer)"
-msgstr "Taxes sur le titre de propriété et frais de notaire (payés lors du transfert)"
+msgstr ""
+"Taxes sur le titre de propriété et frais de notaire (payés lors du transfert)"
 
 #: templates/newfrontend/financing.html:95
 msgid "Money transfers"
@@ -702,7 +667,12 @@ msgid ""
 "transfers in foreign currency. Banks may request source-of-funds "
 "documentation. Currency conversion and payment documentation for the title "
 "office are handled in coordination with your bank and notary."
-msgstr "Les acheteurs internationaux financent généralement l'apport et la clôture via des virements SWIFT en devise étrangère. Les banques peuvent demander des justificatifs de provenance des fonds. La conversion de devise et les documents de paiement pour le bureau des titres sont gérés en coordination avec votre banque et votre notaire."
+msgstr ""
+"Les acheteurs internationaux financent généralement l'apport et la clôture "
+"via des virements SWIFT en devise étrangère. Les banques peuvent demander "
+"des justificatifs de provenance des fonds. La conversion de devise et les "
+"documents de paiement pour le bureau des titres sont gérés en coordination "
+"avec votre banque et votre notaire."
 
 #: templates/newfrontend/financing.html:100
 msgid "Alternatives to bank mortgages"
@@ -712,11 +682,15 @@ msgstr "Alternatives aux prêts bancaires"
 msgid ""
 "Developer installment plans: staged payments during constrinsuction or short-"
 "term post-handover schedules."
-msgstr "Plans de paiement promoteur : paiements échelonnés pendant la construction ou échéanciers courts après la remise des clés."
+msgstr ""
+"Plans de paiement promoteur : paiements échelonnés pendant la construction "
+"ou échéanciers courts après la remise des clés."
 
 #: templates/newfrontend/financing.html:103
 msgid "Personal loans or home equity from your home country (if applicable)."
-msgstr "Prêts personnels ou prêts hypothécaires de votre pays d'origine (le cas échéant)."
+msgstr ""
+"Prêts personnels ou prêts hypothécaires de votre pays d'origine (le cas "
+"échéant)."
 
 #: templates/newfrontend/financing.html:107
 msgid "Popular banks to consider"
@@ -738,7 +712,9 @@ msgstr "İşbank, Garanti BBVA, Akbank, Yapı Kredi"
 msgid ""
 "Availability and terms for foreign buyers vary by branch and policy; please "
 "confirm locally."
-msgstr "La disponibilité et les conditions pour les acheteurs étrangers varient selon les agences et les politiques ; veuillez confirmer localement."
+msgstr ""
+"La disponibilité et les conditions pour les acheteurs étrangers varient "
+"selon les agences et les politiques ; veuillez confirmer localement."
 
 #: templates/newfrontend/financing.html:120
 msgid "Related"
@@ -747,6 +723,41 @@ msgstr "Connexes"
 #: templates/newfrontend/financing.html:121
 msgid "Featured properties you can finance"
 msgstr "Biens sélectionnés que vous pouvez financer"
+
+#: templates/newfrontend/financing.html:131
+#: templates/newfrontend/properties.html:690
+#: templates/newfrontend/properties.html:706
+#: templates/newfrontend/property-details.html:656
+#: templates/newfrontend/property-details.html:735
+msgid "Click to convert this price"
+msgstr ""
+
+#: templates/newfrontend/financing.html:136
+#: templates/newfrontend/properties.html:728
+#: templates/newfrontend/property-details.html:696
+#: templates/newfrontend/property-details.html:749
+msgid "Bedrooms"
+msgstr "Chambres"
+
+#: templates/newfrontend/financing.html:137
+#: templates/newfrontend/properties.html:729
+#: templates/newfrontend/property-details.html:697
+#: templates/newfrontend/property-details.html:750
+msgid "Bathrooms"
+msgstr "Salles de bain"
+
+#: templates/newfrontend/financing.html:138
+msgid "City"
+msgstr "Ville"
+
+#: templates/newfrontend/financing.html:139
+msgid "State"
+msgstr "État"
+
+#: templates/newfrontend/financing.html:142
+#: templates/newfrontend/properties.html:737
+msgid "More Info"
+msgstr "Plus d'infos"
 
 #: templates/newfrontend/financing.html:153
 msgid "Quick facts"
@@ -781,160 +792,1248 @@ msgid ""
 "We guide you through bank pre-approval, valuation, and deed transfer, and "
 "coordinate with lenders and developers to secure a suitable financing option "
 "for your purchase in Turkey."
-msgstr "Nous vous accompagnons dans la pré-approbation bancaire, l'évaluation et le transfert de titre, et coordonnons avec les prêteurs et les promoteurs pour obtenir une solution de financement adaptée à votre achat en Turquie."
+msgstr ""
+"Nous vous accompagnons dans la pré-approbation bancaire, l'évaluation et le "
+"transfert de titre, et coordonnons avec les prêteurs et les promoteurs pour "
+"obtenir une solution de financement adaptée à votre achat en Turquie."
 
-#: templates/newfrontend/index.html:6
-msgid "Kuzey  Emlak  - home"
+# AGIS Verification
+#: templates/newfrontend/financing.html:196
+#: templates/newfrontend/properties.html:982
+msgid "Full Name"
+msgstr "Nom complet"
+
+#: templates/newfrontend/financing.html:202
+#: templates/newfrontend/properties.html:988
+msgid "Email Address"
+msgstr "Adresse e-mail"
+
+#: templates/newfrontend/financing.html:208
+#: templates/newfrontend/properties.html:994
+msgid "Subject"
+msgstr "Objet"
+
+#: templates/newfrontend/financing.html:220
+#: templates/newfrontend/properties.html:1006
+msgid "Send Message"
+msgstr "Envoyer le message"
+
+#: templates/newfrontend/index.html:5
+#, fuzzy
+#| msgid "Kuzey  Emlak  - home"
+msgid "Kuzey Emlak"
 msgstr "Villa Agency - Accueil"
 
-#: templates/newfrontend/index.html:13
-msgid "Hurry!"
-msgstr "Dépêchez-vous !"
+#: templates/newfrontend/index.html:324
+msgid "Welcome to Kuzey Emlak"
+msgstr ""
 
-#: templates/newfrontend/index.html:13
-msgid "Get the Best Villa for you"
-msgstr "Obtenez la meilleure villa pour vous"
+#: templates/newfrontend/index.html:325
+msgid "Set your preferences to get started"
+msgstr ""
 
-#: templates/newfrontend/index.html:19
-msgid "Be Quick!"
-msgstr "Soyez rapide !"
+#: templates/newfrontend/index.html:338
+msgid "Choose your language"
+msgstr ""
 
-#: templates/newfrontend/index.html:19
-msgid "Get the best villa in town"
-msgstr "Obtenez la meilleure villa de la ville"
+#: templates/newfrontend/index.html:356
+msgid "Choose your currency"
+msgstr ""
 
-#: templates/newfrontend/index.html:25
-msgid "Act Now!"
-msgstr "Agissez maintenant !"
+#: templates/newfrontend/index.html:362
+msgid "Turkish Lira"
+msgstr ""
 
-#: templates/newfrontend/index.html:25
-msgid "Get the highest level Map"
-msgstr "Accédez à la carte la plus détaillée"
+#: templates/newfrontend/index.html:367
+msgid "US Dollar"
+msgstr ""
 
-#: templates/newfrontend/index.html:42
-msgid "Featured"
-msgstr "À la une"
+#: templates/newfrontend/index.html:372
+msgid "Euro"
+msgstr ""
 
-#: templates/newfrontend/index.html:43
-msgid "Best Appartment & Sea view"
-msgstr "Meilleur appartement et vue sur la mer"
+#: templates/newfrontend/index.html:377
+msgid "Algerian Dinar"
+msgstr ""
 
-#: templates/newfrontend/index.html:49
-msgid "What properties do you offer?"
-msgstr "Quels biens proposez-vous ?"
+#: templates/newfrontend/index.html:386
+msgid "Choose your theme"
+msgstr ""
 
-#: templates/newfrontend/index.html:54
+#: templates/newfrontend/index.html:409
+msgid "Next"
+msgstr ""
+
+#: templates/newfrontend/index.html:412
+#, fuzzy
+#| msgid "Continue Reading"
+msgid "Continue"
+msgstr "Continuer la lecture"
+
+#: templates/newfrontend/index.html:463
+msgid "Welcome back to Kuzey Emlak"
+msgstr ""
+
+#: templates/newfrontend/index.html:464
+msgid "Explore our property opportunities"
+msgstr ""
+
+#: templates/newfrontend/index.html:471
+msgid "Affordable property opportunities"
+msgstr ""
+
+#: templates/newfrontend/index.html:473 templates/newfrontend/index.html:480
+#, fuzzy
+#| msgid "No Listings Available"
+msgid "Listings available"
+msgstr "Aucune annonce disponible"
+
+#: templates/newfrontend/index.html:478
+msgid "Premium property opportunities"
+msgstr ""
+
+#: templates/newfrontend/index.html:487
+#, fuzzy
+#| msgid "Back To Listings"
+msgid "Total Listings"
+msgstr "Retour aux annonces"
+
+#: templates/newfrontend/index.html:492
+msgid "Smallest Area"
+msgstr ""
+
+#: templates/newfrontend/index.html:496
+msgid "Largest Area"
+msgstr ""
+
+#: templates/newfrontend/index.html:502
+msgid "Cheapest"
+msgstr ""
+
+#: templates/newfrontend/index.html:506
+msgid "Most Expensive"
+msgstr ""
+
+#: templates/newfrontend/investor_medical_rentals.html:3
+msgid "Investor Decision Engine"
+msgstr "Moteur de décision pour les investisseurs"
+
+#: templates/newfrontend/investor_medical_rentals.html:814
+msgid "Medical-rental investor engine"
+msgstr "Moteur d'investisseur en location médicale"
+
+#: templates/newfrontend/investor_medical_rentals.html:815
 msgid ""
-"We offer a wide selection of premium properties including villas, "
-"apartments, and luxury residences across Istanbul, Antalya, and Ankara. Each "
-"property is carefully selected to meet the highest standards of quality and "
-"location."
-msgstr "Nous proposons une large sélection de biens haut de gamme, notamment des villas, appartements et résidences de luxe à Istanbul, Antalya et Ankara. Chaque bien est soigneusement sélectionné pour répondre aux plus hauts standards de qualité et d'emplacement."
+"Budget-led ranking for Istanbul furnished stays, with Airbnb comps, downside "
+"rent, and operator-assisted upside."
+msgstr ""
+"Classement basé sur le budget pour les séjours meublés à Istanbul, avec des "
+"comparaisons Airbnb, un loyer inférieur et un loyer supérieur assisté par "
+"l'opérateur."
 
-#: templates/newfrontend/index.html:61
-msgid "How do I schedule a property viewing?"
-msgstr "Comment planifier une visite d'un bien ?"
+#: templates/newfrontend/investor_medical_rentals.html:817
+msgid "Assumption presets"
+msgstr ""
 
-#: templates/newfrontend/index.html:66
+#: templates/newfrontend/investor_medical_rentals.html:818
+msgid "Safe mode"
+msgstr ""
+
+#: templates/newfrontend/investor_medical_rentals.html:819
+#, fuzzy
+#| msgid "Operator net"
+msgid "Operator upside"
+msgstr "Net opérateur"
+
+#: templates/newfrontend/investor_medical_rentals.html:820
+#: templates/newfrontend/investor_medical_rentals.html:980
+#: templates/newfrontend/investor_medical_rentals.html:999
+#: templates/newfrontend/investor_medical_rentals.html:1036
+#: templates/newfrontend/investor_medical_rentals.html:1054
+#: templates/newfrontend/investor_medical_rentals.html:1072
+#: templates/newfrontend/investor_medical_rentals.html:1090
+#: templates/newfrontend/investor_medical_rentals.html:1108
+#: templates/newfrontend/investor_medical_rentals.html:1126
+#: templates/newfrontend/investor_medical_rentals.html:1144
+msgid "Normal"
+msgstr ""
+
+#: templates/newfrontend/investor_medical_rentals.html:821
+msgid "Reset"
+msgstr ""
+
+#: templates/newfrontend/investor_medical_rentals.html:825
+msgid "Rescore"
+msgstr "Réévaluer la note"
+
+#: templates/newfrontend/investor_medical_rentals.html:832
+msgid "Money in"
+msgstr "Argent engagé"
+
+#: templates/newfrontend/investor_medical_rentals.html:832
 msgid ""
-"Scheduling a viewing is simple. Click the 'Schedule a visit' button on any "
-"property listing, or contact our team directly via phone or email. Our "
-"agents are available 24/7 to assist you."
-msgstr "Planifier une visite est simple. Cliquez sur le bouton 'Planifier une visite' sur n'importe quelle annonce, ou contactez directement notre équipe par téléphone ou e-mail. Nos agents sont disponibles 24h/24 et 7j/7 pour vous aider."
+"Price plus setup. This tells you what the deal really costs before it starts "
+"earning."
+msgstr ""
+"Prix plus installation. Cela montre ce que l'opération coûte vraiment avant "
+"de rapporter."
 
-#: templates/newfrontend/index.html:73
-msgid "What financing options are available?"
-msgstr "Quelles options de financement sont disponibles ?"
+#: templates/newfrontend/investor_medical_rentals.html:833
+msgid "Cash left"
+msgstr "Cash restant"
 
-#: templates/newfrontend/index.html:78
+#: templates/newfrontend/investor_medical_rentals.html:833
 msgid ""
-"We work with leading financial institutions to offer flexible payment plans "
-"and bank financing options. Our team can guide you through the entire "
-"process to make your property purchase seamless."
-msgstr "Nous collaborons avec des institutions financières de premier plan pour proposer des plans de paiement flexibles et des options de financement bancaire. Notre équipe vous guide tout au long du processus pour rendre votre achat immobilier fluide."
+"Monthly money after normal running costs. This is the number to care about "
+"first."
+msgstr ""
+"Argent restant chaque mois après les coûts normaux. C'est le chiffre à "
+"regarder en premier."
 
-#: templates/newfrontend/index.html:89
-msgid "Total Flat Space"
-msgstr "Surface totale de l'appartement"
+#: templates/newfrontend/investor_medical_rentals.html:834
+msgid "Evidence"
+msgstr "Preuves"
 
-#: templates/newfrontend/index.html:93
-msgid "Contract"
-msgstr "Contrat"
+#: templates/newfrontend/investor_medical_rentals.html:834
+msgid ""
+"Nearby Airbnb comps. More relevant comps means the estimate is less fragile."
+msgstr ""
+"Comparables Airbnb proches. Plus ils sont pertinents, moins l'estimation est "
+"fragile."
 
-#: templates/newfrontend/index.html:93
-msgid "Contract Ready"
-msgstr "Contrat prêt"
+#: templates/newfrontend/investor_medical_rentals.html:835
+#: templates/newfrontend/investor_medical_rentals.html:872
+#: templates/newfrontend/investor_medical_rentals.html:926
+msgid "Decision"
+msgstr "Décision"
 
-#: templates/newfrontend/index.html:97
-#: templates/newfrontend/partials/loan_calculator.html:76
-#: templates/newfrontend/partials/loan_calculator.html:104
-msgid "Payment"
-msgstr "Paiement"
+#: templates/newfrontend/investor_medical_rentals.html:835
+msgid ""
+"A plain label for what to do next: inspect, negotiate, source more, or "
+"reject."
+msgstr ""
+"Une étiquette simple pour la prochaine étape : inspecter, négocier, chercher "
+"plus, ou rejeter."
 
-#: templates/newfrontend/index.html:97
-msgid "Payment Process"
-msgstr "Processus de paiement"
+#: templates/newfrontend/investor_medical_rentals.html:839
+msgid "Best operator ROI"
+msgstr "Meilleur retour sur investissement pour l'opérateur"
 
-#: templates/newfrontend/index.html:101
-msgid "Safety"
+#: templates/newfrontend/investor_medical_rentals.html:839
+msgid "Best yearly return if your network helps fill the unit."
+msgstr "Meilleur rendement annuel si votre réseau aide à remplir le bien."
+
+#: templates/newfrontend/investor_medical_rentals.html:840
+msgid "Best net monthly"
+msgstr "Meilleur net mensuel"
+
+#: templates/newfrontend/investor_medical_rentals.html:840
+msgid "Best cash left each month after expected costs."
+msgstr "Meilleur cash restant chaque mois après les coûts prévus."
+
+#: templates/newfrontend/investor_medical_rentals.html:841
+msgid "Strong shortlist"
+msgstr "Courte liste de candidats"
+
+#: templates/newfrontend/investor_medical_rentals.html:841
+msgid "Deals worth checking first."
+msgstr "Biens à vérifier en premier."
+
+#: templates/newfrontend/investor_medical_rentals.html:842
+msgid "Thin comp risk"
+msgstr "Risque de comparables faibles"
+
+#: templates/newfrontend/investor_medical_rentals.html:842
+msgid "Deals where the Airbnb evidence is still too thin."
+msgstr "Biens où les preuves Airbnb restent trop faibles."
+
+#: templates/newfrontend/investor_medical_rentals.html:847
+msgid "Portfolio combinations"
+msgstr "Combinaisons de portefeuille"
+
+#: templates/newfrontend/investor_medical_rentals.html:851
+msgid "Previous targets"
+msgstr "Cibles précédentes"
+
+#: templates/newfrontend/investor_medical_rentals.html:853
+msgid "Next targets"
+msgstr "Cibles suivantes"
+
+#: templates/newfrontend/investor_medical_rentals.html:864
+#: templates/newfrontend/investor_medical_rentals.html:918
+msgid "Target"
+msgstr "Objectif"
+
+#: templates/newfrontend/investor_medical_rentals.html:865
+#: templates/newfrontend/investor_medical_rentals.html:919
+#: templates/newfrontend/properties.html:627
+msgid "Price"
+msgstr "Prix"
+
+#: templates/newfrontend/investor_medical_rentals.html:866
+#: templates/newfrontend/investor_medical_rentals.html:920
+msgid "Room"
+msgstr "Chambre"
+
+#: templates/newfrontend/investor_medical_rentals.html:867
+#: templates/newfrontend/investor_medical_rentals.html:921
+msgid "Score"
+msgstr "Score"
+
+#: templates/newfrontend/investor_medical_rentals.html:868
+#: templates/newfrontend/investor_medical_rentals.html:922
+msgid "Operator ROI"
+msgstr "Rendement sur investissement de l'opérateur"
+
+#: templates/newfrontend/investor_medical_rentals.html:869
+#: templates/newfrontend/investor_medical_rentals.html:923
+#: templates/newfrontend/investor_medical_rentals.html:1544
+msgid "Base net"
+msgstr "Base nette"
+
+#: templates/newfrontend/investor_medical_rentals.html:870
+#: templates/newfrontend/investor_medical_rentals.html:924
+#: templates/newfrontend/investor_medical_rentals.html:1449
+msgid "Plan-B"
+msgstr "Plan B"
+
+#: templates/newfrontend/investor_medical_rentals.html:871
+#: templates/newfrontend/investor_medical_rentals.html:925
+msgid "Comps"
+msgstr "Comparables"
+
+#: templates/newfrontend/investor_medical_rentals.html:882
+msgid "Candidates + comps"
+msgstr "Candidats + comparables"
+
+#: templates/newfrontend/investor_medical_rentals.html:887
+msgid "Deal detail"
+msgstr "Détail de l'offre"
+
+#: templates/newfrontend/investor_medical_rentals.html:892
+msgid "Source more deals"
+msgstr "Trouvez plus d'offres"
+
+#: templates/newfrontend/investor_medical_rentals.html:892
+msgid "Decision sprint"
+msgstr "Décision sprint"
+
+#: templates/newfrontend/investor_medical_rentals.html:929
+msgid "Bad-month estimate."
+msgstr "Estimation d'un mauvais mois."
+
+#: templates/newfrontend/investor_medical_rentals.html:930
+msgid "Normal comp-based estimate."
+msgstr "Estimation normale basée sur les comparables."
+
+#: templates/newfrontend/investor_medical_rentals.html:931
+msgid "Estimate with your direct bookings and network."
+msgstr "Estimation avec vos réservations directes et votre réseau."
+
+#: templates/newfrontend/investor_medical_rentals.html:932
+msgid "How long profit takes to earn back the money deployed."
+msgstr "Temps nécessaire pour récupérer l'argent engagé avec le profit."
+
+#: templates/newfrontend/investor_medical_rentals.html:933
+msgid "Middle nearby Airbnb monthly price."
+msgstr "Prix mensuel médian des Airbnb proches."
+
+#: templates/newfrontend/investor_medical_rentals.html:934
+msgid "Strong nearby Airbnb price, not the maximum."
+msgstr "Prix Airbnb proche élevé, mais pas le maximum."
+
+#: templates/newfrontend/investor_medical_rentals.html:935
+msgid "Long-term monthly rent fallback."
+msgstr "Loyer mensuel de secours en longue durée."
+
+#: templates/newfrontend/investor_medical_rentals.html:936
+msgid "Buy price plus setup money."
+msgstr "Prix d'achat plus budget d'installation."
+
+#: templates/newfrontend/investor_medical_rentals.html:950
+msgid "Capital"
+msgstr "Capital"
+
+#: templates/newfrontend/investor_medical_rentals.html:957
+msgid "Total money available to buy and prepare units."
+msgstr ""
+
+#: templates/newfrontend/investor_medical_rentals.html:958
+msgid "This controls how many units can realistically fit inside the plan."
+msgstr ""
+
+#: templates/newfrontend/investor_medical_rentals.html:959
+msgid ""
+"More capital allows more or better units, but the engine still protects the "
+"cash reserve."
+msgstr ""
+
+#: templates/newfrontend/investor_medical_rentals.html:961
+msgid "Small"
+msgstr ""
+
+#: templates/newfrontend/investor_medical_rentals.html:962
+msgid "Current"
+msgstr ""
+
+#: templates/newfrontend/investor_medical_rentals.html:963
+#, fuzzy
+#| msgid "Target"
+msgid "Large"
+msgstr "Objectif"
+
+#: templates/newfrontend/investor_medical_rentals.html:969
+#, fuzzy
+#| msgid "Reserve %%"
+msgid "Reserve"
+msgstr "Réservez %%"
+
+#: templates/newfrontend/investor_medical_rentals.html:975
+msgid "Percentage of capital kept untouched as safety cash."
+msgstr ""
+
+#: templates/newfrontend/investor_medical_rentals.html:976
+msgid ""
+"This protects you from delays, repairs, vacancies, legal costs, and bad "
+"months."
+msgstr ""
+
+#: templates/newfrontend/investor_medical_rentals.html:977
+msgid ""
+"Higher reserve means safer cash position but less money available for buying "
+"and setup."
+msgstr ""
+
+#: templates/newfrontend/investor_medical_rentals.html:979
+msgid "Lean"
+msgstr ""
+
+#: templates/newfrontend/investor_medical_rentals.html:981
+#, fuzzy
+#| msgid "Safety"
+msgid "Safe"
 msgstr "Sécurité"
 
-#: templates/newfrontend/index.html:101
-msgid "24/7 Under Control"
-msgstr "Sous contrôle 24h/24 et 7j/7"
+#: templates/newfrontend/investor_medical_rentals.html:987
+msgid "Furnishing / unit"
+msgstr "Aménagement / unité"
 
-#: templates/newfrontend/index.html:115
-msgid "Video View"
-msgstr "Vue vidéo"
+#: templates/newfrontend/investor_medical_rentals.html:994
+msgid ""
+"Estimated setup cost to make one unit rentable: furniture, appliances, "
+"linens, decor, small repairs, and guest-ready equipment."
+msgstr ""
 
-#: templates/newfrontend/index.html:116
-msgid "Get Closer View & Different Feeling"
-msgstr "Une vue plus proche et une sensation différente"
+#: templates/newfrontend/investor_medical_rentals.html:995
+msgid ""
+"Medical and furnished-stay guests expect a complete unit, not an empty "
+"apartment."
+msgstr ""
 
-#: templates/newfrontend/index.html:145
-msgid "Buildings"
-msgstr "Bâtiments"
+#: templates/newfrontend/investor_medical_rentals.html:996
+msgid ""
+"Higher setup cost lowers ROI, but can support stronger revenue and guest "
+"satisfaction."
+msgstr ""
 
-#: templates/newfrontend/index.html:145
-msgid "Finished Now"
-msgstr "Terminé maintenant"
+#: templates/newfrontend/investor_medical_rentals.html:998
+msgid "Basic"
+msgstr ""
 
-#: templates/newfrontend/index.html:151
-msgid "Years"
+#: templates/newfrontend/investor_medical_rentals.html:1000
+msgid "Premium"
+msgstr ""
+
+#: templates/newfrontend/investor_medical_rentals.html:1006
+msgid "Legal buffer / unit"
+msgstr "« Marge légale / unité »"
+
+#: templates/newfrontend/investor_medical_rentals.html:1013
+msgid ""
+"Extra amount reserved per unit for title deed, notary, translation, "
+"valuation, permit, tax, agency, DASK, utility setup, and admin surprises."
+msgstr ""
+
+#: templates/newfrontend/investor_medical_rentals.html:1014
+#, python-format
+msgid ""
+"Buying property in Turkey can involve material procedure costs. The title "
+"deed transfer tax is commonly around 4%% of declared value, often negotiated "
+"or split, but frequently pushed to the buyer in practice."
+msgstr ""
+
+#: templates/newfrontend/investor_medical_rentals.html:1015
+msgid ""
+"Higher buffer makes the model safer and more realistic, but lowers "
+"investable capital and ROI. This is an estimate, not legal advice."
+msgstr ""
+
+#: templates/newfrontend/investor_medical_rentals.html:1017
+#: templates/newfrontend/investor_medical_rentals.html:1125
+#, fuzzy
+#| msgid "Login"
+msgid "Low"
+msgstr "Connexion"
+
+#: templates/newfrontend/investor_medical_rentals.html:1018
+#, fuzzy
+#| msgid "Safety"
+msgid "Safer"
+msgstr "Sécurité"
+
+#: templates/newfrontend/investor_medical_rentals.html:1019
+#: templates/newfrontend/investor_medical_rentals.html:1127
+msgid "High"
+msgstr ""
+
+#: templates/newfrontend/investor_medical_rentals.html:1025
+#, fuzzy
+#| msgid "Base occupancy %%"
+msgid "Base occupancy"
+msgstr "Occupation de base %%"
+
+#: templates/newfrontend/investor_medical_rentals.html:1031
+msgid ""
+"Expected normal occupancy before applying extra operator or network "
+"advantage."
+msgstr ""
+
+#: templates/newfrontend/investor_medical_rentals.html:1032
+msgid "Occupancy is the main driver of rental revenue."
+msgstr ""
+
+#: templates/newfrontend/investor_medical_rentals.html:1033
+msgid ""
+"Higher occupancy increases expected cash and ROI, but overly optimistic "
+"values can make weak deals look good."
+msgstr ""
+
+#: templates/newfrontend/investor_medical_rentals.html:1035
+#, fuzzy
+#| msgid "Conservative net"
+msgid "Conservative"
+msgstr "Conservateur net"
+
+#: templates/newfrontend/investor_medical_rentals.html:1037
+msgid "Aggressive"
+msgstr ""
+
+#: templates/newfrontend/investor_medical_rentals.html:1043
+#, fuzzy
+#| msgid "Conservative occupancy %%"
+msgid "Conservative occupancy"
+msgstr "Occupation conservatrice %%"
+
+#: templates/newfrontend/investor_medical_rentals.html:1049
+msgid ""
+"Safer downside occupancy used to test whether the deal survives weaker "
+"demand."
+msgstr ""
+
+#: templates/newfrontend/investor_medical_rentals.html:1050
+msgid ""
+"This prevents the decision engine from relying only on optimistic "
+"assumptions."
+msgstr ""
+
+#: templates/newfrontend/investor_medical_rentals.html:1051
+msgid "Lower conservative occupancy makes the downside test stricter."
+msgstr ""
+
+#: templates/newfrontend/investor_medical_rentals.html:1053
+msgid "Hard test"
+msgstr ""
+
+#: templates/newfrontend/investor_medical_rentals.html:1055
+msgid "Soft test"
+msgstr ""
+
+#: templates/newfrontend/investor_medical_rentals.html:1061
+#, fuzzy
+#| msgid "Comp radius km"
+msgid "Comp radius"
+msgstr "Rayon de comp km"
+
+#: templates/newfrontend/investor_medical_rentals.html:1067
+msgid "Distance used to search for comparable listings and rental evidence."
+msgstr ""
+
+#: templates/newfrontend/investor_medical_rentals.html:1068
+msgid ""
+"Nearby comps are usually more relevant. Too wide a radius can mix different "
+"neighborhoods and distort pricing."
+msgstr ""
+
+#: templates/newfrontend/investor_medical_rentals.html:1069
+msgid ""
+"Smaller radius gives cleaner evidence but fewer comps. Larger radius gives "
+"more data but weaker precision."
+msgstr ""
+
+#: templates/newfrontend/investor_medical_rentals.html:1071
+msgid "Tight"
+msgstr ""
+
+#: templates/newfrontend/investor_medical_rentals.html:1073
+msgid "Wide"
+msgstr ""
+
+#: templates/newfrontend/investor_medical_rentals.html:1079
+#, fuzzy
+#| msgid "Operator occupancy uplift %%"
+msgid "Operator occupancy uplift"
+msgstr "Hausse d'occupation opérateur %%"
+
+#: templates/newfrontend/investor_medical_rentals.html:1085
+msgid ""
+"Extra occupancy expected from active management, better response times, "
+"better positioning, hospital/client network, and local operator advantage."
+msgstr ""
+
+#: templates/newfrontend/investor_medical_rentals.html:1086
+msgid "A strong operator can fill gaps that passive owners cannot."
+msgstr ""
+
+#: templates/newfrontend/investor_medical_rentals.html:1087
+msgid ""
+"Higher uplift increases operator-case revenue, but should be capped to avoid "
+"unrealistic projections."
+msgstr ""
+
+#: templates/newfrontend/investor_medical_rentals.html:1089
+#: templates/newfrontend/investor_medical_rentals.html:1107
+msgid "None"
+msgstr ""
+
+#: templates/newfrontend/investor_medical_rentals.html:1091
+#: templates/newfrontend/investor_medical_rentals.html:1109
+#: templates/newfrontend/investor_medical_rentals.html:1145
+msgid "Strong"
+msgstr ""
+
+#: templates/newfrontend/investor_medical_rentals.html:1097
+#, fuzzy
+#| msgid "Operator revenue uplift %%"
+msgid "Operator revenue uplift"
+msgstr "Hausse de revenu opérateur %%"
+
+#: templates/newfrontend/investor_medical_rentals.html:1103
+msgid ""
+"Extra revenue expected from better pricing, better guest targeting, extra "
+"services, better photos, and stronger sales handling."
+msgstr ""
+
+#: templates/newfrontend/investor_medical_rentals.html:1104
+msgid ""
+"The operator may not only fill more nights, but also improve average revenue "
+"per booking."
+msgstr ""
+
+#: templates/newfrontend/investor_medical_rentals.html:1105
+msgid ""
+"Higher uplift improves best-case ROI and net monthly cash, but should remain "
+"realistic."
+msgstr ""
+
+#: templates/newfrontend/investor_medical_rentals.html:1115
+#, fuzzy
+#| msgid "Network confidence %%"
+msgid "Network confidence"
+msgstr "Confiance réseau %%"
+
+#: templates/newfrontend/investor_medical_rentals.html:1121
+msgid ""
+"Confidence that the real-world network can actually deliver the expected "
+"uplift."
+msgstr ""
+
+#: templates/newfrontend/investor_medical_rentals.html:1122
+msgid "This prevents the model from treating promises as guaranteed income."
+msgstr ""
+
+#: templates/newfrontend/investor_medical_rentals.html:1123
+msgid "Higher confidence gives more weight to the operator-assisted scenario."
+msgstr ""
+
+#: templates/newfrontend/investor_medical_rentals.html:1133
+#, fuzzy
+#| msgid "Plan-B rent factor %%"
+msgid "Plan-B rent factor"
+msgstr "Facteur de loyer Plan-B %%"
+
+#: templates/newfrontend/investor_medical_rentals.html:1139
+msgid ""
+"Fallback long-term or low-effort rent as a percentage of expected furnished "
+"rental revenue."
+msgstr ""
+
+#: templates/newfrontend/investor_medical_rentals.html:1140
+msgid ""
+"This shows whether the unit still has a survivable downside option if short-"
+"term or medical rental demand fails."
+msgstr ""
+
+#: templates/newfrontend/investor_medical_rentals.html:1141
+msgid ""
+"Higher Plan-B factor improves downside safety. Lower values expose fragile "
+"deals."
+msgstr ""
+
+#: templates/newfrontend/investor_medical_rentals.html:1143
+msgid "Weak"
+msgstr ""
+
+#: templates/newfrontend/investor_medical_rentals.html:1150
+msgid "Budget & setup"
+msgstr ""
+
+#: templates/newfrontend/investor_medical_rentals.html:1150
+msgid ""
+"What you can buy, what you keep safe, and what each unit costs before it "
+"earns."
+msgstr ""
+
+#: templates/newfrontend/investor_medical_rentals.html:1151
+msgid "Demand assumptions"
+msgstr ""
+
+#: templates/newfrontend/investor_medical_rentals.html:1151
+msgid ""
+"How much demand the unit needs, and how strict the comparable evidence "
+"should be."
+msgstr ""
+
+#: templates/newfrontend/investor_medical_rentals.html:1152
+#, fuzzy
+#| msgid "Operator net"
+msgid "Operator advantage"
+msgstr "Net opérateur"
+
+#: templates/newfrontend/investor_medical_rentals.html:1152
+msgid ""
+"The extra edge from direct guests, medical circles, referrals, and better "
+"selling."
+msgstr ""
+
+#: templates/newfrontend/investor_medical_rentals.html:1153
+msgid "Downside protection"
+msgstr ""
+
+#: templates/newfrontend/investor_medical_rentals.html:1153
+msgid "What happens if the short-stay plan underperforms."
+msgstr ""
+
+#: templates/newfrontend/investor_medical_rentals.html:1239
+#, fuzzy
+#| msgid "Legal buffer / unit"
+msgid "Low legal buffer"
+msgstr "« Marge légale / unité »"
+
+#: templates/newfrontend/investor_medical_rentals.html:1240
+msgid "Safer legal buffer"
+msgstr ""
+
+#: templates/newfrontend/investor_medical_rentals.html:1241
+#, fuzzy
+#| msgid "Legal buffer / unit"
+msgid "High legal buffer"
+msgstr "« Marge légale / unité »"
+
+#: templates/newfrontend/investor_medical_rentals.html:1242
+msgid "Watch legal buffer"
+msgstr ""
+
+#: templates/newfrontend/investor_medical_rentals.html:1246
+msgid ""
+"Higher capital can fit more units, but the shortlist still depends on ROI "
+"and cash safety."
+msgstr ""
+
+#: templates/newfrontend/investor_medical_rentals.html:1247
+msgid "Safer, but fewer deals will fit the budget."
+msgstr ""
+
+#: templates/newfrontend/investor_medical_rentals.html:1247
+msgid "More buying power, but less protection if costs or vacancies hit."
+msgstr ""
+
+#: templates/newfrontend/investor_medical_rentals.html:1248
+msgid "Lower ROI, but better guest readiness and pricing potential."
+msgstr ""
+
+#: templates/newfrontend/investor_medical_rentals.html:1248
+msgid ""
+"Higher ROI on paper, but check that the unit can still feel guest-ready."
+msgstr ""
+
+#: templates/newfrontend/investor_medical_rentals.html:1249
+msgid ""
+"Closing/procedure costs may be materially higher depending on title deed "
+"tax, agency fees, and who pays them."
+msgstr ""
+
+#: templates/newfrontend/investor_medical_rentals.html:1250
+msgid "Strong cash result, but verify demand carefully."
+msgstr ""
+
+#: templates/newfrontend/investor_medical_rentals.html:1250
+msgid "More cautious revenue expectation."
+msgstr ""
+
+#: templates/newfrontend/investor_medical_rentals.html:1251
+msgid "Stricter downside test; weak deals will fall away."
+msgstr ""
+
+#: templates/newfrontend/investor_medical_rentals.html:1251
+msgid "Softer downside test; do not let it hide vacancy risk."
+msgstr ""
+
+#: templates/newfrontend/investor_medical_rentals.html:1252
+msgid "Cleaner local evidence, possibly fewer comps."
+msgstr ""
+
+#: templates/newfrontend/investor_medical_rentals.html:1252
+msgid "More comps, but neighborhood precision gets weaker."
+msgstr ""
+
+#: templates/newfrontend/investor_medical_rentals.html:1253
+msgid "Assumes strong hands-on operation and direct demand."
+msgstr ""
+
+#: templates/newfrontend/investor_medical_rentals.html:1253
+#, fuzzy
+#| msgid "Best operator ROI"
+msgid "Moderate operator edge."
+msgstr "Meilleur retour sur investissement pour l'opérateur"
+
+#: templates/newfrontend/investor_medical_rentals.html:1254
+msgid "Assumes better pricing/photos/service can materially raise revenue."
+msgstr ""
+
+#: templates/newfrontend/investor_medical_rentals.html:1254
+msgid "Keeps upside modest."
+msgstr ""
+
+#: templates/newfrontend/investor_medical_rentals.html:1255
+msgid "More weight on your real-world network."
+msgstr ""
+
+#: templates/newfrontend/investor_medical_rentals.html:1255
+msgid "Less weight on network-driven upside."
+msgstr ""
+
+#: templates/newfrontend/investor_medical_rentals.html:1256
+msgid "Downside looks stronger, but validate with real monthly rent comps."
+msgstr ""
+
+#: templates/newfrontend/investor_medical_rentals.html:1256
+msgid "More conservative fallback; fragile deals become visible."
+msgstr ""
+
+#: templates/newfrontend/investor_medical_rentals.html:1271
+msgid "Why it matters:"
+msgstr ""
+
+#: templates/newfrontend/investor_medical_rentals.html:1272
+msgid "Effect:"
+msgstr ""
+
+#: templates/newfrontend/investor_medical_rentals.html:1317
+msgid "Impact:"
+msgstr ""
+
+#: templates/newfrontend/investor_medical_rentals.html:1339
+msgid "For a unit around"
+msgstr ""
+
+#: templates/newfrontend/investor_medical_rentals.html:1340
+msgid ""
+"buyer-side closing/legal/procedure costs may be materially higher than this "
+"buffer depending on who pays title deed tax and agency costs. This is not "
+"legal advice."
+msgstr ""
+
+#: templates/newfrontend/investor_medical_rentals.html:1434
+msgid "targets"
+msgstr "cibles"
+
+#: templates/newfrontend/investor_medical_rentals.html:1444
+msgid "comps"
+msgstr "comparables"
+
+#: templates/newfrontend/investor_medical_rentals.html:1447
+msgid "Net"
+msgstr "Net"
+
+#: templates/newfrontend/investor_medical_rentals.html:1448
+msgid "ROI"
+msgstr "ROI"
+
+#: templates/newfrontend/investor_medical_rentals.html:1452
+msgid "score"
+msgstr "score"
+
+#: templates/newfrontend/investor_medical_rentals.html:1457
+msgid "No targets yet."
+msgstr "Aucune cible pour le moment."
+
+#: templates/newfrontend/investor_medical_rentals.html:1543
+msgid "Conservative net"
+msgstr "Conservateur net"
+
+#: templates/newfrontend/investor_medical_rentals.html:1545
+msgid "Operator net"
+msgstr "Net opérateur"
+
+#: templates/newfrontend/investor_medical_rentals.html:1546
+msgid "Payback"
+msgstr "Rentabilité"
+
+#: templates/newfrontend/investor_medical_rentals.html:1546
+#, fuzzy
+#| msgid "Years"
+msgid "years"
 msgstr "Années"
 
-#: templates/newfrontend/index.html:151
-msgid "Experience"
-msgstr "Expérience"
+#: templates/newfrontend/investor_medical_rentals.html:1547
+msgid "Airbnb median"
+msgstr "Airbnb médian"
 
-#: templates/newfrontend/index.html:157 templates/pages/about.html:64
-msgid "Awards"
-msgstr "Récompenses"
+#: templates/newfrontend/investor_medical_rentals.html:1548
+msgid "Airbnb p75"
+msgstr "Airbnb p75"
 
-#: templates/newfrontend/index.html:157
-msgid "Won 2023"
-msgstr "Remportées en 2023"
+#: templates/newfrontend/investor_medical_rentals.html:1549
+msgid "Plan-B rent"
+msgstr "Loyer Plan-B"
 
-#: templates/newfrontend/index.html:172
-msgid "Best Deal"
-msgstr "Meilleure offre"
+#: templates/newfrontend/investor_medical_rentals.html:1550
+msgid "Total deployed"
+msgstr "Total déployé"
 
-#: templates/newfrontend/index.html:173
-msgid "Find Your Best Deal Right Now!"
-msgstr "Trouvez votre meilleure offre dès maintenant !"
+#: templates/newfrontend/investor_medical_rentals.html:1552
+msgid "Why it scored this way"
+msgstr "Pourquoi ce score"
 
-#: templates/newfrontend/index.html:210
-msgid "All Info About Apartment"
-msgstr "Toutes les infos sur l'appartement"
+#: templates/newfrontend/investor_medical_rentals.html:1553
+msgid "Due diligence"
+msgstr "Diligence raisonnable"
+
+#: templates/newfrontend/investor_medical_rentals.html:1554
+msgid "Open source"
+msgstr "Ouvrir la source"
+
+#: templates/newfrontend/map.html:4 templates/newfrontend/map.html:766
+#: templates/newfrontend/map.html:1192
+msgid "Carte des biens"
+msgstr ""
+
+#: templates/newfrontend/map.html:768
+msgid "Biens sur la carte"
+msgstr ""
+
+#: templates/newfrontend/map.html:769
+msgid "Biens"
+msgstr ""
+
+#: templates/newfrontend/map.html:769
+msgid "Afficher ou masquer les biens"
+msgstr ""
+
+#: templates/newfrontend/map.html:773
+msgid "Atlas immobilier en direct"
+msgstr ""
+
+#: templates/newfrontend/map.html:774
+msgid "Explorer les biens Kuzey par emplacement"
+msgstr ""
+
+#: templates/newfrontend/map.html:775
+msgid ""
+"Comparez les quartiers, ouvrez les annonces et parcourez Istanbul avec une "
+"interface plus calme et rapide."
+msgstr ""
+
+#: templates/newfrontend/map.html:788
+msgid "Commandes de la carte"
+msgstr ""
+
+#: templates/newfrontend/map.html:790
+msgid "Centrer les biens"
+msgstr ""
+
+#: templates/newfrontend/map.html:793 templates/newfrontend/map.html:1192
+msgid "Loyers Airbnb"
+msgstr ""
+
+#: templates/newfrontend/map.html:793 templates/newfrontend/map.html:1193
+msgid "Afficher la comparaison des loyers Airbnb"
+msgstr ""
+
+#: templates/newfrontend/map.html:796 templates/newfrontend/maplibre.html:43
+msgid "Plein écran"
+msgstr ""
+
+#: templates/newfrontend/map.html:796
+msgid "Basculer la carte en plein écran"
+msgstr ""
+
+#: templates/newfrontend/map.html:801 templates/newfrontend/maplibre.html:48
+msgid "Style de carte"
+msgstr ""
+
+#: templates/newfrontend/map.html:802 templates/newfrontend/maplibre.html:49
+msgid "Clair"
+msgstr ""
+
+#: templates/newfrontend/map.html:803 templates/newfrontend/maplibre.html:50
+msgid "Nuit"
+msgstr ""
+
+#: templates/newfrontend/map.html:807
+msgid "Filtres des biens"
+msgstr ""
+
+#: templates/newfrontend/map.html:808 templates/newfrontend/maplibre.html:55
+msgid "Tous"
+msgstr ""
+
+#: templates/newfrontend/map.html:813
+msgid "Commandes de zoom"
+msgstr ""
+
+#: templates/newfrontend/map.html:814
+msgid "Zoom avant"
+msgstr ""
+
+#: templates/newfrontend/map.html:817
+msgid "Zoom arrière"
+msgstr ""
+
+#: templates/newfrontend/map.html:822
+msgid "Chargement des biens cartographiés"
+msgstr ""
+
+#: templates/newfrontend/map.html:825
+msgid "Aucun bien avec coordonnées pour le moment."
+msgstr ""
+
+#: templates/newfrontend/map.html:826
+msgid "Ajoutez des coordonnées aux annonces pour les afficher sur la carte."
+msgstr ""
+
+#: templates/newfrontend/map.html:904
+msgid "séjour de juillet"
+msgstr ""
+
+#: templates/newfrontend/map.html:912
+msgid "mois estimé"
+msgstr ""
+
+#: templates/newfrontend/map.html:923
+msgid "Loyer mensuel estimé"
+msgstr ""
+
+#: templates/newfrontend/map.html:924
+msgid "Médiane Airbnb proche"
+msgstr ""
+
+#: templates/newfrontend/map.html:925
+msgid "Comparables Airbnb"
+msgstr ""
+
+#: templates/newfrontend/map.html:967
+msgid "Voir les détails"
+msgstr ""
+
+#: templates/newfrontend/map.html:974
+msgid "avis"
+msgstr ""
+
+#: templates/newfrontend/map.html:998
+msgid "Ouvrir"
+msgstr ""
+
+#: templates/newfrontend/map.html:999
+msgid "Itinéraire"
+msgstr ""
+
+#: templates/newfrontend/map.html:1117
+msgid "locations visibles"
+msgstr ""
+
+#: templates/newfrontend/map.html:1117
+msgid "biens visibles"
+msgstr ""
+
+#: templates/newfrontend/map.html:1120
+msgid "Aucune location Airbnb cartographiée"
+msgstr ""
+
+#: templates/newfrontend/map.html:1120
+msgid "Aucun bien cartographié dans cette vue"
+msgstr ""
+
+#: templates/newfrontend/map.html:1143
+msgid "Aucun bien cartographié pour le moment"
+msgstr ""
+
+#: templates/newfrontend/map.html:1151
+msgid "Données de carte indisponibles"
+msgstr ""
+
+#: templates/newfrontend/map.html:1193
+msgid "Afficher la carte des biens"
+msgstr ""
+
+#: templates/newfrontend/map.html:1276
+msgid "Suivant"
+msgstr ""
+
+#: templates/newfrontend/map.html:1277
+msgid "Retour"
+msgstr ""
+
+#: templates/newfrontend/map.html:1281
+msgid "Passer en plein écran"
+msgstr ""
+
+#: templates/newfrontend/map.html:1282
+msgid ""
+"Touchez le bouton animé, ou touchez la carte une fois, pour ouvrir cet "
+"espace en plein écran."
+msgstr ""
+
+#: templates/newfrontend/map.html:1285
+msgid "Ignorer"
+msgstr ""
+
+#: templates/newfrontend/map.html:1291
+msgid "Filtrer par taille"
+msgstr ""
+
+#: templates/newfrontend/map.html:1292
+msgid ""
+"Utilisez Tous, 1 + 0 et 1 + 1 pour limiter les biens visibles selon la "
+"disposition."
+msgstr ""
+
+#: templates/newfrontend/map.html:1298
+msgid "Changer le style"
+msgstr ""
+
+#: templates/newfrontend/map.html:1299
+msgid "Passez du mode clair au mode nuit selon ce qui est le plus lisible."
+msgstr ""
+
+#: templates/newfrontend/map.html:1305
+msgid "Comparer les loyers"
+msgstr ""
+
+#: templates/newfrontend/map.html:1306
+msgid ""
+"Ce bouton remplace les biens Kuzey par les locations Airbnb disponibles, sur "
+"la même carte, puis revient aux biens avec un second appui."
+msgstr ""
+
+#: templates/newfrontend/map.html:1310
+#, fuzzy
+#| msgid "Term"
+msgid "Terminé"
+msgstr "Durée"
 
 # Listings pages
-#: templates/newfrontend/map.html:4
+#: templates/newfrontend/map_copy.html:4
 msgid "Listings Map"
 msgstr "Carte des annonces"
 
-#: templates/newfrontend/map.html:55
-msgid "Map of Listings"
-msgstr "Carte des annonces"
+#: templates/newfrontend/map_copy.html:56
+msgid "Konsept Harita"
+msgstr ""
+
+#: templates/newfrontend/maplibre.html:5
+msgid "Carte MapLibre"
+msgstr ""
+
+#: templates/newfrontend/maplibre.html:20
+msgid "Carte expérimentale MapLibre"
+msgstr ""
+
+#: templates/newfrontend/maplibre.html:23
+msgid "Annonces sur la carte"
+msgstr ""
+
+#: templates/newfrontend/maplibre.html:25
+msgid "Prototype MapLibre"
+msgstr ""
+
+#: templates/newfrontend/maplibre.html:26
+msgid "Explorer Esenyurt avec rendu WebGL"
+msgstr ""
+
+#: templates/newfrontend/maplibre.html:27
+msgid ""
+"Même données, rendu plus léger: clusters natifs, sélection à la demande et "
+"comparaison Airbnb."
+msgstr ""
+
+#: templates/newfrontend/maplibre.html:36
+msgid "Commandes de carte"
+msgstr ""
+
+#: templates/newfrontend/maplibre.html:37
+msgid "Centrer"
+msgstr ""
+
+#: templates/newfrontend/maplibre.html:40
+msgid "Comparer Airbnb"
+msgstr ""
+
+#: templates/newfrontend/maplibre.html:54
+msgid "Filtres"
+msgstr ""
+
+#: templates/newfrontend/maplibre.html:62
+msgid "Chargement de MapLibre"
+msgstr ""
+
+#: templates/newfrontend/maplibre.html:64
+msgid "Annonces sélectionnées"
+msgstr ""
+
+#: templates/newfrontend/maplibre.html:65
+msgid "Déployer la fiche"
+msgstr ""
+
+#: templates/newfrontend/mapstandalone/simplified/index.html:24
+msgid "Simplified Map"
+msgstr ""
+
+#: templates/newfrontend/mapstandalone/simplified/index.html:26
+msgid "This is a simplified standalone map placeholder for static builds."
+msgstr ""
+
+#: templates/newfrontend/mapstandalone/simplified/index.html:29
+msgid "Map canvas"
+msgstr ""
+
+#: templates/newfrontend/page-404.html:5 templates/newfrontend/page-404.html:13
+msgid "Page Not Found"
+msgstr ""
+
+#: templates/newfrontend/page-404.html:24
+msgid "Oops"
+msgstr ""
+
+#: templates/newfrontend/page-404.html:25
+msgid "We can’t find the page you’re looking for"
+msgstr ""
+
+#: templates/newfrontend/page-404.html:28
+msgid ""
+"The link may be broken or the page might have been removed. You can go back "
+"home or explore our latest properties."
+msgstr ""
 
 #: templates/newfrontend/partials/loan_calculator.html:4
 #: templates/newfrontend/partials/loan_calculator.html:5
@@ -1005,6 +2104,11 @@ msgstr "Afficher/Masquer"
 msgid "Download CSV"
 msgstr "Télécharger le CSV"
 
+#: templates/newfrontend/partials/loan_calculator.html:76
+#: templates/newfrontend/partials/loan_calculator.html:104
+msgid "Payment"
+msgstr "Paiement"
+
 #: templates/newfrontend/partials/loan_calculator.html:77
 #: templates/newfrontend/partials/loan_calculator.html:105
 msgid "Principal"
@@ -1024,244 +2128,985 @@ msgstr "Solde"
 msgid ""
 "This calculator provides estimates for illustration only and does not "
 "constitute a loan offer."
-msgstr "Cet outil fournit des estimations à titre indicatif et ne constitue pas une offre de prêt."
+msgstr ""
+"Cet outil fournit des estimations à titre indicatif et ne constitue pas une "
+"offre de prêt."
 
 #: templates/newfrontend/partials/loan_calculator.html:108
 msgid "amortization"
 msgstr "amortissement"
 
-#: templates/newfrontend/property-details.html:37
-msgid "Price"
-msgstr "Prix"
+#: templates/newfrontend/properties.html:609
+#: templates/newfrontend/properties.html:610 templates/partials/_footer.html:75
+msgid "Opportunities"
+msgstr "Opportunités"
 
-#: templates/newfrontend/property-details.html:49
-msgid "Location"
+#: templates/newfrontend/properties.html:619
+msgid "Sort by"
+msgstr "Trier par"
+
+#: templates/newfrontend/properties.html:622
+msgid "Best"
+msgstr "Meilleurs"
+
+#: templates/newfrontend/properties.html:632
+msgid "Size"
+msgstr "Surface"
+
+#: templates/newfrontend/properties.html:637
+msgid "Date"
+msgstr ""
+
+#: templates/newfrontend/properties.html:639
+#: templates/newfrontend/properties.html:738
+#: templates/newfrontend/property-details.html:745
+msgid "Open map"
+msgstr ""
+
+#: templates/newfrontend/properties.html:669
+#: templates/newfrontend/property-details.html:630
+msgid "HOT"
+msgstr ""
+
+#: templates/newfrontend/properties.html:671
+#: templates/newfrontend/property-details.html:632
+msgid "NEW"
+msgstr ""
+
+#: templates/newfrontend/properties.html:704
+msgid "Est. Rent"
+msgstr ""
+
+#: templates/newfrontend/properties.html:715
+#: templates/newfrontend/property-details.html:665
+msgid "Rentability"
+msgstr ""
+
+#: templates/newfrontend/properties.html:730
+#: templates/newfrontend/property-details.html:699
+#: templates/newfrontend/property-details.html:751
+msgid "Gross m²"
+msgstr ""
+
+# Listings pages
+#: templates/newfrontend/properties.html:731
+#: templates/newfrontend/property-details.html:752
+#, fuzzy
+#| msgid "Listing"
+msgid "Listed"
+msgstr "Annonce"
+
+#: templates/newfrontend/properties.html:746
+msgid "No Listings Available"
+msgstr "Aucune annonce disponible"
+
+#: templates/newfrontend/properties.html:820
+msgid "Best Deal"
+msgstr "Meilleure offre"
+
+#: templates/newfrontend/properties.html:821
+msgid "Find Your Best Deal Right Now!"
+msgstr "Trouvez votre meilleure offre dès maintenant !"
+
+#: templates/newfrontend/properties.html:858
+msgid "All Info About Apartment"
+msgstr "Toutes les infos sur l'appartement"
+
+#: templates/newfrontend/properties.html:941
+msgid "Get In Touch With Our Agents"
+msgstr "Contactez nos agents"
+
+#: templates/newfrontend/property-details.html:9
+msgid "Property Details"
+msgstr "Détails du bien"
+
+#: templates/newfrontend/property-details.html:591
+msgid "Property"
+msgstr "Propriété"
+
+#: templates/newfrontend/property-details.html:654
+msgid "Estimated rent"
+msgstr ""
+
+#: templates/newfrontend/property-details.html:690
+msgid "Home Snapshot"
+msgstr ""
+
+#: templates/newfrontend/property-details.html:691
+msgid "Core property facts"
+msgstr ""
+
+#: templates/newfrontend/property-details.html:694
+msgid "Type"
+msgstr "Type"
+
+#: templates/newfrontend/property-details.html:695
+#, fuzzy
+#| msgid "Bedrooms"
+msgid "Rooms"
+msgstr "Chambres"
+
+#: templates/newfrontend/property-details.html:698
+msgid "Net m²"
+msgstr ""
+
+#: templates/newfrontend/property-details.html:700
+msgid "Floor"
+msgstr ""
+
+#: templates/newfrontend/property-details.html:701
+#, fuzzy
+#| msgid "Building"
+msgid "Building age"
+msgstr "Construction"
+
+#: templates/newfrontend/property-details.html:702
+#, fuzzy
+#| msgid "Renting"
+msgid "Heating"
+msgstr "Location"
+
+#: templates/newfrontend/property-details.html:703
+msgid "Kitchen"
+msgstr ""
+
+#: templates/newfrontend/property-details.html:704
+msgid "Balcony"
+msgstr ""
+
+#: templates/newfrontend/property-details.html:705
+msgid "Parking"
+msgstr ""
+
+#: templates/newfrontend/property-details.html:711
+msgid "Building & Listing Info"
+msgstr ""
+
+#: templates/newfrontend/property-details.html:712
+msgid "Costs, ownership, and availability"
+msgstr ""
+
+#: templates/newfrontend/property-details.html:715
+msgid "Usage status"
+msgstr ""
+
+#: templates/newfrontend/property-details.html:716
+msgid "Complex"
+msgstr ""
+
+#: templates/newfrontend/property-details.html:716
+#: templates/newfrontend/property-details.html:717
+#: templates/newfrontend/property-details.html:718
+#, fuzzy
+#| msgid "Years"
+msgid "Yes"
+msgstr "Années"
+
+#: templates/newfrontend/property-details.html:716
+#: templates/newfrontend/property-details.html:717
+#: templates/newfrontend/property-details.html:718
+msgid "No"
+msgstr ""
+
+#: templates/newfrontend/property-details.html:717
+msgid "Elevator"
+msgstr ""
+
+#: templates/newfrontend/property-details.html:718
+#, fuzzy
+#| msgid "Finished Now"
+msgid "Furnished"
+msgstr "Terminé maintenant"
+
+#: templates/newfrontend/property-details.html:719
+msgid "Maintenance fee"
+msgstr ""
+
+#: templates/newfrontend/property-details.html:720
+msgid "Deposit"
+msgstr ""
+
+#: templates/newfrontend/property-details.html:721
+msgid "Deed status"
+msgstr ""
+
+#: templates/newfrontend/property-details.html:722
+msgid "From whom"
+msgstr ""
+
+# Listings pages
+#: templates/newfrontend/property-details.html:723
+#, fuzzy
+#| msgid "Listing"
+msgid "Listing ID"
+msgstr "Annonce"
+
+#: templates/newfrontend/property-details.html:724
+msgid "Ad date"
+msgstr ""
+
+#: templates/newfrontend/property-details.html:726
+msgid "Area (sqft)"
+msgstr ""
+
+#: templates/newfrontend/property-details.html:733
+msgid "Asking price(click to convert)"
+msgstr ""
+
+#: templates/newfrontend/property-details.html:852
+#, fuzzy
+#| msgid "Location"
+msgid "Location & Nearby"
 msgstr "Emplacement"
 
-#: templates/newfrontend/whatsappwidget.html:85
-msgid "Typically replies within a day"
-msgstr "Répond généralement sous 24 heures"
+# Listings pages
+#: templates/newfrontend/property-details.html:857
+#, fuzzy
+#| msgid "Listings Map"
+msgid "Listing Map"
+msgstr "Carte des annonces"
 
-#: templates/newfrontend/whatsappwidget.html:97
-msgid "Hey There, How can I help you?"
-msgstr "Bonjour, comment puis-je vous aider ?"
+#: templates/newfrontend/whatsapp_inbox.html:5
+msgid "WhatsApp Inbox"
+msgstr ""
 
-#: templates/pages/about.html:7 templates/pages/about.html:18
-msgid "About Us"
-msgstr "À propos de nous"
+#: templates/newfrontend/whatsapp_inbox.html:44
+msgid "WhatsApp hunt inbox"
+msgstr ""
 
-#: templates/pages/about.html:41
-msgid "Our Company<br>Koralcity Limited"
-msgstr "Notre entreprise<br>Koralcity Limited"
+# Listings pages
+#: templates/newfrontend/whatsappwidget.html:6
+#, fuzzy
+#| msgid "Listing"
+msgid "Listing owner"
+msgstr "Annonce"
 
-#: templates/pages/about.html:42
+#: templates/newfrontend/whatsappwidget.html:18
+msgid "WhatsApp Chat"
+msgstr ""
+
+#: templates/newfrontend/whatsappwidget.html:26
+#: templates/newfrontend/whatsappwidget.html:46
+msgid "Close chat"
+msgstr ""
+
+#: templates/newfrontend/whatsappwidget.html:38
+msgid "WhatsApp conversation"
+msgstr ""
+
+#: templates/newfrontend/whatsappwidget.html:40
+msgid "Call on WhatsApp"
+msgstr ""
+
+#: templates/newfrontend/whatsappwidget.html:43
+msgid "Attach file"
+msgstr ""
+
+#: templates/newfrontend/whatsappwidget.html:55
+msgid "Real estate conversations"
+msgstr ""
+
+#: templates/newfrontend/whatsappwidget.html:56
+msgid "Only messages stored in this Django database"
+msgstr ""
+
+#: templates/newfrontend/whatsappwidget.html:58
+msgid "Open inbox"
+msgstr ""
+
+#: templates/newfrontend/whatsappwidget.html:61
+msgid "Loading conversations..."
+msgstr ""
+
+#: templates/newfrontend/whatsappwidget.html:65
+msgid "Open chat to load messages."
+msgstr ""
+
+#: templates/newfrontend/whatsappwidget.html:79
+#, fuzzy
+#| msgid "Send Message"
+msgid "Type a message"
+msgstr "Envoyer le message"
+
+#: templates/newfrontend/whatsappwidget.html:80
+msgid "Type a WhatsApp message"
+msgstr ""
+
+#: templates/newfrontend/whatsappwidget.html:86
+msgid "Suggest reply"
+msgstr ""
+
+#: templates/newfrontend/whatsappwidget.html:89
+msgid "Icebreaker"
+msgstr ""
+
+#: templates/newfrontend/whatsappwidget.html:92
+#, fuzzy
+#| msgid "Send Message"
+msgid "Send message"
+msgstr "Envoyer le message"
+
+#: templates/newfrontend/whatsappwidget.html:95
+msgid "Open in WhatsApp"
+msgstr ""
+
+#: templates/newfrontend/whatsappwidget.html:100
+msgid "Open WhatsApp chat"
+msgstr ""
+
+#: templates/partials/_footer.html:55
 msgid ""
-"Koralcity Limited offers property owners, developers and buyers/renters a "
-"viable housing market. Customers can source and connect with professional "
-"agents for the most advanced and eco-friendly housing. Established in 2021, "
-"Koral City believes everyone deserves a home with the most advanced "
-"technology and Eco-Friendly means. All lives matter."
-msgstr "Koralcity Limited offre aux propriétaires, promoteurs et acheteurs/locataires un marché immobilier viable. Les clients peuvent trouver et contacter des agents professionnels pour des logements modernes et respectueux de l'environnement. Créée en 2021, Koral City estime que chacun mérite un logement doté des technologies les plus avancées et de solutions écoresponsables. Toutes les vies comptent."
+"Discover, rent or buy verified properties with modern tools and local "
+"expertise."
+msgstr ""
 
-#: templates/pages/about.html:43
-msgid "Why you should choose us"
-msgstr "Pourquoi nous choisir"
+#: templates/partials/_footer.html:65
+#, fuzzy
+#| msgid "amortization"
+msgid "Navigation"
+msgstr "amortissement"
 
-#: templates/pages/about.html:45
-msgid "1. We offer land verification and authentication."
-msgstr "1. Nous proposons la vérification et l'authentification des terrains."
-
-#: templates/pages/about.html:46
-msgid "2. We sell, buy, and rent luxury properties at affordable rates."
-msgstr "2. Nous vendons, achetons et louons des biens de luxe à des tarifs abordables."
-
-#: templates/pages/about.html:47
-msgid ""
-"3. We offer a conducive platform for property owners to showcase their "
-"services."
-msgstr "3. Nous offrons une plateforme adaptée aux propriétaires pour présenter leurs services."
-
-#: templates/pages/about.html:48
-msgid ""
-"4. We have well trained professionals as consultants, developers and agents."
-msgstr "4. Nous disposons de professionnels bien formés : consultants, promoteurs et agents."
-
-#: templates/pages/about.html:49
-msgid "5. We are budget friendly."
-msgstr "5. Nous respectons votre budget."
-
-#: templates/pages/about.html:56
-msgid "Clients"
-msgstr "Clients"
-
-#: templates/pages/about.html:60
-msgid "Apartments"
-msgstr "Appartements"
-
-#: templates/pages/about.html:68
-msgid "Employees"
-msgstr "Employés"
-
-#: templates/pages/about.html:79
-msgid "Meet Our Agents"
-msgstr "Rencontrez nos agents"
-
-#: templates/pages/about.html:80
-msgid ""
-"They provide one of the most professional, informative, loyal and dedicated "
-"services<br> in the real estate industry. Client’s satisfaction is their "
-"number one priority."
-msgstr "Ils fournissent l'un des services les plus professionnels, informatifs, loyaux et dévoués<br> dans le secteur immobilier. La satisfaction du client est leur priorité numéro un."
-
-#: templates/pages/about.html:98
-msgid "Realtor"
-msgstr "Agent immobilier"
-
-#: templates/pages/about.html:117
-msgid "No Realtors Available"
-msgstr "Aucun agent disponible"
-
-#: templates/pages/agesverification.html:13
-#: templates/pages/agesverification.html:39 templates/pages/index.html:38
-#: templates/partials/_footer.html:44 templates/partials/_navbar.html:47
-msgid "Verification"
-msgstr "Vérification"
-
-#: templates/pages/agesverification.html:17
-msgid "Upload your documents and fill the contact form."
-msgstr "Téléchargez vos documents et remplissez le formulaire de contact."
-
-#: templates/pages/agesverification.html:55
-msgid "Phone Number"
-msgstr "Numéro de téléphone"
-
-#: templates/pages/agesverification.html:59
-msgid "Document File:"
-msgstr "Fichier du document :"
-
-#: templates/pages/agesverification.html:63
-msgid "Upload"
-msgstr "Télécharger"
-
-#: templates/pages/agesverification.html:66
-msgid "Return to home"
-msgstr "Retour à l'accueil"
-
-#: templates/pages/index.html:14
-msgid "Find Your New<br>Modern Apartment"
-msgstr "Trouvez votre nouvel<br>appartement moderne"
-
-#: templates/pages/index.html:18
-msgid "Keyword"
-msgstr "Mot-clé"
-
-# Index & common
-#: templates/pages/index.html:19
-msgid "Search"
-msgstr "Rechercher"
-
-#: templates/pages/index.html:28
-msgid "Buy"
-msgstr "Acheter"
-
-#: templates/pages/index.html:33
-msgid "Sell"
-msgstr "Vendre"
-
-#: templates/pages/index.html:44
-msgid "Scroll Down"
-msgstr "Faire défiler"
-
-#: templates/pages/index.html:63
-msgid "More Than 500+<br>Apartments For Sale & Rent"
-msgstr "Plus de 500+<br>appartements à vendre et à louer"
-
-#: templates/pages/index.html:164
-msgid "Consulting Services"
-msgstr "Services de conseil"
-
-#: templates/pages/index.html:165
-msgid ""
-"KoralCity Limited gives specialized investment and financial advice to "
-"clients looking to buy, sell or invest in property. We'll work closely with "
-"you throughout the process of buying and selling of your properties."
-msgstr "KoralCity Limited fournit des conseils spécialisés en investissement et en finance aux clients souhaitant acheter, vendre ou investir dans l'immobilier. Nous travaillerons en étroite collaboration avec vous tout au long du processus d'achat et de vente de vos biens."
-
-#: templates/pages/index.html:170
-msgid "Property Management"
-msgstr "Gestion immobilière"
-
-#: templates/pages/index.html:171
-msgid ""
-"At KoralCity Limited, we handle the operations, maintenance, and "
-"administration of properties rentals for the owners and also market rentals "
-"rates at competitive price while complying with rental laws."
-msgstr "Chez KoralCity Limited, nous gérons les opérations, la maintenance et l'administration des locations pour les propriétaires et commercialisons les loyers à des tarifs compétitifs tout en respectant les lois en vigueur."
-
-#: templates/pages/index.html:176
-msgid "Renting & Selling"
-msgstr "Location et vente"
-
-#: templates/pages/index.html:177
-msgid ""
-"Our property managers at KoralCity Limited set competitive rent prices and "
-"strategies to attract clients to the property for rent or sell very fast "
-"with the first impression on potential clients."
-msgstr "Nos gestionnaires immobiliers chez KoralCity Limited fixent des loyers compétitifs et des stratégies pour attirer des clients afin de louer ou vendre rapidement, en misant sur une première impression positive auprès des prospects."
-
-#: templates/partials/_alerts.html:11
-msgid "Error:"
-msgstr "Erreur :"
-
-#: templates/partials/_footer.html:10
-msgid "Explore Real Estate"
-msgstr "Explorez l'immobilier"
-
-#: templates/partials/_footer.html:13
-msgid "Subscribe To Our Newsletter"
-msgstr "Abonnez-vous à notre newsletter"
-
-#: templates/partials/_footer.html:20
-msgid "All Right Reserved"
-msgstr "Tous droits réservés"
-
-#: templates/partials/_footer.html:26 templates/partials/_navbar.html:58
-msgid "Become an agent"
-msgstr "Devenir agent"
-
-#: templates/partials/_footer.html:29
-msgid "COMPANY"
-msgstr "SOCIÉTÉ"
-
-#: templates/partials/_footer.html:31
-msgid "FAQ"
-msgstr "FAQ"
-
-#: templates/partials/_footer.html:32 templates/partials/_navbar.html:48
+#: templates/partials/_footer.html:85 templates/partials/_footer.html:101
 msgid "Contact"
 msgstr "Contact"
 
-#: templates/partials/_footer.html:33
-msgid "Social"
-msgstr "Réseaux sociaux"
+#: templates/partials/_footer.html:90
+msgid "Financing"
+msgstr "Financement"
 
-#: templates/partials/_footer.html:36
-msgid "PRODUCT"
-msgstr "PRODUIT"
+#: templates/partials/_footer.html:145
+#, fuzzy
+#| msgid "All Right Reserved"
+msgid "All rights reserved."
+msgstr "Tous droits réservés"
+
+#~ msgid ""
+#~ "Annual net return after setup costs, using the operator-upside scenario."
+#~ msgstr ""
+#~ "Rendement net annuel après coûts de mise en place, en utilisant le "
+#~ "scénario « opérateur positif »"
+
+#~ msgid ""
+#~ "Highest projected monthly cash profit after platform fees, management, "
+#~ "utilities, cleaning, and maintenance."
+#~ msgstr ""
+#~ "Bénéfice mensuel en espèces le plus élevé prévu après les frais de la "
+#~ "plate-forme, la gestion, les services publics, le nettoyage et "
+#~ "l'entretien."
+
+#~ msgid ""
+#~ "Deals currently tagged as buy-now or conservative fallback candidates."
+#~ msgstr ""
+#~ "Offres actuellement étiquetées comme des candidats à l'achat immédiat ou "
+#~ "à un retour à la prudence."
+
+#~ msgid ""
+#~ "Candidates whose Airbnb comparable set is too small or too weak for "
+#~ "confident pricing."
+#~ msgstr ""
+#~ "Candidats dont l'ensemble comparable Airbnb est trop petit ou trop faible "
+#~ "pour une tarification sûre."
+
+#~ msgid "Monthly profit using lower occupancy and no operator advantage."
+#~ msgstr ""
+#~ "Bénéfice mensuel en utilisant une occupation plus faible et sans avantage "
+#~ "opérateur"
+
+#~ msgid ""
+#~ "Monthly profit from nearby Airbnb median comps after ordinary operating "
+#~ "costs."
+#~ msgstr ""
+#~ "Bénéfice mensuel provenant de comparaisons moyennes d'Airbnb à proximité "
+#~ "après les coûts d'exploitation ordinaires."
+
+#~ msgid ""
+#~ "Monthly profit after applying direct-booking, referral, and marketing "
+#~ "upside controls."
+#~ msgstr ""
+#~ "Bénéfice mensuel après application des contrôles de hausse liés aux "
+#~ "réservations directes, aux recommandations et au marketing."
+
+#~ msgid ""
+#~ "Years needed for projected annual net income to recover purchase plus "
+#~ "setup cost."
+#~ msgstr ""
+#~ "Année(s) nécessaires pour que le revenu net annuel prévu recouvre le coût "
+#~ "d'achat et de mise en place."
+
+#~ msgid "Median monthly price from nearby Airbnb-style comparable stays."
+#~ msgstr ""
+#~ "Prix médian mensuel des séjours comparables similaires à Airbnb situés à "
+#~ "proximité"
+
+#~ msgid "Upper-quartile comp price used to test realistic upside."
+#~ msgstr ""
+#~ "Prix de référence du quartile supérieur utilisé pour tester une hausse "
+#~ "réaliste"
+
+#~ msgid "Downside monthly-rental floor if short-stay demand disappoints."
+#~ msgstr ""
+#~ "Plancher de loyer mensuel en cas de déception de la demande de court "
+#~ "séjour."
+
+#~ msgid "Purchase price plus furnishing and legal/setup buffers."
+#~ msgstr "Prix d'achat plus amortissement et marges légales/amortissement"
+
+#~ msgid "Dashboard"
+#~ msgstr "Tableau de bord"
+
+#~ msgid "User Dashboard"
+#~ msgstr "Tableau de bord utilisateur"
+
+#~ msgid "Manage your KoralCity Properties account"
+#~ msgstr "Gérez votre compte KoralCity Properties"
+
+#~ msgid "Welcome"
+#~ msgstr "Bienvenue"
+
+#~ msgid "Here are the property listings that you have inquired about"
+#~ msgstr ""
+#~ "Voici les annonces immobilières pour lesquelles vous avez envoyé une "
+#~ "demande"
+
+#~ msgid "You Don't Have Any Inquiries"
+#~ msgstr "Vous n'avez aucune demande"
+
+#~ msgid "Agents"
+#~ msgstr "Agents"
+
+#~ msgid "You wish to be a realtor agent? here is all you have to do."
+#~ msgstr ""
+#~ "Vous souhaitez devenir agent immobilier ? Voici tout ce que vous avez à "
+#~ "faire."
+
+#~ msgid "About"
+#~ msgstr "À propos"
 
 # Accounts pages
-#: templates/partials/_footer.html:38
-msgid "How It Works"
-msgstr "Comment ça marche ?"
+#~ msgid "How it works?"
+#~ msgstr "Comment ça marche ?"
 
-#: templates/partials/_footer.html:41
-msgid "SERVICES"
-msgstr "SERVICES"
+#~ msgid ""
+#~ "You wish be a realtor agent with Koralcity? <br> All you have to do."
+#~ "<br>is complete some few steps and arrange all relevant information "
+#~ "<br>while pending for your response before the end of the day."
+#~ msgstr ""
+#~ "Vous souhaitez être agent immobilier avec Koralcity ? <br> Voici tout ce "
+#~ "que vous avez à faire.<br>Complétez quelques étapes et rassemblez toutes "
+#~ "les informations pertinentes <br>en attendant notre réponse avant la fin "
+#~ "de la journée."
 
-#: templates/partials/_navbar.html:44
-msgid "Blog"
-msgstr "Blog"
+#~ msgid "Find Your Location"
+#~ msgstr "Trouvez votre emplacement"
 
-#: templates/partials/_topbar.html:8
-msgid "inquiries@coralcity.com"
-msgstr "inquiries@coralcity.com"
+#~ msgid ""
+#~ "Here you search for the location you want to cover in your listings and "
+#~ "then move to the next step."
+#~ msgstr ""
+#~ "Ici, vous recherchez la zone que vous souhaitez couvrir dans vos "
+#~ "annonces, puis passez à l'étape suivante."
+
+#~ msgid "Find Apartment"
+#~ msgstr "Trouver un appartement"
+
+#~ msgid ""
+#~ "After you've picked a location, now you search for available properties "
+#~ "in that location for your listings."
+#~ msgstr ""
+#~ "Après avoir choisi un emplacement, recherchez les biens disponibles dans "
+#~ "cette zone pour vos annonces."
+
+#~ msgid "Make Contact"
+#~ msgstr "Prendre contact"
+
+#~ msgid ""
+#~ "Once you've completed step one and two now you can contact us and you'll "
+#~ "get back to you with a confirmation."
+#~ msgstr ""
+#~ "Une fois les étapes une et deux terminées, vous pouvez nous contacter et "
+#~ "nous vous répondrons avec une confirmation."
+
+#~ msgid "Services"
+#~ msgstr "Services"
+
+#~ msgid ""
+#~ "At Koralcity Limited, we handle the operations, consulting, maintenance,"
+#~ "<br> and administration of properties rentals to prospective clients."
+#~ msgstr ""
+#~ "Chez Koralcity Limited, nous gérons les opérations, le conseil, la "
+#~ "maintenance<br> et l'administration des locations de biens pour les "
+#~ "clients potentiels."
+
+#~ msgid "Selling"
+#~ msgstr "Vente"
+
+#~ msgid "Username"
+#~ msgstr "Nom d'utilisateur"
+
+#~ msgid "Password"
+#~ msgstr "Mot de passe"
+
+#~ msgid "Register"
+#~ msgstr "Inscription"
+
+#~ msgid "Become an Agent"
+#~ msgstr "Devenir agent"
+
+#~ msgid "Register now and receive a mail from us within 2 working days."
+#~ msgstr ""
+#~ "Inscrivez-vous maintenant et recevez un e-mail de notre part sous 2 jours "
+#~ "ouvrés."
+
+#~ msgid "First Name"
+#~ msgstr "Prénom"
+
+#~ msgid "Last Name"
+#~ msgstr "Nom"
+
+#~ msgid "Email"
+#~ msgstr "E-mail"
+
+#~ msgid "Confirm Password"
+#~ msgstr "Confirmer le mot de passe"
+
+# Core/navigation
+#~ msgid "KoralCity Properties"
+#~ msgstr "Propriétés KoralCity"
+
+# Blog
+#~ msgid "Blog App"
+#~ msgstr "Application Blog"
+
+#~ msgid "Production:"
+#~ msgstr "Production :"
+
+#~ msgid "by"
+#~ msgstr "par"
+
+#~ msgid "Comments"
+#~ msgstr "Commentaires"
+
+#~ msgid "To comment, first"
+#~ msgstr "Pour commenter, veuillez d'abord"
+
+#~ msgid "log in"
+#~ msgstr "vous connecter"
+
+#~ msgid "to your account"
+#~ msgstr "à votre compte"
+
+#~ msgid "Add Comment"
+#~ msgstr "Ajouter un commentaire"
+
+#~ msgid "There is no comment"
+#~ msgstr "Il n'y a aucun commentaire"
+
+#~ msgid "Enter keywords & hit enter...."
+#~ msgstr "Entrez des mots-clés et appuyez sur Entrée..."
+
+#~ msgid "About Me"
+#~ msgstr "À propos de moi"
+
+#~ msgid "Recent Post"
+#~ msgstr "Article récent"
+
+#~ msgid "Categories"
+#~ msgstr "Catégories"
+
+#~ msgid "Tags"
+#~ msgstr "Tags"
+
+#~ msgid "Subscribe to our newsletter"
+#~ msgstr "Abonnez-vous à notre newsletter"
+
+#~ msgid "Enter your email"
+#~ msgstr "Entrez votre e-mail"
+
+#~ msgid "Subscribe"
+#~ msgstr "S'abonner"
+
+#~ msgid "Live stream"
+#~ msgstr "Diffusion en direct"
+
+#~ msgid "Gallery"
+#~ msgstr "Galerie"
+
+#~ msgid "No results found!"
+#~ msgstr "Aucun résultat trouvé !"
+
+#~ msgid "There were no results matching your search"
+#~ msgstr "Aucun résultat ne correspond à votre recherche"
+
+#~ msgid "Asking Price:"
+#~ msgstr "Prix demandé :"
+
+#~ msgid "Bedrooms:"
+#~ msgstr "Chambres :"
+
+#~ msgid "Bathrooms:"
+#~ msgstr "Salles de bain :"
+
+#~ msgid "Type:"
+#~ msgstr "Type :"
+
+#~ msgid "Square Feet:"
+#~ msgstr "Surface (pieds²) :"
+
+#~ msgid "Listing Date:"
+#~ msgstr "Date de mise en vente :"
+
+#~ msgid "Realtor:"
+#~ msgstr "Agent :"
+
+#~ msgid "Property Realtor"
+#~ msgstr "Agent immobilier"
+
+#~ msgid "Number:"
+#~ msgstr "Numéro :"
+
+#~ msgid "Email:"
+#~ msgstr "E-mail :"
+
+#~ msgid "Make An Inquiry"
+#~ msgstr "Faire une demande"
+
+#~ msgid "Property:"
+#~ msgstr "Propriété :"
+
+#~ msgid "Name:"
+#~ msgstr "Nom :"
+
+#~ msgid "Phone:"
+#~ msgstr "Téléphone :"
+
+#~ msgid "Message:"
+#~ msgstr "Message :"
+
+#~ msgid "Send"
+#~ msgstr "Envoyer"
+
+#~ msgid "More Than 500+ Apartment For Sale & Rent"
+#~ msgstr "Plus de 500+ appartements à vendre et à louer"
+
+#~ msgid "Bathroom"
+#~ msgstr "Salle de bain"
+
+#~ msgid "Garage"
+#~ msgstr "Garage"
+
+#~ msgid "Bedroom"
+#~ msgstr "Chambre"
+
+#~ msgid "Search for your Appartments<br>and make your inquiries"
+#~ msgstr "Recherchez vos appartements<br>et envoyez vos demandes"
+
+# Search
+#~ msgid "Keywords"
+#~ msgstr "Mots-clés"
+
+#~ msgid "Keyword (Pool, Garage, etc)"
+#~ msgstr "Mot-clé (Piscine, Garage, etc.)"
+
+#~ msgid "State (All)"
+#~ msgstr "État (Tous)"
+
+#~ msgid "Bedrooms (Any)"
+#~ msgstr "Chambres (Toutes)"
+
+#~ msgid "Max Price (All)"
+#~ msgstr "Prix max (Tous)"
+
+#~ msgid "Submit form"
+#~ msgstr "Envoyer le formulaire"
+
+#~ msgid "Sqft"
+#~ msgstr "Pieds²"
+
+#~ msgid "Hurry!"
+#~ msgstr "Dépêchez-vous !"
+
+#~ msgid "Get the Best Villa for you"
+#~ msgstr "Obtenez la meilleure villa pour vous"
+
+#~ msgid "Be Quick!"
+#~ msgstr "Soyez rapide !"
+
+#~ msgid "Get the best villa in town"
+#~ msgstr "Obtenez la meilleure villa de la ville"
+
+#~ msgid "Act Now!"
+#~ msgstr "Agissez maintenant !"
+
+#~ msgid "Get the highest level Map"
+#~ msgstr "Accédez à la carte la plus détaillée"
+
+#~ msgid "Featured"
+#~ msgstr "À la une"
+
+#~ msgid "Best Appartment & Sea view"
+#~ msgstr "Meilleur appartement et vue sur la mer"
+
+#~ msgid "What properties do you offer?"
+#~ msgstr "Quels biens proposez-vous ?"
+
+#~ msgid ""
+#~ "We offer a wide selection of premium properties including villas, "
+#~ "apartments, and luxury residences across Istanbul, Antalya, and Ankara. "
+#~ "Each property is carefully selected to meet the highest standards of "
+#~ "quality and location."
+#~ msgstr ""
+#~ "Nous proposons une large sélection de biens haut de gamme, notamment des "
+#~ "villas, appartements et résidences de luxe à Istanbul, Antalya et Ankara. "
+#~ "Chaque bien est soigneusement sélectionné pour répondre aux plus hauts "
+#~ "standards de qualité et d'emplacement."
+
+#~ msgid "How do I schedule a property viewing?"
+#~ msgstr "Comment planifier une visite d'un bien ?"
+
+#~ msgid ""
+#~ "Scheduling a viewing is simple. Click the 'Schedule a visit' button on "
+#~ "any property listing, or contact our team directly via phone or email. "
+#~ "Our agents are available 24/7 to assist you."
+#~ msgstr ""
+#~ "Planifier une visite est simple. Cliquez sur le bouton 'Planifier une "
+#~ "visite' sur n'importe quelle annonce, ou contactez directement notre "
+#~ "équipe par téléphone ou e-mail. Nos agents sont disponibles 24h/24 et 7j/"
+#~ "7 pour vous aider."
+
+#~ msgid "What financing options are available?"
+#~ msgstr "Quelles options de financement sont disponibles ?"
+
+#~ msgid ""
+#~ "We work with leading financial institutions to offer flexible payment "
+#~ "plans and bank financing options. Our team can guide you through the "
+#~ "entire process to make your property purchase seamless."
+#~ msgstr ""
+#~ "Nous collaborons avec des institutions financières de premier plan pour "
+#~ "proposer des plans de paiement flexibles et des options de financement "
+#~ "bancaire. Notre équipe vous guide tout au long du processus pour rendre "
+#~ "votre achat immobilier fluide."
+
+#~ msgid "Total Flat Space"
+#~ msgstr "Surface totale de l'appartement"
+
+#~ msgid "Contract"
+#~ msgstr "Contrat"
+
+#~ msgid "Contract Ready"
+#~ msgstr "Contrat prêt"
+
+#~ msgid "Payment Process"
+#~ msgstr "Processus de paiement"
+
+#~ msgid "24/7 Under Control"
+#~ msgstr "Sous contrôle 24h/24 et 7j/7"
+
+#~ msgid "Video View"
+#~ msgstr "Vue vidéo"
+
+#~ msgid "Get Closer View & Different Feeling"
+#~ msgstr "Une vue plus proche et une sensation différente"
+
+#~ msgid "Buildings"
+#~ msgstr "Bâtiments"
+
+#~ msgid "Awards"
+#~ msgstr "Récompenses"
+
+#~ msgid "Won 2023"
+#~ msgstr "Remportées en 2023"
+
+#~ msgid "Map of Listings"
+#~ msgstr "Carte des annonces"
+
+#~ msgid "Typically replies within a day"
+#~ msgstr "Répond généralement sous 24 heures"
+
+#~ msgid "Hey There, How can I help you?"
+#~ msgstr "Bonjour, comment puis-je vous aider ?"
+
+#~ msgid "About Us"
+#~ msgstr "À propos de nous"
+
+#~ msgid "Our Company<br>Koralcity Limited"
+#~ msgstr "Notre entreprise<br>Koralcity Limited"
+
+#~ msgid ""
+#~ "Koralcity Limited offers property owners, developers and buyers/renters a "
+#~ "viable housing market. Customers can source and connect with professional "
+#~ "agents for the most advanced and eco-friendly housing. Established in "
+#~ "2021, Koral City believes everyone deserves a home with the most advanced "
+#~ "technology and Eco-Friendly means. All lives matter."
+#~ msgstr ""
+#~ "Koralcity Limited offre aux propriétaires, promoteurs et acheteurs/"
+#~ "locataires un marché immobilier viable. Les clients peuvent trouver et "
+#~ "contacter des agents professionnels pour des logements modernes et "
+#~ "respectueux de l'environnement. Créée en 2021, Koral City estime que "
+#~ "chacun mérite un logement doté des technologies les plus avancées et de "
+#~ "solutions écoresponsables. Toutes les vies comptent."
+
+#~ msgid "Why you should choose us"
+#~ msgstr "Pourquoi nous choisir"
+
+#~ msgid "1. We offer land verification and authentication."
+#~ msgstr ""
+#~ "1. Nous proposons la vérification et l'authentification des terrains."
+
+#~ msgid "2. We sell, buy, and rent luxury properties at affordable rates."
+#~ msgstr ""
+#~ "2. Nous vendons, achetons et louons des biens de luxe à des tarifs "
+#~ "abordables."
+
+#~ msgid ""
+#~ "3. We offer a conducive platform for property owners to showcase their "
+#~ "services."
+#~ msgstr ""
+#~ "3. Nous offrons une plateforme adaptée aux propriétaires pour présenter "
+#~ "leurs services."
+
+#~ msgid ""
+#~ "4. We have well trained professionals as consultants, developers and "
+#~ "agents."
+#~ msgstr ""
+#~ "4. Nous disposons de professionnels bien formés : consultants, promoteurs "
+#~ "et agents."
+
+#~ msgid "5. We are budget friendly."
+#~ msgstr "5. Nous respectons votre budget."
+
+#~ msgid "Clients"
+#~ msgstr "Clients"
+
+#~ msgid "Apartments"
+#~ msgstr "Appartements"
+
+#~ msgid "Employees"
+#~ msgstr "Employés"
+
+#~ msgid "Meet Our Agents"
+#~ msgstr "Rencontrez nos agents"
+
+#~ msgid ""
+#~ "They provide one of the most professional, informative, loyal and "
+#~ "dedicated services<br> in the real estate industry. Client’s satisfaction "
+#~ "is their number one priority."
+#~ msgstr ""
+#~ "Ils fournissent l'un des services les plus professionnels, informatifs, "
+#~ "loyaux et dévoués<br> dans le secteur immobilier. La satisfaction du "
+#~ "client est leur priorité numéro un."
+
+#~ msgid "No Realtors Available"
+#~ msgstr "Aucun agent disponible"
+
+#~ msgid "Verification"
+#~ msgstr "Vérification"
+
+#~ msgid "Upload your documents and fill the contact form."
+#~ msgstr "Téléchargez vos documents et remplissez le formulaire de contact."
+
+#~ msgid "Phone Number"
+#~ msgstr "Numéro de téléphone"
+
+#~ msgid "Document File:"
+#~ msgstr "Fichier du document :"
+
+#~ msgid "Upload"
+#~ msgstr "Télécharger"
+
+#~ msgid "Return to home"
+#~ msgstr "Retour à l'accueil"
+
+#~ msgid "Find Your New<br>Modern Apartment"
+#~ msgstr "Trouvez votre nouvel<br>appartement moderne"
+
+#~ msgid "Keyword"
+#~ msgstr "Mot-clé"
+
+# Index & common
+#~ msgid "Search"
+#~ msgstr "Rechercher"
+
+#~ msgid "Buy"
+#~ msgstr "Acheter"
+
+#~ msgid "Sell"
+#~ msgstr "Vendre"
+
+#~ msgid "Scroll Down"
+#~ msgstr "Faire défiler"
+
+#~ msgid "More Than 500+<br>Apartments For Sale & Rent"
+#~ msgstr "Plus de 500+<br>appartements à vendre et à louer"
+
+#~ msgid "Consulting Services"
+#~ msgstr "Services de conseil"
+
+#~ msgid ""
+#~ "KoralCity Limited gives specialized investment and financial advice to "
+#~ "clients looking to buy, sell or invest in property. We'll work closely "
+#~ "with you throughout the process of buying and selling of your properties."
+#~ msgstr ""
+#~ "KoralCity Limited fournit des conseils spécialisés en investissement et "
+#~ "en finance aux clients souhaitant acheter, vendre ou investir dans "
+#~ "l'immobilier. Nous travaillerons en étroite collaboration avec vous tout "
+#~ "au long du processus d'achat et de vente de vos biens."
+
+#~ msgid "Property Management"
+#~ msgstr "Gestion immobilière"
+
+#~ msgid ""
+#~ "At KoralCity Limited, we handle the operations, maintenance, and "
+#~ "administration of properties rentals for the owners and also market "
+#~ "rentals rates at competitive price while complying with rental laws."
+#~ msgstr ""
+#~ "Chez KoralCity Limited, nous gérons les opérations, la maintenance et "
+#~ "l'administration des locations pour les propriétaires et commercialisons "
+#~ "les loyers à des tarifs compétitifs tout en respectant les lois en "
+#~ "vigueur."
+
+#~ msgid "Renting & Selling"
+#~ msgstr "Location et vente"
+
+#~ msgid ""
+#~ "Our property managers at KoralCity Limited set competitive rent prices "
+#~ "and strategies to attract clients to the property for rent or sell very "
+#~ "fast with the first impression on potential clients."
+#~ msgstr ""
+#~ "Nos gestionnaires immobiliers chez KoralCity Limited fixent des loyers "
+#~ "compétitifs et des stratégies pour attirer des clients afin de louer ou "
+#~ "vendre rapidement, en misant sur une première impression positive auprès "
+#~ "des prospects."
+
+#~ msgid "Explore Real Estate"
+#~ msgstr "Explorez l'immobilier"
+
+#~ msgid "Subscribe To Our Newsletter"
+#~ msgstr "Abonnez-vous à notre newsletter"
+
+#~ msgid "Become an agent"
+#~ msgstr "Devenir agent"
+
+#~ msgid "COMPANY"
+#~ msgstr "SOCIÉTÉ"
+
+#~ msgid "FAQ"
+#~ msgstr "FAQ"
+
+#~ msgid "Social"
+#~ msgstr "Réseaux sociaux"
+
+#~ msgid "PRODUCT"
+#~ msgstr "PRODUIT"
+
+# Accounts pages
+#~ msgid "How It Works"
+#~ msgstr "Comment ça marche ?"
+
+#~ msgid "SERVICES"
+#~ msgstr "SERVICES"
+
+#~ msgid "Blog"
+#~ msgstr "Blog"
+
+#~ msgid "inquiries@coralcity.com"
+#~ msgstr "inquiries@coralcity.com"

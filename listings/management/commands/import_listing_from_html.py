@@ -244,7 +244,7 @@ class Command(BaseCommand):
         dbg(f"Property type raw: {property_type_raw!r} -> mapped: {property_type!r}")
 
         # Bedrooms
-        bedrooms = parse_bedrooms_from_oda_sayisi(details.get("Oda Sayısı", "") or details.get("Oda Sayisi", ""))
+        bedrooms = (details.get("Oda Sayısı", "") or details.get("Oda Sayisi", "")).strip()
 
         # Bathrooms
         bathrooms = clean_int_from_text(details.get("Banyo Sayısı", "") or details.get("Banyo Sayisi", ""))

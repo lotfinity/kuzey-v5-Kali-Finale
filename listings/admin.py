@@ -8,7 +8,7 @@ from django.utils import timezone
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.core.management import call_command
-from .models import Listing, ListingImage, ListingImportJob
+from .models import AirbnbListing, CurrencySettings, Listing, ListingImage, ListingImportJob, ListingPhoneEntry, WhatsAppConversation, WhatsAppIdentityAlias, WhatsAppMessage
 from .importer import start_import_job_async
 from django.shortcuts import render, redirect
 from django.http import JsonResponse, Http404
@@ -21,6 +21,7 @@ except Exception:
     ACTION_CHECKBOX_NAME = '_selected_action'
 from imagetools.forms import BulkImageEditForm, LogoWatermarkForm
 from imagetools.utils import process_image, add_corner_triangle_to_file, add_logo_watermark_to_file
+from .choices import rentability_group_choices
 
 # Optional: django-image-uploader-widget integration (nice preview/replace UI)
 try:
@@ -44,6 +45,42 @@ else:
         class Meta:
             model = ListingImage
             fields = '__all__'
+
+
+class ListingAdminForm(forms.ModelForm):
+    rentability_groups = forms.MultipleChoiceField(
+        choices=rentability_group_choices.items(),
+        required=False,
+        widget=forms.CheckboxSelectMultiple,
+        label=_('Rentability groups'),
+        help_text=_('Select every renter profile this apartment fits.'),
+    )
+
+    class Meta:
+        model = Listing
+        fields = '__all__'
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if self.instance and self.instance.pk:
+            self.initial['rentability_groups'] = self.instance.rentability_group_values
+
+    def clean_rentability_groups(self):
+        return ','.join(self.cleaned_data.get('rentability_groups') or [])
+
+
+class RentabilityGroupFilter(admin.SimpleListFilter):
+    title = _('Rentability group')
+    parameter_name = 'rentability_group'
+
+    def lookups(self, request, model_admin):
+        return tuple(rentability_group_choices.items())
+
+    def queryset(self, request, queryset):
+        value = self.value()
+        if value:
+            return queryset.filter(rentability_groups__contains=value)
+        return queryset
 
 class ListingImageInline(admin.TabularInline):
     model = ListingImage
@@ -73,16 +110,17 @@ class ListingImageInline(admin.TabularInline):
 
 
 class ListingAdmin(ImportExportModelAdmin):
+    form = ListingAdminForm
     list_display = (
         'id', 'title', 'is_published', 'deal_type_label', 'price', 'list_date', 'realtor',
-        'external_id', 'original_url_link'
+        'rentability_groups_label', 'external_id', 'original_url_link'
     )
     list_display_links = ('id' , 'title')
-    list_filter = ('realtor', 'city','state' )
+    list_filter = ('realtor', 'city', 'state', RentabilityGroupFilter)
     list_editable = ('is_published',)
     search_fields = (
         'title','description','address','city','state','zipcode','price',
-        'external_id','original_url'
+        'external_id','original_url','rentability_groups'
     )
     list_per_page = 15
     inlines = [ListingImageInline]
@@ -95,6 +133,12 @@ class ListingAdmin(ImportExportModelAdmin):
             return getattr(obj, 'deal_type', '')
     deal_type_label.short_description = _('Deal type')
     deal_type_label.admin_order_field = 'deal_type'
+
+    def rentability_groups_label(self, obj):
+        labels = obj.rentability_group_labels
+        return ', '.join(labels) if labels else '-'
+    rentability_groups_label.short_description = _('Rentability groups')
+    rentability_groups_label.admin_order_field = 'rentability_groups'
 
     def delete_all_images(self, request, queryset):
         total = 0
@@ -120,6 +164,80 @@ class ListingAdmin(ImportExportModelAdmin):
 
 # Register your models here.
 admin.site.register(Listing , ListingAdmin)
+
+
+@admin.register(CurrencySettings)
+class CurrencySettingsAdmin(admin.ModelAdmin):
+    list_display = ('try_to_usd', 'try_to_eur', 'try_to_dzd', 'updated_at')
+    fieldsets = (
+        (_('Manual exchange rates'), {
+            'fields': ('try_to_usd', 'try_to_eur', 'try_to_dzd'),
+            'description': _('Rates are stored as the value of 1 Turkish Lira in the target currency. DZD defaults to 1 TL = 5 DZD.'),
+        }),
+    )
+
+    def has_add_permission(self, request):
+        return not CurrencySettings.objects.exists()
+
+
+@admin.register(AirbnbListing)
+class AirbnbListingAdmin(admin.ModelAdmin):
+    list_display = (
+        'id', 'listing_id', 'title', 'property_type', 'nightly_rate', 'currency',
+        'overall_rating', 'review_count', 'rank', 'source_destination_query', 'scraped_at',
+    )
+    list_filter = (
+        'source_destination_query', 'property_type', 'currency', 'is_superhost',
+        'is_guest_favorite', 'is_available', 'scraped_at',
+    )
+    search_fields = (
+        'listing_id', 'title', 'tagline', 'property_type', 'city', 'full_address',
+        'location', 'host_name', 'listing_url',
+    )
+    readonly_fields = ('created_at', 'updated_at', 'scraped_at', 'details_scraped_at')
+    ordering = ('rank', '-overall_rating', 'title')
+
+    def has_add_permission(self, request):
+        return False
+
+
+@admin.register(ListingPhoneEntry)
+class ListingPhoneEntryAdmin(admin.ModelAdmin):
+    list_display = (
+        'id', 'external_id', 'listing', 'phone_normalized', 'status', 'source', 'scraped_at', 'updated_at',
+    )
+    list_filter = ('status', 'source', 'scraped_at', 'updated_at')
+    search_fields = ('external_id', 'phone_normalized', 'phone_raw', 'listing__title', 'error')
+    readonly_fields = ('created_at', 'updated_at')
+
+
+@admin.register(WhatsAppConversation)
+class WhatsAppConversationAdmin(admin.ModelAdmin):
+    list_display = ('id', 'listing', 'display_name', 'phone_number', 'chat_id', 'session', 'last_synced_at', 'updated_at')
+    list_filter = ('session', 'updated_at')
+    search_fields = ('listing__title', 'phone_number', 'chat_id', 'display_name')
+    readonly_fields = ('created_at', 'updated_at')
+
+
+@admin.register(WhatsAppIdentityAlias)
+class WhatsAppIdentityAliasAdmin(admin.ModelAdmin):
+    list_display = ('id', 'conversation', 'alias', 'canonical_id', 'phone_number', 'session', 'source', 'updated_at')
+    list_filter = ('session', 'source', 'updated_at')
+    search_fields = ('alias', 'canonical_id', 'phone_number', 'conversation__chat_id', 'conversation__listing__title')
+    readonly_fields = ('created_at', 'updated_at')
+
+
+@admin.register(WhatsAppMessage)
+class WhatsAppMessageAdmin(admin.ModelAdmin):
+    list_display = ('id', 'conversation', 'direction', 'message_type', 'short_body', 'sent_at', 'created_at')
+    list_filter = ('direction', 'message_type', 'sent_at')
+    search_fields = ('body', 'waha_message_id', 'sender', 'conversation__chat_id', 'conversation__listing__title')
+    readonly_fields = ('created_at',)
+
+    def short_body(self, obj):
+        body = (obj.body or '').replace('\n', ' ').strip()
+        return body[:80] + ('...' if len(body) > 80 else '')
+    short_body.short_description = _('Message')
 
 
  

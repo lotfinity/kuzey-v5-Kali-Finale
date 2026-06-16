@@ -304,7 +304,7 @@ msgstr "Er zijn geen resultaten die bij je zoekopdracht passen"
 #: templates/listings/listings.html:22 templates/newfrontend/base.html:136
 #: templates/newfrontend/properties.html:12
 #: templates/newfrontend/properties.html:13 templates/partials/_navbar.html:45
-msgid "Properties"
+msgid "Opportunities"
 msgstr "Woningen"
 
 #: templates/listings/listing.html:20

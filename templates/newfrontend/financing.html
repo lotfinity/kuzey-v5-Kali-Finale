@@ -128,7 +128,7 @@
                     <img src="{{ listing.photo_main.url }}" alt="{{ listing.title }}">
                   </a>
                   <span class="category">{{ listing.property_type }}</span>
-                  <h6>₺{{ listing.price|intcomma }}</h6>
+                  <h6 class="counter price-popup-trigger" role="button" title="{% trans "Click to convert this price" %}" data-price-try="{{ listing.price }}">₺{{ listing.price|intcomma }}</h6>
                   <h4>
                     <a href="{% url 'new_listing_detail' listing.id %}">{{ listing.title }}</a>
                   </h4>

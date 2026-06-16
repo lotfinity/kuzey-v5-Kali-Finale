@@ -1,5 +1,8 @@
 aniso8601==7.0.0
 asgiref==3.10.0
+channels==4.3.2
+channels_redis==4.3.0
+daphne==4.2.2
 defusedxml==0.7.1
 diff-match-patch==20241021
 dj-database-url==0.5.0
@@ -9,6 +12,7 @@ django-import-export==3.3.8
 et_xmlfile==2.0.0
 geographiclib==2.1
 geopy==2.4.1
+litellm==1.88.1
 graphene==3.4.3
 graphene-django==3.2.3
 graphql-core==3.2.7

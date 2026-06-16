@@ -1,0 +1,24 @@
+{
+  "status": 400,
+  "url": "https://airbnb-scraper-api.omkar.cloud/airbnb/listings/search?destination_query=Esenyurt%2C+Istanbul%2C+Turkey&arrival_date=2026-07-01&departure_date=2026-07-31&adult_guests=2&page_number=1&currency_code=TRY",
+  "request_params": {
+    "destination_query": "Esenyurt, Istanbul, Turkey",
+    "arrival_date": "2026-07-01",
+    "departure_date": "2026-07-31",
+    "adult_guests": 2,
+    "page_number": 1,
+    "currency_code": "TRY"
+  },
+  "response_headers": {
+    "X-Powered-By": "Express",
+    "Content-Type": "application/json; charset=utf-8",
+    "Content-Length": "47",
+    "date": "Sat, 13 Jun 2026 16:26:13 GMT",
+    "server": "My_App",
+    "ETag": "W/\"2f-auBEin05rCPuQDin2k319NOeFHw\"",
+    "Vary": "Accept-Encoding",
+    "Via": "1.1 google",
+    "Alt-Svc": "h3=\":443\"; ma=2592000"
+  },
+  "output_file": "api_samples/airbnb_search_esenyurt_july_2026_2_adults_try.json"
+}

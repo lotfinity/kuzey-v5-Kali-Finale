@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Redirecting…</title>
-  <meta http-equiv="refresh" content="0; url=en/new/">
+  <meta http-equiv="refresh" content="0; url=fr/new/">
   <style>
     body { font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif; padding: 2rem; color: #111; }
     a { color: #2563eb; text-decoration: none; }
@@ -12,14 +12,15 @@
   </style>
   <script>
     (function(){
-      // Prefer a JS redirect for speed; fallback via meta refresh + link
-      var target = 'en/new/';
+      var supported = {"en":"en","tr":"tr","fr":"fr","es":"es","it":"it","pl":"pl","pt":"pt","hu":"hu","ru":"ru","ar":"ar","de":"de","bg":"bg","nl":"nl"};
+      var lang = (navigator.language || navigator.userLanguage || 'fr').split('-')[0];
+      var target = (supported[lang] || 'fr') + '/new/';
       try { window.location.replace(target); } catch (e) { window.location.href = target; }
     })();
   </script>
 </head>
 <body>
-  <p>Redirecting to the English site… <a href="en/new/">Click here if you are not redirected.</a></p>
+  <p>Redirecting… <a href="fr/new/">Click here if you are not redirected.</a></p>
 </body>
 </html>
 

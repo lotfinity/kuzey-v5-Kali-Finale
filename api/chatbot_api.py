@@ -283,20 +283,12 @@ def chatbot_listings_search(request: HttpRequest) -> JsonResponse:
     except (ValueError, TypeError):
         pass
     
-    # Bedroom Range
+    # Bedroom filter (exact match on text like "1+0", "2+1")
     try:
-        min_bedrooms = request.GET.get('min_bedrooms')
-        if min_bedrooms:
-            qs = qs.filter(bedrooms__gte=int(min_bedrooms))
-            filters_applied['min_bedrooms'] = int(min_bedrooms)
-    except (ValueError, TypeError):
-        pass
-    
-    try:
-        max_bedrooms = request.GET.get('max_bedrooms')
-        if max_bedrooms:
-            qs = qs.filter(bedrooms__lte=int(max_bedrooms))
-            filters_applied['max_bedrooms'] = int(max_bedrooms)
+        bedrooms = request.GET.get('bedrooms', '').strip()
+        if bedrooms:
+            qs = qs.filter(bedrooms=bedrooms)
+            filters_applied['bedrooms'] = bedrooms
     except (ValueError, TypeError):
         pass
     
@@ -575,9 +567,8 @@ def chatbot_listings_stats(request: HttpRequest) -> JsonResponse:
         min_sqft=Min('sqft'),
         max_sqft=Max('sqft'),
         avg_sqft=Avg('sqft'),
-        min_bedrooms=Min('bedrooms'),
-        max_bedrooms=Max('bedrooms'),
     )
+    bedroom_values = sorted(qs.values_list('bedrooms', flat=True).distinct())
     
     # Count by deal type
     by_deal_type = list(
@@ -646,8 +637,7 @@ def chatbot_listings_stats(request: HttpRequest) -> JsonResponse:
                 'avg_sqft': round(stats['avg_sqft']) if stats['avg_sqft'] else None,
             },
             'bedrooms': {
-                'min': stats['min_bedrooms'],
-                'max': stats['max_bedrooms'],
+                'values': bedroom_values,
                 'distribution': by_bedrooms,
             },
             'by_deal_type': by_deal_type,

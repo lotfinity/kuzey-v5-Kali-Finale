@@ -1,0 +1,87 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-06-14 01:03+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+#: baton/config.py:9
+msgid "Site administration"
+msgstr ""
+
+#: baton/config.py:10
+msgid "Menu"
+msgstr ""
+
+#: baton/fields.py:86
+msgid "Drag the circle or click on the image to set the image subject"
+msgstr ""
+
+#: baton/models.py:5
+msgid "id"
+msgstr ""
+
+#: baton/models.py:6
+msgid "name"
+msgstr ""
+
+#: baton/models.py:7
+msgid "theme"
+msgstr ""
+
+#: baton/models.py:8
+msgid "active"
+msgstr ""
+
+#: baton/models.py:20
+msgid "admin theme"
+msgstr ""
+
+#: baton/models.py:21
+msgid "admin themes"
+msgstr ""
+
+#: baton/templates/admin/base_site.html:6
+msgid "Django site admin"
+msgstr ""
+
+#: baton/templates/admin/base_site.html:35
+msgid "Django administration"
+msgstr ""
+
+#: baton/templates/admin/filer/folder/directory_listing.html:4
+msgid "Folders"
+msgstr ""
+
+#: baton/templates/admin/filter.html:2
+#: baton/templates/baton/filters/dropdown_filter.html:6
+#: baton/templates/baton/filters/input_filter.html:4
+#: baton/templates/baton/filters/multiple_choice_filter.html:2
+#, python-format
+msgid " By %(filter_title)s "
+msgstr ""
+
+#: baton/templates/baton/ai_stats.html:13
+msgid "Something went wrong"
+msgstr ""
+
+#: baton/templates/baton/filters/input_filter.html:18
+#: baton/templates/baton/filters/input_filter.html:31
+msgid "type and press enter..."
+msgstr ""
+
+#: baton/templates/baton/filters/input_filter.html:22
+msgid "Reset"
+msgstr ""

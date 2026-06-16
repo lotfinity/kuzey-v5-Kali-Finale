@@ -1847,3 +1847,67 @@ body {
     margin-right: 100px;
   }
 }
+
+@media (max-width: 576px) {
+  .properties .item {
+    padding: 16px;
+  }
+  .properties .item img {
+    width: 100%;
+    height: auto;
+  }
+  .properties .item h4 {
+    font-size: 16px;
+    margin: 16px 0px;
+  }
+  .properties .item h6 {
+    font-size: 17px;
+    float: none;
+    display: block;
+    text-align: left;
+    margin-top: 0px;
+    margin-bottom: 12px;
+  }
+  .properties .item ul li {
+    display: block;
+    margin-right: 0;
+    padding: 6px 0;
+    font-size: 14px;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  .properties .item ul li:last-child {
+    border-bottom: none;
+  }
+  .properties .item ul li span {
+    float: right;
+    font-size: 14px;
+  }
+  .properties .item ul {
+    padding-bottom: 16px;
+    margin-bottom: 16px;
+  }
+  .properties .item span.category {
+    font-size: 12px;
+    padding: 4px 10px;
+    margin-top: 14px;
+  }
+  .properties .item .main-button a {
+    font-size: 13px;
+    padding: 10px 20px;
+  }
+}
+
+@media (max-width: 400px) {
+  .properties .item {
+    padding: 12px;
+  }
+  .properties .item h4 {
+    font-size: 15px;
+  }
+  .properties .item h6 {
+    font-size: 15px;
+  }
+  .properties .item ul li {
+    font-size: 13px;
+  }
+}

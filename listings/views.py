@@ -3,28 +3,168 @@ from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from django.http import HttpResponse, JsonResponse
 from django.conf import settings
 from django.views.decorators.clickjacking import xframe_options_exempt
+from django.db.models import Min, Max
 import re, json
-from django.templatetags.static import static
+import urllib.request
+from urllib.error import HTTPError, URLError
 
-from listings.choices import price_choices , bedroom_choices , state_choices, type_choices
+from listings.choices import price_choices , bedroom_choices , state_choices, type_choices, rentability_group_choices
 
-from .models import Listing
+from .models import AirbnbListing, Listing
+from .investor import DEFAULT_INVESTOR_SETTINGS, airbnb_comp_records, build_investor_summary, investor_settings_from_request, score_listing
+
+EXTERNAL_AMENITIES_BASE = 'http://100.89.48.48:8006/map/amenities/'
 
 # Create your views here
+def sort_listings_for_index(listings, sort='best'):
+    sort = (sort or 'best').strip()
+    sort_options = {
+        'price_asc': 'price',
+        'price_desc': '-price',
+        'size_asc': 'm2_gross',
+        'size_desc': '-m2_gross',
+        'date_asc': 'list_date',
+        'date_desc': '-list_date',
+    }
+    if sort != 'best':
+        return listings.order_by(sort_options.get(sort, '-list_date')), sort
+
+    comps = airbnb_comp_records()
+    scored = []
+    for listing in listings:
+        try:
+            score = score_listing(listing, comps, DEFAULT_INVESTOR_SETTINGS)["risk_adjusted_score"]
+        except Exception:
+            score = 0
+        scored.append((score, listing.price or 0, listing))
+    return [item[2] for item in sorted(scored, key=lambda item: (item[0], -item[1]), reverse=True)], 'best'
+
+
 def index(request):
-	listings = Listing.objects.all().order_by('-list_date').filter(is_published=True)
-	paginator = Paginator(listings, 12)
-	page = request.GET.get('page')
-	paged_listings = paginator.get_page(page)
-	return render(request,'listings/listings.html',{'listings' : paged_listings})
+	return new_properties(request)
 
 
-def new_properties(request, page=None):
-    """Render the new frontend properties page with the same listings data/pagination."""
-    listings = Listing.objects.all().order_by('-list_date').filter(is_published=True)
+def home_wizard(request):
+    """Landing page: one-time wizard (lang → currency → theme) then stats dashboard."""
+    wizard_cookie = request.COOKIES.get('kuzey_wizard')
+
+    if wizard_cookie and request.method == 'GET':
+        try:
+            prefs = json.loads(wizard_cookie)
+        except (json.JSONDecodeError, TypeError):
+            prefs = None
+        if prefs and all(k in prefs for k in ('lang', 'currency', 'theme')):
+            listings = Listing.objects.filter(is_published=True)
+            total = listings.count()
+            stats = listings.aggregate(
+                smallest_m2=Min('m2_gross'),
+                biggest_m2=Max('m2_gross'),
+                cheapest=Min('price'),
+                most_expensive=Max('price'),
+            )
+            under_125 = listings.filter(price__lte=1250000).count()
+            over_125 = listings.filter(price__gte=1250000).count()
+
+            return render(request, 'newfrontend/index.html', {
+                'wizard_done': True,
+                'total_listings': total,
+                'stats': stats,
+                'under_125_count': under_125,
+                'over_125_count': over_125,
+                'wizard_prefs': prefs,
+            })
+
+    if request.method == 'POST':
+        lang = request.POST.get('language', settings.LANGUAGE_CODE)
+        currency = request.POST.get('currency', 'TRY')
+        theme = request.POST.get('theme', 'dark')
+
+        wizard_data = json.dumps({'lang': lang, 'currency': currency, 'theme': theme})
+        response = redirect('home_wizard')
+        response.set_cookie('kuzey_wizard', wizard_data, max_age=365*24*3600, path='/')
+        return response
+
+    return render(request, 'newfrontend/index.html', {
+        'wizard_done': False,
+    })
+
+
+def rewrite_external_tile_layer(html):
+    if 'tile.openstreetmap.org' not in html.lower():
+        return html
+    html = html.replace(
+        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+        "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png"
+    )
+    html = html.replace(
+        "© OpenStreetMap contributors",
+        "© OpenStreetMap contributors, © CARTO"
+    )
+    # Ensure the tile layer sends a browser referrer if supported by Leaflet
+    html = re.sub(
+        r"(L\.tileLayer\([^,]+,\s*\{)([\s\S]*?)(\}\))",
+        lambda m: m.group(1) + "\n            referrerPolicy: 'no-referrer-when-downgrade'," + m.group(2) + m.group(3),
+        html,
+        count=1
+    )
+    return html
+
+
+def fetch_external_amenities_html(listing):
+    if listing.latitude is None or listing.longitude is None:
+        return None
+    url = f"{EXTERNAL_AMENITIES_BASE}?q={listing.latitude},{listing.longitude}"
+    try:
+        req = urllib.request.Request(url, headers={
+            'User-Agent': 'CoralCity/1.0',
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+        })
+        with urllib.request.urlopen(req, timeout=15) as resp:
+            if resp.status != 200:
+                return None
+            content_type = resp.headers.get('Content-Type', '')
+            if 'text/html' not in content_type.lower():
+                return None
+            charset = resp.headers.get_content_charset('utf-8')
+            html = resp.read().decode(charset, errors='replace')
+            return rewrite_external_tile_layer(html)
+    except (HTTPError, URLError, TimeoutError, ValueError):
+        return None
+
+
+def new_properties(request, page=None, min_price=None, max_price=None, bedrooms=None, rentability_group=None):
+    """Render the new frontend properties page with sorting toggles.
+
+    Optional URL kwargs act as default filter values (used by prefiltered routes like
+    /opportunities/under-1.25m/), overridden by explicit GET parameters.
+    """
+    listings = Listing.objects.filter(is_published=True)
+
+    # --- Prefiltered URL kwargs (used by prefiltered routes) ---
+    min_price = request.GET.get('min_price', min_price or '').strip()
+    max_price = request.GET.get('max_price', max_price or '').strip()
+    bedrooms = request.GET.get('bedrooms', bedrooms or '').strip()
+    rentability_group = request.GET.get('rentability_group', rentability_group or '').strip()
+
+    if min_price:
+        try:
+            listings = listings.filter(price__gte=int(min_price))
+        except ValueError:
+            pass
+    if max_price:
+        try:
+            listings = listings.filter(price__lte=int(max_price))
+        except ValueError:
+            pass
+    if bedrooms:
+        listings = listings.filter(bedrooms=bedrooms)
+    if rentability_group in rentability_group_choices:
+        listings = listings.filter(rentability_groups__contains=rentability_group)
+
+    sort = request.GET.get('sort', 'best').strip()
+    listings, sort = sort_listings_for_index(listings, sort)
+
     paginator = Paginator(listings, 12)
-    # Accept page from path or querystring for flexibility (works in static and dynamic)
-    # Resolve page number robustly (tolerate None/invalid/zero)
     raw = page if page is not None else request.GET.get('page')
     try:
         page_num = int(raw) if raw is not None else 1
@@ -33,81 +173,40 @@ def new_properties(request, page=None):
     if page_num < 1:
         page_num = 1
     paged_listings = paginator.get_page(page_num)
-    return render(request, 'newfrontend/properties.html', {'listings': paged_listings})
+
+    db_bedrooms = sorted(Listing.objects.filter(is_published=True).values_list('bedrooms', flat=True).distinct())
+    price_agg = Listing.objects.filter(is_published=True).aggregate(lo=Min('price'), hi=Max('price'))
+    price_min = price_agg['lo'] or 0
+    price_max = price_agg['hi'] or 0
+
+    qd = request.GET.copy()
+    if 'page' in qd:
+        del qd['page']
+    sort_qd = qd.copy()
+    if 'sort' in sort_qd:
+        del sort_qd['sort']
+    querystring = qd.urlencode()
+    sort_query_base = sort_qd.urlencode()
+
+    return render(request, 'newfrontend/properties.html', {
+        'listings': paged_listings,
+        'values': request.GET,
+        'bedroom_choices': db_bedrooms,
+        'rentability_group_choices': rentability_group_choices,
+        'price_min': price_min,
+        'price_max': price_max,
+        'sort': sort,
+        'querystring': querystring,
+        'sort_query_base': sort_query_base,
+    })
 
 
 def new_listing_detail(request, listing_id):
         listing = get_object_or_404(Listing, pk=listing_id)
-        # Attempt to embed the pre-generated map HTML directly (without iframe)
-        from django.template.loader import select_template
+        # Keep generated map HTML isolated. The map snippets include page-level
+        # html/body CSS for standalone use, so inlining them can lock scrolling
+        # on the listing detail page.
         map_embed_html = None
-        try:
-            t = select_template([
-                f'newfrontend/maps/listing_{listing_id}_map_only.html',
-                f'newfrontend/maps/listing_{listing_id}.html',
-            ])
-            raw = t.render({}, request)
-            # Extract <body>...</body> content if present to avoid nested HTML tags
-            low = raw.lower()
-            b0 = low.find('<body')
-            if b0 != -1:
-                # find end of <body ...>
-                b_tag_end = low.find('>', b0)
-                b1 = b_tag_end + 1 if b_tag_end != -1 else b0
-                b2 = low.rfind('</body>')
-                if b2 != -1 and b2 > b1:
-                    snippet = raw[b1:b2]
-                else:
-                    snippet = raw
-            else:
-                snippet = raw
-
-            # Inject Leaflet CSS so body-only map HTML renders correctly when inlined
-            leaflet_css_url = static('newfront/vendor/leaflet/leaflet.css')
-            leaflet_js_url = static('newfront/vendor/leaflet/leaflet.js')
-            inject_css = """
-    <link rel=\"stylesheet\" href=\"{leaflet_css_url}\">
-    <style>
-      .map-guide-toggle { position:absolute; left:10px; bottom:10px; z-index:1001; border:0; padding:8px 10px; border-radius:9999px; background:#fff; color:#111827; box-shadow:0 2px 10px rgba(0,0,0,.15); cursor:pointer; font-size:12px; }
-      .map-guide-toggle:hover { background:#f3f4f6; }
-      .map-guide-panel { position:absolute; left:10px; bottom:56px; z-index:1001; background:#fff; border-radius:10px; padding:10px 12px; box-shadow:0 8px 24px rgba(0,0,0,.15); max-width:280px; display:none; }
-      .map-guide-row { display:flex; align-items:center; gap:8px; margin:6px 0; font-size:13px; color:#111827; }
-      .map-guide-dot { width:10px; height:10px; border-radius:50%; flex:0 0 auto; }
-    </style>
-    """
-            # Ensure Leaflet JS exists when inlining map-only snippets
-            inject_js = """
-    <script src=\"{leaflet_js_url}\" onerror=\"window.__leafletLocalFailed=true\"></script>
-    <script>if(!window.L){{document.write('<script src=\\'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js\\'>\\x3C/script>');}}</script>
-    <script>(function(){
-      function ready(fn){ if(document.readyState!=='loading'){ fn(); } else { document.addEventListener('DOMContentLoaded', fn); } }
-      ready(function(){
-        try{
-          var mapEl = document.getElementById('map');
-          if(!mapEl) return; if(mapEl.querySelector('.map-guide-toggle')) return;
-          mapEl.style.position = mapEl.style.position || 'relative';
-          var btn = document.createElement('button'); btn.type='button'; btn.className='map-guide-toggle'; btn.textContent='Map guide';
-          var panel = document.createElement('div'); panel.className='map-guide-panel';
-          panel.innerHTML = [
-            '<div class="map-guide-row"><span class="map-guide-dot" style="background:#1d4ed8"></span> Listing location</div>',
-            '<div class="map-guide-row"><span class="map-guide-dot" style="background:#dc2626"></span> Metrobus stop</div>',
-            '<div class="map-guide-row"><span class="map-guide-dot" style="background:#16a34a"></span> Bus stop</div>',
-            '<div class="map-guide-row"><span class="map-guide-dot" style="background:#f59e0b"></span> Grocery</div>',
-            '<div class="map-guide-row"><span class="map-guide-dot" style="background:#8b5cf6"></span> Clothing store</div>',
-            '<div class="map-guide-row"><span class="map-guide-dot" style="background:#0ea5e9"></span> Taxi stand</div>',
-            '<div class="map-guide-row"><span class="map-guide-dot" style="background:#6b7280"></span> Minibus line</div>',
-            '<div class="map-guide-row"><span class="map-guide-dot" style="background:#22c55e"></span> Bicycle path</div>'
-          ].join('');
-          btn.addEventListener('click', function(){ panel.style.display = (panel.style.display==='none'||!panel.style.display) ? 'block' : 'none'; });
-          panel.style.display='none';
-          mapEl.appendChild(btn); mapEl.appendChild(panel);
-        }catch(e){}
-      });
-    })();</script>
-    """
-            map_embed_html = snippet
-        except Exception:
-            map_embed_html = None
 
         return render(request, 'newfrontend/property-details.html', {'listing': listing, 'map_embed_html': map_embed_html})
 
@@ -133,7 +232,7 @@ def new_property_details_preview(request):
             city="Istanbul",
             state="TR",
             price=0,
-            bedrooms=0,
+            bedrooms="",
             bathrooms=0,
             m2_gross=None,
             m2_net=None,
@@ -157,6 +256,7 @@ def new_property_details_preview(request):
             external_id=None,
             ad_date=None,
             list_date=None,
+            rentability_group_labels=[],
             visible_images=[],
         )
     return render(request, 'newfrontend/property-details.html', {'listing': listing})
@@ -190,7 +290,7 @@ def search(request):
 	if 'bedrooms' in request.GET:
 		bedrooms = request.GET['bedrooms']
 		if bedrooms:
-			queryset_list = queryset_list.filter(bedrooms__lte=bedrooms)
+			queryset_list = queryset_list.filter(bedrooms=bedrooms)
 
 	if 'price' in request.GET:
 		price = request.GET['price']
@@ -243,7 +343,7 @@ def map_data(request):
 
     bedrooms = request.GET.get('bedrooms')
     if bedrooms:
-        qs = qs.filter(bedrooms__lte=bedrooms)
+        qs = qs.filter(bedrooms=bedrooms)
 
     price = request.GET.get('price')
     if price:
@@ -277,8 +377,19 @@ def map_data(request):
             "id": obj.id,
             "title": obj.title,
             "price": obj.price,
+            "estimated_monthly_rent": obj.estimated_rent,
+            "estimated_monthly_rent_try": obj.estimated_monthly_rent_try,
+            "rent_estimate_source": obj.rent_estimate_source,
+            "rent_estimate_updated_at": obj.rent_estimate_updated_at.isoformat() if obj.rent_estimate_updated_at else None,
+            "airbnb_comp_count": obj.airbnb_comp_count,
+            "airbnb_comp_median": obj.airbnb_comp_median_try,
             "bedrooms": obj.bedrooms,
             "bathrooms": obj.bathrooms,
+            "property_type": obj.property_type,
+            "deal_type": obj.deal_type,
+            "rooms_text": obj.rooms_text,
+            "m2_net": obj.m2_net,
+            "m2_gross": obj.m2_gross,
             "city": obj.city,
             "state": obj.state,
             "address": obj.address,
@@ -315,14 +426,106 @@ def map_data(request):
     return JsonResponse(resp)
 
 
+def airbnb_map_data(request):
+    qs = AirbnbListing.objects.exclude(latitude__isnull=True).exclude(longitude__isnull=True)
+
+    destination = request.GET.get('destination') or 'Esenyurt, Istanbul, Turkey'
+    if destination:
+        qs = qs.filter(source_destination_query__iexact=destination)
+
+    def _valid_coord(lat, lng):
+        try:
+            latf = float(lat)
+            lngf = float(lng)
+        except (TypeError, ValueError):
+            return False
+        return -90.0 <= latf <= 90.0 and -180.0 <= lngf <= 180.0 and not (latf == 0.0 and lngf == 0.0)
+
+    features = []
+    skipped_invalid = 0
+    for obj in qs.order_by('rank', '-overall_rating', 'title'):
+        if not _valid_coord(obj.latitude, obj.longitude):
+            skipped_invalid += 1
+            continue
+        price = obj.total_cost if obj.total_cost is not None else obj.nightly_rate
+        properties = {
+            "id": obj.listing_id,
+            "source": "airbnb",
+            "title": obj.title,
+            "tagline": obj.tagline,
+            "price": float(price) if price is not None else None,
+            "nightly_rate": float(obj.nightly_rate) if obj.nightly_rate is not None else None,
+            "total_cost": float(obj.total_cost) if obj.total_cost is not None else None,
+            "currency": obj.currency or "USD",
+            "price_qualifier": "July stay",
+            "property_type": obj.property_type,
+            "bedrooms": obj.bedroom_count,
+            "bathrooms": float(obj.bathroom_count) if obj.bathroom_count is not None else None,
+            "bed_count": obj.bed_count,
+            "guest_capacity": obj.guest_capacity,
+            "rooms_text": "",
+            "city": obj.city,
+            "state": obj.location or obj.full_address,
+            "address": obj.full_address or obj.location,
+            "listing_url": obj.listing_url,
+            "booking_url": obj.booking_url or obj.listing_url,
+            "url": obj.booking_url or obj.listing_url,
+            "photos": obj.photos or [],
+            "overall_rating": float(obj.overall_rating) if obj.overall_rating is not None else None,
+            "review_count": obj.review_count,
+            "is_superhost": obj.is_superhost,
+            "is_guest_favorite": obj.is_guest_favorite,
+            "is_rare_find": obj.is_rare_find,
+            "rank": obj.rank,
+            "pricing": obj.pricing or {},
+        }
+        features.append({
+            "type": "Feature",
+            "geometry": {
+                "type": "Point",
+                "coordinates": [float(obj.longitude), float(obj.latitude)],
+            },
+            "properties": properties,
+        })
+
+    resp = {
+        "type": "FeatureCollection",
+        "features": features,
+        "total_results": qs.count(),
+    }
+    if skipped_invalid:
+        resp["skipped_invalid"] = skipped_invalid
+    return JsonResponse(resp)
+
+
 def new_map_view(request):
 	"""Render the new frontend map page."""
 	return render(request, 'newfrontend/map.html')
 
 
+def investor_medical_rentals(request):
+    """Render the private investor decision dashboard."""
+    return render(request, 'newfrontend/investor_medical_rentals.html')
+
+
+def investor_medical_rentals_summary(request):
+    """JSON summary for the investor decision dashboard."""
+    return JsonResponse(build_investor_summary(investor_settings_from_request(request)))
+
+
+def new_maplibre_view(request):
+	"""Render the experimental MapLibre frontend map page."""
+	return render(request, 'newfrontend/maplibre.html')
+
+
 def new_map_view_copy(request):
 	"""Render the duplicate new frontend map page."""
 	return render(request, 'newfrontend/map_copy.html')
+
+
+def whatsapp_inbox(request):
+    """Standalone WhatsApp conversation workspace for hunt-related messages."""
+    return render(request, 'newfrontend/whatsapp_inbox.html')
 
 
 @xframe_options_exempt
@@ -342,6 +545,14 @@ def listing_map_embed(request, listing_id: int):
         ])
     except Exception:
         print(f"[map-embed] No template found for listing_id={listing_id}")
+        listing = get_object_or_404(Listing, pk=listing_id)
+        external_html = fetch_external_amenities_html(listing)
+        if external_html:
+            response = HttpResponse(external_html)
+            response['Cross-Origin-Opener-Policy'] = 'unsafe-none'
+            response['X-Map-Embed'] = 'proxy-external-amenities'
+            response['X-Map-Embed-Source'] = 'external_amenities'
+            return response
         return render(request, 'newfrontend/page-404.html', status=404)
     # Try to log selected template name for visibility
     try:

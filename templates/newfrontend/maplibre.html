@@ -1,0 +1,75 @@
+{% extends 'newfrontend/base.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}{% trans "Carte MapLibre" %}{% endblock %}
+{% block nav_map_active %}active{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="https://unpkg.com/maplibre-gl@^5.24.0/dist/maplibre-gl.css">
+<link rel="stylesheet" href="{% static 'newfront/assets/css/maplibre-map.css' %}">
+{% endblock %}
+
+{% block content %}
+<section
+  class="ml-page"
+  id="maplibre-app"
+  data-listings-url="{% url 'listings:map_data' %}"
+  data-airbnb-url="{% url 'listings:airbnb_map_data' %}"
+  data-lang-prefix="/{{ LANGUAGE_CODE }}/"
+  aria-label="{% trans 'Carte expérimentale MapLibre' %}"
+>
+  <div class="ml-shell" id="ml-shell">
+    <aside class="ml-sidebar" id="ml-sidebar" aria-label="{% trans 'Annonces sur la carte' %}">
+      <div class="ml-sidebar-head">
+        <div class="ml-kicker"><i class="fa fa-diamond"></i>{% trans "Prototype MapLibre" %}</div>
+        <h1>{% trans "Explorer Esenyurt avec rendu WebGL" %}</h1>
+        <p>{% trans "Même données, rendu plus léger: clusters natifs, sélection à la demande et comparaison Airbnb." %}</p>
+      </div>
+
+      <div class="ml-selected" id="ml-selected" aria-live="polite"></div>
+      <div class="ml-list" id="ml-list" aria-live="polite"></div>
+    </aside>
+
+    <div class="ml-map-area">
+      <div class="ml-topbar">
+        <div class="ml-tools" role="group" aria-label="{% trans 'Commandes de carte' %}">
+          <button type="button" class="ml-icon-btn" id="ml-fit" title="{% trans 'Centrer' %}" aria-label="{% trans 'Centrer' %}">
+            <i class="fa fa-crosshairs"></i>
+          </button>
+          <button type="button" class="ml-icon-btn" id="ml-airbnb" title="{% trans 'Comparer Airbnb' %}" aria-label="{% trans 'Comparer Airbnb' %}" aria-pressed="false">
+            <i class="fa fa-bed"></i>
+          </button>
+          <button type="button" class="ml-icon-btn" id="ml-fullscreen" title="{% trans 'Plein écran' %}" aria-label="{% trans 'Plein écran' %}" aria-pressed="false">
+            <i class="fa fa-expand"></i>
+          </button>
+        </div>
+
+        <div class="ml-style-switcher" role="group" aria-label="{% trans 'Style de carte' %}">
+          <button type="button" class="ml-style-btn" data-style="light">{% trans "Clair" %}</button>
+          <button type="button" class="ml-style-btn is-active" data-style="dark">{% trans "Nuit" %}</button>
+        </div>
+      </div>
+
+      <div class="ml-filterbar" role="group" aria-label="{% trans 'Filtres' %}">
+        <button type="button" class="ml-chip is-active" data-filter="all"><i class="fa fa-layer-group"></i>{% trans "Tous" %}</button>
+        <button type="button" class="ml-chip" data-filter="1+0"><i class="fa fa-door-open"></i>1 + 0</button>
+        <button type="button" class="ml-chip" data-filter="1+1"><i class="fa fa-door-open"></i>1 + 1</button>
+      </div>
+
+      <div id="ml-map" class="ml-map"></div>
+
+      <div class="ml-status" id="ml-status"><span></span><strong>{% trans "Chargement de MapLibre" %}</strong></div>
+
+      <div class="ml-mobile-sheet" id="ml-mobile-sheet" aria-label="{% trans 'Annonces sélectionnées' %}">
+        <button type="button" class="ml-sheet-handle" id="ml-sheet-handle" aria-label="{% trans 'Déployer la fiche' %}"></button>
+        <div class="ml-sheet-selected" id="ml-sheet-selected"></div>
+        <div class="ml-sheet-list" id="ml-sheet-list"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="https://unpkg.com/maplibre-gl@^5.24.0/dist/maplibre-gl.js"></script>
+<script src="{% static 'newfront/assets/js/maplibre-map.js' %}"></script>
+{% endblock %}
