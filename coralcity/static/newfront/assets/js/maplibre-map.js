@@ -27,8 +27,6 @@
   };
 
   var layerIds = {
-    clusters: 'kuzey-clusters',
-    clusterCount: 'kuzey-cluster-count',
     points: 'kuzey-points',
     labels: 'kuzey-point-labels',
     selected: 'kuzey-selected-point'
@@ -175,10 +173,7 @@
     if (!map.getSource('items')) {
       map.addSource('items', {
         type: 'geojson',
-        data: sourceData(),
-        cluster: true,
-        clusterRadius: 54,
-        clusterMaxZoom: 15
+        data: sourceData()
       });
     }
 
@@ -189,45 +184,11 @@
       });
     }
 
-    if (!map.getLayer(layerIds.clusters)) {
-      map.addLayer({
-        id: layerIds.clusters,
-        type: 'circle',
-        source: 'items',
-        filter: ['has', 'point_count'],
-        paint: {
-          'circle-color': state.activeDataset === 'airbnb' ? '#ff385c' : '#a38344',
-          'circle-radius': ['step', ['get', 'point_count'], 23, 12, 29, 32, 35],
-          'circle-stroke-width': 3,
-          'circle-stroke-color': '#ffffff',
-          'circle-opacity': .96
-        }
-      });
-    }
-
-    if (!map.getLayer(layerIds.clusterCount)) {
-      map.addLayer({
-        id: layerIds.clusterCount,
-        type: 'symbol',
-        source: 'items',
-        filter: ['has', 'point_count'],
-        layout: {
-          'text-field': ['get', 'point_count_abbreviated'],
-          'text-size': 14,
-          'text-font': ['Noto Sans Regular']
-        },
-        paint: {
-          'text-color': '#ffffff'
-        }
-      });
-    }
-
     if (!map.getLayer(layerIds.points)) {
       map.addLayer({
         id: layerIds.points,
         type: 'circle',
         source: 'items',
-        filter: ['!', ['has', 'point_count']],
         paint: {
           'circle-color': [
             'case',
@@ -255,15 +216,14 @@
         id: layerIds.labels,
         type: 'symbol',
         source: 'items',
-        filter: ['!', ['has', 'point_count']],
-        minzoom: 13,
         layout: {
           'text-field': ['coalesce', ['get', 'priceLabel'], ''],
           'text-font': ['Noto Sans Regular'],
           'text-size': 11,
           'text-offset': [0, 1.65],
           'text-anchor': 'top',
-          'text-allow-overlap': false
+          'text-allow-overlap': true,
+          'text-ignore-placement': true
         },
         paint: {
           'text-color': '#171513',
@@ -289,9 +249,9 @@
   }
 
   function updateMapPaint() {
-    if (!map.getLayer(layerIds.clusters)) return;
-    map.setPaintProperty(layerIds.clusters, 'circle-color', state.activeDataset === 'airbnb' ? '#ff385c' : '#a38344');
-    map.setPaintProperty(layerIds.selected, 'circle-stroke-color', state.activeDataset === 'airbnb' ? '#ff385c' : '#a38344');
+    if (map.getLayer(layerIds.selected)) {
+      map.setPaintProperty(layerIds.selected, 'circle-stroke-color', state.activeDataset === 'airbnb' ? '#ff385c' : '#a38344');
+    }
   }
 
   function setSourceData() {
@@ -486,23 +446,19 @@
     setSourceData();
   });
 
-  map.on('click', layerIds.clusters, function (event) {
-    var features = map.queryRenderedFeatures(event.point, { layers: [layerIds.clusters] });
-    var cluster = features[0];
-    if (!cluster) return;
-    map.getSource('items').getClusterExpansionZoom(cluster.properties.cluster_id, function (err, zoom) {
-      if (err) return;
-      map.easeTo({ center: cluster.geometry.coordinates, zoom: zoom, duration: 550 });
-    });
-  });
-
   map.on('click', layerIds.points, function (event) {
     var feature = event.features && event.features[0];
     if (!feature) return;
     selectFeatureById(feature.properties.id, true);
   });
 
-  [layerIds.clusters, layerIds.points].forEach(function (layerId) {
+  map.on('click', layerIds.labels, function (event) {
+    var feature = event.features && event.features[0];
+    if (!feature) return;
+    selectFeatureById(feature.properties.id, true);
+  });
+
+  [layerIds.points, layerIds.labels].forEach(function (layerId) {
     map.on('mouseenter', layerId, function () { map.getCanvas().style.cursor = 'pointer'; });
     map.on('mouseleave', layerId, function () { map.getCanvas().style.cursor = ''; });
   });
