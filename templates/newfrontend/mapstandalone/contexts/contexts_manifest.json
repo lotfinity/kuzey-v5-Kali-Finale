@@ -1,5 +1,5 @@
 {
-  "count": 18,
+  "count": 70,
   "directory": "distill_out/simplified/contexts",
   "items": [
     {
@@ -7,7 +7,7 @@
       "listing_id": "105",
       "title": "Studio vue mer et lac",
       "bytes": 97165,
-      "mtime": 1781188116,
+      "mtime": 1781720743,
       "sha256": "181051bb05681f618d08c408955c5ef5a93304d86685e83aac3902a1a3c22e4f"
     },
     {
@@ -15,7 +15,7 @@
       "listing_id": "106",
       "title": "Appartement meublé proche Métrobus",
       "bytes": 86399,
-      "mtime": 1781188116,
+      "mtime": 1781720743,
       "sha256": "3a4a87dcd0bfef7862d208176147e26a4f14ee860208bb02170cf5c7c210de83"
     },
     {
@@ -23,7 +23,7 @@
       "listing_id": "107",
       "title": "Studio investissement Métrobus",
       "bytes": 110903,
-      "mtime": 1781188116,
+      "mtime": 1781720743,
       "sha256": "693e77f1bdd99a30a2eda309fc0ea5a07e95e94308e8fbe2b92504ddc860fe28"
     },
     {
@@ -31,7 +31,7 @@
       "listing_id": "108",
       "title": "Studio meublé en résidence",
       "bytes": 104298,
-      "mtime": 1781188116,
+      "mtime": 1781720743,
       "sha256": "cf837a523df442b696e1cb388b53047570b8356f7e3e4e9873a9440fd6e27907"
     },
     {
@@ -39,7 +39,7 @@
       "listing_id": "109",
       "title": "Studio luxe meublé avec locataire",
       "bytes": 97248,
-      "mtime": 1781188116,
+      "mtime": 1781720743,
       "sha256": "989b631ad2e96efc3c73c6ceb7a87edaa4b08895376628824e32b0bf550a9608"
     },
     {
@@ -47,7 +47,7 @@
       "listing_id": "110",
       "title": "Studio investissement Future Park",
       "bytes": 104288,
-      "mtime": 1781188116,
+      "mtime": 1781720743,
       "sha256": "7a5017b6091c047f3575e4c0910c2ec42326e500b9577d3abc305fd4245de290"
     },
     {
@@ -55,7 +55,7 @@
       "listing_id": "111",
       "title": "Studio moderne Future Park",
       "bytes": 104274,
-      "mtime": 1781188116,
+      "mtime": 1781720743,
       "sha256": "f19545b88b860baf7f2c912c2ad04b8457e190d9356482f5bbd0df9e7057ccfc"
     },
     {
@@ -63,7 +63,7 @@
       "listing_id": "112",
       "title": "Studio en résidence proche Métrobus",
       "bytes": 86692,
-      "mtime": 1781188116,
+      "mtime": 1781720743,
       "sha256": "a3fa05dccf63e34685bdc54180dc2a6e5872d1316a5fa11586a2cd43830d569f"
     },
     {
@@ -71,7 +71,7 @@
       "listing_id": "113",
       "title": "Studio meublé vue mer",
       "bytes": 88943,
-      "mtime": 1781188116,
+      "mtime": 1781720743,
       "sha256": "e617938eda1218a850aaaa51177738746e902e4c8165c43558d68ee507783fd1"
     },
     {
@@ -79,7 +79,7 @@
       "listing_id": "114",
       "title": "Studio meublé NLogo Istanbul",
       "bytes": 118982,
-      "mtime": 1781188116,
+      "mtime": 1781720743,
       "sha256": "18125a1cb527117ec67ef4c9690296a9c520f2916c62f92aa56684c1ed915cb8"
     },
     {
@@ -87,7 +87,7 @@
       "listing_id": "115",
       "title": "Petit studio lumineux",
       "bytes": 89482,
-      "mtime": 1781188116,
+      "mtime": 1781720743,
       "sha256": "51183b01cc01bed11ab725a73dc38c23acbf3730e642ed1a911bf33067e5b173"
     },
     {
@@ -95,7 +95,7 @@
       "listing_id": "116",
       "title": "Grand 1+1 proche Métrobus",
       "bytes": 97817,
-      "mtime": 1781188116,
+      "mtime": 1781720743,
       "sha256": "e80bd17748d9871e1019f6371c7cf7ba67710d7155673dcac8f8f71a5bf5dd9a"
     },
     {
@@ -103,7 +103,7 @@
       "listing_id": "117",
       "title": "1+1 décoré prêt à vivre",
       "bytes": 100555,
-      "mtime": 1781188116,
+      "mtime": 1781720743,
       "sha256": "7d34a9e842c961ea3fd7cd037f3167ea3d6dee45b90280258ed4893f5ee5db5d"
     },
     {
@@ -111,7 +111,7 @@
       "listing_id": "119",
       "title": "Studio meublé Nefes Résidence",
       "bytes": 89678,
-      "mtime": 1781188116,
+      "mtime": 1781720743,
       "sha256": "c70acebef0bbb210ada77aa0de3a671ceec503262a7f2fa1cefd9055aa5fed09"
     },
     {
@@ -119,7 +119,7 @@
       "listing_id": "120",
       "title": "1+1 proche Métrobus",
       "bytes": 109696,
-      "mtime": 1781188116,
+      "mtime": 1781720743,
       "sha256": "4a070136702007a1e2c3ab7c131d2f37df3c88af831ed4de6c25d3126ae6e306"
     },
     {
@@ -127,7 +127,7 @@
       "listing_id": "122",
       "title": "1+1 calme en résidence",
       "bytes": 112889,
-      "mtime": 1781188116,
+      "mtime": 1781720743,
       "sha256": "ee6c55d8dd1660b8fd0e707bba36890285c5f7c1b3f030cc53208dfcf7e793a5"
     },
     {
@@ -135,7 +135,7 @@
       "listing_id": "123",
       "title": "Studio Safak Résidence",
       "bytes": 112334,
-      "mtime": 1781188116,
+      "mtime": 1781720743,
       "sha256": "d02dc9faee601f3c4eeeb0dac1c0e0564a2489f6626a616872132c58fc0c8c82"
     },
     {
@@ -143,8 +143,424 @@
       "listing_id": "124",
       "title": "Studio meublé haut rendement",
       "bytes": 111300,
-      "mtime": 1781188116,
+      "mtime": 1781720743,
       "sha256": "853dc8bf53b922a04fe22ff0163dbb05ba97c3c963d1646d8d0e1e7400453a8f"
+    },
+    {
+      "file": "listing_125_context.json",
+      "listing_id": "125",
+      "title": "ESENYURT SİTE İÇİ ZAFER MAHALLESİ SATILIK 1+0 YATIRIMLIK DAİRE",
+      "bytes": 112217,
+      "mtime": 1781720743,
+      "sha256": "3f44e032c83cda603c4005f3dd0c9f9f6f935c26ed13082128b3adbec3bee0df"
+    },
+    {
+      "file": "listing_126_context.json",
+      "listing_id": "126",
+      "title": "Rüya Prestij'de Yatırıma Hazır 1+0 Stüdyo | Metrobüse 10 Dakika",
+      "bytes": 91392,
+      "mtime": 1781720743,
+      "sha256": "94f5a73337c4cd84f3f204e48990f82477c741e24a797c9555da7666910ebb59"
+    },
+    {
+      "file": "listing_127_context.json",
+      "listing_id": "127",
+      "title": "İSTER YATIRIMLIK İSTER OTURUMLUK FULL KONSEPT SİTE İÇİ DAİRE",
+      "bytes": 102760,
+      "mtime": 1781720743,
+      "sha256": "f016129b0d58250e48eda2d6ccf1369f97051337b04f088d92af27231d4ed6b7"
+    },
+    {
+      "file": "listing_128_context.json",
+      "listing_id": "128",
+      "title": "Future Parkta Site İçinde Temiz ve Ferah Satılık 1+0 Daire",
+      "bytes": 104441,
+      "mtime": 1781720743,
+      "sha256": "df2245bd60bf295629a40aece831cb5e954a6b902ba0d1e0cdcba43b5237640e"
+    },
+    {
+      "file": "listing_129_context.json",
+      "listing_id": "129",
+      "title": "ESENYURT NLOGO İSTANBUL EŞYALI GÜNCEL SATILIK STUDYO DAİRE",
+      "bytes": 117859,
+      "mtime": 1781720743,
+      "sha256": "a473bf3d48d50bb0e07357a22cc56db6da5ac7b89ed63959dd7559b32fae8392"
+    },
+    {
+      "file": "listing_130_context.json",
+      "listing_id": "130",
+      "title": "Future Parkta Site İçinde Temiz ve Ferah Satılık 1+0 Daire",
+      "bytes": 104284,
+      "mtime": 1781720743,
+      "sha256": "a038996f53de8002a9077a1bdff3d9a5a03c0a2ca22f4a635844568348749f9e"
+    },
+    {
+      "file": "listing_131_context.json",
+      "listing_id": "131",
+      "title": "ESENYURT NLOGO İSTANBUL EŞYALI GÜNCEL SATILIK STÜDYO DAİRE",
+      "bytes": 118295,
+      "mtime": 1781720743,
+      "sha256": "ad6094ff567d4d9d502ebb143616df9bcdb1fb1cc5f8d7485cfff8624bad6557"
+    },
+    {
+      "file": "listing_132_context.json",
+      "listing_id": "132",
+      "title": "Ferruh'dan Nlogo İstanbul'da 1+0 Satılık Daire - Havuz Manzaralı",
+      "bytes": 118290,
+      "mtime": 1781720743,
+      "sha256": "8a8916aafda49f010bf5c0d1e6a84c76561ecb6b36e821839102c05cd26af3eb"
+    },
+    {
+      "file": "listing_133_context.json",
+      "listing_id": "133",
+      "title": "SATILIK EŞYALI DAİRE METROBÜSE YÜRÜME MESAFE SİTE İÇİNDE",
+      "bytes": 89536,
+      "mtime": 1781720743,
+      "sha256": "50795e9928c10faa3d098e9f04db05471a789c42af2977d8b4738199ad893d35"
+    },
+    {
+      "file": "listing_134_context.json",
+      "listing_id": "134",
+      "title": "ESENYURT CUMHURİYET MAH 900 BİN PEŞİNATLA SİTE İÇERİSİNDE DAİRE",
+      "bytes": 92917,
+      "mtime": 1781720743,
+      "sha256": "2d71a41cda284cc6b93d5ee4bb71d79b7b75afb47466542445cf97db470eb745"
+    },
+    {
+      "file": "listing_135_context.json",
+      "listing_id": "135",
+      "title": "Studio moderne Future Park - E2E WhatsApp test clone of #111",
+      "bytes": 104308,
+      "mtime": 1781720743,
+      "sha256": "fee47f2e9542a7fd182dd1b78e005bf7edea6bb3f94b1ae13803d9befec63b8b"
+    },
+    {
+      "file": "listing_136_context.json",
+      "listing_id": "136",
+      "title": "GÜVENER MİMARLIK'TAN GÜVENLİKLİ SİTE İÇİNDE 1+1 SATILIK DAİRE !!",
+      "bytes": 92224,
+      "mtime": 1781720743,
+      "sha256": "cc53f57c600a858aa1877e8a62b250c15cc33d6ab8b731a1997bfc88cbac4df1"
+    },
+    {
+      "file": "listing_137_context.json",
+      "listing_id": "137",
+      "title": "METROBÜSE YÜRÜME 8 DK, İSKANLI SİTE İÇERİSİNDE 1+1 SATILIK DAİRE",
+      "bytes": 111036,
+      "mtime": 1781720743,
+      "sha256": "007e8a102189b16bb4cb7065f0b3b33b552aa675c62c5444fe62c19558c146db"
+    },
+    {
+      "file": "listing_138_context.json",
+      "listing_id": "138",
+      "title": "ZAMAN YAPIDAN SİTE İÇERİSİNDE ULTRA LÜX KELEPİR DAİRE",
+      "bytes": 95440,
+      "mtime": 1781720743,
+      "sha256": "3eae0c4eba825a57920e97738bfd80b36decb2a479e2482a736f255e248aa481"
+    },
+    {
+      "file": "listing_139_context.json",
+      "listing_id": "139",
+      "title": "SEFAKÖYEMLAKTAN FUTURE PARK SİTESİNDE 1+0 ARA KAT EŞYALI SATILIK",
+      "bytes": 104589,
+      "mtime": 1781720743,
+      "sha256": "6a0c2878526f584411d11cb5a5f13451a055c47a38a5a2b12ff6679f71641fb7"
+    },
+    {
+      "file": "listing_140_context.json",
+      "listing_id": "140",
+      "title": "YÜKSEK KİRA GETİRİLİ GÜVENLİKLİ OTOPARKLI SİTE İÇİ STÜDYO DAİRE",
+      "bytes": 107293,
+      "mtime": 1781720743,
+      "sha256": "f557555d61fa28e4ab99c59b7920ccafb935701ac8b5917217435179c53191d6"
+    },
+    {
+      "file": "listing_141_context.json",
+      "listing_id": "141",
+      "title": "MİWA YAPI'DAN YATIRIMA VE OTURUMA UYGUN METROBÜSE YAKIN DAİRE !!",
+      "bytes": 96603,
+      "mtime": 1781720743,
+      "sha256": "d402c66e8a683c4aaf20ad1467d7d9c2029088e197c9971ea22138ba80ea10e1"
+    },
+    {
+      "file": "listing_142_context.json",
+      "listing_id": "142",
+      "title": "NLOGO 1+0 YATIRIMLIK ACİL SATILIK",
+      "bytes": 118836,
+      "mtime": 1781720743,
+      "sha256": "193934dcadfb47759bc3f353d4a97f7db492675f8b5cfb71b4359c70431ba32c"
+    },
+    {
+      "file": "listing_143_context.json",
+      "listing_id": "143",
+      "title": "7/24 GÜVENLİKLİ SİTEDE EŞYALI YATIRIMLIK FIRSAT DAİRE",
+      "bytes": 112084,
+      "mtime": 1781720743,
+      "sha256": "61b28e2171cfda655fae8c8250435d9deaf9cf93be8afdc1522031609275f49d"
+    },
+    {
+      "file": "listing_144_context.json",
+      "listing_id": "144",
+      "title": "ACİL İHTİYAÇ'DAN DOLAYI EMSALLERİ'NİN ALTIN'DA 1+1 DAİRE!!!",
+      "bytes": 95055,
+      "mtime": 1781720743,
+      "sha256": "28779bfb3939b0acf1cc7e4802d2072705343c5f4a6ecb14ff5b7458b278acb8"
+    },
+    {
+      "file": "listing_145_context.json",
+      "listing_id": "145",
+      "title": "METROBÜSE KOMŞU GÜZELYURT MH.ŞIK TASARIMLI 1+1 FIRSAT DAİREMİZ",
+      "bytes": 104415,
+      "mtime": 1781720743,
+      "sha256": "10f10ede3d3a3b7d2e714f904132629f1f26b3c5b1e0dda5c46f9c6dd013f370"
+    },
+    {
+      "file": "listing_146_context.json",
+      "listing_id": "146",
+      "title": "OZAN EMLAKDAN HAYAT PARK 4 SİTESİNDE 1+1 55M2 ÖN CEPHE DAİRE",
+      "bytes": 112370,
+      "mtime": 1781720743,
+      "sha256": "fabe49b8e4fe9f1285957001558a97577813c2fd42330dbea7066195fa0c99af"
+    },
+    {
+      "file": "listing_147_context.json",
+      "listing_id": "147",
+      "title": "Nlogo n logo İstanbul'da acill Full Eşyalı Stüdyo Daire",
+      "bytes": 117764,
+      "mtime": 1781720743,
+      "sha256": "b256bb255196478ecfe1200c3189024357ffca2187e0a4a55db17c68593c5bee"
+    },
+    {
+      "file": "listing_148_context.json",
+      "listing_id": "148",
+      "title": "METROBÜSE 4 DK MESAFEDE SİTE İÇİ, SIFIR EŞYALI 1+1 SATILIK DAİRE",
+      "bytes": 95693,
+      "mtime": 1781720743,
+      "sha256": "37dc5b0cc0c4d29f98e035cbdde1c1368dde1b5d271bdfdb9dfbfa27081efe94"
+    },
+    {
+      "file": "listing_149_context.json",
+      "listing_id": "149",
+      "title": "BAYRAMA ÖZEL MÜKEMMEL LOKASYON MÜKEMMEL DAİRE GENİŞ TERASLI",
+      "bytes": 107959,
+      "mtime": 1781720743,
+      "sha256": "8de7e166d8b795f346e7216351c955f33e7bb45442ab79536d82c01aeaba1c11"
+    },
+    {
+      "file": "listing_150_context.json",
+      "listing_id": "150",
+      "title": "Site içinde sosyal aktiviteli metrobüse yakın 1+1 satılık daire",
+      "bytes": 100834,
+      "mtime": 1781720743,
+      "sha256": "d470f112e42f21eb8926b7f8473c6722dd39718dc4035fabcd8b4a140c5fdf2d"
+    },
+    {
+      "file": "listing_151_context.json",
+      "listing_id": "151",
+      "title": "AKTOWERS YATIRIMLIK EŞYALI SATILIK 1+0 STÜDYO DAİRE",
+      "bytes": 107648,
+      "mtime": 1781720743,
+      "sha256": "47cfc303c45d496585ab8aa420bca23c276db01720e1c6423db09441433a89e1"
+    },
+    {
+      "file": "listing_152_context.json",
+      "listing_id": "152",
+      "title": "OTURUMA HAZIR KONFORLU YAŞAMIN ANAHTARI SİTE İÇİNDE SATILIK 1+1",
+      "bytes": 86560,
+      "mtime": 1781720743,
+      "sha256": "7204a060d408555842a1495bf6b92224c77d95ef5632429e16982322cc3e8618"
+    },
+    {
+      "file": "listing_153_context.json",
+      "listing_id": "153",
+      "title": "SİTE İÇERİSİNDE YATIRIMLIK KİRA GETİRİS YÜKSEK SATILIK STÜDYO D",
+      "bytes": 102606,
+      "mtime": 1781720743,
+      "sha256": "0a759279cc5b36ff121643a9e626abae54abc9469cad407e44da1d30eaefe8f7"
+    },
+    {
+      "file": "listing_154_context.json",
+      "listing_id": "154",
+      "title": "70 Square Meters Apartment For Sale in Beylikdüzü, Istanbul",
+      "bytes": 99876,
+      "mtime": 1781720743,
+      "sha256": "094b5228483d2f977958c726a35db515e52e82052ba978fe017eb90409cc9d80"
+    },
+    {
+      "file": "listing_155_context.json",
+      "listing_id": "155",
+      "title": "80 Square Meters Apartment For Sale in Beylikdüzü, Istanbul",
+      "bytes": 99132,
+      "mtime": 1781720743,
+      "sha256": "32fc14093ab539fe9bc634b932d56055c21e0f46b69e906786fe164e7cb8587f"
+    },
+    {
+      "file": "listing_156_context.json",
+      "listing_id": "156",
+      "title": "110 Square Meters Apartment For Sale in Beylikdüzü, Istanbul",
+      "bytes": 97407,
+      "mtime": 1781720743,
+      "sha256": "1f927c5e0e60dfb44154e94b98fe9f3001cd4f8542cbafe16021f58df287cfbd"
+    },
+    {
+      "file": "listing_157_context.json",
+      "listing_id": "157",
+      "title": "110 Square Meters Apartment For Sale in Esenyurt, Istanbul",
+      "bytes": 126202,
+      "mtime": 1781720743,
+      "sha256": "bd0850e4e4b43bd70ceb12c72ec6464dc43145becac61a95070b62fae3455764"
+    },
+    {
+      "file": "listing_158_context.json",
+      "listing_id": "158",
+      "title": "80 Square Meters Apartment For Sale in Beylikdüzü, Istanbul",
+      "bytes": 99178,
+      "mtime": 1781720743,
+      "sha256": "cb6707114eb1616e7d8d99c26bc82dfbeee3373bac84d46165a0b282cdaba186"
+    },
+    {
+      "file": "listing_159_context.json",
+      "listing_id": "159",
+      "title": "95 Square Meters Apartment For Sale in Esenyurt, Istanbul",
+      "bytes": 122496,
+      "mtime": 1781720743,
+      "sha256": "c73c370b60fa48dbb91c24f8ad64218d6b943eac271825fd59e57212f5f51f61"
+    },
+    {
+      "file": "listing_160_context.json",
+      "listing_id": "160",
+      "title": "110 Square Meters Apartment For Sale in Esenyurt, Istanbul",
+      "bytes": 105628,
+      "mtime": 1781720743,
+      "sha256": "f0c41b5cd8346d60a3ed888acd96a0826e72e5c3ae23960841a3e398e37099a9"
+    },
+    {
+      "file": "listing_161_context.json",
+      "listing_id": "161",
+      "title": "85 Square Meters Apartment For Sale in Beylikdüzü, Istanbul",
+      "bytes": 91868,
+      "mtime": 1781720743,
+      "sha256": "8cb643fe673de1c3556de05176e71f37ff2d340cf781587f234f1769cf4b775a"
+    },
+    {
+      "file": "listing_162_context.json",
+      "listing_id": "162",
+      "title": "100 Square Meters Apartment For Sale in Beylikdüzü, Istanbul",
+      "bytes": 102329,
+      "mtime": 1781720743,
+      "sha256": "33d27a4ebb3ab9276029a4eeba31c27c8f1cc8dd9d20a8bf6e0faeb74e0531a1"
+    },
+    {
+      "file": "listing_163_context.json",
+      "listing_id": "163",
+      "title": "110 Square Meters Apartment For Sale in Beylikdüzü, Istanbul",
+      "bytes": 91161,
+      "mtime": 1781720743,
+      "sha256": "1d87f0ebe2cfc522e4f7e2ab2f716921e46155b374662582e67772e38641e83a"
+    },
+    {
+      "file": "listing_164_context.json",
+      "listing_id": "164",
+      "title": "90 Square Meters Apartment For Sale in Esenyurt, Istanbul",
+      "bytes": 110470,
+      "mtime": 1781720743,
+      "sha256": "37d88b9e3d7890e92e61a2c963b41235746c00b84838c2ec977817b8d8259d44"
+    },
+    {
+      "file": "listing_165_context.json",
+      "listing_id": "165",
+      "title": "85 Square Meters Apartment For Sale in Beylikdüzü, Istanbul",
+      "bytes": 101929,
+      "mtime": 1781720743,
+      "sha256": "ba43d74558513ecc04039fc1c71c451d2d412d8c1980edddc24c5b11981fbd4e"
+    },
+    {
+      "file": "listing_166_context.json",
+      "listing_id": "166",
+      "title": "75 Square Meters Apartment For Sale in Beylikdüzü, Istanbul",
+      "bytes": 92229,
+      "mtime": 1781720743,
+      "sha256": "7401aceff0963770e2cde2624b10f1377965514225cd5457b200cc0eb31cd6f8"
+    },
+    {
+      "file": "listing_167_context.json",
+      "listing_id": "167",
+      "title": "100 Square Meters Apartment For Sale in Beylikdüzü, Istanbul",
+      "bytes": 102329,
+      "mtime": 1781720743,
+      "sha256": "d4e13f2c3d6962e372c356f0bfddbe3ac50fa0baa8f5349e74ccc9fab4710210"
+    },
+    {
+      "file": "listing_168_context.json",
+      "listing_id": "168",
+      "title": "110 Square Meters Apartment For Sale in Beylikdüzü, Istanbul",
+      "bytes": 99022,
+      "mtime": 1781720743,
+      "sha256": "7e46f821845991dd93dc05a87da4838e9a7d1b2479d9e8b44b7b5151e9e07a79"
+    },
+    {
+      "file": "listing_169_context.json",
+      "listing_id": "169",
+      "title": "105 Square Meters Apartment For Sale in Beylikdüzü, Istanbul",
+      "bytes": 99877,
+      "mtime": 1781720743,
+      "sha256": "75f5d5bb3096c3f6097dfe7f5d99cc993bab2098a6286298770254ac89665ef2"
+    },
+    {
+      "file": "listing_170_context.json",
+      "listing_id": "170",
+      "title": "115 Square Meters Apartment For Sale in Esenyurt, Istanbul",
+      "bytes": 105764,
+      "mtime": 1781720743,
+      "sha256": "e352e745d3d8861453c8d3de889e593a6fa53606e9792ec8fd68198045350164"
+    },
+    {
+      "file": "listing_171_context.json",
+      "listing_id": "171",
+      "title": "75 Square Meters Apartment For Sale in Beylikdüzü, Istanbul",
+      "bytes": 99094,
+      "mtime": 1781720743,
+      "sha256": "389f5a813357073272684320b90d6af8d80f9326535dad7d1f704733a677565f"
+    },
+    {
+      "file": "listing_172_context.json",
+      "listing_id": "172",
+      "title": "80 Square Meters Apartment For Sale in Beylikdüzü, Istanbul",
+      "bytes": 93576,
+      "mtime": 1781720743,
+      "sha256": "66205ae2b9026cc7addb29dc8e4d1cde4ed4172bfa03c871d6ec4561458397a4"
+    },
+    {
+      "file": "listing_173_context.json",
+      "listing_id": "173",
+      "title": "100 Square Meters Apartment For Sale in Beylikdüzü, Istanbul",
+      "bytes": 99877,
+      "mtime": 1781720743,
+      "sha256": "ce10b0d0751233f3cd3a9fc951a9c6f5d503c22d3574b27d0b7c7390302947ed"
+    },
+    {
+      "file": "listing_174_context.json",
+      "listing_id": "174",
+      "title": "110 Square Meters Apartment For Sale in Beylikdüzü, Istanbul",
+      "bytes": 91743,
+      "mtime": 1781720743,
+      "sha256": "764165ec4e42242e03d5da8bf46f8825db17c239d9c15127b66c88afa6439526"
+    },
+    {
+      "file": "listing_175_context.json",
+      "listing_id": "175",
+      "title": "85 Square Meters Apartment For Sale in Beylikdüzü, Istanbul",
+      "bytes": 94085,
+      "mtime": 1781720743,
+      "sha256": "b7cc49dc1252f1c4058c2ca0219104e79cd8dde9c395fa535af11d28c9031ec3"
+    },
+    {
+      "file": "listing_176_context.json",
+      "listing_id": "176",
+      "title": "75 Square Meters Apartment For Sale in Beylikdüzü, Istanbul",
+      "bytes": 98566,
+      "mtime": 1781720743,
+      "sha256": "97c81f416535d67c6a6a8e8a445af2daf97d64d69f5c62e4b2f08ef7fd9510e2"
     }
   ]
 }

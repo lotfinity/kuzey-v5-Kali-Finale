@@ -12,6 +12,7 @@ from listings.choices import price_choices , bedroom_choices , state_choices, ty
 
 from .models import AirbnbListing, Listing
 from .investor import DEFAULT_INVESTOR_SETTINGS, airbnb_comp_records, build_investor_summary, investor_settings_from_request, score_listing
+from .portfolio import build_listing_portfolio_context
 
 EXTERNAL_AMENITIES_BASE = 'http://100.89.48.48:8006/map/amenities/'
 
@@ -130,6 +131,13 @@ def fetch_external_amenities_html(listing):
             return rewrite_external_tile_layer(html)
     except (HTTPError, URLError, TimeoutError, ValueError):
         return None
+
+
+def listing_portfolio(request, listing_id):
+    listing = get_object_or_404(Listing, pk=listing_id)
+    if listing.latitude is None or listing.longitude is None:
+        return HttpResponse("This listing needs coordinates before a portfolio map can be rendered.", status=400)
+    return render(request, "newfrontend/listing-portfolio.html", build_listing_portfolio_context(listing))
 
 
 def new_properties(request, page=None, min_price=None, max_price=None, bedrooms=None, rentability_group=None):

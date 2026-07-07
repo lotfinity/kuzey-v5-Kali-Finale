@@ -106,6 +106,7 @@ prefixed_urlpatterns = i18n_patterns(
     path('maplibre/', listing_views.new_maplibre_view, name='new_maplibre'),
     path('property-details/', listing_views.new_property_details_preview, name='new_property_details'),
     path('listing/<int:listing_id>/', listing_views.new_listing_detail, name='new_listing_detail'),
+    path('listing/<int:listing_id>/portfolio/', listing_views.listing_portfolio, name='new_listing_portfolio'),
     path('listing/<int:listing_id>/map/', listing_views.listing_map_embed, name='listing_map_embed'),
     path('listing/<int:listing_id>/map-data/', listing_views.listing_map_data, name='listing_map_data'),
     # contact/ removed — page still accessible if uncommented later

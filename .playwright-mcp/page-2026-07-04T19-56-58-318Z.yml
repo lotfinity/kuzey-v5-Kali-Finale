@@ -1,0 +1,369 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e4]:
+    - button "Sélectionner la langue" [ref=e6] [cursor=pointer]:
+      - img "fr" [ref=e7]
+      - generic [ref=e8]: FR
+      - generic [ref=e9]: ▾
+    - button "Select currency" [ref=e11] [cursor=pointer]:
+      - img [ref=e12]
+      - generic [ref=e13]: ₺
+      - generic [ref=e14]: ▾
+    - generic [ref=e15]:
+      - button "Select theme" [ref=e16] [cursor=pointer]:
+        - generic [ref=e17]: 
+      - text:   
+  - text:      
+  - banner [ref=e18]:
+    - navigation [ref=e22]:
+      - link "Logo" [ref=e23] [cursor=pointer]:
+        - /url: /fr/new/
+        - img "Logo" [ref=e24]
+      - list [ref=e25]:
+        - listitem [ref=e26]:
+          - link "Tous" [ref=e27] [cursor=pointer]:
+            - /url: /fr/new/opportunities/
+            - generic [ref=e28]: 
+            - text: Tous
+        - listitem [ref=e29]:
+          - link "Under 1.25M ₺" [ref=e30] [cursor=pointer]:
+            - /url: /fr/new/opportunities/under-1.25m/
+            - generic [ref=e31]: 
+            - text: Under 1.25M ₺
+        - listitem [ref=e32]:
+          - link "Over 1.25M ₺" [ref=e33] [cursor=pointer]:
+            - /url: /fr/new/opportunities/over-1.25m/
+            - generic [ref=e34]: 
+            - text: Over 1.25M ₺
+        - listitem [ref=e35]:
+          - link "Carte" [ref=e36] [cursor=pointer]:
+            - /url: /fr/new/map/
+            - generic [ref=e37]: 
+            - text: Carte
+        - listitem [ref=e38]:
+          - link " Planifier une visite" [ref=e39] [cursor=pointer]:
+            - /url: "#"
+            - generic [ref=e40]: 
+            - text: Planifier une visite
+  - main [ref=e42]:
+    - main [ref=e43]:
+      - generic [ref=e44]:
+        - generic [ref=e45]:
+          - generic [ref=e46]:
+            - generic [ref=e47]: Special listing portfolio
+            - heading "Studio vue mer et lac" [level=1] [ref=e48]
+            - paragraph [ref=e49]: A compact 1+0 investment unit beside TÜYAP and the Metrobus corridor, priced for low capital entry and supported by fresh 30-night Airbnb comps in Gökevler.
+            - generic [ref=e50]:
+              - generic [ref=e51]:
+                - text: Purchase
+                - strong [ref=e52]: ₺1 145 000
+              - generic [ref=e53]:
+                - text: Airbnb median
+                - strong [ref=e54]: ₺60 758
+              - generic [ref=e55]:
+                - text: Net ROI
+                - strong [ref=e56]: 38,8%
+          - generic [ref=e57]:
+            - img "Studio vue mer et lac" [ref=e59]
+            - generic [ref=e60]:
+              - img "Studio vue mer et lac" [ref=e61]
+              - img "Studio vue mer et lac" [ref=e62]
+              - img "Studio vue mer et lac" [ref=e63]
+        - generic [ref=e64]:
+          - generic [ref=e65]:
+            - generic [ref=e66]:
+              - generic [ref=e67]: Map intelligence
+              - heading "Airbnb comps around the asset" [level=2] [ref=e68]
+            - paragraph [ref=e69]: The map plots the sale unit, TÜYAP, and nearby Airbnb listings from the fresh API pull for 30 nights from 2026-07-04 to 2026-08-03.
+          - generic [ref=e70]:
+            - generic [ref=e71]:
+              - generic:
+                - generic:
+                  - button [ref=e72] [cursor=pointer]
+                  - button [ref=e74] [cursor=pointer]
+                  - button [ref=e76] [cursor=pointer]
+                  - button [ref=e78] [cursor=pointer]
+                  - button [ref=e80] [cursor=pointer]
+                  - button [ref=e82] [cursor=pointer]
+                  - button [ref=e84] [cursor=pointer]
+                  - button [ref=e86] [cursor=pointer]
+                  - button [ref=e88] [cursor=pointer]
+                  - button [ref=e90] [cursor=pointer]
+                  - button [ref=e92] [cursor=pointer]
+                  - button [ref=e94] [cursor=pointer]
+                  - button [ref=e96] [cursor=pointer]
+                  - button [ref=e98] [cursor=pointer]
+                  - button [ref=e100] [cursor=pointer]
+                  - button [ref=e102] [cursor=pointer]
+                  - button [ref=e104] [cursor=pointer]
+                  - button [ref=e106] [cursor=pointer]
+                  - button [ref=e108] [cursor=pointer]
+                  - button [ref=e110] [cursor=pointer]
+                  - button [ref=e112] [cursor=pointer]
+                  - button [ref=e114] [cursor=pointer]
+              - generic:
+                - generic [ref=e116]:
+                  - button "Zoom in" [ref=e117] [cursor=pointer]: +
+                  - button "Zoom out" [ref=e118] [cursor=pointer]: −
+                - generic [ref=e119]:
+                  - link "Leaflet" [ref=e120] [cursor=pointer]:
+                    - /url: https://leafletjs.com
+                    - img [ref=e121]
+                    - text: Leaflet
+                  - text: "| © OpenStreetMap contributors"
+            - generic [ref=e125]:
+              - heading "Why this location matters" [level=3] [ref=e126]
+              - list [ref=e127]:
+                - listitem [ref=e128]: 0,26 km from TÜYAP Fair and Congress Center coordinates.
+                - listitem [ref=e129]: Strong short-stay demand profile during fair periods, setup days, and exhibitor teardown windows.
+                - listitem [ref=e130]: Studio format fits solo business visitors, fair staff, medical visitors, and short corporate stays.
+                - listitem [ref=e131]: 12th floor / 13-floor building gives view-led positioning for a low-ticket entry asset.
+        - generic [ref=e132]:
+          - generic [ref=e133]:
+            - generic [ref=e134]:
+              - generic [ref=e135]: Fresh Airbnb evidence
+              - heading "30-day rental set" [level=2] [ref=e136]
+            - paragraph [ref=e137]: Same-spec priority uses studio, unknown-bedroom, and 1BR units within 2 km. Larger apartments remain visible as upside context, not the base underwriting set.
+          - generic [ref=e138]:
+            - generic [ref=e139]:
+              - text: Comp count
+              - strong [ref=e140]: "6"
+            - generic [ref=e141]:
+              - text: P25 / Median / P75
+              - strong [ref=e142]: ₺58 848 / ₺60 758 / ₺63 292
+            - generic [ref=e143]:
+              - text: Comp range
+              - strong [ref=e144]: ₺40 529 - ₺68 930
+          - generic [ref=e145]:
+            - link "0,1 km Beylikdüzü TÜYAP Apartment for Rent 1 BR · 1 bed · new/unrated ₺59 198" [ref=e146] [cursor=pointer]:
+              - /url: https://www.airbnb.com/rooms/1539772437749705737?check_in=2026-07-04&check_out=2026-08-03&adults=2
+              - generic [ref=e147]: 0,1 km
+              - generic [ref=e148]:
+                - generic [ref=e149]: Beylikdüzü TÜYAP Apartment for Rent
+                - generic [ref=e150]: 1 BR · 1 bed · new/unrated
+              - generic [ref=e151]: ₺59 198
+            - link "0,1 km 3 min to Metrobus | Next to Tüyap | 24/7 reception Studio BR · 1 bed · new/unrated ₺40 529" [ref=e152] [cursor=pointer]:
+              - /url: https://www.airbnb.com/rooms/1705070931968131663?check_in=2026-07-04&check_out=2026-08-03&adults=2
+              - generic [ref=e153]: 0,1 km
+              - generic [ref=e154]:
+                - generic [ref=e155]: 3 min to Metrobus | Next to Tüyap | 24/7 reception
+                - generic [ref=e156]: Studio BR · 1 bed · new/unrated
+              - generic [ref=e157]: ₺40 529
+            - link "0,13 km Centrally Located Metrobus Tüyap Fair Center Side 1 BR · 1 bed · new/unrated ₺62 319" [ref=e158] [cursor=pointer]:
+              - /url: https://www.airbnb.com/rooms/1541812935908298049?check_in=2026-07-04&check_out=2026-08-03&adults=2
+              - generic [ref=e159]: 0,13 km
+              - generic [ref=e160]:
+                - generic [ref=e161]: Centrally Located Metrobus Tüyap Fair Center Side
+                - generic [ref=e162]: 1 BR · 1 bed · new/unrated
+              - generic [ref=e163]: ₺62 319
+            - link "0,14 km Esenyurt Beylikdüzü Apartment for Rent 1 BR · 2 bed · new/unrated ₺63 617" [ref=e164] [cursor=pointer]:
+              - /url: https://www.airbnb.com/rooms/1485796837753078297?check_in=2026-07-04&check_out=2026-08-03&adults=2
+              - generic [ref=e165]: 0,14 km
+              - generic [ref=e166]:
+                - generic [ref=e167]: Esenyurt Beylikdüzü Apartment for Rent
+                - generic [ref=e168]: 1 BR · 2 bed · new/unrated
+              - generic [ref=e169]: ₺63 617
+            - link "0,19 km 1+0 Studio Apartment 1 BR · 1 bed · new/unrated ₺58 731" [ref=e170] [cursor=pointer]:
+              - /url: https://www.airbnb.com/rooms/1688285422322592470?check_in=2026-07-04&check_out=2026-08-03&adults=2
+              - generic [ref=e171]: 0,19 km
+              - generic [ref=e172]:
+                - generic [ref=e173]: 1+0 Studio Apartment
+                - generic [ref=e174]: 1 BR · 1 bed · new/unrated
+              - generic [ref=e175]: ₺58 731
+            - 'link "0,52 km Idol Complex {2+1} 2 BR · 2 bed · new/unrated ₺148 913" [ref=e176] [cursor=pointer]':
+              - /url: https://www.airbnb.com/rooms/1720936703478600513?check_in=2026-07-04&check_out=2026-08-03&adults=2
+              - generic [ref=e177]: 0,52 km
+              - generic [ref=e178]:
+                - generic [ref=e179]: "Idol Complex {2+1}"
+                - generic [ref=e180]: 2 BR · 2 bed · new/unrated
+              - generic [ref=e181]: ₺148 913
+            - link "1,45 km Sweet Jameel for two near TÜYAP Rooms, Lounge and Bathroom 1 BR · 1 bed · new/unrated ₺68 930" [ref=e182] [cursor=pointer]:
+              - /url: https://www.airbnb.com/rooms/1691170353010861819?check_in=2026-07-04&check_out=2026-08-03&adults=2
+              - generic [ref=e183]: 1,45 km
+              - generic [ref=e184]:
+                - generic [ref=e185]: Sweet Jameel for two near TÜYAP Rooms, Lounge and Bathroom
+                - generic [ref=e186]: 1 BR · 1 bed · new/unrated
+              - generic [ref=e187]: ₺68 930
+            - link "2,56 km Apartment with a bedroom and a living room inside a residential complex 1 BR · 2 bed · new/unrated ₺55 829" [ref=e188] [cursor=pointer]:
+              - /url: https://www.airbnb.com/rooms/1674623995285044800?check_in=2026-07-04&check_out=2026-08-03&adults=2
+              - generic [ref=e189]: 2,56 km
+              - generic [ref=e190]:
+                - generic [ref=e191]: Apartment with a bedroom and a living room inside a residential complex
+                - generic [ref=e192]: 1 BR · 2 bed · new/unrated
+              - generic [ref=e193]: ₺55 829
+            - link "2,85 km Beautiful 2 bedroom apartment with a living room and a terrace with a wonderful view 2 BR · 2 bed · new/unrated ₺72 028" [ref=e194] [cursor=pointer]:
+              - /url: https://www.airbnb.com/rooms/1688642354794221157?check_in=2026-07-04&check_out=2026-08-03&adults=2
+              - generic [ref=e195]: 2,85 km
+              - generic [ref=e196]:
+                - generic [ref=e197]: Beautiful 2 bedroom apartment with a living room and a terrace with a wonderful view
+                - generic [ref=e198]: 2 BR · 2 bed · new/unrated
+              - generic [ref=e199]: ₺72 028
+            - link "2,91 km 2+1 apartment in a prime location in the middle of the market 2 BR · 2 bed · new/unrated ₺79 657" [ref=e200] [cursor=pointer]:
+              - /url: https://www.airbnb.com/rooms/1495795168027769701?check_in=2026-07-04&check_out=2026-08-03&adults=2
+              - generic [ref=e201]: 2,91 km
+              - generic [ref=e202]:
+                - generic [ref=e203]: 2+1 apartment in a prime location in the middle of the market
+                - generic [ref=e204]: 2 BR · 2 bed · new/unrated
+              - generic [ref=e205]: ₺79 657
+            - link "2,92 km Two-bedroom apartment and living room within a residential complex 2 BR · 3 bed · new/unrated ₺84 509" [ref=e206] [cursor=pointer]:
+              - /url: https://www.airbnb.com/rooms/1403900983201801518?check_in=2026-07-04&check_out=2026-08-03&adults=2
+              - generic [ref=e207]: 2,92 km
+              - generic [ref=e208]:
+                - generic [ref=e209]: Two-bedroom apartment and living room within a residential complex
+                - generic [ref=e210]: 2 BR · 3 bed · new/unrated
+              - generic [ref=e211]: ₺84 509
+            - link "3,87 km Comfortable 2BR · Fast WiFi · 5 Min to E5 07 2 BR · 2 bed · 4,43 rating ₺77 117" [ref=e212] [cursor=pointer]:
+              - /url: https://www.airbnb.com/rooms/965698136051230007?check_in=2026-07-04&check_out=2026-08-03&adults=2
+              - generic [ref=e213]: 3,87 km
+              - generic [ref=e214]:
+                - generic [ref=e215]: Comfortable 2BR · Fast WiFi · 5 Min to E5 07
+                - generic [ref=e216]: 2 BR · 2 bed · 4,43 rating
+              - generic [ref=e217]: ₺77 117
+        - generic [ref=e218]:
+          - generic [ref=e219]:
+            - generic [ref=e220]:
+              - generic [ref=e221]: Strategic demand
+              - heading "TÜYAP calendar pressure" [level=2] [ref=e222]
+            - paragraph [ref=e223]: Upcoming official TÜYAP Istanbul calendar items show repeated multi-day demand windows through the autumn and winter fair season.
+          - generic [ref=e224]:
+            - generic [ref=e225]:
+              - strong [ref=e226]: Foodist İstanbul
+              - generic [ref=e227]: 01.09.2026 / 04.09.2026
+            - generic [ref=e228]:
+              - strong [ref=e229]: Zuchex
+              - generic [ref=e230]: 09.09.2026 / 12.09.2026
+            - generic [ref=e231]:
+              - strong [ref=e232]: İntermob
+              - generic [ref=e233]: 17.09.2026 / 20.09.2026
+            - generic [ref=e234]:
+              - strong [ref=e235]: Fastener Expo Eurasia
+              - generic [ref=e236]: 17.09.2026 / 20.09.2026
+            - generic [ref=e237]:
+              - strong [ref=e238]: Maktek Avrasya Fuarı
+              - generic [ref=e239]: 28.09.2026 / 03.10.2026
+            - generic [ref=e240]:
+              - strong [ref=e241]: Avrasya Ambalaj İstanbul Fuarı
+              - generic [ref=e242]: 13.10.2026 / 16.10.2026
+            - generic [ref=e243]:
+              - strong [ref=e244]: Woodtech
+              - generic [ref=e245]: 22.10.2026 / 25.10.2026
+            - generic [ref=e246]:
+              - strong [ref=e247]: HOSTECH by TUSİD İSTANBUL
+              - generic [ref=e248]: 10.11.2026 / 14.11.2026
+            - generic [ref=e249]:
+              - strong [ref=e250]: Avrasya Cam / Pencere / Kapı 2026
+              - generic [ref=e251]: 21.11.2026 / 24.11.2026
+            - generic [ref=e252]:
+              - strong [ref=e253]: Plast Eurasia İstanbul
+              - generic [ref=e254]: 02.12.2026 / 05.12.2026
+            - generic [ref=e255]:
+              - strong [ref=e256]: İstanbul Kitap Fuarı
+              - generic [ref=e257]: 12.12.2026 / 20.12.2026
+          - paragraph [ref=e258]: "Calendar source: official TÜYAP fair calendar, checked July 4, 2026."
+        - generic [ref=e259]:
+          - generic [ref=e260]:
+            - generic [ref=e261]:
+              - generic [ref=e262]: Rentability
+              - heading "Debt-free yield scenarios" [level=2] [ref=e263]
+            - paragraph [ref=e264]: Calculations use purchase price plus ₺120 000 furnishing budget and ₺50 000 transaction buffer. Airbnb net assumes 30% operating drag for cleaning, utilities, platform, management, and wear.
+          - generic [ref=e265]:
+            - generic [ref=e266]:
+              - heading "Long-term fallback" [level=3] [ref=e267]
+              - generic [ref=e268]: ₺27 810
+              - generic [ref=e269]: Estimated monthly net
+              - generic [ref=e270]:
+                - generic [ref=e271]: Gross rent
+                - strong [ref=e272]: ₺30 900
+              - generic [ref=e273]:
+                - generic [ref=e274]: Annual net ROI
+                - strong [ref=e275]: 25,4%
+            - generic [ref=e276]:
+              - heading "Airbnb base" [level=3] [ref=e277]
+              - generic [ref=e278]: ₺42 531
+              - generic [ref=e279]: Estimated monthly net
+              - generic [ref=e280]:
+                - generic [ref=e281]: Gross revenue
+                - strong [ref=e282]: ₺60 758
+              - generic [ref=e283]:
+                - generic [ref=e284]: Annual net ROI
+                - strong [ref=e285]: 38,8%
+            - generic [ref=e286]:
+              - heading "Operator upside" [level=3] [ref=e287]
+              - generic [ref=e288]: ₺44 304
+              - generic [ref=e289]: Estimated monthly net
+              - generic [ref=e290]:
+                - generic [ref=e291]: Gross revenue
+                - strong [ref=e292]: ₺63 292
+              - generic [ref=e293]:
+                - generic [ref=e294]: Annual net ROI
+                - strong [ref=e295]: 40,4%
+          - generic [ref=e296]:
+            - heading "Investment read" [level=3] [ref=e297]
+            - paragraph [ref=e298]: The asset is strongest as a furnished short-stay studio near fair traffic. The base Airbnb case gives a healthier return than the long-term fallback, while the fallback still protects the deal if short-stay operations are paused. Main risks are review ramp-up, building short-stay rules, furnishing quality, and fair-season volatility.
+  - contentinfo [ref=e299]:
+    - generic [ref=e300]:
+      - generic [ref=e301]:
+        - paragraph [ref=e305]: Discover, rent or buy verified properties with modern tools and local expertise.
+        - generic [ref=e306]:
+          - heading "Navigation" [level=5] [ref=e307]
+          - list [ref=e308]:
+            - listitem [ref=e309]:
+              - link "Accueil" [ref=e310] [cursor=pointer]:
+                - /url: /fr/new/
+                - generic [ref=e311]: 
+                - text: Accueil
+            - listitem [ref=e312]:
+              - link "Opportunités" [ref=e313] [cursor=pointer]:
+                - /url: /fr/new/properties/
+                - generic [ref=e314]: 
+                - text: Opportunités
+            - listitem [ref=e315]:
+              - link "Carte" [ref=e316] [cursor=pointer]:
+                - /url: /fr/new/map/
+                - generic [ref=e317]: 
+                - text: Carte
+            - listitem [ref=e318]:
+              - link "Contact" [ref=e319] [cursor=pointer]:
+                - /url: /fr/new/contact/
+                - generic [ref=e320]: 
+                - text: Contact
+            - listitem [ref=e321]:
+              - link "Financement" [ref=e322] [cursor=pointer]:
+                - /url: /fr/new/financing/
+                - generic [ref=e323]: $
+                - text: Financement
+      - generic [ref=e324]:
+        - generic [ref=e325]:
+          - heading "Contact" [level=5] [ref=e326]
+          - list [ref=e327]:
+            - listitem [ref=e328]:
+              - generic [ref=e329]: 
+              - text: Beylikdüzü/İstanbul
+            - listitem [ref=e330]:
+              - generic [ref=e331]: 
+              - link "whatsynaptic@gmail.com" [ref=e332] [cursor=pointer]:
+                - /url: mailto:whatsynaptic@gmail.com
+            - listitem [ref=e333]:
+              - generic [ref=e334]: 
+              - link "+905423637436" [ref=e335] [cursor=pointer]:
+                - /url: https://wa.me/905423637436
+            - listitem [ref=e336]:
+              - link " Planifier une visite" [ref=e337] [cursor=pointer]:
+                - /url: https://cal.com/hasan-gun-saqvh6
+                - generic [ref=e338]: 
+                - text: Planifier une visite
+        - generic [ref=e339]:
+          - link [ref=e340] [cursor=pointer]:
+            - /url: " https://www.facebook.com/Koral-City-ltd-100737889187297"
+            - generic [ref=e341]: 
+          - link [ref=e342] [cursor=pointer]:
+            - /url: https://www.instagram.com/koralcityltd/
+            - generic [ref=e343]: 
+          - link [ref=e344] [cursor=pointer]:
+            - /url: https://twitter.com/Koralcityltd
+            - generic [ref=e345]: 
+      - separator [ref=e346]
+      - paragraph [ref=e349]:
+        - text: © 2025
+        - link "∞ Lotfinity ∞ tech Co." [ref=e350] [cursor=pointer]:
+          - /url: https://explore.lotfinity.tech
+        - text: ", Ltd. All rights reserved."

@@ -1,0 +1,425 @@
+- generic [active] [ref=f3e1]:
+  - generic [ref=f3e4]:
+    - button "Sélectionner la langue" [ref=f3e6] [cursor=pointer]:
+      - img "fr" [ref=f3e7]
+      - generic [ref=f3e8]: FR
+      - generic [ref=f3e9]: ▾
+    - button "Select currency" [ref=f3e11] [cursor=pointer]:
+      - img [ref=f3e12]
+      - generic [ref=f3e13]: ₺
+      - generic [ref=f3e14]: ▾
+    - generic [ref=f3e15]:
+      - button "Select theme" [ref=f3e16] [cursor=pointer]:
+        - generic [ref=f3e17]: 
+      - text:   
+  - text:      
+  - banner [ref=f3e18]:
+    - generic:
+      - generic:
+        - generic:
+          - navigation:
+            - link "Logo" [ref=f3e19] [cursor=pointer]:
+              - /url: /fr/new/
+              - img "Logo" [ref=f3e20]
+            - text:     
+            - generic [ref=f3e22] [cursor=pointer]: Menu
+  - main [ref=f3e24]:
+    - main [ref=f3e25]:
+      - generic [ref=f3e26]:
+        - generic [ref=f3e27]:
+          - generic [ref=f3e28]:
+            - generic [ref=f3e29]: Special listing portfolio
+            - heading "Studio vue mer et lac" [level=1] [ref=f3e30]
+            - paragraph [ref=f3e31]: A compact 1+0 investment unit beside TÜYAP and the Metrobus corridor, priced for low capital entry and supported by fresh 30-night Airbnb comps in Gökevler.
+            - generic [ref=f3e32]:
+              - generic [ref=f3e33]:
+                - text: Purchase
+                - strong [ref=f3e34]: ₺1 145 000
+              - generic [ref=f3e35]:
+                - text: Airbnb median
+                - strong [ref=f3e36]: ₺60 758
+              - generic [ref=f3e37]:
+                - text: Net ROI
+                - strong [ref=f3e38]: 38,8%
+          - generic [ref=f3e39]:
+            - img "Studio vue mer et lac" [ref=f3e41]
+            - generic [ref=f3e42]:
+              - img "Studio vue mer et lac" [ref=f3e43]
+              - img "Studio vue mer et lac" [ref=f3e44]
+              - img "Studio vue mer et lac" [ref=f3e45]
+        - generic [ref=f3e46]:
+          - generic [ref=f3e47]:
+            - generic [ref=f3e48]:
+              - generic [ref=f3e49]: Map intelligence
+              - heading "Airbnb comps around the asset" [level=2] [ref=f3e50]
+            - paragraph [ref=f3e51]: The map plots the sale unit, TÜYAP, and nearby Airbnb listings from the fresh API pull for 30 nights from 2026-07-04 to 2026-08-03.
+          - generic [ref=f3e52]:
+            - generic [ref=f3e53]:
+              - generic:
+                - generic:
+                  - button [ref=f3e54] [cursor=pointer]
+                  - button [ref=f3e56] [cursor=pointer]
+                  - button [ref=f3e58] [cursor=pointer]
+                  - button [ref=f3e60] [cursor=pointer]
+                  - button [ref=f3e62] [cursor=pointer]
+                  - button [ref=f3e64] [cursor=pointer]
+                  - button [ref=f3e66] [cursor=pointer]
+                  - button [ref=f3e68] [cursor=pointer]
+                  - button [ref=f3e70] [cursor=pointer]
+                  - button [ref=f3e72] [cursor=pointer]
+                  - button [ref=f3e74] [cursor=pointer]
+                  - button [ref=f3e76] [cursor=pointer]
+                  - button [ref=f3e78] [cursor=pointer]
+                  - button [ref=f3e80] [cursor=pointer]
+                  - button [ref=f3e82] [cursor=pointer]
+                  - button [ref=f3e84] [cursor=pointer]
+                  - button [ref=f3e86] [cursor=pointer]
+                  - button [ref=f3e88] [cursor=pointer]
+                  - button [ref=f3e90] [cursor=pointer]
+                  - button [ref=f3e92] [cursor=pointer]
+                  - button [ref=f3e94] [cursor=pointer]
+                  - button [ref=f3e96] [cursor=pointer]
+              - generic:
+                - generic [ref=f3e98]:
+                  - button "Zoom in" [ref=f3e99] [cursor=pointer]: +
+                  - button "Zoom out" [ref=f3e100] [cursor=pointer]: −
+                - generic [ref=f3e101]:
+                  - link "Leaflet" [ref=f3e102] [cursor=pointer]:
+                    - /url: https://leafletjs.com
+                    - img [ref=f3e103]
+                    - text: Leaflet
+                  - text: "| © OpenStreetMap contributors"
+            - generic [ref=f3e107]:
+              - heading "Why this location matters" [level=3] [ref=f3e108]
+              - list [ref=f3e109]:
+                - listitem [ref=f3e110]: 0,26 km from TÜYAP Fair and Congress Center coordinates.
+                - listitem [ref=f3e111]: Strong short-stay demand profile during fair periods, setup days, and exhibitor teardown windows.
+                - listitem [ref=f3e112]: Studio format fits solo business visitors, fair staff, medical visitors, and short corporate stays.
+                - listitem [ref=f3e113]: 12th floor / 13-floor building gives view-led positioning for a low-ticket entry asset.
+        - generic [ref=f3e114]:
+          - generic [ref=f3e115]:
+            - generic [ref=f3e116]:
+              - generic [ref=f3e117]: Fresh Airbnb evidence
+              - heading "30-day rental set" [level=2] [ref=f3e118]
+            - paragraph [ref=f3e119]: Same-spec priority uses studio, unknown-bedroom, and 1BR units within 2 km. Larger apartments remain visible as upside context, not the base underwriting set.
+          - generic [ref=f3e120]:
+            - generic [ref=f3e121]:
+              - text: Comp count
+              - strong [ref=f3e122]: "6"
+            - generic [ref=f3e123]:
+              - text: P25 / Median / P75
+              - strong [ref=f3e124]: ₺58 848 / ₺60 758 / ₺63 292
+            - generic [ref=f3e125]:
+              - text: Comp range
+              - strong [ref=f3e126]: ₺40 529 - ₺68 930
+          - generic [ref=f3e127]:
+            - generic [ref=f3e129]:
+              - group "1 / 12" [ref=f3e130]:
+                - link "Beylikdüzü TÜYAP Apartment for Rent Beylikdüzü TÜYAP Apartment for Rent 0,1 km · Apartment · 1BR · 1 bath · 1 bed new/unrated · 0 listing reviews · Serpil · 2 host reviews · 0 yrs hosting · Verified Available ₺59 198 30 days ₺1 973/night" [ref=f3e131] [cursor=pointer]:
+                  - /url: https://www.airbnb.com/rooms/1539772437749705737?check_in=2026-07-04&check_out=2026-08-03&adults=2
+                  - img "Beylikdüzü TÜYAP Apartment for Rent" [ref=f3e132]
+                  - generic [ref=f3e133]:
+                    - generic [ref=f3e134]: Beylikdüzü TÜYAP Apartment for Rent
+                    - generic [ref=f3e135]: 0,1 km · Apartment · 1BR · 1 bath · 1 bed
+                    - generic [ref=f3e136]: new/unrated · 0 listing reviews · Serpil · 2 host reviews · 0 yrs hosting · Verified
+                    - generic [ref=f3e138]: Available
+                  - generic [ref=f3e139]:
+                    - strong [ref=f3e140]: ₺59 198
+                    - generic [ref=f3e141]: 30 days
+                    - generic [ref=f3e142]: ₺1 973/night
+              - group "2 / 12" [ref=f3e143]:
+                - link "3 min to Metrobus | Next to Tüyap | 24/7 reception 3 min to Metrobus | Next to Tüyap | 24/7 reception 0,1 km · Hotel · StudioBR · 1 bath · 1 bed new/unrated · 0 listing reviews · Emre · host reviews n/a · 0 yrs hosting · Verified Available ₺40 529 30 days ₺1 351/night" [ref=f3e144] [cursor=pointer]:
+                  - /url: https://www.airbnb.com/rooms/1705070931968131663?check_in=2026-07-04&check_out=2026-08-03&adults=2
+                  - img "3 min to Metrobus | Next to Tüyap | 24/7 reception" [ref=f3e145]
+                  - generic [ref=f3e146]:
+                    - generic [ref=f3e147]: 3 min to Metrobus | Next to Tüyap | 24/7 reception
+                    - generic [ref=f3e148]: 0,1 km · Hotel · StudioBR · 1 bath · 1 bed
+                    - generic [ref=f3e149]: new/unrated · 0 listing reviews · Emre · host reviews n/a · 0 yrs hosting · Verified
+                    - generic [ref=f3e151]: Available
+                  - generic [ref=f3e152]:
+                    - strong [ref=f3e153]: ₺40 529
+                    - generic [ref=f3e154]: 30 days
+                    - generic [ref=f3e155]: ₺1 351/night
+              - group "3 / 12" [ref=f3e156]:
+                - link "Centrally Located Metrobus Tüyap Fair Center Side Centrally Located Metrobus Tüyap Fair Center Side 0,13 km · Hotel · 1BR · 1 bath · 1 bed new/unrated · 0 listing reviews · Sercan · host reviews n/a · 0 yrs hosting · Verified Available ₺62 319 30 days ₺2 077/night" [ref=f3e157] [cursor=pointer]:
+                  - /url: https://www.airbnb.com/rooms/1541812935908298049?check_in=2026-07-04&check_out=2026-08-03&adults=2
+                  - img "Centrally Located Metrobus Tüyap Fair Center Side" [ref=f3e158]
+                  - generic [ref=f3e159]:
+                    - generic [ref=f3e160]: Centrally Located Metrobus Tüyap Fair Center Side
+                    - generic [ref=f3e161]: 0,13 km · Hotel · 1BR · 1 bath · 1 bed
+                    - generic [ref=f3e162]: new/unrated · 0 listing reviews · Sercan · host reviews n/a · 0 yrs hosting · Verified
+                    - generic [ref=f3e164]: Available
+                  - generic [ref=f3e165]:
+                    - strong [ref=f3e166]: ₺62 319
+                    - generic [ref=f3e167]: 30 days
+                    - generic [ref=f3e168]: ₺2 077/night
+              - group "4 / 12" [ref=f3e169]:
+                - link "Esenyurt Beylikdüzü Apartment for Rent Esenyurt Beylikdüzü Apartment for Rent 0,14 km · Apartment · 1BR · 1 bath · 2 bed new/unrated · 0 listing reviews · Serpil · 2 host reviews · 0 yrs hosting · Verified Available ₺63 617 30 days ₺2 121/night" [ref=f3e170] [cursor=pointer]:
+                  - /url: https://www.airbnb.com/rooms/1485796837753078297?check_in=2026-07-04&check_out=2026-08-03&adults=2
+                  - img "Esenyurt Beylikdüzü Apartment for Rent" [ref=f3e171]
+                  - generic [ref=f3e172]:
+                    - generic [ref=f3e173]: Esenyurt Beylikdüzü Apartment for Rent
+                    - generic [ref=f3e174]: 0,14 km · Apartment · 1BR · 1 bath · 2 bed
+                    - generic [ref=f3e175]: new/unrated · 0 listing reviews · Serpil · 2 host reviews · 0 yrs hosting · Verified
+                    - generic [ref=f3e177]: Available
+                  - generic [ref=f3e178]:
+                    - strong [ref=f3e179]: ₺63 617
+                    - generic [ref=f3e180]: 30 days
+                    - generic [ref=f3e181]: ₺2 121/night
+              - group "5 / 12" [ref=f3e182]:
+                - link "1+0 Studio Apartment 1+0 Studio Apartment 0,19 km · Apartment · 1BR · 1 bath · 1 bed new/unrated · 0 listing reviews · Veysel · host reviews n/a · 0 yrs hosting · Verified Available ₺58 731 30 days ₺1 958/night" [ref=f3e183] [cursor=pointer]:
+                  - /url: https://www.airbnb.com/rooms/1688285422322592470?check_in=2026-07-04&check_out=2026-08-03&adults=2
+                  - img "1+0 Studio Apartment" [ref=f3e184]
+                  - generic [ref=f3e185]:
+                    - generic [ref=f3e186]: 1+0 Studio Apartment
+                    - generic [ref=f3e187]: 0,19 km · Apartment · 1BR · 1 bath · 1 bed
+                    - generic [ref=f3e188]: new/unrated · 0 listing reviews · Veysel · host reviews n/a · 0 yrs hosting · Verified
+                    - generic [ref=f3e190]: Available
+                  - generic [ref=f3e191]:
+                    - strong [ref=f3e192]: ₺58 731
+                    - generic [ref=f3e193]: 30 days
+                    - generic [ref=f3e194]: ₺1 958/night
+              - group "6 / 12" [ref=f3e195]:
+                - 'link "Idol Complex {2+1} Idol Complex {2+1} 0,52 km · Home · 2BR · 2 bath · 2 bed new/unrated · 0 listing reviews · Youssef · 96 host reviews · 6 yrs hosting · Verified Available ₺148 913 30 days ₺4 964/night" [ref=f3e196] [cursor=pointer]':
+                  - /url: https://www.airbnb.com/rooms/1720936703478600513?check_in=2026-07-04&check_out=2026-08-03&adults=2
+                  - 'img "Idol Complex {2+1}" [ref=f3e197]'
+                  - generic [ref=f3e198]:
+                    - generic [ref=f3e199]: "Idol Complex {2+1}"
+                    - generic [ref=f3e200]: 0,52 km · Home · 2BR · 2 bath · 2 bed
+                    - generic [ref=f3e201]: new/unrated · 0 listing reviews · Youssef · 96 host reviews · 6 yrs hosting · Verified
+                    - generic [ref=f3e203]: Available
+                  - generic [ref=f3e204]:
+                    - strong [ref=f3e205]: ₺148 913
+                    - generic [ref=f3e206]: 30 days
+                    - generic [ref=f3e207]: ₺4 964/night
+              - group "7 / 12" [ref=f3e208]:
+                - link "Sweet Jameel for two near TÜYAP Rooms, Lounge and Bathroom Sweet Jameel for two near TÜYAP Rooms, Lounge and Bathroom 1,45 km · Apartment · 1BR · 1 bath · 1 bed new/unrated · 0 listing reviews · Abdul Rahman · 16 host reviews · 2 yrs hosting · Verified Available ₺68 930 30 days ₺2 298/night" [ref=f3e209] [cursor=pointer]:
+                  - /url: https://www.airbnb.com/rooms/1691170353010861819?check_in=2026-07-04&check_out=2026-08-03&adults=2
+                  - img "Sweet Jameel for two near TÜYAP Rooms, Lounge and Bathroom" [ref=f3e210]
+                  - generic [ref=f3e211]:
+                    - generic [ref=f3e212]: Sweet Jameel for two near TÜYAP Rooms, Lounge and Bathroom
+                    - generic [ref=f3e213]: 1,45 km · Apartment · 1BR · 1 bath · 1 bed
+                    - generic [ref=f3e214]: new/unrated · 0 listing reviews · Abdul Rahman · 16 host reviews · 2 yrs hosting · Verified
+                    - generic [ref=f3e216]: Available
+                  - generic [ref=f3e217]:
+                    - strong [ref=f3e218]: ₺68 930
+                    - generic [ref=f3e219]: 30 days
+                    - generic [ref=f3e220]: ₺2 298/night
+              - group "8 / 12" [ref=f3e221]:
+                - link "Apartment with a bedroom and a living room inside a residential complex Apartment with a bedroom and a living room inside a residential complex 2,56 km · Apartment · 1BR · 2 bath · 2 bed new/unrated · 0 listing reviews · Mosaab · 141 host reviews · 4 yrs hosting · Verified Available ₺55 829 30 days ₺1 861/night" [ref=f3e222] [cursor=pointer]:
+                  - /url: https://www.airbnb.com/rooms/1674623995285044800?check_in=2026-07-04&check_out=2026-08-03&adults=2
+                  - img "Apartment with a bedroom and a living room inside a residential complex" [ref=f3e223]
+                  - generic [ref=f3e224]:
+                    - generic [ref=f3e225]: Apartment with a bedroom and a living room inside a residential complex
+                    - generic [ref=f3e226]: 2,56 km · Apartment · 1BR · 2 bath · 2 bed
+                    - generic [ref=f3e227]: new/unrated · 0 listing reviews · Mosaab · 141 host reviews · 4 yrs hosting · Verified
+                    - generic [ref=f3e229]: Available
+                  - generic [ref=f3e230]:
+                    - strong [ref=f3e231]: ₺55 829
+                    - generic [ref=f3e232]: 30 days
+                    - generic [ref=f3e233]: ₺1 861/night
+              - group "9 / 12" [ref=f3e234]:
+                - link "Beautiful 2 bedroom apartment with a living room and a terrace with a wonderful view Beautiful 2 bedroom apartment with a living room and a terrace with a wonderful view 2,85 km · Apartment · 2BR · 1 bath · 2 bed new/unrated · 0 listing reviews · Abdul Rahman · 16 host reviews · 2 yrs hosting · Verified Available ₺72 028 30 days ₺2 401/night" [ref=f3e235] [cursor=pointer]:
+                  - /url: https://www.airbnb.com/rooms/1688642354794221157?check_in=2026-07-04&check_out=2026-08-03&adults=2
+                  - img "Beautiful 2 bedroom apartment with a living room and a terrace with a wonderful view" [ref=f3e236]
+                  - generic [ref=f3e237]:
+                    - generic [ref=f3e238]: Beautiful 2 bedroom apartment with a living room and a terrace with a wonderful view
+                    - generic [ref=f3e239]: 2,85 km · Apartment · 2BR · 1 bath · 2 bed
+                    - generic [ref=f3e240]: new/unrated · 0 listing reviews · Abdul Rahman · 16 host reviews · 2 yrs hosting · Verified
+                    - generic [ref=f3e242]: Available
+                  - generic [ref=f3e243]:
+                    - strong [ref=f3e244]: ₺72 028
+                    - generic [ref=f3e245]: 30 days
+                    - generic [ref=f3e246]: ₺2 401/night
+              - group "10 / 12" [ref=f3e247]:
+                - link "2+1 apartment in a prime location in the middle of the market 2+1 apartment in a prime location in the middle of the market 2,91 km · Apartment · 2BR · 1 bath · 2 bed new/unrated · 0 listing reviews · Abdul Rahman · 16 host reviews · 2 yrs hosting · Verified Available ₺79 657 30 days ₺2 655/night" [ref=f3e248] [cursor=pointer]:
+                  - /url: https://www.airbnb.com/rooms/1495795168027769701?check_in=2026-07-04&check_out=2026-08-03&adults=2
+                  - img "2+1 apartment in a prime location in the middle of the market" [ref=f3e249]
+                  - generic [ref=f3e250]:
+                    - generic [ref=f3e251]: 2+1 apartment in a prime location in the middle of the market
+                    - generic [ref=f3e252]: 2,91 km · Apartment · 2BR · 1 bath · 2 bed
+                    - generic [ref=f3e253]: new/unrated · 0 listing reviews · Abdul Rahman · 16 host reviews · 2 yrs hosting · Verified
+                    - generic [ref=f3e255]: Available
+                  - generic [ref=f3e256]:
+                    - strong [ref=f3e257]: ₺79 657
+                    - generic [ref=f3e258]: 30 days
+                    - generic [ref=f3e259]: ₺2 655/night
+              - group "11 / 12" [ref=f3e260]:
+                - link "Two-bedroom apartment and living room within a residential complex Two-bedroom apartment and living room within a residential complex 2,92 km · Apartment · 2BR · 1 bath · 3 bed new/unrated · 0 listing reviews · Abdul Rahman · 16 host reviews · 2 yrs hosting · Verified Available ₺84 509 30 days ₺2 817/night" [ref=f3e261] [cursor=pointer]:
+                  - /url: https://www.airbnb.com/rooms/1403900983201801518?check_in=2026-07-04&check_out=2026-08-03&adults=2
+                  - img "Two-bedroom apartment and living room within a residential complex" [ref=f3e262]
+                  - generic [ref=f3e263]:
+                    - generic [ref=f3e264]: Two-bedroom apartment and living room within a residential complex
+                    - generic [ref=f3e265]: 2,92 km · Apartment · 2BR · 1 bath · 3 bed
+                    - generic [ref=f3e266]: new/unrated · 0 listing reviews · Abdul Rahman · 16 host reviews · 2 yrs hosting · Verified
+                    - generic [ref=f3e268]: Available
+                  - generic [ref=f3e269]:
+                    - strong [ref=f3e270]: ₺84 509
+                    - generic [ref=f3e271]: 30 days
+                    - generic [ref=f3e272]: ₺2 817/night
+              - group "12 / 12" [ref=f3e273]:
+                - link "Comfortable 2BR · Fast WiFi · 5 Min to E5 07 Comfortable 2BR · Fast WiFi · 5 Min to E5 07 3,87 km · Apartment · 2BR · 1 bath · 2 bed 4,43 rating · 7 listing reviews · Hakan · 87 host reviews · 3 yrs hosting · Verified Available ₺77 117 30 days ₺2 571/night" [ref=f3e274] [cursor=pointer]:
+                  - /url: https://www.airbnb.com/rooms/965698136051230007?check_in=2026-07-04&check_out=2026-08-03&adults=2
+                  - img "Comfortable 2BR · Fast WiFi · 5 Min to E5 07" [ref=f3e275]
+                  - generic [ref=f3e276]:
+                    - generic [ref=f3e277]: Comfortable 2BR · Fast WiFi · 5 Min to E5 07
+                    - generic [ref=f3e278]: 3,87 km · Apartment · 2BR · 1 bath · 2 bed
+                    - generic [ref=f3e279]: 4,43 rating · 7 listing reviews · Hakan · 87 host reviews · 3 yrs hosting · Verified
+                    - generic [ref=f3e281]: Available
+                  - generic [ref=f3e282]:
+                    - strong [ref=f3e283]: ₺77 117
+                    - generic [ref=f3e284]: 30 days
+                    - generic [ref=f3e285]: ₺2 571/night
+            - generic "Airbnb comp controls" [ref=f3e286]:
+              - button "Previous slide" [disabled] [ref=f3e287] [cursor=pointer]: ‹
+              - generic [ref=f3e288]: Swipe comps
+              - button "Next slide" [ref=f3e289] [cursor=pointer]: ›
+        - generic [ref=f3e290]:
+          - generic [ref=f3e291]:
+            - generic [ref=f3e292]:
+              - generic [ref=f3e293]: Strategic demand
+              - heading "TÜYAP calendar pressure" [level=2] [ref=f3e294]
+            - paragraph [ref=f3e295]: Upcoming official TÜYAP Istanbul calendar items show repeated multi-day demand windows through the autumn and winter fair season.
+          - generic [ref=f3e296]:
+            - generic [ref=f3e297]:
+              - strong [ref=f3e298]: Foodist İstanbul
+              - generic [ref=f3e299]: 01.09.2026 / 04.09.2026
+            - generic [ref=f3e300]:
+              - strong [ref=f3e301]: Zuchex
+              - generic [ref=f3e302]: 09.09.2026 / 12.09.2026
+            - generic [ref=f3e303]:
+              - strong [ref=f3e304]: İntermob
+              - generic [ref=f3e305]: 17.09.2026 / 20.09.2026
+            - generic [ref=f3e306]:
+              - strong [ref=f3e307]: Fastener Expo Eurasia
+              - generic [ref=f3e308]: 17.09.2026 / 20.09.2026
+            - generic [ref=f3e309]:
+              - strong [ref=f3e310]: Maktek Avrasya Fuarı
+              - generic [ref=f3e311]: 28.09.2026 / 03.10.2026
+            - generic [ref=f3e312]:
+              - strong [ref=f3e313]: Avrasya Ambalaj İstanbul Fuarı
+              - generic [ref=f3e314]: 13.10.2026 / 16.10.2026
+            - generic [ref=f3e315]:
+              - strong [ref=f3e316]: Woodtech
+              - generic [ref=f3e317]: 22.10.2026 / 25.10.2026
+            - generic [ref=f3e318]:
+              - strong [ref=f3e319]: HOSTECH by TUSİD İSTANBUL
+              - generic [ref=f3e320]: 10.11.2026 / 14.11.2026
+            - generic [ref=f3e321]:
+              - strong [ref=f3e322]: Avrasya Cam / Pencere / Kapı 2026
+              - generic [ref=f3e323]: 21.11.2026 / 24.11.2026
+            - generic [ref=f3e324]:
+              - strong [ref=f3e325]: Plast Eurasia İstanbul
+              - generic [ref=f3e326]: 02.12.2026 / 05.12.2026
+            - generic [ref=f3e327]:
+              - strong [ref=f3e328]: İstanbul Kitap Fuarı
+              - generic [ref=f3e329]: 12.12.2026 / 20.12.2026
+          - paragraph [ref=f3e330]: "Calendar source: official TÜYAP fair calendar, checked July 4, 2026."
+        - generic [ref=f3e331]:
+          - generic [ref=f3e332]:
+            - generic [ref=f3e333]:
+              - generic [ref=f3e334]: Rentability
+              - heading "Debt-free yield scenarios" [level=2] [ref=f3e335]
+            - paragraph [ref=f3e336]: Calculations use purchase price plus ₺120 000 furnishing budget and ₺50 000 transaction buffer. Airbnb net assumes 30% operating drag for cleaning, utilities, platform, management, and wear.
+          - generic [ref=f3e337]:
+            - generic [ref=f3e338]:
+              - heading "Long-term fallback" [level=3] [ref=f3e339]
+              - generic [ref=f3e340]: ₺27 810
+              - generic [ref=f3e341]: Estimated monthly net
+              - generic [ref=f3e342]:
+                - generic [ref=f3e343]: Gross rent
+                - strong [ref=f3e344]: ₺30 900
+              - generic [ref=f3e345]:
+                - generic [ref=f3e346]: Annual net ROI
+                - strong [ref=f3e347]: 25,4%
+            - generic [ref=f3e348]:
+              - heading "Airbnb base" [level=3] [ref=f3e349]
+              - generic [ref=f3e350]: ₺42 531
+              - generic [ref=f3e351]: Estimated monthly net
+              - generic [ref=f3e352]:
+                - generic [ref=f3e353]: Gross revenue
+                - strong [ref=f3e354]: ₺60 758
+              - generic [ref=f3e355]:
+                - generic [ref=f3e356]: Annual net ROI
+                - strong [ref=f3e357]: 38,8%
+            - generic [ref=f3e358]:
+              - heading "Operator upside" [level=3] [ref=f3e359]
+              - generic [ref=f3e360]: ₺44 304
+              - generic [ref=f3e361]: Estimated monthly net
+              - generic [ref=f3e362]:
+                - generic [ref=f3e363]: Gross revenue
+                - strong [ref=f3e364]: ₺63 292
+              - generic [ref=f3e365]:
+                - generic [ref=f3e366]: Annual net ROI
+                - strong [ref=f3e367]: 40,4%
+          - generic [ref=f3e368]:
+            - heading "Investment read" [level=3] [ref=f3e369]
+            - paragraph [ref=f3e370]: The asset is strongest as a furnished short-stay studio near fair traffic. The base Airbnb case gives a healthier return than the long-term fallback, while the fallback still protects the deal if short-stay operations are paused. Main risks are review ramp-up, building short-stay rules, furnishing quality, and fair-season volatility.
+  - contentinfo [ref=f3e371]:
+    - generic [ref=f3e372]:
+      - generic [ref=f3e373]:
+        - paragraph [ref=f3e377]: Discover, rent or buy verified properties with modern tools and local expertise.
+        - generic [ref=f3e378]:
+          - heading "Navigation" [level=5] [ref=f3e379]
+          - list [ref=f3e380]:
+            - listitem [ref=f3e381]:
+              - link "Accueil" [ref=f3e382] [cursor=pointer]:
+                - /url: /fr/new/
+                - generic [ref=f3e383]: 
+                - text: Accueil
+            - listitem [ref=f3e384]:
+              - link "Opportunités" [ref=f3e385] [cursor=pointer]:
+                - /url: /fr/new/properties/
+                - generic [ref=f3e386]: 
+                - text: Opportunités
+            - listitem [ref=f3e387]:
+              - link "Carte" [ref=f3e388] [cursor=pointer]:
+                - /url: /fr/new/map/
+                - generic [ref=f3e389]: 
+                - text: Carte
+            - listitem [ref=f3e390]:
+              - link "Contact" [ref=f3e391] [cursor=pointer]:
+                - /url: /fr/new/contact/
+                - generic [ref=f3e392]: 
+                - text: Contact
+            - listitem [ref=f3e393]:
+              - link "Financement" [ref=f3e394] [cursor=pointer]:
+                - /url: /fr/new/financing/
+                - generic [ref=f3e395]: $
+                - text: Financement
+      - generic [ref=f3e396]:
+        - generic [ref=f3e397]:
+          - heading "Contact" [level=5] [ref=f3e398]
+          - list [ref=f3e399]:
+            - listitem [ref=f3e400]:
+              - generic [ref=f3e401]: 
+              - text: Beylikdüzü/İstanbul
+            - listitem [ref=f3e402]:
+              - generic [ref=f3e403]: 
+              - link "whatsynaptic@gmail.com" [ref=f3e404] [cursor=pointer]:
+                - /url: mailto:whatsynaptic@gmail.com
+            - listitem [ref=f3e405]:
+              - generic [ref=f3e406]: 
+              - link "+905423637436" [ref=f3e407] [cursor=pointer]:
+                - /url: https://wa.me/905423637436
+            - listitem [ref=f3e408]:
+              - link " Planifier une visite" [ref=f3e409] [cursor=pointer]:
+                - /url: https://cal.com/hasan-gun-saqvh6
+                - generic [ref=f3e410]: 
+                - text: Planifier une visite
+        - generic [ref=f3e411]:
+          - link [ref=f3e412] [cursor=pointer]:
+            - /url: " https://www.facebook.com/Koral-City-ltd-100737889187297"
+            - generic [ref=f3e413]: 
+          - link [ref=f3e414] [cursor=pointer]:
+            - /url: https://www.instagram.com/koralcityltd/
+            - generic [ref=f3e415]: 
+          - link [ref=f3e416] [cursor=pointer]:
+            - /url: https://twitter.com/Koralcityltd
+            - generic [ref=f3e417]: 
+      - separator [ref=f3e418]
+      - paragraph [ref=f3e421]:
+        - text: © 2025
+        - link "∞ Lotfinity ∞ tech Co." [ref=f3e422] [cursor=pointer]:
+          - /url: https://explore.lotfinity.tech
+        - text: ", Ltd. All rights reserved."
