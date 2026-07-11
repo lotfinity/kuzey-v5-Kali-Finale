@@ -1,0 +1,58 @@
+{% load static i18n google_maps %}
+
+{% firstof mobile_map_latitude listing.latitude "41.026688" as mobile_nav_latitude %}
+{% firstof mobile_map_longitude listing.longitude "28.625306" as mobile_nav_longitude %}
+{% google_maps_url mobile_nav_latitude mobile_nav_longitude as mobile_nav_google_maps_url %}
+
+<link rel="stylesheet" href="{% static 'newfront/assets/css/mobile-bottom-nav.css' %}">
+
+<nav class="mobile-bottom-nav" id="mobileBottomNav" aria-label="{% trans 'Mobile quick navigation' %}">
+  <button
+    class="mobile-bottom-nav__trigger"
+    id="mobileBottomNavTrigger"
+    type="button"
+    aria-label="{% trans 'Open quick navigation' %}"
+    aria-controls="mobileBottomNavItems"
+    aria-expanded="false">
+    <img src="{% static 'logo.png' %}" alt="" class="mobile-bottom-nav__logo">
+  </button>
+
+  <div class="mobile-bottom-nav__items" id="mobileBottomNavItems">
+    <a
+      class="mobile-bottom-nav__item"
+      href="https://wa.me/905423637436"
+      target="_blank"
+      rel="noopener noreferrer">
+      <i class="fab fa-whatsapp" aria-hidden="true"></i>
+      <span>{% trans "WhatsApp" %}</span>
+    </a>
+
+    <a class="mobile-bottom-nav__item" href="{% url 'opportunities' %}">
+      <i class="fa fa-building" aria-hidden="true"></i>
+      <span>{% trans "Listings" %}</span>
+    </a>
+
+    <a class="mobile-bottom-nav__item mobile-bottom-nav__item--home" href="{% url 'new_index' %}">
+      <i class="fa fa-home" aria-hidden="true"></i>
+      <span>{% trans "Home" %}</span>
+    </a>
+
+    {% if mobile_nav_google_maps_url %}
+      <a
+        class="mobile-bottom-nav__item"
+        href="{{ mobile_nav_google_maps_url }}"
+        target="_blank"
+        rel="noopener noreferrer">
+        <i class="fa fa-map-marker" aria-hidden="true"></i>
+        <span>{% trans "Location" %}</span>
+      </a>
+    {% endif %}
+
+    <a class="mobile-bottom-nav__item" href="{% url 'new_contact' %}">
+      <i class="fa fa-phone" aria-hidden="true"></i>
+      <span>{% trans "Contact" %}</span>
+    </a>
+  </div>
+</nav>
+
+<script src="{% static 'newfront/assets/js/mobile-bottom-nav.js' %}" defer></script>
