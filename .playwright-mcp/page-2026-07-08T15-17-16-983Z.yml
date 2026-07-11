@@ -1,0 +1,146 @@
+- generic [active] [ref=f1e1]:
+  - generic [ref=f1e4]:
+    - button "Sélectionner la langue" [ref=f1e6] [cursor=pointer]:
+      - img "fr" [ref=f1e7]
+      - generic [ref=f1e8]: FR
+      - generic [ref=f1e9]: ▾
+    - button "Select currency" [ref=f1e11] [cursor=pointer]:
+      - img [ref=f1e12]
+      - generic [ref=f1e13]: ₺
+      - generic [ref=f1e14]: ▾
+    - generic [ref=f1e15]:
+      - button "Select theme" [ref=f1e16] [cursor=pointer]:
+        - generic [ref=f1e17]: 
+      - text:   
+  - text:      
+  - banner [ref=f1e18]:
+    - navigation [ref=f1e22]:
+      - link "Logo" [ref=f1e23] [cursor=pointer]:
+        - /url: /fr/new/
+        - img "Logo" [ref=f1e24]
+      - list [ref=f1e25]:
+        - listitem [ref=f1e26]:
+          - link "Tous" [ref=f1e27] [cursor=pointer]:
+            - /url: /fr/new/opportunities/
+            - generic [ref=f1e28]: 
+            - text: Tous
+        - listitem [ref=f1e29]:
+          - link "Under 1.25M ₺" [ref=f1e30] [cursor=pointer]:
+            - /url: /fr/new/opportunities/under-1.25m/
+            - generic [ref=f1e31]: 
+            - text: Under 1.25M ₺
+        - listitem [ref=f1e32]:
+          - link "Over 1.25M ₺" [ref=f1e33] [cursor=pointer]:
+            - /url: /fr/new/opportunities/over-1.25m/
+            - generic [ref=f1e34]: 
+            - text: Over 1.25M ₺
+        - listitem [ref=f1e35]:
+          - link "Carte" [ref=f1e36] [cursor=pointer]:
+            - /url: /fr/new/map/
+            - generic [ref=f1e37]: 
+            - text: Carte
+        - listitem [ref=f1e38]:
+          - link " Planifier une visite" [ref=f1e39] [cursor=pointer]:
+            - /url: "#"
+            - generic [ref=f1e40]: 
+            - text: Planifier une visite
+  - main [ref=f1e42]:
+    - region "Carte expérimentale MapLibre" [ref=f1e43]:
+      - generic [ref=f1e44]:
+        - text: 
+        - generic [ref=f1e45]:
+          - generic:
+            - group "Commandes de carte" [ref=f1e46]:
+              - button "Centrer" [ref=f1e47] [cursor=pointer]:
+                - generic [ref=f1e48]: 
+              - button "Comparer Airbnb" [ref=f1e49] [cursor=pointer]:
+                - generic [ref=f1e50]: 
+              - button "Revenue Heatmap" [ref=f1e51] [cursor=pointer]:
+                - generic [ref=f1e52]: 
+              - button "Plein écran" [ref=f1e53] [cursor=pointer]:
+                - generic [ref=f1e54]: 
+            - group "Style de carte" [ref=f1e55]:
+              - button "Clair" [ref=f1e56] [cursor=pointer]
+              - button "Nuit" [ref=f1e57] [cursor=pointer]
+          - group "Filtres" [ref=f1e58]:
+            - button " Tous" [ref=f1e59] [cursor=pointer]:
+              - generic [ref=f1e60]: 
+              - text: Tous
+            - button " 1 + 0" [ref=f1e61] [cursor=pointer]:
+              - generic [ref=f1e62]: 
+              - text: 1 + 0
+            - button " 1 + 1" [ref=f1e63] [cursor=pointer]:
+              - generic [ref=f1e64]: 
+              - text: 1 + 1
+          - region "Map" [ref=f1e66]
+          - strong [ref=f1e69]: Loading listings
+          - generic "Annonces sélectionnées" [ref=f1e70]:
+            - button "Déployer la fiche" [ref=f1e71] [cursor=pointer]
+  - contentinfo [ref=f1e74]:
+    - generic [ref=f1e75]:
+      - generic [ref=f1e76]:
+        - paragraph [ref=f1e80]: Discover, rent or buy verified properties with modern tools and local expertise.
+        - generic [ref=f1e81]:
+          - heading "Navigation" [level=5] [ref=f1e82]
+          - list [ref=f1e83]:
+            - listitem [ref=f1e84]:
+              - link "Accueil" [ref=f1e85] [cursor=pointer]:
+                - /url: /fr/new/
+                - generic [ref=f1e86]: 
+                - text: Accueil
+            - listitem [ref=f1e87]:
+              - link "Opportunités" [ref=f1e88] [cursor=pointer]:
+                - /url: /fr/new/properties/
+                - generic [ref=f1e89]: 
+                - text: Opportunités
+            - listitem [ref=f1e90]:
+              - link "Carte" [ref=f1e91] [cursor=pointer]:
+                - /url: /fr/new/map/
+                - generic [ref=f1e92]: 
+                - text: Carte
+            - listitem [ref=f1e93]:
+              - link "Contact" [ref=f1e94] [cursor=pointer]:
+                - /url: /fr/new/contact/
+                - generic [ref=f1e95]: 
+                - text: Contact
+            - listitem [ref=f1e96]:
+              - link "Financement" [ref=f1e97] [cursor=pointer]:
+                - /url: /fr/new/financing/
+                - generic [ref=f1e98]: $
+                - text: Financement
+      - generic [ref=f1e99]:
+        - generic [ref=f1e100]:
+          - heading "Contact" [level=5] [ref=f1e101]
+          - list [ref=f1e102]:
+            - listitem [ref=f1e103]:
+              - generic [ref=f1e104]: 
+              - text: Beylikdüzü/İstanbul
+            - listitem [ref=f1e105]:
+              - generic [ref=f1e106]: 
+              - link "whatsynaptic@gmail.com" [ref=f1e107] [cursor=pointer]:
+                - /url: mailto:whatsynaptic@gmail.com
+            - listitem [ref=f1e108]:
+              - generic [ref=f1e109]: 
+              - link "+905423637436" [ref=f1e110] [cursor=pointer]:
+                - /url: https://wa.me/905423637436
+            - listitem [ref=f1e111]:
+              - link " Planifier une visite" [ref=f1e112] [cursor=pointer]:
+                - /url: https://cal.com/hasan-gun-saqvh6
+                - generic [ref=f1e113]: 
+                - text: Planifier une visite
+        - generic [ref=f1e114]:
+          - link [ref=f1e115] [cursor=pointer]:
+            - /url: " https://www.facebook.com/Koral-City-ltd-100737889187297"
+            - generic [ref=f1e116]: 
+          - link [ref=f1e117] [cursor=pointer]:
+            - /url: https://www.instagram.com/koralcityltd/
+            - generic [ref=f1e118]: 
+          - link [ref=f1e119] [cursor=pointer]:
+            - /url: https://twitter.com/Koralcityltd
+            - generic [ref=f1e120]: 
+      - separator [ref=f1e121]
+      - paragraph [ref=f1e124]:
+        - text: © 2025
+        - link "∞ Lotfinity ∞ tech Co." [ref=f1e125] [cursor=pointer]:
+          - /url: https://explore.lotfinity.tech
+        - text: ", Ltd. All rights reserved."

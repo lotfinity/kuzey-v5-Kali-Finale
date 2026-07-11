@@ -4,13 +4,17 @@ from django.http import HttpResponse, JsonResponse
 from django.conf import settings
 from django.views.decorators.clickjacking import xframe_options_exempt
 from django.db.models import Min, Max
+from django.utils import timezone
+from collections import defaultdict
+from datetime import timedelta
 import re, json
+import statistics
 import urllib.request
 from urllib.error import HTTPError, URLError
 
 from listings.choices import price_choices , bedroom_choices , state_choices, type_choices, rentability_group_choices
 
-from .models import AirbnbListing, Listing
+from .models import AirbnbListing, CurrencySettings, Listing
 from .investor import DEFAULT_INVESTOR_SETTINGS, airbnb_comp_records, build_investor_summary, investor_settings_from_request, score_listing
 from .portfolio import build_listing_portfolio_context
 
@@ -504,6 +508,185 @@ def airbnb_map_data(request):
     if skipped_invalid:
         resp["skipped_invalid"] = skipped_invalid
     return JsonResponse(resp)
+
+
+def _valid_map_coord(lat, lng):
+    try:
+        latf = float(lat)
+        lngf = float(lng)
+    except (TypeError, ValueError):
+        return False
+    return -90.0 <= latf <= 90.0 and -180.0 <= lngf <= 180.0 and not (latf == 0.0 and lngf == 0.0)
+
+
+def _airbnb_money_to_try(value, currency, rates):
+    if value in (None, ''):
+        return None
+    try:
+        amount = float(value)
+    except (TypeError, ValueError):
+        return None
+    currency = (currency or 'TRY').upper()
+    if currency == 'TRY':
+        return amount
+    if currency == 'USD' and rates.try_to_usd:
+        return amount / float(rates.try_to_usd)
+    if currency == 'EUR' and rates.try_to_eur:
+        return amount / float(rates.try_to_eur)
+    if currency == 'DZD' and rates.try_to_dzd:
+        return amount / float(rates.try_to_dzd)
+    return None
+
+
+def _airbnb_gross_30d_try(obj, rates):
+    total = _airbnb_money_to_try(obj.total_cost, obj.currency, rates)
+    if total and total > 0:
+        return total
+    nightly = _airbnb_money_to_try(obj.nightly_rate, obj.currency, rates)
+    if nightly and nightly > 0:
+        return nightly * 30
+    return None
+
+
+def _airbnb_small_flat_qs(qs, bedrooms_filter):
+    if bedrooms_filter == 'studio':
+        qs = qs.filter(bedroom_count=0)
+    elif bedrooms_filter == '1br':
+        qs = qs.filter(bedroom_count=1)
+    elif bedrooms_filter != 'all':
+        qs = qs.filter(bedroom_count__in=[0, 1])
+
+    qs = qs.filter(guest_capacity__lte=4) | qs.filter(guest_capacity__isnull=True)
+    allowed_property_fragments = ('apartment', 'serviced apartment', 'condo', 'rental unit', 'flat', 'daire')
+    filtered_ids = []
+    for obj in qs.only('id', 'property_type'):
+        property_type = (obj.property_type or '').strip().lower()
+        if not property_type or any(fragment in property_type for fragment in allowed_property_fragments):
+            filtered_ids.append(obj.id)
+    return AirbnbListing.objects.filter(id__in=filtered_ids)
+
+
+def airbnb_revenue_heatmap_data(request):
+    bedrooms_filter = (request.GET.get('bedrooms') or 'small').strip().lower()
+    destination = (request.GET.get('destination') or '').strip()
+    try:
+        min_comps = max(1, int(request.GET.get('min_comps') or 2))
+    except ValueError:
+        min_comps = 2
+    try:
+        fresh_days = max(1, int(request.GET.get('fresh_days') or 45))
+    except ValueError:
+        fresh_days = 45
+    try:
+        limit = max(1, min(1000, int(request.GET.get('limit') or 350)))
+    except ValueError:
+        limit = 350
+
+    qs = AirbnbListing.objects.exclude(latitude__isnull=True).exclude(longitude__isnull=True)
+    qs = qs.filter(scraped_at__gte=timezone.now() - timedelta(days=fresh_days))
+    if destination:
+        qs = qs.filter(source_destination_query__iexact=destination)
+    qs = _airbnb_small_flat_qs(qs, bedrooms_filter)
+
+    rates = CurrencySettings.load()
+    grid_size = 0.0045
+    buckets = defaultdict(list)
+    skipped_invalid = 0
+    skipped_price = 0
+    for obj in qs.order_by('-scraped_at'):
+        if not _valid_map_coord(obj.latitude, obj.longitude):
+            skipped_invalid += 1
+            continue
+        gross = _airbnb_gross_30d_try(obj, rates)
+        if not gross or gross <= 0:
+            skipped_price += 1
+            continue
+        lat = float(obj.latitude)
+        lng = float(obj.longitude)
+        bucket_key = (round(lat / grid_size), round(lng / grid_size))
+        buckets[bucket_key].append({
+            'lat': lat,
+            'lng': lng,
+            'gross': gross,
+            'destination': obj.source_destination_query,
+            'scraped_at': obj.scraped_at,
+        })
+
+    bucket_rows = []
+    for bucket_items in buckets.values():
+        if len(bucket_items) < min_comps:
+            continue
+        prices = sorted(item['gross'] for item in bucket_items)
+        median = round(statistics.median(prices))
+        avg_lat = sum(item['lat'] for item in bucket_items) / len(bucket_items)
+        avg_lng = sum(item['lng'] for item in bucket_items) / len(bucket_items)
+        latest = max(item['scraped_at'] for item in bucket_items)
+        destinations = sorted(set(item['destination'] or '' for item in bucket_items if item['destination']))
+        confidence = min(100, 35 + len(bucket_items) * 12)
+        bucket_rows.append({
+            'lat': avg_lat,
+            'lng': avg_lng,
+            'median': median,
+            'nightly': round(median / 30),
+            'comp_count': len(bucket_items),
+            'confidence': confidence,
+            'destination': ', '.join(destinations[:3]),
+            'scraped_at': latest,
+        })
+
+    bucket_rows = sorted(bucket_rows, key=lambda item: (item['median'], item['comp_count']), reverse=True)[:limit]
+    max_score = max((item['median'] * (0.7 + item['confidence'] / 300) for item in bucket_rows), default=1)
+    features = []
+    all_medians = []
+    all_comp_count = 0
+    latest_scraped = None
+    for idx, item in enumerate(bucket_rows, start=1):
+        score = item['median'] * (0.7 + item['confidence'] / 300)
+        weight = max(0.05, min(1.0, score / max_score))
+        all_medians.append(item['median'])
+        all_comp_count += item['comp_count']
+        latest_scraped = max(latest_scraped, item['scraped_at']) if latest_scraped else item['scraped_at']
+        features.append({
+            'type': 'Feature',
+            'geometry': {
+                'type': 'Point',
+                'coordinates': [item['lng'], item['lat']],
+            },
+            'properties': {
+                'id': 'heatmap-%s' % idx,
+                'source': 'airbnb_heatmap',
+                'weight': round(weight, 4),
+                'gross_30d_revenue_try': item['median'],
+                'nightly_equivalent_try': item['nightly'],
+                'comp_count': item['comp_count'],
+                'median_30d_revenue_try': item['median'],
+                'confidence': item['confidence'],
+                'source_destination_query': item['destination'],
+                'scraped_at': item['scraped_at'].isoformat(),
+            },
+        })
+
+    stats = {
+        'bucket_count': len(features),
+        'comp_count': all_comp_count,
+        'median_30d_revenue_try': round(statistics.median(all_medians)) if all_medians else 0,
+        'latest_scraped_at': latest_scraped.isoformat() if latest_scraped else None,
+        'confidence': round(sum(item['properties']['confidence'] for item in features) / len(features)) if features else 0,
+        'filters': {
+            'bedrooms': bedrooms_filter,
+            'min_comps': min_comps,
+            'destination': destination,
+            'fresh_days': fresh_days,
+            'limit': limit,
+        },
+        'skipped_invalid': skipped_invalid,
+        'skipped_price': skipped_price,
+    }
+    return JsonResponse({
+        'type': 'FeatureCollection',
+        'features': features,
+        'properties': stats,
+    })
 
 
 def new_map_view(request):

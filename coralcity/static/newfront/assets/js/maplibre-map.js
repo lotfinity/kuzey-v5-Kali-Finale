@@ -12,6 +12,12 @@
   var sheetListEl = document.getElementById('ml-sheet-list');
   var statusEl = document.getElementById('ml-status');
   var airbnbBtn = document.getElementById('ml-airbnb');
+  var heatmapBtn = document.getElementById('ml-heatmap');
+  var heatmapPanel = document.getElementById('ml-heatmap-panel');
+  var heatmapMedianEl = document.getElementById('ml-heatmap-median');
+  var heatmapCompsEl = document.getElementById('ml-heatmap-comps');
+  var heatmapLatestEl = document.getElementById('ml-heatmap-latest');
+  var heatmapConfidenceEl = document.getElementById('ml-heatmap-confidence');
   var fitBtn = document.getElementById('ml-fit');
   var fullscreenBtn = document.getElementById('ml-fullscreen');
   var langPrefix = root.dataset.langPrefix || '/en/';
@@ -23,13 +29,16 @@
     selectedId: null,
     listings: [],
     airbnb: [],
+    heatmap: [],
+    heatmapStats: {},
     current: []
   };
 
   var layerIds = {
     points: 'kuzey-points',
     labels: 'kuzey-point-labels',
-    selected: 'kuzey-selected-point'
+    selected: 'kuzey-selected-point',
+    heatmap: 'airbnb-revenue-heatmap'
   };
 
   var mapStyles = {
@@ -105,7 +114,7 @@
   function priceText(p) {
     var label = fmtCurrency(p.price, p.currency || 'TRY');
     if (!label) return '';
-    return p.source === 'airbnb' ? label + ' / July stay' : label;
+    return p.source === 'airbnb' ? label + ' / 30 nights' : label;
   }
 
   function roomSizeOf(p) {
@@ -152,6 +161,7 @@
   }
 
   function filteredFeatures() {
+    if (state.activeDataset === 'heatmap') return [];
     var base = state.activeDataset === 'airbnb' ? state.airbnb : state.listings;
     return base.filter(function (feature) {
       return state.activeFilter === 'all' || feature.properties.roomSize === state.activeFilter;
@@ -181,6 +191,60 @@
       map.addSource('selected-item', {
         type: 'geojson',
         data: selectedFeatureCollection()
+      });
+    }
+
+    if (!map.getSource('airbnb-revenue-heatmap')) {
+      map.addSource('airbnb-revenue-heatmap', {
+        type: 'geojson',
+        data: featureCollection(state.heatmap)
+      });
+    }
+
+    if (!map.getLayer(layerIds.heatmap)) {
+      map.addLayer({
+        id: layerIds.heatmap,
+        type: 'heatmap',
+        source: 'airbnb-revenue-heatmap',
+        maxzoom: 16,
+        paint: {
+          'heatmap-weight': ['coalesce', ['get', 'weight'], 0],
+          'heatmap-intensity': [
+            'interpolate',
+            ['linear'],
+            ['zoom'],
+            9, 3,
+            13, 8,
+            16, 12
+          ],
+          'heatmap-radius': [
+            'interpolate',
+            ['linear'],
+            ['zoom'],
+            9, 90,
+            13, 170,
+            16, 240
+          ],
+          'heatmap-opacity': [
+            'interpolate',
+            ['linear'],
+            ['zoom'],
+            9, .96,
+            16, .86
+          ],
+          'heatmap-color': [
+            'interpolate',
+            ['linear'],
+            ['heatmap-density'],
+            0, 'rgba(0,0,0,0)',
+            .08, 'rgba(33,102,172,.42)',
+            .25, 'rgba(103,169,207,.72)',
+            .45, 'rgba(250,204,21,.82)',
+            .68, 'rgba(249,115,22,.9)',
+            .9, 'rgba(239,68,68,.96)',
+            1, 'rgba(127,29,29,1)'
+          ]
+        }
       });
     }
 
@@ -249,6 +313,15 @@
   }
 
   function updateMapPaint() {
+    var isHeatmap = state.activeDataset === 'heatmap';
+    [layerIds.points, layerIds.labels, layerIds.selected].forEach(function (layerId) {
+      if (map.getLayer(layerId)) {
+        map.setLayoutProperty(layerId, 'visibility', isHeatmap ? 'none' : 'visible');
+      }
+    });
+    if (map.getLayer(layerIds.heatmap)) {
+      map.setLayoutProperty(layerIds.heatmap, 'visibility', isHeatmap ? 'visible' : 'none');
+    }
     if (map.getLayer(layerIds.selected)) {
       map.setPaintProperty(layerIds.selected, 'circle-stroke-color', state.activeDataset === 'airbnb' ? '#ff385c' : '#a38344');
     }
@@ -258,13 +331,19 @@
     state.current = filteredFeatures();
     if (map.getSource('items')) map.getSource('items').setData(sourceData());
     if (map.getSource('selected-item')) map.getSource('selected-item').setData(selectedFeatureCollection());
+    if (map.getSource('airbnb-revenue-heatmap')) map.getSource('airbnb-revenue-heatmap').setData(featureCollection(state.heatmap));
     updateMapPaint();
     renderLists();
-    setStatus(state.current.length + (state.activeDataset === 'airbnb' ? ' Airbnb rentals visible' : ' listings visible'));
+    renderHeatmapStats();
+    if (state.activeDataset === 'heatmap') {
+      setStatus(state.heatmap.length + ' revenue buckets visible');
+    } else {
+      setStatus(state.current.length + (state.activeDataset === 'airbnb' ? ' Airbnb rentals visible' : ' listings visible'));
+    }
   }
 
   function fitToData(options) {
-    var features = state.current;
+    var features = state.activeDataset === 'heatmap' ? state.heatmap : state.current;
     if (!features.length) {
       map.easeTo({ center: [28.67, 41.02], zoom: 11 });
       return;
@@ -327,6 +406,13 @@
   }
 
   function renderLists() {
+    if (state.activeDataset === 'heatmap') {
+      selectedEl.innerHTML = previewHTML(null);
+      sheetSelectedEl.innerHTML = previewHTML(null);
+      listEl.innerHTML = '<div class="ml-card"><div class="ml-card-img"></div><div><h2 class="ml-card-title">Revenue heatmap</h2><div class="ml-card-meta">Switch back to listings or Airbnb to browse individual cards.</div></div></div>';
+      sheetListEl.innerHTML = '';
+      return;
+    }
     var selected = selectedFeature();
     selectedEl.innerHTML = previewHTML(selected ? selected.properties : null);
     sheetSelectedEl.innerHTML = previewHTML(selected ? selected.properties : null);
@@ -379,12 +465,34 @@
     sheet.classList.toggle('is-open', !!open);
   }
 
+  function renderHeatmapStats() {
+    if (!heatmapPanel) return;
+    var stats = state.heatmapStats || {};
+    if (heatmapMedianEl) heatmapMedianEl.textContent = stats.median_30d_revenue_try ? fmtCurrency(stats.median_30d_revenue_try, 'TRY') : '-';
+    if (heatmapCompsEl) heatmapCompsEl.textContent = stats.comp_count || '-';
+    if (heatmapConfidenceEl) heatmapConfidenceEl.textContent = stats.confidence ? stats.confidence + '/100' : '-';
+    if (heatmapLatestEl) {
+      if (stats.latest_scraped_at) {
+        var date = new Date(stats.latest_scraped_at);
+        heatmapLatestEl.textContent = Number.isNaN(date.getTime()) ? stats.latest_scraped_at : date.toLocaleDateString('tr-TR');
+      } else {
+        heatmapLatestEl.textContent = '-';
+      }
+    }
+  }
+
   function setDataset(dataset) {
-    state.activeDataset = dataset === 'airbnb' ? 'airbnb' : 'listings';
+    state.activeDataset = dataset === 'airbnb' || dataset === 'heatmap' ? dataset : 'listings';
     state.selectedId = null;
     shell.classList.toggle('is-airbnb', state.activeDataset === 'airbnb');
-    airbnbBtn.setAttribute('aria-pressed', state.activeDataset === 'airbnb' ? 'true' : 'false');
-    airbnbBtn.innerHTML = state.activeDataset === 'airbnb' ? '<i class="fa fa-map-location-dot"></i>' : '<i class="fa fa-bed"></i>';
+    shell.classList.toggle('is-heatmap', state.activeDataset === 'heatmap');
+    if (airbnbBtn) {
+      airbnbBtn.setAttribute('aria-pressed', state.activeDataset === 'airbnb' ? 'true' : 'false');
+      airbnbBtn.innerHTML = state.activeDataset === 'airbnb' ? '<i class="fa fa-map-location-dot"></i>' : '<i class="fa fa-bed"></i>';
+    }
+    if (heatmapBtn) {
+      heatmapBtn.setAttribute('aria-pressed', state.activeDataset === 'heatmap' ? 'true' : 'false');
+    }
     state.activeFilter = 'all';
     document.querySelectorAll('.ml-chip').forEach(function (btn) {
       btn.classList.toggle('is-active', btn.dataset.filter === 'all');
@@ -422,10 +530,13 @@
     setStatus('Loading listings');
     return Promise.all([
       fetchGeoJson(root.dataset.listingsUrl),
-      fetchGeoJson(root.dataset.airbnbUrl)
+      fetchGeoJson(root.dataset.airbnbUrl),
+      fetchGeoJson(root.dataset.heatmapUrl)
     ]).then(function (responses) {
       state.listings = (responses[0].features || []).map(normalizeFeature).filter(Boolean);
       state.airbnb = (responses[1].features || []).map(normalizeFeature).filter(Boolean);
+      state.heatmap = responses[2].features || [];
+      state.heatmapStats = responses[2].properties || {};
       state.current = filteredFeatures();
       setSourceData();
       fitToData({ duration: 0 });
@@ -474,6 +585,12 @@
   airbnbBtn.addEventListener('click', function () {
     setDataset(state.activeDataset === 'airbnb' ? 'listings' : 'airbnb');
   });
+
+  if (heatmapBtn) {
+    heatmapBtn.addEventListener('click', function () {
+      setDataset(state.activeDataset === 'heatmap' ? 'listings' : 'heatmap');
+    });
+  }
 
   fitBtn.addEventListener('click', function () { fitToData(); });
 

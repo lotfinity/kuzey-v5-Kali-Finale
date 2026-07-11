@@ -1,4 +1,5 @@
 from decimal import Decimal, InvalidOperation
+from datetime import timedelta
 
 import requests
 from django.conf import settings
@@ -60,8 +61,8 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument('--api-key', default=getattr(settings, 'AIRBNB_SCRAPER_API_KEY', ''))
         parser.add_argument('--destination', default='Esenyurt, Istanbul, Turkey')
-        parser.add_argument('--arrival-date', default='2026-07-01')
-        parser.add_argument('--departure-date', default='2026-07-31')
+        parser.add_argument('--arrival-date', default='')
+        parser.add_argument('--departure-date', default='')
         parser.add_argument('--adult-guests', type=int, default=2)
         parser.add_argument('--page-number', type=int, default=1)
         parser.add_argument('--currency-code', default='TRY')
@@ -72,10 +73,17 @@ class Command(BaseCommand):
         if not api_key:
             raise CommandError('Provide --api-key or AIRBNB_SCRAPER_API_KEY in settings/env.')
 
+        arrival_date = options['arrival_date']
+        departure_date = options['departure_date']
+        if not arrival_date:
+            arrival_date = (timezone.localdate() + timedelta(days=1)).isoformat()
+        if not departure_date:
+            departure_date = (timezone.localdate() + timedelta(days=31)).isoformat()
+
         params = {
             'destination_query': options['destination'],
-            'arrival_date': options['arrival_date'],
-            'departure_date': options['departure_date'],
+            'arrival_date': arrival_date,
+            'departure_date': departure_date,
             'adult_guests': options['adult_guests'],
             'page_number': options['page_number'],
         }

@@ -1,0 +1,1130 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e4]:
+    - button "Sélectionner la langue" [ref=e6] [cursor=pointer]:
+      - img "fr" [ref=e7]
+      - generic [ref=e8]: FR
+      - generic [ref=e9]: ▾
+    - button "Select currency" [ref=e11] [cursor=pointer]:
+      - img [ref=e12]
+      - generic [ref=e13]: ₺
+      - generic [ref=e14]: ▾
+    - generic [ref=e15]:
+      - button "Select theme" [ref=e16] [cursor=pointer]:
+        - generic [ref=e17]: 
+      - text:   
+  - text:      
+  - banner [ref=e18]:
+    - navigation [ref=e22]:
+      - link "Logo" [ref=e23] [cursor=pointer]:
+        - /url: /fr/new/
+        - img "Logo" [ref=e24]
+      - list [ref=e25]:
+        - listitem [ref=e26]:
+          - link "Tous" [ref=e27] [cursor=pointer]:
+            - /url: /fr/new/opportunities/
+            - generic [ref=e28]: 
+            - text: Tous
+        - listitem [ref=e29]:
+          - link "Under 1.25M ₺" [ref=e30] [cursor=pointer]:
+            - /url: /fr/new/opportunities/under-1.25m/
+            - generic [ref=e31]: 
+            - text: Under 1.25M ₺
+        - listitem [ref=e32]:
+          - link "Over 1.25M ₺" [ref=e33] [cursor=pointer]:
+            - /url: /fr/new/opportunities/over-1.25m/
+            - generic [ref=e34]: 
+            - text: Over 1.25M ₺
+        - listitem [ref=e35]:
+          - link "Carte" [ref=e36] [cursor=pointer]:
+            - /url: /fr/new/map/
+            - generic [ref=e37]: 
+            - text: Carte
+        - listitem [ref=e38]:
+          - link " Planifier une visite" [ref=e39] [cursor=pointer]:
+            - /url: "#"
+            - generic [ref=e40]: 
+            - text: Planifier une visite
+  - main [ref=e42]:
+    - region "Carte expérimentale MapLibre" [ref=e43]:
+      - generic [ref=e44]:
+        - text:                                                                                                                                                                                                                   
+        - generic [ref=e45]:
+          - generic:
+            - group "Commandes de carte" [ref=e46]:
+              - button "Centrer" [ref=e47] [cursor=pointer]:
+                - generic [ref=e48]: 
+              - button "Comparer Airbnb" [ref=e49] [cursor=pointer]:
+                - generic [ref=e50]: 
+              - button "Revenue Heatmap" [ref=e51] [cursor=pointer]:
+                - generic [ref=e52]: 
+              - button "Plein écran" [ref=e53] [cursor=pointer]:
+                - generic [ref=e54]: 
+            - group "Style de carte" [ref=e55]:
+              - button "Clair" [ref=e56] [cursor=pointer]
+              - button "Nuit" [ref=e57] [cursor=pointer]
+          - group "Filtres" [ref=e58]:
+            - button " Tous" [ref=e59] [cursor=pointer]:
+              - generic [ref=e60]: 
+              - text: Tous
+            - button " 1 + 0" [ref=e61] [cursor=pointer]:
+              - generic [ref=e62]: 
+              - text: 1 + 0
+            - button " 1 + 1" [ref=e63] [cursor=pointer]:
+              - generic [ref=e64]: 
+              - text: 1 + 1
+          - region "Map" [ref=e66]
+          - strong [ref=e69]: 70 listings visible
+          - generic "Annonces sélectionnées" [ref=e70]:
+            - button "Déployer la fiche" [ref=e71] [cursor=pointer]
+            - generic [ref=e75]:
+              - heading "Select a marker" [level=2] [ref=e76]
+              - generic [ref=e77]: Tap a point on the map or choose a listing.
+            - generic [ref=e78]:
+              - button "Studio vue mer et lac ₺1.145.000  İstanbul  (1+0) Studio  40 m2" [ref=e79] [cursor=pointer]:
+                - generic [ref=e80]:
+                  - heading "Studio vue mer et lac" [level=2] [ref=e81]
+                  - generic [ref=e82]: ₺1.145.000
+                  - generic [ref=e83]:
+                    - generic [ref=e84]:
+                      - generic [ref=e85]: 
+                      - text: İstanbul
+                    - generic [ref=e86]:
+                      - generic [ref=e87]: 
+                      - text: (1+0) Studio
+                    - generic [ref=e88]:
+                      - generic [ref=e89]: 
+                      - text: 40 m2
+              - button "Appartement meublé proche Métrobus ₺1.200.000  İstanbul  1+1  65 m2" [ref=e90] [cursor=pointer]:
+                - generic [ref=e91]:
+                  - heading "Appartement meublé proche Métrobus" [level=2] [ref=e92]
+                  - generic [ref=e93]: ₺1.200.000
+                  - generic [ref=e94]:
+                    - generic [ref=e95]:
+                      - generic [ref=e96]: 
+                      - text: İstanbul
+                    - generic [ref=e97]:
+                      - generic [ref=e98]: 
+                      - text: 1+1
+                    - generic [ref=e99]:
+                      - generic [ref=e100]: 
+                      - text: 65 m2
+              - button "Studio investissement Métrobus ₺1.245.000  İstanbul  (1+0) Studio  50 m2" [ref=e101] [cursor=pointer]:
+                - generic [ref=e102]:
+                  - heading "Studio investissement Métrobus" [level=2] [ref=e103]
+                  - generic [ref=e104]: ₺1.245.000
+                  - generic [ref=e105]:
+                    - generic [ref=e106]:
+                      - generic [ref=e107]: 
+                      - text: İstanbul
+                    - generic [ref=e108]:
+                      - generic [ref=e109]: 
+                      - text: (1+0) Studio
+                    - generic [ref=e110]:
+                      - generic [ref=e111]: 
+                      - text: 50 m2
+              - button "Studio meublé en résidence ₺1.160.000  İstanbul  (1+0) Studio  40 m2" [ref=e112] [cursor=pointer]:
+                - generic [ref=e113]:
+                  - heading "Studio meublé en résidence" [level=2] [ref=e114]
+                  - generic [ref=e115]: ₺1.160.000
+                  - generic [ref=e116]:
+                    - generic [ref=e117]:
+                      - generic [ref=e118]: 
+                      - text: İstanbul
+                    - generic [ref=e119]:
+                      - generic [ref=e120]: 
+                      - text: (1+0) Studio
+                    - generic [ref=e121]:
+                      - generic [ref=e122]: 
+                      - text: 40 m2
+              - button "Studio luxe meublé avec locataire ₺1.099.000  İstanbul  (1+0) Studio  50 m2" [ref=e123] [cursor=pointer]:
+                - generic [ref=e124]:
+                  - heading "Studio luxe meublé avec locataire" [level=2] [ref=e125]
+                  - generic [ref=e126]: ₺1.099.000
+                  - generic [ref=e127]:
+                    - generic [ref=e128]:
+                      - generic [ref=e129]: 
+                      - text: İstanbul
+                    - generic [ref=e130]:
+                      - generic [ref=e131]: 
+                      - text: (1+0) Studio
+                    - generic [ref=e132]:
+                      - generic [ref=e133]: 
+                      - text: 50 m2
+              - button "Studio investissement Future Park ₺1.220.000  İstanbul  (1+0) Studio  40 m2" [ref=e134] [cursor=pointer]:
+                - generic [ref=e135]:
+                  - heading "Studio investissement Future Park" [level=2] [ref=e136]
+                  - generic [ref=e137]: ₺1.220.000
+                  - generic [ref=e138]:
+                    - generic [ref=e139]:
+                      - generic [ref=e140]: 
+                      - text: İstanbul
+                    - generic [ref=e141]:
+                      - generic [ref=e142]: 
+                      - text: (1+0) Studio
+                    - generic [ref=e143]:
+                      - generic [ref=e144]: 
+                      - text: 40 m2
+              - button "Studio moderne Future Park ₺1.150.000  İstanbul  (1+0) Studio  40 m2" [ref=e145] [cursor=pointer]:
+                - generic [ref=e146]:
+                  - heading "Studio moderne Future Park" [level=2] [ref=e147]
+                  - generic [ref=e148]: ₺1.150.000
+                  - generic [ref=e149]:
+                    - generic [ref=e150]:
+                      - generic [ref=e151]: 
+                      - text: İstanbul
+                    - generic [ref=e152]:
+                      - generic [ref=e153]: 
+                      - text: (1+0) Studio
+                    - generic [ref=e154]:
+                      - generic [ref=e155]: 
+                      - text: 40 m2
+              - button "Studio en résidence proche Métrobus ₺1.099.000  İstanbul  (1+0) Studio  50 m2" [ref=e156] [cursor=pointer]:
+                - generic [ref=e157]:
+                  - heading "Studio en résidence proche Métrobus" [level=2] [ref=e158]
+                  - generic [ref=e159]: ₺1.099.000
+                  - generic [ref=e160]:
+                    - generic [ref=e161]:
+                      - generic [ref=e162]: 
+                      - text: İstanbul
+                    - generic [ref=e163]:
+                      - generic [ref=e164]: 
+                      - text: (1+0) Studio
+                    - generic [ref=e165]:
+                      - generic [ref=e166]: 
+                      - text: 50 m2
+              - button "Studio meublé vue mer ₺1.089.000  İstanbul  (1+0) Studio  45 m2" [ref=e167] [cursor=pointer]:
+                - generic [ref=e168]:
+                  - heading "Studio meublé vue mer" [level=2] [ref=e169]
+                  - generic [ref=e170]: ₺1.089.000
+                  - generic [ref=e171]:
+                    - generic [ref=e172]:
+                      - generic [ref=e173]: 
+                      - text: İstanbul
+                    - generic [ref=e174]:
+                      - generic [ref=e175]: 
+                      - text: (1+0) Studio
+                    - generic [ref=e176]:
+                      - generic [ref=e177]: 
+                      - text: 45 m2
+              - button "Studio meublé NLogo Istanbul ₺1.425.000  İstanbul  (1+0) Studio  28 m2" [ref=e178] [cursor=pointer]:
+                - generic [ref=e179]:
+                  - heading "Studio meublé NLogo Istanbul" [level=2] [ref=e180]
+                  - generic [ref=e181]: ₺1.425.000
+                  - generic [ref=e182]:
+                    - generic [ref=e183]:
+                      - generic [ref=e184]: 
+                      - text: İstanbul
+                    - generic [ref=e185]:
+                      - generic [ref=e186]: 
+                      - text: (1+0) Studio
+                    - generic [ref=e187]:
+                      - generic [ref=e188]: 
+                      - text: 28 m2
+              - button "Petit studio lumineux ₺1.480.000  İstanbul  (1+0) Studio  32 m2" [ref=e189] [cursor=pointer]:
+                - generic [ref=e190]:
+                  - heading "Petit studio lumineux" [level=2] [ref=e191]
+                  - generic [ref=e192]: ₺1.480.000
+                  - generic [ref=e193]:
+                    - generic [ref=e194]:
+                      - generic [ref=e195]: 
+                      - text: İstanbul
+                    - generic [ref=e196]:
+                      - generic [ref=e197]: 
+                      - text: (1+0) Studio
+                    - generic [ref=e198]:
+                      - generic [ref=e199]: 
+                      - text: 32 m2
+              - button "Grand 1+1 proche Métrobus ₺1.390.000  İstanbul  1+1  75 m2" [ref=e200] [cursor=pointer]:
+                - generic [ref=e201]:
+                  - heading "Grand 1+1 proche Métrobus" [level=2] [ref=e202]
+                  - generic [ref=e203]: ₺1.390.000
+                  - generic [ref=e204]:
+                    - generic [ref=e205]:
+                      - generic [ref=e206]: 
+                      - text: İstanbul
+                    - generic [ref=e207]:
+                      - generic [ref=e208]: 
+                      - text: 1+1
+                    - generic [ref=e209]:
+                      - generic [ref=e210]: 
+                      - text: 75 m2
+              - button "1+1 décoré prêt à vivre ₺1.275.000  İstanbul  1+1  80 m2" [ref=e211] [cursor=pointer]:
+                - generic [ref=e212]:
+                  - heading "1+1 décoré prêt à vivre" [level=2] [ref=e213]
+                  - generic [ref=e214]: ₺1.275.000
+                  - generic [ref=e215]:
+                    - generic [ref=e216]:
+                      - generic [ref=e217]: 
+                      - text: İstanbul
+                    - generic [ref=e218]:
+                      - generic [ref=e219]: 
+                      - text: 1+1
+                    - generic [ref=e220]:
+                      - generic [ref=e221]: 
+                      - text: 80 m2
+              - button "Studio meublé Nefes Résidence ₺1.490.000  İstanbul  (1+0) Studio  38 m2" [ref=e222] [cursor=pointer]:
+                - generic [ref=e223]:
+                  - heading "Studio meublé Nefes Résidence" [level=2] [ref=e224]
+                  - generic [ref=e225]: ₺1.490.000
+                  - generic [ref=e226]:
+                    - generic [ref=e227]:
+                      - generic [ref=e228]: 
+                      - text: İstanbul
+                    - generic [ref=e229]:
+                      - generic [ref=e230]: 
+                      - text: (1+0) Studio
+                    - generic [ref=e231]:
+                      - generic [ref=e232]: 
+                      - text: 38 m2
+              - button "1+1 proche Métrobus ₺1.460.000  İstanbul  1+1  70 m2" [ref=e233] [cursor=pointer]:
+                - generic [ref=e234]:
+                  - heading "1+1 proche Métrobus" [level=2] [ref=e235]
+                  - generic [ref=e236]: ₺1.460.000
+                  - generic [ref=e237]:
+                    - generic [ref=e238]:
+                      - generic [ref=e239]: 
+                      - text: İstanbul
+                    - generic [ref=e240]:
+                      - generic [ref=e241]: 
+                      - text: 1+1
+                    - generic [ref=e242]:
+                      - generic [ref=e243]: 
+                      - text: 70 m2
+              - button "1+1 calme en résidence ₺1.300.000  İstanbul  1+1  80 m2" [ref=e244] [cursor=pointer]:
+                - generic [ref=e245]:
+                  - heading "1+1 calme en résidence" [level=2] [ref=e246]
+                  - generic [ref=e247]: ₺1.300.000
+                  - generic [ref=e248]:
+                    - generic [ref=e249]:
+                      - generic [ref=e250]: 
+                      - text: İstanbul
+                    - generic [ref=e251]:
+                      - generic [ref=e252]: 
+                      - text: 1+1
+                    - generic [ref=e253]:
+                      - generic [ref=e254]: 
+                      - text: 80 m2
+              - button "Studio Safak Résidence ₺1.350.000  İstanbul  (1+0) Studio  40 m2" [ref=e255] [cursor=pointer]:
+                - generic [ref=e256]:
+                  - heading "Studio Safak Résidence" [level=2] [ref=e257]
+                  - generic [ref=e258]: ₺1.350.000
+                  - generic [ref=e259]:
+                    - generic [ref=e260]:
+                      - generic [ref=e261]: 
+                      - text: İstanbul
+                    - generic [ref=e262]:
+                      - generic [ref=e263]: 
+                      - text: (1+0) Studio
+                    - generic [ref=e264]:
+                      - generic [ref=e265]: 
+                      - text: 40 m2
+              - button "Studio meublé haut rendement ₺1.390.000  İstanbul  (1+0) Studio  60 m2" [ref=e266] [cursor=pointer]:
+                - generic [ref=e267]:
+                  - heading "Studio meublé haut rendement" [level=2] [ref=e268]
+                  - generic [ref=e269]: ₺1.390.000
+                  - generic [ref=e270]:
+                    - generic [ref=e271]:
+                      - generic [ref=e272]: 
+                      - text: İstanbul
+                    - generic [ref=e273]:
+                      - generic [ref=e274]: 
+                      - text: (1+0) Studio
+                    - generic [ref=e275]:
+                      - generic [ref=e276]: 
+                      - text: 60 m2
+              - button "ESENYURT SİTE İÇİ ZAFER MAHALLESİ SATILIK 1+0 YATIRIMLIK DAİRE ₺1.445.000  İstanbul  (1+0) Studio  40 m2" [ref=e277] [cursor=pointer]:
+                - generic [ref=e278]:
+                  - heading "ESENYURT SİTE İÇİ ZAFER MAHALLESİ SATILIK 1+0 YATIRIMLIK DAİRE" [level=2] [ref=e279]
+                  - generic [ref=e280]: ₺1.445.000
+                  - generic [ref=e281]:
+                    - generic [ref=e282]:
+                      - generic [ref=e283]: 
+                      - text: İstanbul
+                    - generic [ref=e284]:
+                      - generic [ref=e285]: 
+                      - text: (1+0) Studio
+                    - generic [ref=e286]:
+                      - generic [ref=e287]: 
+                      - text: 40 m2
+              - button "Rüya Prestij'de Yatırıma Hazır 1+0 Stüdyo | Metrobüse 10 Dakika ₺1.500.000  İstanbul  (1+0) Studio  30 m2" [ref=e288] [cursor=pointer]:
+                - generic [ref=e289]:
+                  - heading "Rüya Prestij'de Yatırıma Hazır 1+0 Stüdyo | Metrobüse 10 Dakika" [level=2] [ref=e290]
+                  - generic [ref=e291]: ₺1.500.000
+                  - generic [ref=e292]:
+                    - generic [ref=e293]:
+                      - generic [ref=e294]: 
+                      - text: İstanbul
+                    - generic [ref=e295]:
+                      - generic [ref=e296]: 
+                      - text: (1+0) Studio
+                    - generic [ref=e297]:
+                      - generic [ref=e298]: 
+                      - text: 30 m2
+              - button "İSTER YATIRIMLIK İSTER OTURUMLUK FULL KONSEPT SİTE İÇİ DAİRE ₺1.450.000  İstanbul  (1+0) Studio  45 m2" [ref=e299] [cursor=pointer]:
+                - generic [ref=e300]:
+                  - heading "İSTER YATIRIMLIK İSTER OTURUMLUK FULL KONSEPT SİTE İÇİ DAİRE" [level=2] [ref=e301]
+                  - generic [ref=e302]: ₺1.450.000
+                  - generic [ref=e303]:
+                    - generic [ref=e304]:
+                      - generic [ref=e305]: 
+                      - text: İstanbul
+                    - generic [ref=e306]:
+                      - generic [ref=e307]: 
+                      - text: (1+0) Studio
+                    - generic [ref=e308]:
+                      - generic [ref=e309]: 
+                      - text: 45 m2
+              - button "Future Parkta Site İçinde Temiz ve Ferah Satılık 1+0 Daire ₺1.300.000  İstanbul  (1+0) Studio  35 m2" [ref=e310] [cursor=pointer]:
+                - generic [ref=e311]:
+                  - heading "Future Parkta Site İçinde Temiz ve Ferah Satılık 1+0 Daire" [level=2] [ref=e312]
+                  - generic [ref=e313]: ₺1.300.000
+                  - generic [ref=e314]:
+                    - generic [ref=e315]:
+                      - generic [ref=e316]: 
+                      - text: İstanbul
+                    - generic [ref=e317]:
+                      - generic [ref=e318]: 
+                      - text: (1+0) Studio
+                    - generic [ref=e319]:
+                      - generic [ref=e320]: 
+                      - text: 35 m2
+              - button "ESENYURT NLOGO İSTANBUL EŞYALI GÜNCEL SATILIK STUDYO DAİRE ₺1.500.000  İstanbul  (1+0) Studio  28 m2" [ref=e321] [cursor=pointer]:
+                - generic [ref=e322]:
+                  - heading "ESENYURT NLOGO İSTANBUL EŞYALI GÜNCEL SATILIK STUDYO DAİRE" [level=2] [ref=e323]
+                  - generic [ref=e324]: ₺1.500.000
+                  - generic [ref=e325]:
+                    - generic [ref=e326]:
+                      - generic [ref=e327]: 
+                      - text: İstanbul
+                    - generic [ref=e328]:
+                      - generic [ref=e329]: 
+                      - text: (1+0) Studio
+                    - generic [ref=e330]:
+                      - generic [ref=e331]: 
+                      - text: 28 m2
+              - button "Future Parkta Site İçinde Temiz ve Ferah Satılık 1+0 Daire ₺1.399.000  İstanbul  (1+0) Studio  37 m2" [ref=e332] [cursor=pointer]:
+                - generic [ref=e333]:
+                  - heading "Future Parkta Site İçinde Temiz ve Ferah Satılık 1+0 Daire" [level=2] [ref=e334]
+                  - generic [ref=e335]: ₺1.399.000
+                  - generic [ref=e336]:
+                    - generic [ref=e337]:
+                      - generic [ref=e338]: 
+                      - text: İstanbul
+                    - generic [ref=e339]:
+                      - generic [ref=e340]: 
+                      - text: (1+0) Studio
+                    - generic [ref=e341]:
+                      - generic [ref=e342]: 
+                      - text: 37 m2
+              - button "ESENYURT NLOGO İSTANBUL EŞYALI GÜNCEL SATILIK STÜDYO DAİRE ₺1.500.000  İstanbul  (1+0) Studio  28 m2" [ref=e343] [cursor=pointer]:
+                - generic [ref=e344]:
+                  - heading "ESENYURT NLOGO İSTANBUL EŞYALI GÜNCEL SATILIK STÜDYO DAİRE" [level=2] [ref=e345]
+                  - generic [ref=e346]: ₺1.500.000
+                  - generic [ref=e347]:
+                    - generic [ref=e348]:
+                      - generic [ref=e349]: 
+                      - text: İstanbul
+                    - generic [ref=e350]:
+                      - generic [ref=e351]: 
+                      - text: (1+0) Studio
+                    - generic [ref=e352]:
+                      - generic [ref=e353]: 
+                      - text: 28 m2
+              - button "Ferruh'dan Nlogo İstanbul'da 1+0 Satılık Daire - Havuz Manzaralı ₺1.450.000  İstanbul  (1+0) Studio  32 m2" [ref=e354] [cursor=pointer]:
+                - generic [ref=e355]:
+                  - heading "Ferruh'dan Nlogo İstanbul'da 1+0 Satılık Daire - Havuz Manzaralı" [level=2] [ref=e356]
+                  - generic [ref=e357]: ₺1.450.000
+                  - generic [ref=e358]:
+                    - generic [ref=e359]:
+                      - generic [ref=e360]: 
+                      - text: İstanbul
+                    - generic [ref=e361]:
+                      - generic [ref=e362]: 
+                      - text: (1+0) Studio
+                    - generic [ref=e363]:
+                      - generic [ref=e364]: 
+                      - text: 32 m2
+              - button "SATILIK EŞYALI DAİRE METROBÜSE YÜRÜME MESAFE SİTE İÇİNDE ₺1.489.998  İstanbul  (1+0) Studio  30 m2" [ref=e365] [cursor=pointer]:
+                - generic [ref=e366]:
+                  - heading "SATILIK EŞYALI DAİRE METROBÜSE YÜRÜME MESAFE SİTE İÇİNDE" [level=2] [ref=e367]
+                  - generic [ref=e368]: ₺1.489.998
+                  - generic [ref=e369]:
+                    - generic [ref=e370]:
+                      - generic [ref=e371]: 
+                      - text: İstanbul
+                    - generic [ref=e372]:
+                      - generic [ref=e373]: 
+                      - text: (1+0) Studio
+                    - generic [ref=e374]:
+                      - generic [ref=e375]: 
+                      - text: 30 m2
+              - button "ESENYURT CUMHURİYET MAH 900 BİN PEŞİNATLA SİTE İÇERİSİNDE DAİRE ₺1.250.000  İstanbul  1+1  70 m2" [ref=e376] [cursor=pointer]:
+                - generic [ref=e377]:
+                  - heading "ESENYURT CUMHURİYET MAH 900 BİN PEŞİNATLA SİTE İÇERİSİNDE DAİRE" [level=2] [ref=e378]
+                  - generic [ref=e379]: ₺1.250.000
+                  - generic [ref=e380]:
+                    - generic [ref=e381]:
+                      - generic [ref=e382]: 
+                      - text: İstanbul
+                    - generic [ref=e383]:
+                      - generic [ref=e384]: 
+                      - text: 1+1
+                    - generic [ref=e385]:
+                      - generic [ref=e386]: 
+                      - text: 70 m2
+              - 'button "Studio moderne Future Park - E2E WhatsApp test clone of #111 ₺1.150.000  İstanbul  (1+0) Studio  40 m2" [ref=e387] [cursor=pointer]':
+                - generic [ref=e388]:
+                  - 'heading "Studio moderne Future Park - E2E WhatsApp test clone of #111" [level=2] [ref=e389]'
+                  - generic [ref=e390]: ₺1.150.000
+                  - generic [ref=e391]:
+                    - generic [ref=e392]:
+                      - generic [ref=e393]: 
+                      - text: İstanbul
+                    - generic [ref=e394]:
+                      - generic [ref=e395]: 
+                      - text: (1+0) Studio
+                    - generic [ref=e396]:
+                      - generic [ref=e397]: 
+                      - text: 40 m2
+              - button "GÜVENER MİMARLIK'TAN GÜVENLİKLİ SİTE İÇİNDE 1+1 SATILIK DAİRE !! ₺1.289.000  İstanbul  1+1  70 m2" [ref=e398] [cursor=pointer]:
+                - generic [ref=e400]:
+                  - heading "GÜVENER MİMARLIK'TAN GÜVENLİKLİ SİTE İÇİNDE 1+1 SATILIK DAİRE !!" [level=2] [ref=e401]
+                  - generic [ref=e402]: ₺1.289.000
+                  - generic [ref=e403]:
+                    - generic [ref=e404]:
+                      - generic [ref=e405]: 
+                      - text: İstanbul
+                    - generic [ref=e406]:
+                      - generic [ref=e407]: 
+                      - text: 1+1
+                    - generic [ref=e408]:
+                      - generic [ref=e409]: 
+                      - text: 70 m2
+              - button "METROBÜSE YÜRÜME 8 DK, İSKANLI SİTE İÇERİSİNDE 1+1 SATILIK DAİRE ₺1.420.000  İstanbul  1+1  70 m2" [ref=e410] [cursor=pointer]:
+                - generic [ref=e412]:
+                  - heading "METROBÜSE YÜRÜME 8 DK, İSKANLI SİTE İÇERİSİNDE 1+1 SATILIK DAİRE" [level=2] [ref=e413]
+                  - generic [ref=e414]: ₺1.420.000
+                  - generic [ref=e415]:
+                    - generic [ref=e416]:
+                      - generic [ref=e417]: 
+                      - text: İstanbul
+                    - generic [ref=e418]:
+                      - generic [ref=e419]: 
+                      - text: 1+1
+                    - generic [ref=e420]:
+                      - generic [ref=e421]: 
+                      - text: 70 m2
+              - button "ZAMAN YAPIDAN SİTE İÇERİSİNDE ULTRA LÜX KELEPİR DAİRE ₺1.420.000  İstanbul  1+1  70 m2" [ref=e422] [cursor=pointer]:
+                - generic [ref=e424]:
+                  - heading "ZAMAN YAPIDAN SİTE İÇERİSİNDE ULTRA LÜX KELEPİR DAİRE" [level=2] [ref=e425]
+                  - generic [ref=e426]: ₺1.420.000
+                  - generic [ref=e427]:
+                    - generic [ref=e428]:
+                      - generic [ref=e429]: 
+                      - text: İstanbul
+                    - generic [ref=e430]:
+                      - generic [ref=e431]: 
+                      - text: 1+1
+                    - generic [ref=e432]:
+                      - generic [ref=e433]: 
+                      - text: 70 m2
+              - button "SEFAKÖYEMLAKTAN FUTURE PARK SİTESİNDE 1+0 ARA KAT EŞYALI SATILIK ₺1.450.000  İstanbul  (1+0) Studio  40 m2" [ref=e434] [cursor=pointer]:
+                - generic [ref=e436]:
+                  - heading "SEFAKÖYEMLAKTAN FUTURE PARK SİTESİNDE 1+0 ARA KAT EŞYALI SATILIK" [level=2] [ref=e437]
+                  - generic [ref=e438]: ₺1.450.000
+                  - generic [ref=e439]:
+                    - generic [ref=e440]:
+                      - generic [ref=e441]: 
+                      - text: İstanbul
+                    - generic [ref=e442]:
+                      - generic [ref=e443]: 
+                      - text: (1+0) Studio
+                    - generic [ref=e444]:
+                      - generic [ref=e445]: 
+                      - text: 40 m2
+              - button "YÜKSEK KİRA GETİRİLİ GÜVENLİKLİ OTOPARKLI SİTE İÇİ STÜDYO DAİRE ₺1.445.000  İstanbul  (1+0) Studio  60 m2" [ref=e446] [cursor=pointer]:
+                - generic [ref=e447]:
+                  - heading "YÜKSEK KİRA GETİRİLİ GÜVENLİKLİ OTOPARKLI SİTE İÇİ STÜDYO DAİRE" [level=2] [ref=e448]
+                  - generic [ref=e449]: ₺1.445.000
+                  - generic [ref=e450]:
+                    - generic [ref=e451]:
+                      - generic [ref=e452]: 
+                      - text: İstanbul
+                    - generic [ref=e453]:
+                      - generic [ref=e454]: 
+                      - text: (1+0) Studio
+                    - generic [ref=e455]:
+                      - generic [ref=e456]: 
+                      - text: 60 m2
+              - button "MİWA YAPI'DAN YATIRIMA VE OTURUMA UYGUN METROBÜSE YAKIN DAİRE !! ₺1.350.000  İstanbul  (1+0) Studio  55 m2" [ref=e457] [cursor=pointer]:
+                - generic [ref=e458]:
+                  - heading "MİWA YAPI'DAN YATIRIMA VE OTURUMA UYGUN METROBÜSE YAKIN DAİRE !!" [level=2] [ref=e459]
+                  - generic [ref=e460]: ₺1.350.000
+                  - generic [ref=e461]:
+                    - generic [ref=e462]:
+                      - generic [ref=e463]: 
+                      - text: İstanbul
+                    - generic [ref=e464]:
+                      - generic [ref=e465]: 
+                      - text: (1+0) Studio
+                    - generic [ref=e466]:
+                      - generic [ref=e467]: 
+                      - text: 55 m2
+              - button "NLOGO 1+0 YATIRIMLIK ACİL SATILIK ₺1.450.000  İstanbul  (1+0) Studio  40 m2" [ref=e468] [cursor=pointer]:
+                - generic [ref=e470]:
+                  - heading "NLOGO 1+0 YATIRIMLIK ACİL SATILIK" [level=2] [ref=e471]
+                  - generic [ref=e472]: ₺1.450.000
+                  - generic [ref=e473]:
+                    - generic [ref=e474]:
+                      - generic [ref=e475]: 
+                      - text: İstanbul
+                    - generic [ref=e476]:
+                      - generic [ref=e477]: 
+                      - text: (1+0) Studio
+                    - generic [ref=e478]:
+                      - generic [ref=e479]: 
+                      - text: 40 m2
+              - button "7/24 GÜVENLİKLİ SİTEDE EŞYALI YATIRIMLIK FIRSAT DAİRE ₺1.250.000  İstanbul  (1+0) Studio  52 m2" [ref=e480] [cursor=pointer]:
+                - generic [ref=e481]:
+                  - heading "7/24 GÜVENLİKLİ SİTEDE EŞYALI YATIRIMLIK FIRSAT DAİRE" [level=2] [ref=e482]
+                  - generic [ref=e483]: ₺1.250.000
+                  - generic [ref=e484]:
+                    - generic [ref=e485]:
+                      - generic [ref=e486]: 
+                      - text: İstanbul
+                    - generic [ref=e487]:
+                      - generic [ref=e488]: 
+                      - text: (1+0) Studio
+                    - generic [ref=e489]:
+                      - generic [ref=e490]: 
+                      - text: 52 m2
+              - button "ACİL İHTİYAÇ'DAN DOLAYI EMSALLERİ'NİN ALTIN'DA 1+1 DAİRE!!! ₺1.450.000  İstanbul  1+1  55 m2" [ref=e491] [cursor=pointer]:
+                - generic [ref=e492]:
+                  - heading "ACİL İHTİYAÇ'DAN DOLAYI EMSALLERİ'NİN ALTIN'DA 1+1 DAİRE!!!" [level=2] [ref=e493]
+                  - generic [ref=e494]: ₺1.450.000
+                  - generic [ref=e495]:
+                    - generic [ref=e496]:
+                      - generic [ref=e497]: 
+                      - text: İstanbul
+                    - generic [ref=e498]:
+                      - generic [ref=e499]: 
+                      - text: 1+1
+                    - generic [ref=e500]:
+                      - generic [ref=e501]: 
+                      - text: 55 m2
+              - button "METROBÜSE KOMŞU GÜZELYURT MH.ŞIK TASARIMLI 1+1 FIRSAT DAİREMİZ ₺1.250.000  İstanbul  1+1  75 m2" [ref=e502] [cursor=pointer]:
+                - generic [ref=e503]:
+                  - heading "METROBÜSE KOMŞU GÜZELYURT MH.ŞIK TASARIMLI 1+1 FIRSAT DAİREMİZ" [level=2] [ref=e504]
+                  - generic [ref=e505]: ₺1.250.000
+                  - generic [ref=e506]:
+                    - generic [ref=e507]:
+                      - generic [ref=e508]: 
+                      - text: İstanbul
+                    - generic [ref=e509]:
+                      - generic [ref=e510]: 
+                      - text: 1+1
+                    - generic [ref=e511]:
+                      - generic [ref=e512]: 
+                      - text: 75 m2
+              - button "OZAN EMLAKDAN HAYAT PARK 4 SİTESİNDE 1+1 55M2 ÖN CEPHE DAİRE ₺1.375.000  İstanbul  1+1  55 m2" [ref=e513] [cursor=pointer]:
+                - generic [ref=e514]:
+                  - heading "OZAN EMLAKDAN HAYAT PARK 4 SİTESİNDE 1+1 55M2 ÖN CEPHE DAİRE" [level=2] [ref=e515]
+                  - generic [ref=e516]: ₺1.375.000
+                  - generic [ref=e517]:
+                    - generic [ref=e518]:
+                      - generic [ref=e519]: 
+                      - text: İstanbul
+                    - generic [ref=e520]:
+                      - generic [ref=e521]: 
+                      - text: 1+1
+                    - generic [ref=e522]:
+                      - generic [ref=e523]: 
+                      - text: 55 m2
+              - button "Nlogo n logo İstanbul'da acill Full Eşyalı Stüdyo Daire ₺1.410.000  İstanbul  (1+0) Studio  30 m2" [ref=e524] [cursor=pointer]:
+                - generic [ref=e525]:
+                  - heading "Nlogo n logo İstanbul'da acill Full Eşyalı Stüdyo Daire" [level=2] [ref=e526]
+                  - generic [ref=e527]: ₺1.410.000
+                  - generic [ref=e528]:
+                    - generic [ref=e529]:
+                      - generic [ref=e530]: 
+                      - text: İstanbul
+                    - generic [ref=e531]:
+                      - generic [ref=e532]: 
+                      - text: (1+0) Studio
+                    - generic [ref=e533]:
+                      - generic [ref=e534]: 
+                      - text: 30 m2
+              - button "METROBÜSE 4 DK MESAFEDE SİTE İÇİ, SIFIR EŞYALI 1+1 SATILIK DAİRE ₺1.490.000  İstanbul  1+1  65 m2" [ref=e535] [cursor=pointer]:
+                - generic [ref=e536]:
+                  - heading "METROBÜSE 4 DK MESAFEDE SİTE İÇİ, SIFIR EŞYALI 1+1 SATILIK DAİRE" [level=2] [ref=e537]
+                  - generic [ref=e538]: ₺1.490.000
+                  - generic [ref=e539]:
+                    - generic [ref=e540]:
+                      - generic [ref=e541]: 
+                      - text: İstanbul
+                    - generic [ref=e542]:
+                      - generic [ref=e543]: 
+                      - text: 1+1
+                    - generic [ref=e544]:
+                      - generic [ref=e545]: 
+                      - text: 65 m2
+              - button "BAYRAMA ÖZEL MÜKEMMEL LOKASYON MÜKEMMEL DAİRE GENİŞ TERASLI ₺1.320.000  İstanbul  1+1  80 m2" [ref=e546] [cursor=pointer]:
+                - generic [ref=e547]:
+                  - heading "BAYRAMA ÖZEL MÜKEMMEL LOKASYON MÜKEMMEL DAİRE GENİŞ TERASLI" [level=2] [ref=e548]
+                  - generic [ref=e549]: ₺1.320.000
+                  - generic [ref=e550]:
+                    - generic [ref=e551]:
+                      - generic [ref=e552]: 
+                      - text: İstanbul
+                    - generic [ref=e553]:
+                      - generic [ref=e554]: 
+                      - text: 1+1
+                    - generic [ref=e555]:
+                      - generic [ref=e556]: 
+                      - text: 80 m2
+              - button "Site içinde sosyal aktiviteli metrobüse yakın 1+1 satılık daire ₺1.431.000  İstanbul  1+1  70 m2" [ref=e557] [cursor=pointer]:
+                - generic [ref=e559]:
+                  - heading "Site içinde sosyal aktiviteli metrobüse yakın 1+1 satılık daire" [level=2] [ref=e560]
+                  - generic [ref=e561]: ₺1.431.000
+                  - generic [ref=e562]:
+                    - generic [ref=e563]:
+                      - generic [ref=e564]: 
+                      - text: İstanbul
+                    - generic [ref=e565]:
+                      - generic [ref=e566]: 
+                      - text: 1+1
+                    - generic [ref=e567]:
+                      - generic [ref=e568]: 
+                      - text: 70 m2
+              - button "AKTOWERS YATIRIMLIK EŞYALI SATILIK 1+0 STÜDYO DAİRE ₺1.490.000  İstanbul  (1+0) Studio  40 m2" [ref=e569] [cursor=pointer]:
+                - generic [ref=e571]:
+                  - heading "AKTOWERS YATIRIMLIK EŞYALI SATILIK 1+0 STÜDYO DAİRE" [level=2] [ref=e572]
+                  - generic [ref=e573]: ₺1.490.000
+                  - generic [ref=e574]:
+                    - generic [ref=e575]:
+                      - generic [ref=e576]: 
+                      - text: İstanbul
+                    - generic [ref=e577]:
+                      - generic [ref=e578]: 
+                      - text: (1+0) Studio
+                    - generic [ref=e579]:
+                      - generic [ref=e580]: 
+                      - text: 40 m2
+              - button "OTURUMA HAZIR KONFORLU YAŞAMIN ANAHTARI SİTE İÇİNDE SATILIK 1+1 ₺1.490.000  İstanbul  1+1  65 m2" [ref=e581] [cursor=pointer]:
+                - generic [ref=e583]:
+                  - heading "OTURUMA HAZIR KONFORLU YAŞAMIN ANAHTARI SİTE İÇİNDE SATILIK 1+1" [level=2] [ref=e584]
+                  - generic [ref=e585]: ₺1.490.000
+                  - generic [ref=e586]:
+                    - generic [ref=e587]:
+                      - generic [ref=e588]: 
+                      - text: İstanbul
+                    - generic [ref=e589]:
+                      - generic [ref=e590]: 
+                      - text: 1+1
+                    - generic [ref=e591]:
+                      - generic [ref=e592]: 
+                      - text: 65 m2
+              - button "SİTE İÇERİSİNDE YATIRIMLIK KİRA GETİRİS YÜKSEK SATILIK STÜDYO D ₺1.400.000  İstanbul  (1+0) Studio  40 m2" [ref=e593] [cursor=pointer]:
+                - generic [ref=e595]:
+                  - heading "SİTE İÇERİSİNDE YATIRIMLIK KİRA GETİRİS YÜKSEK SATILIK STÜDYO D" [level=2] [ref=e596]
+                  - generic [ref=e597]: ₺1.400.000
+                  - generic [ref=e598]:
+                    - generic [ref=e599]:
+                      - generic [ref=e600]: 
+                      - text: İstanbul
+                    - generic [ref=e601]:
+                      - generic [ref=e602]: 
+                      - text: (1+0) Studio
+                    - generic [ref=e603]:
+                      - generic [ref=e604]: 
+                      - text: 40 m2
+              - button "70 Square Meters Apartment For Sale in Beylikdüzü, Istanbul ₺900.000  Istanbul  1+1  60 m2" [ref=e605] [cursor=pointer]:
+                - generic [ref=e606]:
+                  - heading "70 Square Meters Apartment For Sale in Beylikdüzü, Istanbul" [level=2] [ref=e607]
+                  - generic [ref=e608]: ₺900.000
+                  - generic [ref=e609]:
+                    - generic [ref=e610]:
+                      - generic [ref=e611]: 
+                      - text: Istanbul
+                    - generic [ref=e612]:
+                      - generic [ref=e613]: 
+                      - text: 1+1
+                    - generic [ref=e614]:
+                      - generic [ref=e615]: 
+                      - text: 60 m2
+              - button "80 Square Meters Apartment For Sale in Beylikdüzü, Istanbul ₺1.250.000  Istanbul  1+1  70 m2" [ref=e616] [cursor=pointer]:
+                - generic [ref=e617]:
+                  - heading "80 Square Meters Apartment For Sale in Beylikdüzü, Istanbul" [level=2] [ref=e618]
+                  - generic [ref=e619]: ₺1.250.000
+                  - generic [ref=e620]:
+                    - generic [ref=e621]:
+                      - generic [ref=e622]: 
+                      - text: Istanbul
+                    - generic [ref=e623]:
+                      - generic [ref=e624]: 
+                      - text: 1+1
+                    - generic [ref=e625]:
+                      - generic [ref=e626]: 
+                      - text: 70 m2
+              - button "110 Square Meters Apartment For Sale in Beylikdüzü, Istanbul ₺1.050.000  Istanbul  2+1  95 m2" [ref=e627] [cursor=pointer]:
+                - generic [ref=e628]:
+                  - heading "110 Square Meters Apartment For Sale in Beylikdüzü, Istanbul" [level=2] [ref=e629]
+                  - generic [ref=e630]: ₺1.050.000
+                  - generic [ref=e631]:
+                    - generic [ref=e632]:
+                      - generic [ref=e633]: 
+                      - text: Istanbul
+                    - generic [ref=e634]:
+                      - generic [ref=e635]: 
+                      - text: 2+1
+                    - generic [ref=e636]:
+                      - generic [ref=e637]: 
+                      - text: 95 m2
+              - button "110 Square Meters Apartment For Sale in Esenyurt, Istanbul ₺1.095.000  Istanbul  2+1  100 m2" [ref=e638] [cursor=pointer]:
+                - generic [ref=e639]:
+                  - heading "110 Square Meters Apartment For Sale in Esenyurt, Istanbul" [level=2] [ref=e640]
+                  - generic [ref=e641]: ₺1.095.000
+                  - generic [ref=e642]:
+                    - generic [ref=e643]:
+                      - generic [ref=e644]: 
+                      - text: Istanbul
+                    - generic [ref=e645]:
+                      - generic [ref=e646]: 
+                      - text: 2+1
+                    - generic [ref=e647]:
+                      - generic [ref=e648]: 
+                      - text: 100 m2
+              - button "80 Square Meters Apartment For Sale in Beylikdüzü, Istanbul ₺1.015.000  Istanbul  1+1  70 m2" [ref=e649] [cursor=pointer]:
+                - generic [ref=e650]:
+                  - heading "80 Square Meters Apartment For Sale in Beylikdüzü, Istanbul" [level=2] [ref=e651]
+                  - generic [ref=e652]: ₺1.015.000
+                  - generic [ref=e653]:
+                    - generic [ref=e654]:
+                      - generic [ref=e655]: 
+                      - text: Istanbul
+                    - generic [ref=e656]:
+                      - generic [ref=e657]: 
+                      - text: 1+1
+                    - generic [ref=e658]:
+                      - generic [ref=e659]: 
+                      - text: 70 m2
+              - button "95 Square Meters Apartment For Sale in Esenyurt, Istanbul ₺1.130.000  Istanbul  2+1  80 m2" [ref=e660] [cursor=pointer]:
+                - generic [ref=e661]:
+                  - heading "95 Square Meters Apartment For Sale in Esenyurt, Istanbul" [level=2] [ref=e662]
+                  - generic [ref=e663]: ₺1.130.000
+                  - generic [ref=e664]:
+                    - generic [ref=e665]:
+                      - generic [ref=e666]: 
+                      - text: Istanbul
+                    - generic [ref=e667]:
+                      - generic [ref=e668]: 
+                      - text: 2+1
+                    - generic [ref=e669]:
+                      - generic [ref=e670]: 
+                      - text: 80 m2
+              - button "110 Square Meters Apartment For Sale in Esenyurt, Istanbul ₺1.250.000  Istanbul  2+1  100 m2" [ref=e671] [cursor=pointer]:
+                - generic [ref=e672]:
+                  - heading "110 Square Meters Apartment For Sale in Esenyurt, Istanbul" [level=2] [ref=e673]
+                  - generic [ref=e674]: ₺1.250.000
+                  - generic [ref=e675]:
+                    - generic [ref=e676]:
+                      - generic [ref=e677]: 
+                      - text: Istanbul
+                    - generic [ref=e678]:
+                      - generic [ref=e679]: 
+                      - text: 2+1
+                    - generic [ref=e680]:
+                      - generic [ref=e681]: 
+                      - text: 100 m2
+              - button "85 Square Meters Apartment For Sale in Beylikdüzü, Istanbul ₺1.090.000  Istanbul  1+1  75 m2" [ref=e682] [cursor=pointer]:
+                - generic [ref=e683]:
+                  - heading "85 Square Meters Apartment For Sale in Beylikdüzü, Istanbul" [level=2] [ref=e684]
+                  - generic [ref=e685]: ₺1.090.000
+                  - generic [ref=e686]:
+                    - generic [ref=e687]:
+                      - generic [ref=e688]: 
+                      - text: Istanbul
+                    - generic [ref=e689]:
+                      - generic [ref=e690]: 
+                      - text: 1+1
+                    - generic [ref=e691]:
+                      - generic [ref=e692]: 
+                      - text: 75 m2
+              - button "100 Square Meters Apartment For Sale in Beylikdüzü, Istanbul ₺1.250.000  Istanbul  2+1  95 m2" [ref=e693] [cursor=pointer]:
+                - generic [ref=e694]:
+                  - heading "100 Square Meters Apartment For Sale in Beylikdüzü, Istanbul" [level=2] [ref=e695]
+                  - generic [ref=e696]: ₺1.250.000
+                  - generic [ref=e697]:
+                    - generic [ref=e698]:
+                      - generic [ref=e699]: 
+                      - text: Istanbul
+                    - generic [ref=e700]:
+                      - generic [ref=e701]: 
+                      - text: 2+1
+                    - generic [ref=e702]:
+                      - generic [ref=e703]: 
+                      - text: 95 m2
+              - button "110 Square Meters Apartment For Sale in Beylikdüzü, Istanbul ₺1.150.000  Istanbul  2+1  99 m2" [ref=e704] [cursor=pointer]:
+                - generic [ref=e705]:
+                  - heading "110 Square Meters Apartment For Sale in Beylikdüzü, Istanbul" [level=2] [ref=e706]
+                  - generic [ref=e707]: ₺1.150.000
+                  - generic [ref=e708]:
+                    - generic [ref=e709]:
+                      - generic [ref=e710]: 
+                      - text: Istanbul
+                    - generic [ref=e711]:
+                      - generic [ref=e712]: 
+                      - text: 2+1
+                    - generic [ref=e713]:
+                      - generic [ref=e714]: 
+                      - text: 99 m2
+              - button "90 Square Meters Apartment For Sale in Esenyurt, Istanbul ₺900.000  Istanbul  1+1  85 m2" [ref=e715] [cursor=pointer]:
+                - generic [ref=e716]:
+                  - heading "90 Square Meters Apartment For Sale in Esenyurt, Istanbul" [level=2] [ref=e717]
+                  - generic [ref=e718]: ₺900.000
+                  - generic [ref=e719]:
+                    - generic [ref=e720]:
+                      - generic [ref=e721]: 
+                      - text: Istanbul
+                    - generic [ref=e722]:
+                      - generic [ref=e723]: 
+                      - text: 1+1
+                    - generic [ref=e724]:
+                      - generic [ref=e725]: 
+                      - text: 85 m2
+              - button "85 Square Meters Apartment For Sale in Beylikdüzü, Istanbul ₺1.125.000  Istanbul  1+1  75 m2" [ref=e726] [cursor=pointer]:
+                - generic [ref=e727]:
+                  - heading "85 Square Meters Apartment For Sale in Beylikdüzü, Istanbul" [level=2] [ref=e728]
+                  - generic [ref=e729]: ₺1.125.000
+                  - generic [ref=e730]:
+                    - generic [ref=e731]:
+                      - generic [ref=e732]: 
+                      - text: Istanbul
+                    - generic [ref=e733]:
+                      - generic [ref=e734]: 
+                      - text: 1+1
+                    - generic [ref=e735]:
+                      - generic [ref=e736]: 
+                      - text: 75 m2
+              - button "75 Square Meters Apartment For Sale in Beylikdüzü, Istanbul ₺1.200.000  Istanbul  1+1  65 m2" [ref=e737] [cursor=pointer]:
+                - generic [ref=e738]:
+                  - heading "75 Square Meters Apartment For Sale in Beylikdüzü, Istanbul" [level=2] [ref=e739]
+                  - generic [ref=e740]: ₺1.200.000
+                  - generic [ref=e741]:
+                    - generic [ref=e742]:
+                      - generic [ref=e743]: 
+                      - text: Istanbul
+                    - generic [ref=e744]:
+                      - generic [ref=e745]: 
+                      - text: 1+1
+                    - generic [ref=e746]:
+                      - generic [ref=e747]: 
+                      - text: 65 m2
+              - button "100 Square Meters Apartment For Sale in Beylikdüzü, Istanbul ₺1.250.000  Istanbul  2+1  95 m2" [ref=e748] [cursor=pointer]:
+                - generic [ref=e749]:
+                  - heading "100 Square Meters Apartment For Sale in Beylikdüzü, Istanbul" [level=2] [ref=e750]
+                  - generic [ref=e751]: ₺1.250.000
+                  - generic [ref=e752]:
+                    - generic [ref=e753]:
+                      - generic [ref=e754]: 
+                      - text: Istanbul
+                    - generic [ref=e755]:
+                      - generic [ref=e756]: 
+                      - text: 2+1
+                    - generic [ref=e757]:
+                      - generic [ref=e758]: 
+                      - text: 95 m2
+              - button "110 Square Meters Apartment For Sale in Beylikdüzü, Istanbul ₺1.150.000  Istanbul  2+1  100 m2" [ref=e759] [cursor=pointer]:
+                - generic [ref=e760]:
+                  - heading "110 Square Meters Apartment For Sale in Beylikdüzü, Istanbul" [level=2] [ref=e761]
+                  - generic [ref=e762]: ₺1.150.000
+                  - generic [ref=e763]:
+                    - generic [ref=e764]:
+                      - generic [ref=e765]: 
+                      - text: Istanbul
+                    - generic [ref=e766]:
+                      - generic [ref=e767]: 
+                      - text: 2+1
+                    - generic [ref=e768]:
+                      - generic [ref=e769]: 
+                      - text: 100 m2
+              - button "105 Square Meters Apartment For Sale in Beylikdüzü, Istanbul ₺1.250.000  Istanbul  2+1  100 m2" [ref=e770] [cursor=pointer]:
+                - generic [ref=e771]:
+                  - heading "105 Square Meters Apartment For Sale in Beylikdüzü, Istanbul" [level=2] [ref=e772]
+                  - generic [ref=e773]: ₺1.250.000
+                  - generic [ref=e774]:
+                    - generic [ref=e775]:
+                      - generic [ref=e776]: 
+                      - text: Istanbul
+                    - generic [ref=e777]:
+                      - generic [ref=e778]: 
+                      - text: 2+1
+                    - generic [ref=e779]:
+                      - generic [ref=e780]: 
+                      - text: 100 m2
+              - button "115 Square Meters Apartment For Sale in Esenyurt, Istanbul ₺1.000.000  Istanbul  2+1  100 m2" [ref=e781] [cursor=pointer]:
+                - generic [ref=e782]:
+                  - heading "115 Square Meters Apartment For Sale in Esenyurt, Istanbul" [level=2] [ref=e783]
+                  - generic [ref=e784]: ₺1.000.000
+                  - generic [ref=e785]:
+                    - generic [ref=e786]:
+                      - generic [ref=e787]: 
+                      - text: Istanbul
+                    - generic [ref=e788]:
+                      - generic [ref=e789]: 
+                      - text: 2+1
+                    - generic [ref=e790]:
+                      - generic [ref=e791]: 
+                      - text: 100 m2
+              - button "75 Square Meters Apartment For Sale in Beylikdüzü, Istanbul ₺1.200.000  Istanbul  1+1  70 m2" [ref=e792] [cursor=pointer]:
+                - generic [ref=e793]:
+                  - heading "75 Square Meters Apartment For Sale in Beylikdüzü, Istanbul" [level=2] [ref=e794]
+                  - generic [ref=e795]: ₺1.200.000
+                  - generic [ref=e796]:
+                    - generic [ref=e797]:
+                      - generic [ref=e798]: 
+                      - text: Istanbul
+                    - generic [ref=e799]:
+                      - generic [ref=e800]: 
+                      - text: 1+1
+                    - generic [ref=e801]:
+                      - generic [ref=e802]: 
+                      - text: 70 m2
+              - button "80 Square Meters Apartment For Sale in Beylikdüzü, Istanbul ₺1.000.000  Istanbul  1+1  70 m2" [ref=e803] [cursor=pointer]:
+                - generic [ref=e804]:
+                  - heading "80 Square Meters Apartment For Sale in Beylikdüzü, Istanbul" [level=2] [ref=e805]
+                  - generic [ref=e806]: ₺1.000.000
+                  - generic [ref=e807]:
+                    - generic [ref=e808]:
+                      - generic [ref=e809]: 
+                      - text: Istanbul
+                    - generic [ref=e810]:
+                      - generic [ref=e811]: 
+                      - text: 1+1
+                    - generic [ref=e812]:
+                      - generic [ref=e813]: 
+                      - text: 70 m2
+              - button "100 Square Meters Apartment For Sale in Beylikdüzü, Istanbul ₺1.250.000  Istanbul  2+1  95 m2" [ref=e814] [cursor=pointer]:
+                - generic [ref=e815]:
+                  - heading "100 Square Meters Apartment For Sale in Beylikdüzü, Istanbul" [level=2] [ref=e816]
+                  - generic [ref=e817]: ₺1.250.000
+                  - generic [ref=e818]:
+                    - generic [ref=e819]:
+                      - generic [ref=e820]: 
+                      - text: Istanbul
+                    - generic [ref=e821]:
+                      - generic [ref=e822]: 
+                      - text: 2+1
+                    - generic [ref=e823]:
+                      - generic [ref=e824]: 
+                      - text: 95 m2
+              - button "110 Square Meters Apartment For Sale in Beylikdüzü, Istanbul ₺1.200.000  Istanbul  2+1  105 m2" [ref=e825] [cursor=pointer]:
+                - generic [ref=e826]:
+                  - heading "110 Square Meters Apartment For Sale in Beylikdüzü, Istanbul" [level=2] [ref=e827]
+                  - generic [ref=e828]: ₺1.200.000
+                  - generic [ref=e829]:
+                    - generic [ref=e830]:
+                      - generic [ref=e831]: 
+                      - text: Istanbul
+                    - generic [ref=e832]:
+                      - generic [ref=e833]: 
+                      - text: 2+1
+                    - generic [ref=e834]:
+                      - generic [ref=e835]: 
+                      - text: 105 m2
+              - button "85 Square Meters Apartment For Sale in Beylikdüzü, Istanbul ₺925.000  Istanbul  1+1  75 m2" [ref=e836] [cursor=pointer]:
+                - generic [ref=e837]:
+                  - heading "85 Square Meters Apartment For Sale in Beylikdüzü, Istanbul" [level=2] [ref=e838]
+                  - generic [ref=e839]: ₺925.000
+                  - generic [ref=e840]:
+                    - generic [ref=e841]:
+                      - generic [ref=e842]: 
+                      - text: Istanbul
+                    - generic [ref=e843]:
+                      - generic [ref=e844]: 
+                      - text: 1+1
+                    - generic [ref=e845]:
+                      - generic [ref=e846]: 
+                      - text: 75 m2
+              - button "75 Square Meters Apartment For Sale in Beylikdüzü, Istanbul ₺1.050.000  Istanbul  1+1  70 m2" [ref=e847] [cursor=pointer]:
+                - generic [ref=e848]:
+                  - heading "75 Square Meters Apartment For Sale in Beylikdüzü, Istanbul" [level=2] [ref=e849]
+                  - generic [ref=e850]: ₺1.050.000
+                  - generic [ref=e851]:
+                    - generic [ref=e852]:
+                      - generic [ref=e853]: 
+                      - text: Istanbul
+                    - generic [ref=e854]:
+                      - generic [ref=e855]: 
+                      - text: 1+1
+                    - generic [ref=e856]:
+                      - generic [ref=e857]: 
+                      - text: 70 m2
+  - contentinfo [ref=e858]:
+    - generic [ref=e859]:
+      - generic [ref=e860]:
+        - paragraph [ref=e864]: Discover, rent or buy verified properties with modern tools and local expertise.
+        - generic [ref=e865]:
+          - heading "Navigation" [level=5] [ref=e866]
+          - list [ref=e867]:
+            - listitem [ref=e868]:
+              - link "Accueil" [ref=e869] [cursor=pointer]:
+                - /url: /fr/new/
+                - generic [ref=e870]: 
+                - text: Accueil
+            - listitem [ref=e871]:
+              - link "Opportunités" [ref=e872] [cursor=pointer]:
+                - /url: /fr/new/properties/
+                - generic [ref=e873]: 
+                - text: Opportunités
+            - listitem [ref=e874]:
+              - link "Carte" [ref=e875] [cursor=pointer]:
+                - /url: /fr/new/map/
+                - generic [ref=e876]: 
+                - text: Carte
+            - listitem [ref=e877]:
+              - link "Contact" [ref=e878] [cursor=pointer]:
+                - /url: /fr/new/contact/
+                - generic [ref=e879]: 
+                - text: Contact
+            - listitem [ref=e880]:
+              - link "Financement" [ref=e881] [cursor=pointer]:
+                - /url: /fr/new/financing/
+                - generic [ref=e882]: $
+                - text: Financement
+      - generic [ref=e883]:
+        - generic [ref=e884]:
+          - heading "Contact" [level=5] [ref=e885]
+          - list [ref=e886]:
+            - listitem [ref=e887]:
+              - generic [ref=e888]: 
+              - text: Beylikdüzü/İstanbul
+            - listitem [ref=e889]:
+              - generic [ref=e890]: 
+              - link "whatsynaptic@gmail.com" [ref=e891] [cursor=pointer]:
+                - /url: mailto:whatsynaptic@gmail.com
+            - listitem [ref=e892]:
+              - generic [ref=e893]: 
+              - link "+905423637436" [ref=e894] [cursor=pointer]:
+                - /url: https://wa.me/905423637436
+            - listitem [ref=e895]:
+              - link " Planifier une visite" [ref=e896] [cursor=pointer]:
+                - /url: https://cal.com/hasan-gun-saqvh6
+                - generic [ref=e897]: 
+                - text: Planifier une visite
+        - generic [ref=e898]:
+          - link [ref=e899] [cursor=pointer]:
+            - /url: " https://www.facebook.com/Koral-City-ltd-100737889187297"
+            - generic [ref=e900]: 
+          - link [ref=e901] [cursor=pointer]:
+            - /url: https://www.instagram.com/koralcityltd/
+            - generic [ref=e902]: 
+          - link [ref=e903] [cursor=pointer]:
+            - /url: https://twitter.com/Koralcityltd
+            - generic [ref=e904]: 
+      - separator [ref=e905]
+      - paragraph [ref=e908]:
+        - text: © 2025
+        - link "∞ Lotfinity ∞ tech Co." [ref=e909] [cursor=pointer]:
+          - /url: https://explore.lotfinity.tech
+        - text: ", Ltd. All rights reserved."

@@ -31,6 +31,8 @@ incomplete.
   pages.
 - Added `build_listing_portfolios` management command to inspect a listing or
   rank the best portfolio-ready rentable flats on demand.
+- Added server-side Airbnb revenue heatmap pipeline and MapLibre heatmap view for
+  identifying high-revenue short-stay micro-areas.
 
 ### Changed
 
@@ -40,6 +42,8 @@ incomplete.
   calendar logic proved too restrictive for the current analysis.
 - Refactored the one-off listing 105 portfolio into one reusable view, one
   reusable template, and shared portfolio logic for any listing with coordinates.
+- Updated Airbnb fetch defaults to use a rolling future 30-night window instead
+  of hardcoded July 2026 dates.
 - Restarted the public Django runserver on port 9009 after adding the portfolio
   URL patterns.
 

@@ -73,6 +73,7 @@ urlpatterns = [
     path('api/whatsapp/listing/<int:listing_id>/suggest', __import__('listings.ai', fromlist=['']).suggest_listing_reply, name='whatsapp_listing_suggest'),
     path('api/whatsapp/webhook', __import__('listings.whatsapp', fromlist=['']).waha_webhook, name='whatsapp_waha_webhook'),
     path('api/investor/medical-rentals/summary', listing_views.investor_medical_rentals_summary, name='investor_medical_rentals_summary'),
+    path('listings/airbnb-revenue-heatmap-data/', listing_views.airbnb_revenue_heatmap_data, name='airbnb_revenue_heatmap_data'),
 ]
 
 if _has_graphql:

@@ -11,5 +11,6 @@ urlpatterns = [
     path('map/', views.map_view, name='map'),
     path('map-data/', views.map_data, name='map_data'),
     path('airbnb-map-data/', views.airbnb_map_data, name='airbnb_map_data'),
+    path('airbnb-revenue-heatmap-data/', views.airbnb_revenue_heatmap_data, name='airbnb_revenue_heatmap_data'),
 
 ]

@@ -1,0 +1,168 @@
+- generic [ref=f2e1]:
+  - generic [ref=f2e4]:
+    - button "Sélectionner la langue" [ref=f2e6] [cursor=pointer]:
+      - img "fr" [ref=f2e7]
+      - generic [ref=f2e8]: FR
+      - generic [ref=f2e9]: ▾
+    - button "Select currency" [ref=f2e11] [cursor=pointer]:
+      - img [ref=f2e12]
+      - generic [ref=f2e13]: ₺
+      - generic [ref=f2e14]: ▾
+    - generic [ref=f2e15]:
+      - button "Select theme" [ref=f2e16] [cursor=pointer]:
+        - generic [ref=f2e17]: 
+      - text:   
+  - text:      
+  - banner [ref=f2e18]:
+    - navigation [ref=f2e22]:
+      - link "Logo" [ref=f2e23] [cursor=pointer]:
+        - /url: /fr/new/
+        - img "Logo" [ref=f2e24]
+      - list [ref=f2e25]:
+        - listitem [ref=f2e26]:
+          - link "Tous" [ref=f2e27] [cursor=pointer]:
+            - /url: /fr/new/opportunities/
+            - generic [ref=f2e28]: 
+            - text: Tous
+        - listitem [ref=f2e29]:
+          - link "Under 1.25M ₺" [ref=f2e30] [cursor=pointer]:
+            - /url: /fr/new/opportunities/under-1.25m/
+            - generic [ref=f2e31]: 
+            - text: Under 1.25M ₺
+        - listitem [ref=f2e32]:
+          - link "Over 1.25M ₺" [ref=f2e33] [cursor=pointer]:
+            - /url: /fr/new/opportunities/over-1.25m/
+            - generic [ref=f2e34]: 
+            - text: Over 1.25M ₺
+        - listitem [ref=f2e35]:
+          - link "Carte" [ref=f2e36] [cursor=pointer]:
+            - /url: /fr/new/map/
+            - generic [ref=f2e37]: 
+            - text: Carte
+        - listitem [ref=f2e38]:
+          - link " Planifier une visite" [ref=f2e39] [cursor=pointer]:
+            - /url: "#"
+            - generic [ref=f2e40]: 
+            - text: Planifier une visite
+  - main [ref=f2e42]:
+    - region "Carte expérimentale MapLibre" [ref=f2e43]:
+      - generic [ref=f2e44]:
+        - text: 
+        - generic [ref=f2e45]:
+          - generic:
+            - group "Commandes de carte" [ref=f2e46]:
+              - button "Centrer" [ref=f2e47] [cursor=pointer]:
+                - generic [ref=f2e48]: 
+              - button "Comparer Airbnb" [ref=f2e49] [cursor=pointer]:
+                - generic [ref=f2e910]: 
+              - button "Revenue Heatmap" [pressed] [ref=f2e51] [cursor=pointer]:
+                - generic [ref=f2e52]: 
+              - button "Plein écran" [ref=f2e53] [cursor=pointer]:
+                - generic [ref=f2e54]: 
+            - group "Style de carte" [ref=f2e55]:
+              - button "Clair" [ref=f2e56] [cursor=pointer]
+              - button "Nuit" [active] [ref=f2e57] [cursor=pointer]
+          - group "Filtres" [ref=f2e58]:
+            - button " Tous" [ref=f2e59] [cursor=pointer]:
+              - generic [ref=f2e60]: 
+              - text: Tous
+            - button " 1 + 0" [ref=f2e61] [cursor=pointer]:
+              - generic [ref=f2e62]: 
+              - text: 1 + 0
+            - button " 1 + 1" [ref=f2e63] [cursor=pointer]:
+              - generic [ref=f2e64]: 
+              - text: 1 + 1
+          - region "Map" [ref=f2e66]
+          - generic [ref=f2e911]:
+            - generic [ref=f2e912]: Airbnb revenue heatmap
+            - generic [ref=f2e913]:
+              - generic [ref=f2e914]:
+                - text: Median
+                - strong [ref=f2e915]: ₺60.154
+              - generic [ref=f2e916]:
+                - text: Comparables
+                - strong [ref=f2e917]: "25"
+              - generic [ref=f2e918]:
+                - text: Latest
+                - strong [ref=f2e919]: 04.07.2026
+              - generic [ref=f2e920]:
+                - text: Confidence
+                - strong [ref=f2e921]: 69/100
+            - generic "Airbnb revenue legend" [ref=f2e922]:
+              - generic [ref=f2e923]: Low
+              - generic [ref=f2e925]: Medium
+              - generic [ref=f2e927]: High
+          - strong [ref=f2e69]: 8 revenue buckets visible
+          - generic "Annonces sélectionnées" [ref=f2e70]:
+            - button "Déployer la fiche" [ref=f2e71] [cursor=pointer]
+            - generic [ref=f2e930]:
+              - heading "Select a marker" [level=2] [ref=f2e931]
+              - generic [ref=f2e932]: Tap a point on the map or choose a listing.
+  - contentinfo [ref=f2e858]:
+    - generic [ref=f2e859]:
+      - generic [ref=f2e860]:
+        - paragraph [ref=f2e864]: Discover, rent or buy verified properties with modern tools and local expertise.
+        - generic [ref=f2e865]:
+          - heading "Navigation" [level=5] [ref=f2e866]
+          - list [ref=f2e867]:
+            - listitem [ref=f2e868]:
+              - link "Accueil" [ref=f2e869] [cursor=pointer]:
+                - /url: /fr/new/
+                - generic [ref=f2e870]: 
+                - text: Accueil
+            - listitem [ref=f2e871]:
+              - link "Opportunités" [ref=f2e872] [cursor=pointer]:
+                - /url: /fr/new/properties/
+                - generic [ref=f2e873]: 
+                - text: Opportunités
+            - listitem [ref=f2e874]:
+              - link "Carte" [ref=f2e875] [cursor=pointer]:
+                - /url: /fr/new/map/
+                - generic [ref=f2e876]: 
+                - text: Carte
+            - listitem [ref=f2e877]:
+              - link "Contact" [ref=f2e878] [cursor=pointer]:
+                - /url: /fr/new/contact/
+                - generic [ref=f2e879]: 
+                - text: Contact
+            - listitem [ref=f2e880]:
+              - link "Financement" [ref=f2e881] [cursor=pointer]:
+                - /url: /fr/new/financing/
+                - generic [ref=f2e882]: $
+                - text: Financement
+      - generic [ref=f2e883]:
+        - generic [ref=f2e884]:
+          - heading "Contact" [level=5] [ref=f2e885]
+          - list [ref=f2e886]:
+            - listitem [ref=f2e887]:
+              - generic [ref=f2e888]: 
+              - text: Beylikdüzü/İstanbul
+            - listitem [ref=f2e889]:
+              - generic [ref=f2e890]: 
+              - link "whatsynaptic@gmail.com" [ref=f2e891] [cursor=pointer]:
+                - /url: mailto:whatsynaptic@gmail.com
+            - listitem [ref=f2e892]:
+              - generic [ref=f2e893]: 
+              - link "+905423637436" [ref=f2e894] [cursor=pointer]:
+                - /url: https://wa.me/905423637436
+            - listitem [ref=f2e895]:
+              - link " Planifier une visite" [ref=f2e896] [cursor=pointer]:
+                - /url: https://cal.com/hasan-gun-saqvh6
+                - generic [ref=f2e897]: 
+                - text: Planifier une visite
+        - generic [ref=f2e898]:
+          - link [ref=f2e899] [cursor=pointer]:
+            - /url: " https://www.facebook.com/Koral-City-ltd-100737889187297"
+            - generic [ref=f2e900]: 
+          - link [ref=f2e901] [cursor=pointer]:
+            - /url: https://www.instagram.com/koralcityltd/
+            - generic [ref=f2e902]: 
+          - link [ref=f2e903] [cursor=pointer]:
+            - /url: https://twitter.com/Koralcityltd
+            - generic [ref=f2e904]: 
+      - separator [ref=f2e905]
+      - paragraph [ref=f2e908]:
+        - text: © 2025
+        - link "∞ Lotfinity ∞ tech Co." [ref=f2e909] [cursor=pointer]:
+          - /url: https://explore.lotfinity.tech
+        - text: ", Ltd. All rights reserved."
