@@ -1,628 +1,486 @@
 {% extends 'newfrontend/base.html' %}
 {% load static %}
 {% load humanize %}
+{% load portfolio_extras %}
 
-{% block title %}{{ listing.title }} | Investment Portfolio{% endblock %}
+{% block title %}{% portfolio_copy as copy %}{{ listing.title }} | {{ copy.investment_portfolio }}{% endblock %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <style>
   .portfolio-page {
-    background: #f4f6f8;
-    color: #17202a;
+    --portfolio-bg: #f4f6f8;
+    --portfolio-card: #ffffff;
+    --portfolio-text: #17202a;
+    --portfolio-heading: #101820;
+    --portfolio-muted: #5d6b7a;
+    --portfolio-soft: #687789;
+    --portfolio-border: #dce3ea;
+    --portfolio-accent: #0f766e;
+    --portfolio-warning: #92400e;
+    --portfolio-danger: #991b1b;
+    --portfolio-success: #166534;
+    background: var(--portfolio-bg);
+    color: var(--portfolio-text);
     font-family: Poppins, Arial, sans-serif;
     overflow-x: hidden;
   }
-  .portfolio-shell {
-    width: min(1180px, calc(100% - 32px));
-    margin: 0 auto;
+  html[data-theme="dark"] .portfolio-page {
+    --portfolio-bg: #0f1115;
+    --portfolio-card: #171a20;
+    --portfolio-text: #f6efe2;
+    --portfolio-heading: #fff8eb;
+    --portfolio-muted: #d2c8b7;
+    --portfolio-soft: #a99f90;
+    --portfolio-border: #343c49;
+    --portfolio-accent: #5db7de;
+    --portfolio-warning: #facc15;
+    --portfolio-danger: #fca5a5;
+    --portfolio-success: #86efac;
   }
+  .portfolio-shell { width: min(1180px, calc(100% - 32px)); margin: 0 auto; }
   .portfolio-hero {
-    min-height: 92vh;
+    min-height: 86vh;
     display: grid;
     grid-template-columns: minmax(0, 1.05fr) minmax(360px, .95fr);
     align-items: center;
     gap: 34px;
     padding: 44px 0 24px;
   }
-  .hero-copy h1 {
-    font-size: clamp(34px, 5vw, 72px);
-    line-height: .98;
-    margin: 0 0 18px;
-    letter-spacing: 0;
-    color: #101820;
-  }
-  .hero-copy p {
-    font-size: 18px;
-    line-height: 1.7;
-    color: #485563;
-    max-width: 720px;
-  }
-  .hero-kpis {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 12px;
-    margin-top: 28px;
-  }
-  .metric-panel,
-  .portfolio-panel,
-  .comp-row,
-  .event-row {
-    background: #fff;
-    border: 1px solid #dce3ea;
-    border-radius: 8px;
-  }
-  .metric-panel {
-    padding: 16px;
-    min-height: 112px;
-  }
-  .metric-panel span,
-  .section-label,
-  .table-head {
-    color: #687789;
+  .hero-copy h1 { font-size: clamp(34px, 5vw, 72px); line-height: .98; margin: 0 0 18px; color: var(--portfolio-heading); }
+  .hero-copy > p { font-size: 18px; line-height: 1.7; color: var(--portfolio-muted); max-width: 720px; }
+  .section-label, .metric-panel span, .eyebrow {
+    color: var(--portfolio-soft);
     font-size: 12px;
     text-transform: uppercase;
     letter-spacing: .08em;
     font-weight: 700;
   }
-  .metric-panel strong {
-    display: block;
-    margin-top: 8px;
-    color: #111827;
-    font-size: 26px;
-    line-height: 1.1;
+  .hero-kpis, .evidence-kpis { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 28px; }
+  .metric-panel, .portfolio-panel, .comp-row, .event-row, .status-panel, .assumption-row, .rent-scenario {
+    background: var(--portfolio-card);
+    border: 1px solid var(--portfolio-border);
+    border-radius: 10px;
   }
-  .hero-media {
-    display: grid;
-    gap: 12px;
-  }
-  .hero-photo {
-    aspect-ratio: 4 / 3;
-    overflow: hidden;
-    border-radius: 8px;
-    background: #d7dde3;
-  }
-  .hero-photo img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
-  .thumb-strip {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-  }
-  .thumb-strip img {
-    width: 100%;
-    aspect-ratio: 4 / 3;
-    object-fit: cover;
-    border-radius: 8px;
-    border: 1px solid #dce3ea;
-  }
-  .portfolio-section {
-    padding: 34px 0;
-  }
-  .section-title {
-    display: flex;
-    justify-content: space-between;
-    align-items: end;
-    gap: 18px;
-    margin-bottom: 16px;
-  }
-  .section-title h2 {
-    color: #111827;
-    font-size: clamp(26px, 3vw, 42px);
-    margin: 0;
-    letter-spacing: 0;
-  }
-  .section-title p {
-    max-width: 560px;
-    margin: 0;
-    color: #5d6b7a;
-    line-height: 1.6;
-  }
-  .map-grid {
-    display: grid;
-    grid-template-columns: minmax(0, 1.45fr) minmax(320px, .75fr);
-    gap: 18px;
-  }
-  #portfolio-map {
-    min-height: 620px;
-    border-radius: 8px;
-    border: 1px solid #dce3ea;
-    overflow: hidden;
-    background: #d8dee5;
-  }
-  .portfolio-panel {
-    padding: 18px;
-  }
-  .portfolio-panel h3 {
-    margin: 0 0 12px;
-    font-size: 20px;
-    color: #111827;
-  }
-  .portfolio-panel p,
-  .portfolio-panel li {
-    color: #526273;
-    line-height: 1.6;
-  }
-  .portfolio-panel ul {
-    margin: 0;
-    padding-left: 18px;
-  }
-  .comp-swiper-wrap {
-    margin-top: 24px;
-    display: grid;
-    justify-items: center;
-    gap: 16px;
-  }
-  .comp-swiper {
-    width: min(430px, calc(100vw - 44px));
-    overflow: visible;
-  }
-  .comp-swiper .swiper-slide {
-    height: auto;
-    border-radius: 8px;
-  }
-  .comp-row {
-    display: grid;
-    grid-template-columns: 96px minmax(0, 1fr) 150px;
-    gap: 14px;
-    align-items: stretch;
-    padding: 12px;
-    color: inherit;
-  }
-  .comp-swiper .comp-row {
-    min-height: 610px;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    padding: 0;
-    overflow: hidden;
-    box-shadow: 0 18px 48px rgba(17, 24, 39, .18);
-  }
-  .comp-thumb {
-    width: 96px;
-    height: 96px;
-    border-radius: 8px;
-    object-fit: cover;
-    background: #d7dde3;
-    border: 1px solid #dce3ea;
-  }
-  .comp-swiper .comp-thumb {
-    width: 100%;
-    height: auto;
-    aspect-ratio: 16 / 11;
-    border: 0;
-    border-radius: 0;
-  }
-  .comp-body {
-    min-width: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-  .comp-swiper .comp-body {
-    justify-content: flex-start;
-    padding: 16px 16px 10px;
-    flex: 1;
-  }
-  .comp-title {
-    font-weight: 700;
-    color: #17202a;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .comp-meta {
-    color: #667789;
-    font-size: 13px;
-    line-height: 1.5;
-  }
-  .comp-trust {
-    color: #435366;
-    font-size: 12px;
-    margin-top: 3px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .comp-badges {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin-top: 8px;
-  }
-  .comp-badge {
-    display: inline-flex;
-    align-items: center;
-    min-height: 22px;
-    padding: 3px 7px;
-    border-radius: 999px;
-    background: #eef2f6;
-    color: #435366;
-    font-size: 11px;
-    font-weight: 700;
-    line-height: 1.2;
-  }
-  .comp-badge.good {
-    background: #dcfce7;
-    color: #166534;
-  }
-  .comp-badge.warn {
-    background: #fee2e2;
-    color: #991b1b;
-  }
-  .comp-badge.gold {
-    background: #fef3c7;
-    color: #92400e;
-  }
-  .comp-price {
-    text-align: right;
-    font-weight: 800;
-    color: #0f766e;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 4px;
-  }
-  .comp-swiper .comp-price {
-    text-align: left;
-    align-items: flex-start;
-    padding: 0 16px 16px;
-  }
-  .comp-price strong {
-    font-size: 20px;
-    line-height: 1.1;
-  }
-  .comp-price span {
-    color: #667789;
-    font-size: 12px;
-    font-weight: 700;
-  }
-  .comp-card-controls {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-  }
-  .comp-card-button {
-    border: 1px solid #dce3ea;
-    background: #fff;
-    color: #17202a;
-    border-radius: 999px;
-    min-width: 44px;
-    height: 44px;
+  .metric-panel { padding: 16px; min-height: 116px; }
+  .metric-panel strong { display: block; margin-top: 8px; color: var(--portfolio-heading); font-size: 24px; line-height: 1.15; }
+  .metric-panel small { display: block; color: var(--portfolio-muted); margin-top: 8px; line-height: 1.35; }
+  .hero-media { display: grid; gap: 12px; }
+  .hero-photo, .thumb-strip figure { overflow: hidden; border-radius: 10px; background: #d7dde3; margin: 0; }
+  .hero-photo { aspect-ratio: 4 / 3; }
+  .hero-photo img, .thumb-strip img { width: 100%; height: 100%; object-fit: cover; object-position: center; display: block; transform: scale(1.035); }
+  .thumb-strip { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .thumb-strip figure { aspect-ratio: 4 / 3; border: 1px solid var(--portfolio-border); }
+  .status-panel { margin: 6px 0 18px; padding: 18px; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 14px; align-items: start; }
+  .status-dot { width: 14px; height: 14px; border-radius: 50%; margin-top: 5px; background: var(--portfolio-warning); box-shadow: 0 0 0 6px rgba(245, 158, 11, .12); }
+  .status-panel.success .status-dot { background: var(--portfolio-success); box-shadow: 0 0 0 6px rgba(34, 197, 94, .12); }
+  .status-panel.danger .status-dot { background: var(--portfolio-danger); box-shadow: 0 0 0 6px rgba(239, 68, 68, .12); }
+  .status-panel h3 { margin: 0; color: var(--portfolio-heading); font-size: 18px; }
+  .status-panel p { margin: 5px 0 0; color: var(--portfolio-muted); line-height: 1.55; }
+  .status-badge, .comp-badge { display: inline-flex; align-items: center; min-height: 24px; padding: 3px 8px; border-radius: 999px; font-size: 11px; font-weight: 800; line-height: 1.2; }
+  .status-badge { margin-left: 6px; background: #fef3c7; color: #92400e; }
+  .status-badge.success, .comp-badge.good { background: #dcfce7; color: #166534; }
+  .status-badge.danger, .comp-badge.warn { background: #fee2e2; color: #991b1b; }
+  .comp-badge.gold { background: #fef3c7; color: #92400e; }
+  .comp-badge.neutral { background: #eef2f6; color: #435366; }
+  .portfolio-actions { display: flex; flex-wrap: wrap; gap: 10px; margin: 18px 0 0; }
+  .portfolio-action {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    font-weight: 800;
+    min-height: 44px;
+    padding: 10px 15px;
+    border-radius: 999px;
+    border: 1px solid var(--portfolio-border);
+    background: var(--portfolio-card);
+    color: var(--portfolio-text);
+    font-weight: 700;
+    text-decoration: none;
     cursor: pointer;
-    box-shadow: 0 8px 22px rgba(17, 24, 39, .08);
   }
-  .comp-card-hint {
-    color: #667789;
-    font-size: 13px;
-    font-weight: 700;
-  }
-  .rent-grid {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 14px;
-  }
-  .rent-scenario {
-    background: #fff;
-    border: 1px solid #dce3ea;
-    border-radius: 8px;
-    padding: 18px;
-  }
-  .rent-scenario h3 {
-    margin: 0 0 14px;
-    color: #111827;
-  }
-  .rent-number {
-    font-size: 32px;
-    font-weight: 800;
-    color: #0f766e;
-    line-height: 1.1;
-  }
-  .rent-line {
+  .portfolio-action.primary { background: var(--portfolio-heading); color: var(--portfolio-card); border-color: var(--portfolio-heading); }
+  html[data-theme="dark"] .portfolio-action.primary { background: #d8ba70; color: #111; border-color: #d8ba70; }
+  .portfolio-section { padding: 34px 0; }
+  .section-title { display: flex; justify-content: space-between; align-items: end; gap: 18px; margin-bottom: 16px; }
+  .section-title h2 { color: var(--portfolio-heading); font-size: clamp(26px, 3vw, 42px); margin: 0; }
+  .section-title p { max-width: 600px; margin: 0; color: var(--portfolio-muted); line-height: 1.6; }
+  .map-grid { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(320px, .75fr); gap: 18px; }
+  #portfolio-map { min-height: 620px; border-radius: 10px; border: 1px solid var(--portfolio-border); overflow: hidden; background: #d8dee5; }
+  .portfolio-panel { padding: 18px; }
+  .portfolio-panel h3 { margin: 0 0 12px; font-size: 20px; color: var(--portfolio-heading); }
+  .portfolio-panel p, .portfolio-panel li { color: var(--portfolio-muted); line-height: 1.6; }
+  .portfolio-panel ul { margin: 0; padding-left: 18px; }
+  .evidence-kpis { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .comp-swiper-wrap { margin-top: 24px; display: grid; justify-items: center; gap: 16px; }
+  .comp-swiper { width: min(430px, calc(100vw - 44px)); overflow: visible; }
+  .comp-swiper .swiper-slide { height: auto; border-radius: 10px; }
+  .comp-row { min-height: 620px; height: 100%; display: flex; flex-direction: column; overflow: hidden; color: inherit; text-decoration: none; box-shadow: 0 18px 48px rgba(17, 24, 39, .18); }
+  .comp-thumb { width: 100%; aspect-ratio: 16 / 11; object-fit: cover; background: #d7dde3; }
+  .comp-body { min-width: 0; display: flex; flex-direction: column; padding: 16px 16px 10px; flex: 1; }
+  .comp-title { font-weight: 700; color: var(--portfolio-heading); }
+  .comp-meta { color: var(--portfolio-soft); font-size: 13px; line-height: 1.5; }
+  .comp-trust { color: var(--portfolio-muted); font-size: 12px; margin-top: 5px; line-height: 1.55; }
+  .comp-badges { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+  .comp-price { padding: 0 16px 16px; color: var(--portfolio-accent); display: flex; flex-direction: column; gap: 4px; }
+  .comp-price strong { font-size: 22px; line-height: 1.1; }
+  .comp-price span { color: var(--portfolio-soft); font-size: 12px; font-weight: 700; }
+  .comp-card-controls { display: flex; align-items: center; justify-content: center; gap: 10px; }
+  .comp-card-button { border: 1px solid var(--portfolio-border); background: var(--portfolio-card); color: var(--portfolio-text); border-radius: 999px; min-width: 44px; height: 44px; font-weight: 800; cursor: pointer; }
+  .comp-card-hint { color: var(--portfolio-soft); font-size: 13px; font-weight: 700; }
+  .event-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .event-row { padding: 13px 14px; display: flex; justify-content: space-between; gap: 14px; }
+  .event-row strong { color: var(--portfolio-heading); }
+  .event-row span { color: var(--portfolio-soft); text-align: right; white-space: nowrap; }
+  .source-note { color: var(--portfolio-soft); font-size: 13px; margin-top: 12px; }
+  .rent-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+  .rent-scenario { padding: 18px; position: relative; }
+  .rent-scenario h3 { margin: 0 0 14px; color: var(--portfolio-heading); }
+  .rent-number { font-size: 32px; font-weight: 800; color: var(--portfolio-accent); line-height: 1.1; }
+  .rent-line { display: flex; justify-content: space-between; gap: 14px; border-top: 1px solid var(--portfolio-border); padding-top: 10px; margin-top: 10px; color: var(--portfolio-muted); }
+  .rent-line strong { color: var(--portfolio-heading); text-align: right; }
+  .conditional-flag { position: absolute; right: 14px; top: 14px; }
+  .assumption-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .assumption-row { padding: 13px 14px; display: flex; justify-content: space-between; gap: 14px; color: var(--portfolio-muted); }
+  .assumption-row strong { color: var(--portfolio-heading); }
+  .assumption-row.total { grid-column: 1 / -1; border-width: 2px; }
+  .leaflet-popup-content { margin: 12px; min-width: 210px; }
+  .map-popup strong { display: block; margin-bottom: 4px; }
+
+  .sticky-actions-desktop {
+    position: fixed;
+    left: 50%;
+    bottom: 18px;
+    transform: translateX(-50%);
+    z-index: 1000;
     display: flex;
-    justify-content: space-between;
-    gap: 14px;
-    border-top: 1px solid #e7edf3;
-    padding-top: 10px;
-    margin-top: 10px;
-    color: #526273;
+    gap: 8px;
+    padding: 8px;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--portfolio-card) 92%, transparent);
+    border: 1px solid var(--portfolio-border);
+    box-shadow: 0 14px 40px rgba(17, 24, 39, .22);
+    backdrop-filter: blur(14px);
   }
-  .rent-line strong {
-    color: #17202a;
-  }
-  .event-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 10px;
-  }
-  .event-row {
-    padding: 13px 14px;
-    display: flex;
-    justify-content: space-between;
-    gap: 14px;
-  }
-  .event-row strong {
-    color: #17202a;
-  }
-  .event-row span {
-    color: #667789;
-    text-align: right;
-    white-space: nowrap;
-  }
-  .source-note {
-    color: #667789;
-    font-size: 13px;
-    margin-top: 12px;
-  }
-  .leaflet-popup-content {
-    margin: 12px;
-    min-width: 210px;
-  }
-  .map-popup strong {
-    display: block;
-    margin-bottom: 4px;
-  }
+  .sticky-actions-desktop .portfolio-action { min-height: 40px; padding: 8px 13px; font-size: 13px; }
+  .portfolio-quick-nav { display: none; }
+
   @media (max-width: 980px) {
-    .portfolio-hero,
-    .map-grid,
-    .rent-grid {
-      grid-template-columns: 1fr;
-    }
-    .portfolio-hero {
-      min-height: auto;
-      padding-top: 28px;
-    }
-    #portfolio-map {
-      min-height: 460px;
-    }
+    .portfolio-hero, .map-grid, .rent-grid { grid-template-columns: 1fr; }
+    .portfolio-hero { min-height: auto; padding-top: 28px; }
+    #portfolio-map { min-height: 460px; }
+    .evidence-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   }
+
   @media (max-width: 680px) {
-    .portfolio-shell {
-      width: min(100% - 20px, 1180px);
+    .portfolio-page { padding-bottom: 88px; }
+    .portfolio-shell { width: min(100% - 20px, 1180px); }
+    .portfolio-hero { gap: 22px; padding-top: 22px; }
+    .hero-copy h1 { font-size: clamp(36px, 11vw, 52px); line-height: 1.02; margin-bottom: 14px; }
+    .hero-copy > p { font-size: 16px; line-height: 1.58; }
+    .status-panel { padding: 15px; gap: 12px; margin-bottom: 14px; }
+    .status-panel h3 { font-size: 17px; line-height: 1.35; }
+    .status-panel p { font-size: 14px; line-height: 1.55; }
+    .hero-kpis, .event-grid, .evidence-kpis, .assumption-grid { grid-template-columns: 1fr; }
+    .hero-kpis { margin-top: 18px; gap: 10px; }
+    .metric-panel { min-height: 0; padding: 14px; }
+    .metric-panel strong { font-size: 22px; }
+    .portfolio-actions { display: none; }
+    .portfolio-section { padding: 26px 0; }
+    .section-title { display: block; }
+    .section-title p { margin-top: 8px; }
+    .comp-swiper { width: min(318px, calc(100vw - 72px)); }
+    .comp-row { min-height: 575px; }
+    .event-row { display: block; }
+    .event-row span { display: block; text-align: left; margin-top: 4px; }
+    .sticky-actions-desktop { display: none; }
+
+    .portfolio-quick-nav {
+      --quick-nav-size: 58px;
+      position: fixed;
+      z-index: 1100;
+      left: 50%;
+      bottom: max(12px, env(safe-area-inset-bottom));
+      width: var(--quick-nav-size);
+      height: var(--quick-nav-size);
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      border: 1px solid var(--portfolio-border);
+      border-radius: 999px;
+      background: color-mix(in srgb, var(--portfolio-card) 94%, transparent);
+      box-shadow: 0 14px 38px rgba(0, 0, 0, .32);
+      backdrop-filter: blur(16px);
+      transition: width .38s ease, transform .28s ease, opacity .28s ease, background-color .38s ease;
+      will-change: width, transform, opacity;
     }
-    .hero-kpis,
-    .event-grid {
-      grid-template-columns: 1fr;
+    .portfolio-quick-nav.is-expanded { width: min(94vw, 430px); background: color-mix(in srgb, var(--portfolio-card) 97%, transparent); }
+    .portfolio-quick-nav.is-scroll-hidden { transform: translate(-50%, calc(100% + 32px)); opacity: 0; pointer-events: none; }
+    .quick-nav-trigger {
+      width: var(--quick-nav-size);
+      height: var(--quick-nav-size);
+      flex: 0 0 var(--quick-nav-size);
+      display: grid;
+      place-items: center;
+      padding: 0;
+      border: 0;
+      border-radius: 50%;
+      color: #111;
+      background: #d8ba70;
+      cursor: pointer;
     }
-    .section-title {
-      display: block;
+    .quick-nav-trigger svg { width: 25px; height: 25px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+    .portfolio-quick-nav.is-expanded .quick-nav-trigger { display: none; }
+    .quick-nav-items { display: none; width: 100%; height: 100%; align-items: stretch; justify-content: space-around; gap: 2px; padding: 5px 7px; }
+    .portfolio-quick-nav.is-expanded .quick-nav-items { display: flex; }
+    .quick-nav-item {
+      min-width: 0;
+      flex: 1 1 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      padding: 2px 3px;
+      border: 0;
+      border-radius: 12px;
+      color: var(--portfolio-text);
+      background: transparent;
+      font: inherit;
+      font-size: 9px;
+      font-weight: 700;
+      line-height: 1.1;
+      text-decoration: none;
+      text-align: center;
+      cursor: pointer;
+      white-space: nowrap;
     }
-    .section-title p {
-      margin-top: 8px;
-    }
-    .comp-swiper {
-      width: min(318px, calc(100vw - 72px));
-    }
-    .comp-swiper .comp-row {
-      min-height: 560px;
-    }
-    .comp-thumb {
-      width: 100%;
-      height: auto;
-      aspect-ratio: 16 / 10;
-    }
-    .comp-title,
-    .comp-trust {
-      white-space: normal;
-      overflow: visible;
-      text-overflow: clip;
-    }
-    .comp-price {
-      text-align: left;
-      align-items: flex-start;
-    }
-    .event-row {
-      display: block;
-    }
-    .event-row span {
-      display: block;
-      text-align: left;
-      margin-top: 4px;
-    }
+    .quick-nav-item:hover, .quick-nav-item:focus-visible { background: color-mix(in srgb, #d8ba70 16%, transparent); color: var(--portfolio-heading); }
+    .quick-nav-item.primary { color: #b68c28; }
+    html[data-theme="dark"] .quick-nav-item.primary { color: #e3c46f; }
+    .quick-nav-item svg { width: 23px; height: 23px; fill: none; stroke: currentColor; stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round; }
+    .quick-nav-item:focus-visible, .quick-nav-trigger:focus-visible { outline: 3px solid #d8ba70; outline-offset: 2px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) { .portfolio-quick-nav { transition: none; } }
+
+  @media print {
+    .sticky-actions-desktop, .portfolio-quick-nav, header, footer, .portfolio-actions, .comp-card-controls { display: none !important; }
+    .portfolio-page { background: #fff !important; color: #111 !important; padding-bottom: 0 !important; }
+    .portfolio-section { break-inside: avoid; }
+    #portfolio-map { min-height: 420px; }
   }
 </style>
 {% endblock %}
 
 {% block content %}
+{% portfolio_copy as copy %}
+{% portfolio_meta listing airbnb_comps rentability demand_anchors as meta %}
 <main class="portfolio-page">
   <div class="portfolio-shell">
     <section class="portfolio-hero">
       <div class="hero-copy">
-        <div class="section-label">Special listing portfolio</div>
+        <div class="section-label">{{ copy.special_portfolio }}</div>
         <h1>{{ listing.title }}</h1>
-        <p>{{ hero_summary }}</p>
+        <p>{{ meta.hero_summary }}</p>
+
+        <div class="status-panel {{ meta.permit_class }}">
+          <span class="status-dot" aria-hidden="true"></span>
+          <div>
+            <h3>{{ copy.short_term_status }} <span class="status-badge {{ meta.permit_class }}">{{ meta.permit_label }}</span></h3>
+            <p>{{ meta.permit_note }}</p>
+          </div>
+        </div>
+
         <div class="hero-kpis">
-          <div class="metric-panel"><span>Purchase</span><strong>₺{{ listing.price|intcomma }}</strong></div>
-          <div class="metric-panel"><span>Airbnb median</span><strong>₺{{ rentability.airbnb_gross|intcomma }}</strong></div>
-          <div class="metric-panel"><span>Net ROI</span><strong>{{ rentability.airbnb_roi }}%</strong></div>
+          <div class="metric-panel"><span>{{ copy.purchase }}</span><strong>₺{{ listing.price|intcomma }}</strong></div>
+          <div class="metric-panel"><span>{{ copy.quoted_30_night_median }}</span><strong>₺{{ rentability.airbnb_gross|intcomma }}</strong><small>{{ copy.conditional }}</small></div>
+          <div class="metric-panel"><span>{{ copy.conditional_roi }}</span><strong>{{ rentability.airbnb_roi }}%</strong><small>{{ copy.estimated_before_tax }}</small></div>
+        </div>
+
+        <div class="portfolio-actions">
+          {% if listing.phone %}<a class="portfolio-action primary" href="https://wa.me/{{ listing.phone|whatsapp_number }}?text={{ copy.whatsapp_message|query_escape }}" target="_blank" rel="noopener">{{ copy.contact_on_whatsapp }}</a>{% endif %}
+          <a class="portfolio-action" href="{% url 'new_listing_detail' listing.id %}">{{ copy.schedule_visit }}</a>
+          <a class="portfolio-action" href="{% url 'listing_map_embed' listing.id %}">{{ copy.open_map }}</a>
+          {% if listing.original_url %}<a class="portfolio-action" href="{{ listing.original_url }}" target="_blank" rel="noopener">{{ copy.view_original }}</a>{% endif %}
+          <button class="portfolio-action" type="button" onclick="window.print()">{{ copy.print_report }}</button>
         </div>
       </div>
+
       <div class="hero-media">
         <div class="hero-photo">
-          {% if listing_images %}
-            <img src="{{ listing_images.0 }}" alt="{{ listing.title }}">
-          {% else %}
-            <img src="{% static 'newfront/assets/images/property-05.jpg' %}" alt="{{ listing.title }}">
-          {% endif %}
+          {% if listing_images %}<img src="{{ listing_images.0 }}" alt="{{ listing.title }}">{% else %}<img src="{% static 'newfront/assets/images/property-05.jpg' %}" alt="{{ listing.title }}">{% endif %}
         </div>
         {% if listing_images|length > 1 %}
-        <div class="thumb-strip">
-          {% for image in listing_images|slice:"1:4" %}
-            <img src="{{ image }}" alt="{{ listing.title }}">
-          {% endfor %}
-        </div>
+          <div class="thumb-strip">
+            {% for image in listing_images|slice:"1:4" %}<figure><img src="{{ image }}" alt="{{ listing.title }}" loading="lazy"></figure>{% endfor %}
+          </div>
         {% endif %}
       </div>
     </section>
 
     <section class="portfolio-section">
       <div class="section-title">
-        <div>
-          <div class="section-label">Map intelligence</div>
-          <h2>Airbnb comps around the asset</h2>
-        </div>
-        <p>{{ map_intro }}</p>
+        <div><div class="section-label">{{ copy.map_intelligence }}</div><h2>{{ copy.airbnb_comps_title }}</h2></div>
+        <p>{{ copy.rental_set_intro }}</p>
       </div>
       <div class="map-grid">
         <div id="portfolio-map"></div>
-        <div class="portfolio-panel">
-          <h3>Why this location matters</h3>
-          <ul>
-            {% for bullet in location_bullets %}
-              <li>{{ bullet }}</li>
-            {% endfor %}
-          </ul>
-        </div>
+        <div class="portfolio-panel"><h3>{{ copy.why_location_matters }}</h3><ul>{% for bullet in meta.location_bullets %}<li>{{ bullet }}</li>{% endfor %}</ul></div>
       </div>
     </section>
 
     <section class="portfolio-section">
       <div class="section-title">
-        <div>
-          <div class="section-label">Fresh Airbnb evidence</div>
-          <h2>30-day rental set</h2>
-        </div>
-        <p>Same-spec priority uses nearby comps that match the subject unit where possible. Broader nearby apartments remain visible as upside context, not the base underwriting set.</p>
-        {% if selected_airbnb_destination %}
-          <p class="source-note">Airbnb underwriting market: {{ selected_airbnb_destination }}</p>
-        {% endif %}
+        <div><div class="section-label">{{ copy.fresh_evidence }}</div><h2>{{ copy.rental_set }}</h2></div>
+        <div><p>{{ copy.rental_set_intro }}</p>{% if selected_airbnb_destination %}<p class="source-note">{{ copy.underwriting_market }}: {{ selected_airbnb_destination }}</p>{% endif %}</div>
+      </div>
+
+      <div class="evidence-kpis">
+        <div class="metric-panel"><span>{{ copy.comp_count }}</span><strong>{{ price_summary.count|default:"0" }}</strong></div>
+        <div class="metric-panel"><span>{{ copy.exact_matches }}</span><strong>{{ meta.exact_count }}</strong></div>
+        <div class="metric-panel"><span>{{ copy.availability_checked }}</span><strong>{{ meta.availability_checked }} / {{ airbnb_comps|length }}</strong><small>{{ meta.available_count }} {{ copy.available|lower }}</small></div>
+        <div class="metric-panel"><span>{{ copy.confidence }}</span><strong>{{ meta.confidence_label }}</strong><small>{{ meta.reviewed_count }} {{ copy.reviewed_comps|lower }}</small></div>
       </div>
       <div class="hero-kpis">
-        <div class="metric-panel"><span>Comp count</span><strong>{{ price_summary.count }}</strong></div>
-        <div class="metric-panel"><span>P25 / Median / P75</span><strong>₺{{ price_summary.p25|intcomma }} / ₺{{ price_summary.median|intcomma }} / ₺{{ price_summary.p75|intcomma }}</strong></div>
-        <div class="metric-panel"><span>Comp range</span><strong>₺{{ price_summary.min|intcomma }} - ₺{{ price_summary.max|intcomma }}</strong></div>
+        <div class="metric-panel"><span>{{ copy.price_band }}</span>{% if price_summary.median %}<strong>₺{{ price_summary.p25|intcomma }} / ₺{{ price_summary.median|intcomma }} / ₺{{ price_summary.p75|intcomma }}</strong>{% else %}<strong>—</strong>{% endif %}</div>
+        <div class="metric-panel"><span>{{ copy.comp_range }}</span>{% if price_summary.min %}<strong>₺{{ price_summary.min|intcomma }} – ₺{{ price_summary.max|intcomma }}</strong>{% else %}<strong>—</strong>{% endif %}</div>
+        <div class="metric-panel"><span>{{ copy.total_reserve }}</span><strong>{{ meta.operating_rate }}%</strong><small>{{ copy.estimated_before_tax }}</small></div>
       </div>
+
+      {% if airbnb_comps %}
       <div class="comp-swiper-wrap">
-        <div class="swiper comp-swiper">
-          <div class="swiper-wrapper">
-            {% for comp in airbnb_comps %}
-            <div class="swiper-slide">
-              <a class="comp-row" href="{{ comp.url }}" target="_blank" rel="noopener">
-                {% if comp.photo %}
-                  <img class="comp-thumb" src="{{ comp.photo }}" alt="{{ comp.title }}" loading="lazy">
-                {% else %}
-                  <div class="comp-thumb" aria-hidden="true"></div>
-                {% endif %}
-                <div class="comp-body">
-                  <div class="comp-title">{{ comp.title }}</div>
-                  <div class="comp-meta">
-                    {{ comp.distance_km }} km · {{ comp.property_type|default:"Apartment" }} · {{ comp.bedrooms|default:"Studio" }}BR
-                    {% if comp.bathrooms %} · {{ comp.bathrooms|floatformat:"-1" }} bath{% endif %}
-                    · {{ comp.beds|default:"-" }} bed
-                    {% if comp.guest_capacity %} · {{ comp.guest_capacity }} guests{% endif %}
-                  </div>
-                  <div class="comp-trust">
-                    {% if comp.rating %}{{ comp.rating }} rating · {% else %}new/unrated · {% endif %}
-                    {{ comp.reviews|default:"0" }} listing reviews
-                    {% if comp.is_superhost %} · Superhost{% endif %}
-                    {% if comp.host_name %} · {{ comp.host_name }}{% endif %}
-                    ·
-                    {% if comp.host_review_count %}{{ comp.host_review_count }} host reviews{% else %}host reviews n/a{% endif %}
-                    · {{ comp.years_hosting|default:"0" }} yrs hosting
-                    {% if comp.is_verified %} · Verified{% endif %}
-                  </div>
-                  <div class="comp-badges">
-                    {% if comp.is_available is True %}
-                      <span class="comp-badge good">Available</span>
-                    {% elif comp.is_available is False %}
-                      <span class="comp-badge warn">Unavailable{% if comp.unavailability_reason %}: {{ comp.unavailability_reason }}{% endif %}</span>
-                    {% else %}
-                      <span class="comp-badge">Availability unchecked</span>
-                    {% endif %}
-                    {% if comp.is_guest_favorite %}<span class="comp-badge gold">Guest favorite</span>{% endif %}
-                    {% if comp.is_rare_find %}<span class="comp-badge gold">Rare find</span>{% endif %}
-                  </div>
+        <div class="swiper comp-swiper"><div class="swiper-wrapper">
+          {% for comp in airbnb_comps %}
+          <div class="swiper-slide">
+            <a class="comp-row" href="{{ comp.url }}" target="_blank" rel="noopener">
+              {% if comp.photo %}<img class="comp-thumb" src="{{ comp.photo }}" alt="{{ comp.title }}" loading="lazy">{% else %}<div class="comp-thumb" aria-hidden="true"></div>{% endif %}
+              <div class="comp-body">
+                <div class="comp-title">{{ comp.title }}</div>
+                <div class="comp-meta">
+                  {{ comp.distance_km }} km · {{ comp.property_type|default:copy.apartment }} ·
+                  {% if comp.bedrooms or comp.bedrooms == 0 %}{{ comp.bedrooms }}BR{% else %}{{ copy.studio }}{% endif %}
+                  {% if comp.bathrooms %} · {{ comp.bathrooms|floatformat:"-1" }} {{ copy.bath }}{% endif %}
+                  · {{ comp.beds|default:"—" }} {{ copy.bed }}{% if comp.guest_capacity %} · {{ comp.guest_capacity }} {{ copy.guests }}{% endif %}
                 </div>
-                <div class="comp-price">
-                  <strong>₺{{ comp.monthly_total|intcomma }}</strong>
-                  <span>30 days</span>
-                  <span>₺{{ comp.nightly_equivalent|intcomma }}/night</span>
+                <div class="comp-trust">
+                  {% if comp.rating %}{{ comp.rating }} {{ copy.rating }}{% else %}{{ copy.new_unrated }}{% endif %}
+                  · {{ comp.reviews|default:"0" }} {{ copy.listing_reviews }}{% if comp.host_name %} · {{ comp.host_name }}{% endif %}
+                  · {% if comp.host_review_count %}{{ comp.host_review_count }} {{ copy.host_reviews }}{% else %}{{ copy.host_reviews }}: —{% endif %}
+                  · {{ comp.years_hosting|default:"0" }} {{ copy.years_hosting }}
                 </div>
-              </a>
-            </div>
-            {% endfor %}
+                <div class="comp-badges">
+                  {% if comp.is_same_spec %}<span class="comp-badge good">{{ copy.same_spec }}</span>{% else %}<span class="comp-badge neutral">{{ copy.context_comp }}</span>{% endif %}
+                  {% if comp.is_available is True %}<span class="comp-badge good">{{ copy.available }}</span>{% elif comp.is_available is False %}<span class="comp-badge warn">{{ copy.unavailable }}</span>{% else %}<span class="comp-badge neutral">{{ copy.availability_unchecked }}</span>{% endif %}
+                  {% if comp.is_guest_favorite %}<span class="comp-badge gold">{{ copy.guest_favorite }}</span>{% endif %}
+                  {% if comp.is_rare_find %}<span class="comp-badge gold">{{ copy.rare_find }}</span>{% endif %}
+                  {% if comp.is_verified %}<span class="comp-badge good">{{ copy.verified_host }}</span>{% endif %}
+                </div>
+              </div>
+              <div class="comp-price"><strong>₺{{ comp.monthly_total|intcomma }}</strong><span>{{ copy.days_30 }}</span><span>₺{{ comp.nightly_equivalent|intcomma }}{{ copy.per_night }}</span></div>
+            </a>
           </div>
-        </div>
-        <div class="comp-card-controls" aria-label="Airbnb comp controls">
-          <button class="comp-card-button comp-card-prev" type="button" aria-label="Previous Airbnb comp">‹</button>
-          <span class="comp-card-hint">Swipe comps</span>
-          <button class="comp-card-button comp-card-next" type="button" aria-label="Next Airbnb comp">›</button>
+          {% endfor %}
+        </div></div>
+        <div class="comp-card-controls" aria-label="Airbnb comparison controls">
+          <button class="comp-card-button comp-card-prev" type="button" aria-label="{{ copy.previous_comp }}">‹</button>
+          <span class="comp-card-hint">{{ copy.swipe_comps }}</span>
+          <button class="comp-card-button comp-card-next" type="button" aria-label="{{ copy.next_comp }}">›</button>
         </div>
       </div>
+      {% endif %}
     </section>
 
     <section class="portfolio-section">
       <div class="section-title">
-        <div>
-          <div class="section-label">Strategic demand</div>
-          <h2>{{ demand_title }}</h2>
-        </div>
-        <p>{{ demand_intro }}</p>
+        <div><div class="section-label">{{ copy.strategic_demand }}</div><h2>{{ meta.demand_title }}</h2></div>
+        <p>{{ meta.demand_intro }}</p>
       </div>
       {% if demand_events %}
-        <div class="event-grid">
-          {% for event in demand_events %}
-            <div class="event-row"><strong>{{ event.name }}</strong><span>{{ event.date }}</span></div>
-          {% endfor %}
-        </div>
+        <div class="event-grid">{% for event in demand_events %}<div class="event-row"><strong>{{ event.name }}</strong><span>{{ event.date }}</span></div>{% endfor %}</div>
+        <p class="source-note">{{ meta.calendar_source }}</p>
       {% else %}
-        <div class="event-grid">
-          {% for anchor in demand_anchors %}
-            <div class="event-row"><strong>{{ anchor.title }}</strong><span>{{ anchor.distance_km }} km · {{ anchor.category }}</span></div>
-          {% endfor %}
-        </div>
-      {% endif %}
-      {% if demand_source_note %}
-        <p class="source-note">{{ demand_source_note }}</p>
+        <div class="event-grid">{% for anchor in demand_anchors %}<div class="event-row"><strong>{{ anchor.title }}</strong><span>{{ anchor.distance_km }} km</span></div>{% endfor %}</div>
       {% endif %}
     </section>
 
     <section class="portfolio-section">
       <div class="section-title">
-        <div>
-          <div class="section-label">Rentability</div>
-          <h2>Debt-free yield scenarios</h2>
-        </div>
-        <p>Calculations use purchase price plus ₺{{ rentability.furnishing_budget|intcomma }} furnishing budget and ₺{{ rentability.closing_buffer|intcomma }} transaction buffer. Airbnb net assumes 30% operating drag for cleaning, utilities, platform, management, and wear.</p>
+        <div><div class="section-label">{{ copy.rentability }}</div><h2>{{ copy.yield_scenarios }}</h2></div>
+        <p>{{ copy.scenario_intro }}</p>
       </div>
       <div class="rent-grid">
         <div class="rent-scenario">
-          <h3>Long-term fallback</h3>
-          <div class="rent-number">₺{{ rentability.long_term_net|intcomma }}</div>
-          <div class="comp-meta">Estimated monthly net</div>
-          <div class="rent-line"><span>Gross rent</span><strong>₺{{ rentability.long_term_gross|intcomma }}</strong></div>
-          <div class="rent-line"><span>Annual net ROI</span><strong>{{ rentability.long_term_roi }}%</strong></div>
+          <h3>{{ copy.long_term_fallback }}</h3><div class="rent-number">₺{{ rentability.long_term_net|intcomma }}</div><div class="comp-meta">{{ copy.estimated_monthly_net }}</div>
+          <div class="rent-line"><span>{{ copy.gross_rent }}</span><strong>₺{{ rentability.long_term_gross|intcomma }}</strong></div>
+          <div class="rent-line"><span>{{ copy.annual_net_roi }}</span><strong>{{ rentability.long_term_roi }}%</strong></div>
         </div>
         <div class="rent-scenario">
-          <h3>Airbnb base</h3>
-          <div class="rent-number">₺{{ rentability.airbnb_net|intcomma }}</div>
-          <div class="comp-meta">Estimated monthly net</div>
-          <div class="rent-line"><span>Gross revenue</span><strong>₺{{ rentability.airbnb_gross|intcomma }}</strong></div>
-          <div class="rent-line"><span>Annual net ROI</span><strong>{{ rentability.airbnb_roi }}%</strong></div>
+          <span class="status-badge conditional-flag {{ meta.permit_class }}">{{ meta.permit_label }}</span>
+          <h3>{{ copy.airbnb_base }}</h3><div class="rent-number">₺{{ rentability.airbnb_net|intcomma }}</div><div class="comp-meta">{{ copy.estimated_monthly_net }}</div>
+          <div class="rent-line"><span>{{ copy.gross_revenue }}</span><strong>₺{{ rentability.airbnb_gross|intcomma }}</strong></div>
+          <div class="rent-line"><span>{{ copy.annual_net_roi }}</span><strong>{{ rentability.airbnb_roi }}%</strong></div>
         </div>
         <div class="rent-scenario">
-          <h3>Operator upside</h3>
-          <div class="rent-number">₺{{ rentability.operator_net|intcomma }}</div>
-          <div class="comp-meta">Estimated monthly net</div>
-          <div class="rent-line"><span>Gross revenue</span><strong>₺{{ rentability.operator_gross|intcomma }}</strong></div>
-          <div class="rent-line"><span>Annual net ROI</span><strong>{{ rentability.operator_roi }}%</strong></div>
+          <span class="status-badge conditional-flag {{ meta.permit_class }}">{{ meta.permit_label }}</span>
+          <h3>{{ copy.operator_upside }}</h3><div class="rent-number">₺{{ rentability.operator_net|intcomma }}</div><div class="comp-meta">{{ copy.estimated_monthly_net }}</div>
+          <div class="rent-line"><span>{{ copy.gross_revenue }}</span><strong>₺{{ rentability.operator_gross|intcomma }}</strong></div>
+          <div class="rent-line"><span>{{ copy.annual_net_roi }}</span><strong>{{ rentability.operator_roi }}%</strong></div>
         </div>
       </div>
-      <div class="portfolio-panel" style="margin-top:16px">
-        <h3>Investment read</h3>
-        <p>{{ investment_read }}</p>
+      <div class="portfolio-panel" style="margin-top:16px"><h3>{{ copy.investment_read }}</h3><p>{{ meta.investment_read }}</p></div>
+    </section>
+
+    <section class="portfolio-section">
+      <div class="section-title">
+        <div><div class="section-label">{{ copy.estimated_before_tax }}</div><h2>{{ copy.operating_assumptions }}</h2></div>
+        <p>{{ copy.operating_assumptions_intro }}</p>
       </div>
+      <div class="assumption-grid">
+        {% for item in meta.operating_breakdown %}
+          <div class="assumption-row"><span>{% if item.key == 'platform' %}{{ copy.platform }}{% elif item.key == 'cleaning' %}{{ copy.cleaning }}{% elif item.key == 'utilities' %}{{ copy.utilities }}{% elif item.key == 'management' %}{{ copy.management }}{% else %}{{ copy.maintenance }}{% endif %}</span><strong>{{ item.percent }}%</strong></div>
+        {% endfor %}
+        <div class="assumption-row total"><span>{{ copy.total_reserve }}</span><strong>{{ meta.operating_rate }}%</strong></div>
+      </div>
+      <div class="portfolio-panel" style="margin-top:12px"><h3>{{ copy.not_included }}</h3><p>{{ copy.taxes_permits }}</p></div>
     </section>
   </div>
+
+  <div class="sticky-actions-desktop" aria-label="Portfolio actions">
+    {% if listing.phone %}<a class="portfolio-action primary" href="https://wa.me/{{ listing.phone|whatsapp_number }}?text={{ copy.whatsapp_message|query_escape }}" target="_blank" rel="noopener">{{ copy.contact_on_whatsapp }}</a>{% endif %}
+    <a class="portfolio-action" href="{% url 'new_listing_detail' listing.id %}">{{ copy.schedule_visit }}</a>
+    <button class="portfolio-action" type="button" onclick="window.print()">{{ copy.print_report }}</button>
+  </div>
+
+  <nav class="portfolio-quick-nav" id="portfolioQuickNav" aria-label="{% if LANGUAGE_CODE|slice:':2' == 'fr' %}Actions rapides{% else %}Quick actions{% endif %}">
+    <button class="quick-nav-trigger" id="portfolioQuickNavTrigger" type="button"
+            aria-label="{% if LANGUAGE_CODE|slice:':2' == 'fr' %}Ouvrir les actions rapides{% else %}Open quick actions{% endif %}"
+            aria-controls="portfolioQuickNavItems" aria-expanded="false">
+      <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M5 7h14M5 12h14M5 17h14"/></svg>
+    </button>
+    <div class="quick-nav-items" id="portfolioQuickNavItems">
+      {% if listing.phone %}
+      <a class="quick-nav-item primary" href="https://wa.me/{{ listing.phone|whatsapp_number }}?text={{ copy.whatsapp_message|query_escape }}" target="_blank" rel="noopener" aria-label="{{ copy.contact_on_whatsapp }}">
+        <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M20 11.5a8 8 0 0 1-11.9 7L4 20l1.5-4A8 8 0 1 1 20 11.5Z"/><path d="M8.5 8.5c.5 3 2 4.5 5 5"/></svg><span>WhatsApp</span>
+      </a>
+      {% endif %}
+      <a class="quick-nav-item" href="{% url 'new_listing_detail' listing.id %}" aria-label="{{ copy.schedule_visit }}">
+        <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M4 5h16v14H4z"/><path d="M8 9h8M8 13h8M8 17h5"/></svg><span>{% if LANGUAGE_CODE|slice:':2' == 'fr' %}Fiche{% else %}Details{% endif %}</span>
+      </a>
+      <a class="quick-nav-item" href="{% url 'listing_map_embed' listing.id %}" aria-label="{{ copy.open_map }}">
+        <svg aria-hidden="true" viewBox="0 0 24 24"><path d="m3 6 6-3 6 3 6-3v15l-6 3-6-3-6 3V6Z"/><path d="M9 3v15M15 6v15"/></svg><span>{% if LANGUAGE_CODE|slice:':2' == 'fr' %}Carte{% else %}Map{% endif %}</span>
+      </a>
+      {% if listing.original_url %}
+      <a class="quick-nav-item" href="{{ listing.original_url }}" target="_blank" rel="noopener" aria-label="{{ copy.view_original }}">
+        <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9"/><path d="M18 13v6a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h6"/></svg><span>Source</span>
+      </a>
+      {% endif %}
+      <button class="quick-nav-item" type="button" onclick="window.print()" aria-label="{{ copy.print_report }}">
+        <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M6 9V3h12v6M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 14h12v7H6z"/></svg><span>PDF</span>
+      </button>
+    </div>
+  </nav>
 </main>
 {% endblock %}
 
@@ -630,67 +488,105 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
 <script>
+  document.documentElement.lang = "{{ LANGUAGE_CODE|default:'en'|escapejs }}";
   const DATA = {{ map_payload_json|safe }};
-  const fmt = new Intl.NumberFormat('tr-TR');
+  const fmt = new Intl.NumberFormat('{{ LANGUAGE_CODE|default:"tr-TR" }}');
   const map = L.map('portfolio-map', { zoomControl: true, scrollWheelZoom: false });
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19,
-    attribution: '&copy; OpenStreetMap contributors'
-  }).addTo(map);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '&copy; OpenStreetMap contributors' }).addTo(map);
 
-  const saleIcon = L.divIcon({
-    className: '',
-    html: '<div style="width:28px;height:28px;border-radius:50%;background:#111827;border:4px solid #facc15;box-shadow:0 6px 18px rgba(17,24,39,.35)"></div>',
-    iconSize: [28, 28],
-    iconAnchor: [14, 14]
-  });
-  const airbnbIcon = L.divIcon({
-    className: '',
-    html: '<div style="width:18px;height:18px;border-radius:50%;background:#0f766e;border:3px solid #fff;box-shadow:0 4px 12px rgba(15,118,110,.35)"></div>',
-    iconSize: [18, 18],
-    iconAnchor: [9, 9]
-  });
-  const anchorIcon = L.divIcon({
-    className: '',
-    html: '<div style="width:24px;height:24px;border-radius:4px;background:#b91c1c;border:3px solid #fff;box-shadow:0 4px 12px rgba(185,28,28,.35)"></div>',
-    iconSize: [24, 24],
-    iconAnchor: [12, 12]
-  });
+  const saleIcon = L.divIcon({ className: '', html: '<div style="width:28px;height:28px;border-radius:50%;background:#111827;border:4px solid #facc15;box-shadow:0 6px 18px rgba(17,24,39,.35)"></div>', iconSize: [28, 28], iconAnchor: [14, 14] });
+  const airbnbIcon = L.divIcon({ className: '', html: '<div style="width:18px;height:18px;border-radius:50%;background:#0f766e;border:3px solid #fff;box-shadow:0 4px 12px rgba(15,118,110,.35)"></div>', iconSize: [18, 18], iconAnchor: [9, 9] });
+  const anchorIcon = L.divIcon({ className: '', html: '<div style="width:24px;height:24px;border-radius:4px;background:#b91c1c;border:3px solid #fff;box-shadow:0 4px 12px rgba(185,28,28,.35)"></div>', iconSize: [24, 24], iconAnchor: [12, 12] });
 
   const bounds = [];
-  L.marker([DATA.listing.lat, DATA.listing.lng], { icon: saleIcon })
-    .addTo(map)
-    .bindPopup(`<div class="map-popup"><strong>${DATA.listing.title}</strong>${DATA.listing.rooms}<br>₺${fmt.format(DATA.listing.price)}<br>${DATA.listing.address}</div>`);
+  L.marker([DATA.listing.lat, DATA.listing.lng], { icon: saleIcon }).addTo(map).bindPopup(`<div class="map-popup"><strong>${DATA.listing.title}</strong>${DATA.listing.rooms || ''}<br>₺${fmt.format(DATA.listing.price)}<br>${DATA.listing.address || ''}</div>`);
   bounds.push([DATA.listing.lat, DATA.listing.lng]);
-
   (DATA.anchors || []).forEach((anchor) => {
-    L.marker([anchor.lat, anchor.lng], { icon: anchorIcon })
-      .addTo(map)
-      .bindPopup(`<div class="map-popup"><strong>${anchor.title}</strong>${anchor.distance_km} km from listing<br>${anchor.category || ''}</div>`);
+    L.marker([anchor.lat, anchor.lng], { icon: anchorIcon }).addTo(map).bindPopup(`<div class="map-popup"><strong>${anchor.title}</strong>${anchor.distance_km} km<br>${anchor.category || ''}</div>`);
     bounds.push([anchor.lat, anchor.lng]);
   });
-
-  DATA.airbnb.forEach((item) => {
-    L.marker([item.lat, item.lng], { icon: airbnbIcon })
-      .addTo(map)
-      .bindPopup(`<div class="map-popup"><strong>${item.title}</strong>${item.distance_km} km<br>₺${fmt.format(item.monthly_total)} / 30 days<br>${item.bedrooms || 'Studio'} BR · ${item.beds || '-'} bed</div>`);
+  (DATA.airbnb || []).forEach((item) => {
+    L.marker([item.lat, item.lng], { icon: airbnbIcon }).addTo(map).bindPopup(`<div class="map-popup"><strong>${item.title}</strong>${item.distance_km} km<br>₺${fmt.format(item.monthly_total)} / 30<br>${item.bedrooms ?? 'Studio'} BR</div>`);
     bounds.push([item.lat, item.lng]);
   });
-  map.fitBounds(bounds, { padding: [36, 36], maxZoom: 15 });
+  if (bounds.length) map.fitBounds(bounds, { padding: [36, 36], maxZoom: 15 });
 
-  const compSwiper = new Swiper('.comp-swiper', {
-    effect: 'cards',
-    grabCursor: true,
-    loop: false,
-    cardsEffect: {
-      slideShadows: true,
-      perSlideOffset: 8,
-      perSlideRotate: 2
-    },
-    navigation: {
-      nextEl: '.comp-card-next',
-      prevEl: '.comp-card-prev'
-    }
-  });
+  if (document.querySelector('.comp-swiper')) {
+    new Swiper('.comp-swiper', {
+      effect: 'cards',
+      grabCursor: true,
+      loop: false,
+      cardsEffect: { slideShadows: true, perSlideOffset: 8, perSlideRotate: 2 },
+      navigation: { nextEl: '.comp-card-next', prevEl: '.comp-card-prev' }
+    });
+  }
+
+  (() => {
+    const nav = document.getElementById('portfolioQuickNav');
+    const trigger = document.getElementById('portfolioQuickNavTrigger');
+    if (!nav || !trigger) return;
+
+    const autoCloseDelay = 5000;
+    let autoCloseTimer = null;
+    let lastScrollY = window.scrollY;
+    let scrollTicking = false;
+
+    const setExpanded = (expanded) => {
+      nav.classList.toggle('is-expanded', expanded);
+      trigger.setAttribute('aria-expanded', String(expanded));
+      trigger.setAttribute('aria-label', expanded
+        ? "{% if LANGUAGE_CODE|slice:':2' == 'fr' %}Fermer les actions rapides{% else %}Close quick actions{% endif %}"
+        : "{% if LANGUAGE_CODE|slice:':2' == 'fr' %}Ouvrir les actions rapides{% else %}Open quick actions{% endif %}");
+      window.clearTimeout(autoCloseTimer);
+      if (expanded) {
+        nav.classList.remove('is-scroll-hidden');
+        autoCloseTimer = window.setTimeout(() => setExpanded(false), autoCloseDelay);
+      }
+    };
+
+    const refreshAutoClose = () => {
+      if (!nav.classList.contains('is-expanded')) return;
+      window.clearTimeout(autoCloseTimer);
+      autoCloseTimer = window.setTimeout(() => setExpanded(false), autoCloseDelay);
+    };
+
+    trigger.addEventListener('click', (event) => {
+      event.stopPropagation();
+      setExpanded(!nav.classList.contains('is-expanded'));
+    });
+    nav.addEventListener('pointerdown', refreshAutoClose);
+    nav.addEventListener('keydown', refreshAutoClose);
+    document.addEventListener('click', (event) => {
+      if (!nav.contains(event.target)) setExpanded(false);
+    });
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        setExpanded(false);
+        trigger.focus();
+      }
+    });
+
+    const updateForScroll = () => {
+      const currentY = Math.max(window.scrollY, 0);
+      const delta = currentY - lastScrollY;
+      if (Math.abs(delta) >= 7) {
+        if (delta > 0 && currentY > 120) {
+          setExpanded(false);
+          nav.classList.add('is-scroll-hidden');
+        } else if (delta < 0 || currentY < 40) {
+          nav.classList.remove('is-scroll-hidden');
+        }
+        lastScrollY = currentY;
+      }
+      scrollTicking = false;
+    };
+
+    window.addEventListener('scroll', () => {
+      if (!scrollTicking) {
+        window.requestAnimationFrame(updateForScroll);
+        scrollTicking = true;
+      }
+    }, { passive: true });
+  })();
 </script>
 {% endblock %}
